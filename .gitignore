@@ -1,1 +1,19 @@
 # Add any directories, files, or patterns you don't want to be tracked by version control
+
+#core
+CORE/build.gradle
+
+#iOS
+PLATFORM/iOS/DerivedData/
+PLATFORM/iOS/PixFight.xcodeproj/xcuserdata/
+PLATFORM/iOS/PixFight.xcodeproj/project.xcworkspace/xcuserdata/
+
+#macOS
+PLATFORM/macOS/DerivedData/
+PLATFORM/macOS/PixFight.xcodeproj/xcuserdata/
+PLATFORM/macOS/PixFight.xcodeproj/project.xcworkspace/xcuserdata/
+
+#android
+PLATFORM/Android/build
+PLATFORM/Android/app/build
+

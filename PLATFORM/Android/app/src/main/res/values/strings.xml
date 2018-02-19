@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">PixFight</string>
+
+    <string name="title_activity_pfnew_game">PFNewGameActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_pfsettings">PFSettingsActivity</string>
+
+    <string name="title_activity_pfrender">PFRenderActivity</string>
+    <string name="title_activity_pfload_game">PFLoadGameActivity</string>
+</resources>
