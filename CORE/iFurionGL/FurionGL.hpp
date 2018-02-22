@@ -1,15 +1,16 @@
 #pragma once
 
 /**
- 
+
  This library was created by Przemysław Rezoner Sikorski
  You can find some of his work here http://rezoner.net/
- 
+
  Redistribution or modification must be agreed.
- 
+
  Yes this library is old, yes it does not follow current coding standards, deal with it.
  */
 
+#include <string.h>
 #include "xSimpleTypes.h"
 #include "glMatrix4x4.hpp"
 #include "xMat34.h"
@@ -37,7 +38,7 @@
 #define cPoint	 cFGLPOINT
 #define cCircle	 cFGLCIRCLE
 
-typedef xU16 byte; 
+typedef xU16 byte;
 // defines what kind of box will you pass to cFGLDD structure
 const byte DD_BOX  = 1;
 const byte DD_ABOX = 2;
@@ -68,8 +69,8 @@ cFGLBOX	  gCenteredBox( float x, float y, float xc, float yc, float W, float H )
 														// x, y   = center on screen
 														// xc, yc = center on box
 //-----------------------------------------------------------------------------------//
-struct cFGLABOX { 
-	cFGLVERTEX v[4]; 
+struct cFGLABOX {
+	cFGLVERTEX v[4];
 };
 
 cFGLABOX   gABox( int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4 );
@@ -146,11 +147,11 @@ extern cFGLC FGLUgly;
 
 class cFGLCOLLISION {
 public :
-    
+
     cFGLCOLLISION() {
         memset(v, 0, 8);
     }
-    
+
 	bool v[8];
 
 	bool operator==( bool b );
@@ -170,7 +171,7 @@ public :
     , Width(0)
     , Height(0)
     , scale(0) {}
-    
+
     int Left, Top;
     int NewWidth, NewHeight;
 	int Width, Height;
@@ -182,12 +183,12 @@ public :
 
 class cFGLVECTOR2D {
 public :
-    
+
     cFGLVECTOR2D()
     : norm(false)
     , x(0) , y(0)
     , ox(0), oy(0) {}
-    
+
 	bool norm;		// is vector normalized ?
 	float x, y;		// vector coordinates
 	float ox, oy;	// keeps original vector coordinates ( when normalized )
@@ -284,14 +285,14 @@ public :
 
 class cFGLIMAGE {
 public:
-    
+
     cFGLIMAGE()
     : data(nullptr)
     , size(0)
     , type(0)
     , width(0)
     , height(0) {}
-    
+
 	char * data;
 	unsigned int size;
 	GLuint type;
@@ -309,7 +310,7 @@ public :
     , cs(false)
     , tile_separator(false)
     , iTexture(0) { }
-    
+
 	~cFGLTEXTURE();
 
 	bool active;			// if texture was loaded or created then active = true
@@ -350,7 +351,7 @@ public :
 
 class cFGLDRAWINGDESCRIPTOR {		// class containing all info needed to display a texture
 public:
-    
+
     cFGLDRAWINGDESCRIPTOR ()
     : tex(nullptr)
     , RefCount(0)
@@ -363,7 +364,7 @@ public:
     , destination(0)
     , buffered(false)
     {}
-    
+
 	cFGLTEXTURE *tex;			// a pointer to cFGLTEXTURE object. Some functions
 								// won't be working until you set it. For sure
 	int RefCount;				// fill this value as first.
@@ -386,9 +387,9 @@ public:
 	cFGLC C;
 
 	cFGLDRAWINGDESCRIPTOR itself();
-    
+
     void operator=(cFGLDRAWINGDESCRIPTOR temp){
-        
+
         temp.C = C;
         temp.Dest = Dest;
         temp.ADest = ADest;
@@ -421,7 +422,7 @@ public :						// most od elements are from cGLDRAWINGDESCRIPTOR
     , C(FGLWhite)
     , buffered(false)
     {}
-    
+
 	cFGLTEXTURE *tex;
 
 	cFGLBOX Source;
@@ -446,9 +447,9 @@ public :						// most od elements are from cGLDRAWINGDESCRIPTOR
 	cFGLC C;
 
 	cFGLDRAWINGDESCRIPTOREX itself();		// returns itself
-    
+
     void operator=(cFGLDRAWINGDESCRIPTOREX temp){
-        
+
         temp.C = C;
         temp.x = x; temp.y = y;
         temp.hpointx = hpointx;

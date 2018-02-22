@@ -17,3 +17,7 @@ PLATFORM/macOS/PixFight.xcodeproj/project.xcworkspace/xcuserdata/
 PLATFORM/Android/build
 PLATFORM/Android/app/build
 
+#linux
+
+PLATFORM/Linux/obj/
+PLATFORM/Linux/bin/
