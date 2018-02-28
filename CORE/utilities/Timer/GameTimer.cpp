@@ -9,7 +9,7 @@
 #include "GameTimer.hpp"
 
 #ifdef __linux__
-
+    #include "AndroidTimer.hpp"
 #endif
 
 #ifdef _WIN32
@@ -27,7 +27,7 @@
 extern GameTimer *getPlatformTimerInstance() {
 
 #ifdef __linux__
-
+    return new AndroidTimer();
 #endif
 
 #ifdef _WIN32

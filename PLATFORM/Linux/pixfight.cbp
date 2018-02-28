@@ -13,6 +13,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="PLATFORM/Linux" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +24,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
+					<Add directory="PLATFORM/Linux" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -151,8 +155,22 @@
 		<Unit filename="../../CORE/utilities/glTextureLoader.cpp" />
 		<Unit filename="../../CORE/utilities/glTextureLoader.hpp" />
 		<Unit filename="../../CORE/utilities/stb_image.h" />
+		<Unit filename="BaseScene.hpp" />
+		<Unit filename="LoadGameScene.cpp" />
+		<Unit filename="LoadGameScene.hpp" />
+		<Unit filename="MenuScene.cpp" />
+		<Unit filename="MenuScene.hpp" />
+		<Unit filename="NewGameScene.cpp" />
+		<Unit filename="NewGameScene.hpp" />
+		<Unit filename="RenderScene.cpp" />
+		<Unit filename="RenderScene.hpp" />
+		<Unit filename="SceneManager.cpp" />
+		<Unit filename="SceneManager.hpp" />
+		<Unit filename="SettingsScene.cpp" />
+		<Unit filename="SettingsScene.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="nuklear.h" />
+		<Unit filename="nuklear_glfw_gl3.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

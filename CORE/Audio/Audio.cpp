@@ -25,6 +25,19 @@ Audio::Audio() {
         std::cerr<<"FMOD lib version "<<_version<<" doesn't match header version " << FMOD_VERSION <<std::endl;
     }
 
+#ifdef __linux__
+
+    _result = _system->setOutput(FMOD_OUTPUTTYPE_ALSA);
+    this->checkResult(_result);
+
+    _result = _system->setStreamBufferSize(32768, FMOD_TIMEUNIT_RAWBYTES);
+    this->checkResult(_result);
+
+    _result = _system->setDSPBufferSize(4096, 4);
+    this->checkResult(_result);
+
+#endif
+
     _result = _system->init(32, FMOD_INIT_NORMAL, nullptr);
     this->checkResult(_result);
 
@@ -33,7 +46,7 @@ Audio::Audio() {
 
     _channel = 0;
     _schannel = 0;
-    
+
     _volume = 1.0;
 
     _stream = nullptr;
