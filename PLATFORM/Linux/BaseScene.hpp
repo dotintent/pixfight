@@ -42,7 +42,7 @@ public:
 
     std::string const & getName() const { return _name; }
 
-    virtual SceneType Render() = 0;
+    virtual SceneType Render(struct nk_font *small, struct nk_font *normal) = 0;
 
     virtual void Init() = 0;
     virtual void Destroy() = 0;

@@ -9,7 +9,7 @@ SettingsScene::~SettingsScene() {
 }
 
 
-SceneType SettingsScene::Render() {
+SceneType SettingsScene::Render(struct nk_font *small, struct nk_font *normal) {
 
     return _type;
 }

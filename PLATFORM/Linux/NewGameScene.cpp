@@ -10,7 +10,7 @@ NewGameScene::~NewGameScene() {
 
 }
 
-SceneType NewGameScene::Render() {
+SceneType NewGameScene::Render(struct nk_font *small, struct nk_font *normal) {
 
     static std::string teams[] = {
 

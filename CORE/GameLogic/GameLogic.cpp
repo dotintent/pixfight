@@ -50,14 +50,14 @@ GameLogic::GameLogic(const float &screenWidth,
     _font->setFontColor(FGLRed);
 
     _selectedUnit = nullptr;
-    
+
     winGameCallback = nullptr;
     loseGameCallback = nullptr;
     botsStartThinkCallback = nullptr;
     botsEndThinkCallback = nullptr;
     gameUnitFinishMoveCallback = nullptr;
     baseSelectedCallback = nullptr;
-    
+
     _hardAI = false;
     _allowRendering = true;
 }
@@ -65,9 +65,9 @@ GameLogic::GameLogic(const float &screenWidth,
 GameLogic::~GameLogic() noexcept {
 
     this->teardownOpenGL();
-    
+
     if (_font) {
-        
+
         delete _font;
         _font = nullptr;
     }
@@ -150,7 +150,7 @@ bool GameLogic::createNewGame(const std::string &gamename,
         botPlayer = new AIPlayer(i, _mainMap, _rootPath);
         botPlayer->setMoney(200);
         botPlayer->setHardAI(_hardAI);
-        
+
         for (auto unit : _units) {
 
             if (unit->getTeamID() == botPlayer->getPlayerID()) {
@@ -409,7 +409,7 @@ bool GameLogic::loadGame(const std::string & loadpath) {
                 newUnit->setRequestID(tempUnitData.FIND_BASEID);
                 newUnit->setMayAttack(tempUnitData.mayAttack);
                 newUnit->setUnitMode((UNITMODE)tempUnitData.UNIT_STATE);
-                
+
                 newUnit->setUnitOrientation((M_ORIENTATION)tempUnitData.dir);
 
                 _units.push_back(newUnit);
@@ -421,18 +421,18 @@ bool GameLogic::loadGame(const std::string & loadpath) {
         }
 
     }
-    
+
     m_file.read((char*)&basesCount, sizeof(basesCount));
-    
+
     for (int bc = 0; bc < basesCount; ++bc) {
-        
+
         m_file.read((char*)&tempBaseData, sizeof(tempBaseData));
-        
+
         newBase = new GameBase(_rootPath,
                                xVec2(512.0,64.0),
                                xVec2(64.0,64.0),
                                tempBaseData.TEAM_ID);
-        
+
         newBase->setMap(_mainMap);
         newBase->setPosition(tempBaseData.pos);
         newBase->setUniqueID(tempBaseData.BASE_UNIQUEID);
@@ -441,49 +441,49 @@ bool GameLogic::loadGame(const std::string & loadpath) {
         newBase->setTurnsToUnlock(tempBaseData.TURN_TO_UNLOCK);
         newBase->setBaseAction((BASEACTION)tempBaseData.BASE_ACTION);
         newBase->setUnitMode((UNITMODE)tempBaseData.BASE_STATE);
-        
+
         _bases.push_back(newBase);
     }
-    
+
     m_file.close();
 
     _currentScale = header.scale;
 
     _mainMap->setScale(_currentScale);
     _mainMap->move(header.mapPos);
-    
+
     //create bots
     AIPlayer *botPlayer = nullptr;
-    
+
     for (int i = 1; i < _playersPlaying+1; ++i) {
-        
+
         if (_playerTeamSelected == i) continue;
-        
+
         botPlayer = new AIPlayer(i, _mainMap, _rootPath);
         botPlayer->setMoney(200);
         botPlayer->setHardAI(_hardAI);
-        
+
         for (auto unit : _units) {
-            
+
             if (unit->getTeamID() == botPlayer->getPlayerID()) {
-                
+
                 botPlayer->addAIObject(unit);
             }
         }
-        
+
         for (auto base : _bases) {
-            
+
             if (base->getTeamID() == botPlayer->getPlayerID()) {
-                
+
                 botPlayer->addAIObject(base);
             }
         }
-        
+
         _bots.push_back(botPlayer);
     }
-    
+
     for (int c = 0; c < _bots.size(); ++c) {
-        
+
         botPlayer = _bots[c];
         botPlayer->setMoney(header.money[c]);
     }
@@ -497,21 +497,21 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 bool GameLogic::saveGame(const std::string & savepath) {
 
     this->stopAnimating();
-    
+
     std::fstream m_file;
-    
+
     m_file.open(savepath.c_str(), std::fstream::out|std::fstream::binary);
-    
+
     if (!m_file) {
-        
+
         std::cerr << "Error saving file: " << savepath << " propably no disk space" << std::endl;
         return false;
     }
-    
+
     m_file.write((const char*)&headerID, sizeof(headerID));
-    
+
     gameheder header;
-    
+
     header.PLAYERS_PLAYING = _playersPlaying;
     header.CURRENT_PLAYER = _playerTeamSelected;
     header.PLAYER_CASH = _playerCash;
@@ -519,28 +519,28 @@ bool GameLogic::saveGame(const std::string & savepath) {
     header.scale = _mainMap->getCurrendScale();
     strcpy(header.map, _currentMapName.c_str());
     memset(&header.money[0], 0, sizeof(header.money));
-    
+
     for (int i = 0; i <_bots.size(); ++i) {
-        
+
         auto ai = _bots[i];
         header.money[i] = ai->getMoney();
     }
-    
+
     m_file.write((const char*)&header, sizeof(header));
     m_file.write((const char*)&_gamecounterID, sizeof(_gamecounterID));
-    
+
     int32_t unitsCount = (int32_t)_units.size();
     int32_t basesCount = (int32_t)_bases.size();
-    
+
     unitdata tempUnitData;
     basedata tempBaseData;
-    
+
     m_file.write((const char*)&unitsCount, sizeof(unitsCount));
-    
+
     for (int uc = 0; uc < unitsCount; ++uc) {
-        
+
         auto currentUnit = _units[uc];
-        
+
         tempUnitData.pos = currentUnit->getRealPosition();
         tempUnitData.dir = (int8_t)currentUnit->getOrientation();
         tempUnitData.TEAM_ID = currentUnit->getTeamID();
@@ -552,16 +552,16 @@ bool GameLogic::saveGame(const std::string & savepath) {
         tempUnitData.mayAttack = currentUnit->canAttack();
         GameUnit::unitspec tmpspec = currentUnit->getStats();
         tempUnitData.experience = tmpspec.Expirence;
-        
+
         m_file.write((const char*)&tempUnitData, sizeof(tempUnitData));
     }
-    
+
     m_file.write((const char*)&basesCount, sizeof(basesCount));
-   
+
     for (int bc = 0; bc < basesCount; ++bc) {
-       
+
         auto currentBase = _bases[bc];
-        
+
         tempBaseData.pos = currentBase->getPosition();
         tempBaseData.TEAM_ID = currentBase->getTeamID();
         tempBaseData.BASE_STATE = (int32_t)currentBase->getUnitMode();
@@ -570,256 +570,256 @@ bool GameLogic::saveGame(const std::string & savepath) {
         tempBaseData.BASE_UNIQUEID = currentBase->getUniqueID();
         tempBaseData.FIND_UNITID = currentBase->getRequestID();
         tempBaseData.UNIT_TO_BUILD = currentBase->getUnitToBuild();
-        
+
         m_file.write((const char*)&tempBaseData, sizeof(tempBaseData));
     }
-    
+
     m_file.close();
-        
+
     this->startAnimating();
-    
+
     return true;
 }
 
 void GameLogic::startTurn() {
- 
+
     //update data and do some unit tests
     std::cout << "Start turn" << std::endl;
-    
+
     std::vector<int> unitsToRemove;
-    
+
     for (auto u : _units) {
-        
+
         if (u->getTeamID() == _playerTeamSelected) {
-        
+
             u->setUnitMode(UNIT_NONE);
             u->setMayAttack(true);
         }
         else {
-            
+
             u->setUnitMode(UNIT_INTERFACE);
         }
     }
-    
+
     // check if bases are not locked
-    
+
     _playerCash += 100;
-    
+
     for (auto base : _bases) {
-        
+
         bool shoulddecrase = false;
-        
+
         for (auto u : _units) {
-            
+
             if (u->getRequestID() == base->getUniqueID()) {
-                
+
                 if (u->getTeamID() == _playerTeamSelected) {
-                    
+
                     shoulddecrase = true;
                     u->setUnitMode(UNIT_LOCKED);
                     break;
                 }
             }
         }
-        
+
         if ((base->getTeamID() == _playerTeamSelected) || (shoulddecrase == true)) {
-           
+
             //bonus per base
             _playerCash += 100;
-            
+
             auto turns = base->getTurnsToUnlock();
-            
+
             if (turns > 0) {
-                
+
                 base->setTurnsToUnlock(--turns); //decrase
-                
+
                 if (base->mayUnlock()) {
-                    
+
                     switch (base->getBaseAction()) {
                         case BASE_BUILD : {
-                            
+
                             for (auto u : _units) {
-                            
+
                                 if (u->getUniqueID() == base->getRequestID()) {
-                                  
+
                                     u->setUnitMode(UNIT_NONE);
                                     u->setRequestID(-1);
                                     break;
                                 }
                             }
-                            
+
                             base->setRequestID(-1);
                             base->setUnitMode(UNIT_NONE);
                         }
                             break;
-                            
+
                         case BASE_REPAIR : {
-                            
+
                             for (auto u : _units) {
-                                
+
                                 if (u->getUniqueID() == base->getRequestID()) {
-                                   
+
                                     u->setUnitMode(UNIT_NONE);
                                     u->setRequestID(-1);
-                                    
+
                                     u->setSize(10);
                                 }
                             }
-                            
+
                             base->setRequestID(-1);
                             base->setUnitMode(UNIT_NONE);
                         }
                             break;
-                            
+
                         case BASE_CAPTURED : {
-                            
+
                             for (auto u : _units) {
-                                
+
                                 if (u->getUniqueID() == base->getRequestID()) {
-                                    
+
                                     u->setUnitMode(UNIT_NONE);
                                     u->setRequestID(-1);
-                                    
+
                                     base->setTeam(u->getTeamID());
-                                    
+
                                     unitsToRemove.push_back(u->getUniqueID());
                                 }
                             }
-                            
+
                             base->setRequestID(-1);
                             base->setUnitMode(UNIT_NONE);
                         }
                             break;
-                            
+
                         default:
                             break;
                     }
                 }
                 else {
-                    
+
                     base->setUnitMode(UNIT_LOCKED);
                 }
             }
             else {
-                
+
                 base->setUnitMode(UNIT_NONE);
             }
-            
+
         }
         else {
-            
+
             base->setUnitMode(UNIT_INTERFACE);
         }
-        
+
     }
-    
+
     //remove units if needed
     for (auto it = _units.begin(); it != _units.end();) {
-        
+
         if (unitsToRemove.empty()) {
             break;
         }
-        
+
         auto rit = find(unitsToRemove.begin(), unitsToRemove.end(), (*it)->getUniqueID());
-        
+
         if (rit == unitsToRemove.end()) {
             ++it;
             continue;
         }
-        
+
         unitsToRemove.erase(rit);
-        
+
         delete *it;
-        
+
         it = _units.erase(it);
     }
-    
+
     _mainMap->cleanRoad();
     _mainMap->cleanAStar();
-    
+
     //find winner
-    
+
     int PLAYERS_LEFT = 0; //at end must be 1
     int CURRENT_WIN_ID = -1;
     int BASES_COUNT = 0;
-    
+
     for (int i = 0; i < _playersPlaying; ++i) {
-        
+
         CURRENT_WIN_ID = (i+1); //USERS ID 1-4
-        
+
         for (auto base : _bases) {
-            
+
             if (base->getTeamID() == CURRENT_WIN_ID) {
                 PLAYERS_LEFT++;
-                
+
                 std::cout<< "PLAYERLEFT: " << PLAYERS_LEFT << " CURRENT_WIN_ID: " << CURRENT_WIN_ID << std::endl;
                 _winnerID = CURRENT_WIN_ID;
                 break;
             }
         }
     }
-    
+
     for (int i = 0; i < _playersPlaying; ++i) {
-        
+
         CURRENT_WIN_ID = (i+1); //USERS ID 1-4
-        
+
         for (auto base : _bases) {
-            
+
             if (base->getTeamID() == CURRENT_WIN_ID) {
-                
+
                 BASES_COUNT++;
             }
             else {
-                
+
                 BASES_COUNT = 0;
             }
         }
-        
+
         if (BASES_COUNT == _bases.size()) break;
     }
-    
+
     //more than 1 player have bases?
-    
+
     if (PLAYERS_LEFT != 1) {
-        
+
         _winnerID = 0; //reset still no winner
     }
-    
+
     if (BASES_COUNT != _bases.size()) {
-       
+
         _winnerID = 0; //you not own all bases
     }
-    
+
     if (_winnerID == 0) {
         return;
     }
-        
+
     if (_winnerID == _playerTeamSelected) {
 
         if (winGameCallback) {
-            
+
             winGameCallback(this->context);
         }
     }
     else {
-        
+
         if (loseGameCallback) {
-            
+
             loseGameCallback(this->context);
         }
     }
 }
 
 bool GameLogic::canEndTurn() {
-    
+
     for (auto u : _units) {
-    
+
         if (u->isMoving()) {
-            
+
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -843,7 +843,7 @@ void GameLogic::endTurn() {
             base->setUnitMode(UNIT_ENDTURN);
         }
     }
-    
+
     if (_winnerID == 0) {
 
         if (botsStartThinkCallback) {
@@ -852,10 +852,21 @@ void GameLogic::endTurn() {
 
         _allowRendering = false;
 
+#ifdef __linux__
+
+        std::async(std::launch::async, [&](){
+
+            this->proceedBotsLogic();
+        });
+
+#else
+
         std::async([&](){
 
             this->proceedBotsLogic();
         });
+#endif
+
     }
 }
 
@@ -951,7 +962,7 @@ void GameLogic::Render() {
     std::stringstream ss;
     ss << "FPS: " << fps;
     auto infostr = ss.str();
-    
+
     float sx = 2.0 / _screenWidth;
     float sy = 2.0 / _screenHeight;
 
@@ -1348,9 +1359,9 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
     bool clean = false;
     static bool readyToMove = false;
     static xVec2 lastTouchedPoint = xVec2(0,0);
-    
+
     auto touch = position;
-    
+
     for (auto u : _units) {
 
         if (u->isMoving()) {
@@ -1363,13 +1374,13 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
     _mainMap->testPoint(touch);
 
     if (_selectedUnit == nullptr) {
-        
+
         GameUnit *unit = nullptr;
-        
+
         for (int a = 0; a < _units.size(); ++a) {
-            
+
             unit = _units[a];
-            
+
             if (unit->isActive()) {
 
                 _audioUnit->playSound(okSound);
@@ -1421,29 +1432,29 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
         xVec2 unitVec = xVec2(0,0);
 
         GameUnit *current = nullptr;
-        
+
         //unlock all awaitng units
         for (auto u : _units) {
-            
+
             if (u == unit) continue;
 
             if (!current) {
 
                 unitVec = u->getRealPosition();
-                
+
                 if (AlmostEqual(testVec, unitVec)) { //test hit point for selection
 
                     current = u;
                     findUnit = true;
                 }
             }
-            
+
         }
-        
+
         if (findUnit) {
-            
+
             if (current->getTeamID() != unit->getTeamID()) {
-                
+
                 if (_mainMap->canAttackAtTestPoint()) {
 
                     //cleanup old explosion
@@ -1529,9 +1540,9 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
                 GameUnit *cunit = nullptr;
 
                 for(int a = 0; a < _units.size(); ++a) {
-                    
+
                     cunit = _units[a];
-                    
+
                     if (cunit->isActive()) {
 
                         cunit->setFindID(a);
@@ -1546,7 +1557,7 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
             }
         }
         else {
-            
+
             if (readyToMove && _mainMap->isPointEqual(lastTouchedPoint, touch)) {
 
                 unit->makeMove();
@@ -1570,7 +1581,7 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
                 }
             }
         }
-        
+
         if (clean) {
 
             readyToMove = false;
@@ -1580,7 +1591,7 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
     }
 
     //bases
-    
+
     if (!unitSelected) { //None of unit was selected
 
         GameBase *foundBase = nullptr;
@@ -1594,7 +1605,7 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
         }
 
         if (foundBase != nullptr) {
-            
+
             if (foundBase->getTeamID() == _playerTeamSelected) { //Our Base show view
 
                 _audioUnit->playSound(okSound);
@@ -1604,7 +1615,7 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
                     baseSelectedCallback(this->context, foundBase);
                 }
             }
-            
+
         } else {
 
             _mainMap->cleanAStar();
@@ -1616,7 +1627,7 @@ void GameLogic::unitsToMerge(GameUnit *current) {
 
     if (current == nullptr) return;
 
-    xVec2 selectPoint   = _mainMap->selectionForPosition(current->getRealPosition()); 
+    xVec2 selectPoint   = _mainMap->selectionForPosition(current->getRealPosition());
     TTile **currMap     = _mainMap->getMap();
     xVec2 mapMAX        = _mainMap->getMapSize();
 
@@ -1637,20 +1648,20 @@ void GameLogic::unitsToMerge(GameUnit *current) {
         ay = b;
 
         if ((ax < 0) || (ax >= mapMAX.x)) continue;
-        
+
         testPoint = _mainMap->positionForSelection(xVec2(ax, ay));
-        
+
         if (!FLT_EQUAL(testPoint.x, 0) && !FLT_EQUAL(testPoint.y, 0)) { //if this point its locked we not need to test it
-        
+
             //but if its not locked test if there is a unit on it so we can skip it
             for (auto a : _units) {
-                
+
                 testPoint2 = a->getRealPosition();
 
                 if (AlmostEqual(testPoint, testPoint2)) {
-                    
+
                     if (a->getTeamID() == current->getTeamID()) {
-                        
+
                         currMap[ax][ay].CompareHEX = true;
                     }
                 }
@@ -1678,18 +1689,18 @@ void GameLogic::unitsToMerge(GameUnit *current) {
             if ((ay < 0)||(ay >= mapMAX.y)) continue;
 
             testPoint = _mainMap->positionForSelection(xVec2(ax, ay));
-            
+
             if (!FLT_EQUAL(testPoint.x, 0) && !FLT_EQUAL(testPoint.y, 0)) { //if this point its locked we not need to test it
-            
+
                 //but if its not locked test if there is a unit on it so we can skip it
                 for (auto a : _units) {
-                    
+
                     testPoint2 = a->getRealPosition();
 
                     if (AlmostEqual(testPoint, testPoint2)) {
-                        
+
                         if (a->getTeamID() == current->getTeamID()) {
-                            
+
                             currMap[ax][ay].CompareHEX = true;
                         }
                     }
@@ -1709,18 +1720,18 @@ void GameLogic::unitsToMerge(GameUnit *current) {
             if ((ay < 0)||(ay >= mapMAX.y)) continue;
 
             testPoint = _mainMap->positionForSelection(xVec2(ax, ay));
-            
+
             if (!FLT_EQUAL(testPoint.x, 0) && !FLT_EQUAL(testPoint.y, 0)) { //if this point its locked we not need to test it
-            
+
                 //but if its not locked test if there is a unit on it so we can skip it
                 for (auto a : _units) {
-                    
+
                     testPoint2 = a->getRealPosition();
-                    
+
                     if (AlmostEqual(testPoint, testPoint2)) {
-                        
+
                         if (a->getTeamID() == current->getTeamID()) {
-                            
+
                             currMap[ax][ay].CompareHEX = true;
                         }
                     }
@@ -1740,108 +1751,108 @@ void GameLogic::unitsToFight(GameUnit *current) {
     xVec2 selectPoint   = _mainMap->selectionForPosition(current->getRealPosition());
     TTile **currMap     = _mainMap->getMap();
     xVec2 mapMAX        = _mainMap->getMapSize();
-    
+
     int STEP = current->getAttackLenght();
     int a = 0, b = 0;
-    
+
     a = selectPoint.x - STEP * 2;
     b = selectPoint.y;
-    
+
     int ax = 0;
     int ay = 0;
     xVec2 testPoint;
     xVec2 testPoint2;
-    
+
     for (int f = 0; f < STEP*2+1; ++f) {
-        
+
         ax = a + (f*2);
         ay = b;
-        
+
         if ((ax < 0) || (ax >= mapMAX.x)) continue;
-        
+
         testPoint = _mainMap->positionForSelection(xVec2(ax, ay));
-        
+
         if (!FLT_EQUAL(testPoint.x, 0) && !FLT_EQUAL(testPoint.y, 0)) { //if this point its locked we not need to test it
-            
+
             //but if its not locked test if there is a unit on it so we can skip it
             for (auto a : _units) {
-                
+
                 testPoint2 = a->getRealPosition();
-                
+
                 if (AlmostEqual(testPoint, testPoint2)) {
-                    
+
                     if (a->getTeamID() != current->getTeamID()) {
-                        
+
                         currMap[ax][ay].AttackHEX = true;
                     }
                 }
             }
         }
     }
-    
+
     int Versor = (((int)selectPoint.x % 2) ? 1 : -1);
     int d = 0;
     int e = 0;
     int g = 0;
-    
+
     for (int c = 1; c < STEP+1; ++c) { //up and down so much time as step count
-        
+
         d++;
-        
+
         if (!(d%2)) e++;
-        
+
         for (int f = 0; f < STEP*2+1-c; ++f) {
-            
+
             ax = a + (f*2) + c;
             ay = b = selectPoint.y-e*Versor;
-            
+
             if ((ax < 0)||(ax >= mapMAX.x)) continue; //out of map?
             if ((ay < 0)||(ay >= mapMAX.y)) continue;
-            
+
             testPoint = _mainMap->positionForSelection(xVec2(ax, ay));
-            
+
             if (!FLT_EQUAL(testPoint.x, 0) && !FLT_EQUAL(testPoint.y, 0)) { //if this point its locked we not need to test it
-                
+
                 //but if its not locked test if there is a unit on it so we can skip it
                 for (auto a : _units) {
-                    
+
                     testPoint2 = a->getRealPosition();
-                    
+
                     if (AlmostEqual(testPoint, testPoint2)) {
-                        
+
                         if (a->getTeamID() != current->getTeamID()) {
-                            
+
                             currMap[ax][ay].AttackHEX = true;
                         }
                     }
                 }
             }
         }
-        
+
         if ((d%2)) g++;
-        
+
         //bottom test
         for (int f = 0; f < STEP*2+1-c; ++f) {
-            
+
             ax = a + (f*2) + c;
             ay = b = selectPoint.y+g*Versor;
-            
+
             if ((ax < 0)||(ax >= mapMAX.x)) continue; //out of map?
             if ((ay < 0)||(ay >= mapMAX.y)) continue;
-            
+
             testPoint = _mainMap->positionForSelection(xVec2(ax, ay));
-            
+
             if (!FLT_EQUAL(testPoint.x, 0) && !FLT_EQUAL(testPoint.y, 0)) { //if this point its locked we not need to test it
-                
+
                 //but if its not locked test if there is a unit on it so we can skip it
                 for (auto a : _units) {
-                    
+
                     testPoint2 = a->getRealPosition();
-                    
+
                     if (AlmostEqual(testPoint, testPoint2)) {
-                        
+
                         if (a->getTeamID() != current->getTeamID()) {
-                            
+
                             currMap[ax][ay].AttackHEX = true;
                         }
                     }
@@ -1856,7 +1867,7 @@ void GameLogic::unitsToFight(GameUnit *current) {
 void GameLogic::roadForUnit(GameUnit *current) {
 
     if (current == nullptr) return;
-    
+
     if (current->getUnitMode() == UNIT_NOTMOVE) {
         this->unitsToFight(current);
         return;
@@ -1867,7 +1878,7 @@ void GameLogic::roadForUnit(GameUnit *current) {
     xVec2 selectPoint   = _mainMap->selectionForPosition(current->getRealPosition());
     TTile **currMap     = _mainMap->getMap();
     xVec2 mapMAX        = _mainMap->getMapSize();
-    
+
     int STEP = current->getMoveLenght();
     int a =0, b=0;
 
@@ -1887,18 +1898,18 @@ void GameLogic::roadForUnit(GameUnit *current) {
         ay = b;
 
         if ((ax < 0) || (ax >= mapMAX.x)) continue; //out of map?
-       
+
         testPoint = _mainMap->positionForSelection(xVec2(ax, ay));
-        
+
         if (!FLT_EQUAL(testPoint.x, 0) && !FLT_EQUAL(testPoint.y, 0)) { //if this point its locked we not need to test it
-        
+
             //but if its not locked test if there is a unit on it so we can skip it
             for (auto a : _units) {
-                
+
                 testPoint2 = a->getRealPosition();
 
                 if (AlmostEqual(testPoint, testPoint2)) {
-                    
+
                     currMap[ax][ay].UnitLock = true;
                     nBreak = true;
                     break;
@@ -1906,13 +1917,13 @@ void GameLogic::roadForUnit(GameUnit *current) {
             }
 
             if ((current->getUnitType() != M_INFANTRY) && (current->getUnitType() != M_BAZOOKA)) {
-                
+
                 for (auto base : _bases) {
-                    
+
                     testPoint2 = base->getPosition();
 
                     if (AlmostEqual(testPoint, testPoint2) && (base->getTeamID() != _playerTeamSelected)) {
-                        
+
                         currMap[ax][ay].UnitLock = true;
                         nBreak = true;
                         break;
@@ -1950,16 +1961,16 @@ void GameLogic::roadForUnit(GameUnit *current) {
             if ((ay < 0) || (ay >= mapMAX.y)) continue;
 
             testPoint = _mainMap->positionForSelection(xVec2(ax, ay));
-            
+
             if (!FLT_EQUAL(testPoint.x, 0) && !FLT_EQUAL(testPoint.y, 0)) { //if this point its locked we not need to test it
-            
+
                 //but if its not locked test if there is a unit on it so we can skip it
                 for (auto a : _units) {
-                    
+
                     testPoint2 = a->getRealPosition();
-                    
+
                     if (AlmostEqual(testPoint, testPoint2)) {
-                        
+
                         currMap[ax][ay].UnitLock = true;
                         nBreak = true;
                         break;
@@ -1967,13 +1978,13 @@ void GameLogic::roadForUnit(GameUnit *current) {
                 }
 
                 if ((current->getUnitType() != M_INFANTRY) && (current->getUnitType() != M_BAZOOKA)) {
-                    
+
                     for (auto base : _bases) {
-                        
+
                         testPoint2 = base->getPosition();
 
                         if (AlmostEqual(testPoint, testPoint2) && (base->getTeamID() != _playerTeamSelected)) {
-                            
+
                             currMap[ax][ay].UnitLock = true;
                             nBreak = true;
                             break;
@@ -2006,14 +2017,14 @@ void GameLogic::roadForUnit(GameUnit *current) {
             testPoint = _mainMap->positionForSelection(xVec2(ax, ay));
 
             if (!FLT_EQUAL(testPoint.x, 0) && !FLT_EQUAL(testPoint.y, 0)) { //if this point its locked we not need to test it
-            
+
                 //but if its not locked test if there is a unit on it so we can skip it
                 for (auto a : _units) {
-                    
+
                     testPoint2 = a->getRealPosition();
 
                     if (AlmostEqual(testPoint, testPoint2)) {
-                        
+
                         currMap[ax][ay].UnitLock = true;
                         nBreak = true;
                         break;
@@ -2021,13 +2032,13 @@ void GameLogic::roadForUnit(GameUnit *current) {
                 }
 
                 if ((current->getUnitType() != M_INFANTRY) && (current->getUnitType() != M_BAZOOKA)) {
-                    
+
                     for (auto base : _bases) {
-                        
+
                         testPoint2 = base->getPosition();
 
                         if (AlmostEqual(testPoint, testPoint2) && (base->getTeamID() != _playerTeamSelected)) {
-                            
+
                             currMap[ax][ay].UnitLock = true;
                             nBreak = true;
                             break;
@@ -2062,7 +2073,7 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
     switch (mTYPE) {
         case M_INFANTRY: {
-            
+
             newUnit = new GameUnit(_rootPath,
                                    "infantry",
                                    "infantryatt",
@@ -2073,26 +2084,26 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
                                    xVec2(64,64),
                                    xVec2(0,0),
                                    teamID);
-            
+
             newUnit->setBasicAnimation(6, 0.15);
             newUnit->setMap(_mainMap);
             newUnit->setSize(10);
             newUnit->setUnitType(M_INFANTRY);
             newUnit->setMoveLenght(UNITS_RATINGS[M_INFANTRY][2]);
-            
+
             temp.Attack = UNITS_RATINGS[M_INFANTRY][0];
             temp.Guard  = UNITS_RATINGS[M_INFANTRY][1];
             temp.Expirence = 0.0;
-            
+
             newUnit->setStatistic("Infantry", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
-            
+
             _units.push_back(newUnit);
         }
             break;
-            
+
         case M_BAZOOKA: {
-            
+
             newUnit = new GameUnit(_rootPath,
                                    "bazooka",
                                    "bazookaatt",
@@ -2103,27 +2114,27 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
                                    xVec2(64,64),
                                    xVec2(0,0),
                                    teamID);
-            
+
             newUnit->setBasicAnimation(6, 0.15);
             newUnit->setMap(_mainMap);
             newUnit->setSize(10);
-            
+
             newUnit->setUnitType(M_BAZOOKA);
             newUnit->setMoveLenght(UNITS_RATINGS[M_BAZOOKA][2]);
-            
+
             temp.Attack = UNITS_RATINGS[M_BAZOOKA][0];
             temp.Guard  = UNITS_RATINGS[M_BAZOOKA][1];
             temp.Expirence = 0.0;
-            
+
             newUnit->setStatistic("BazookaMan", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
-            
+
             _units.push_back(newUnit);
         }
             break;
-            
+
         case M_JEEP: {
-            
+
             newUnit = new GameUnit(_rootPath,
                                    "jeep",
                                    "jeepturret",
@@ -2134,25 +2145,25 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
                                    xVec2(64,64),
                                    xVec2(0,0),
                                    teamID);
-            
+
             newUnit->setMap(_mainMap);
             newUnit->setSize(10);
             newUnit->setUnitType(M_JEEP);
             newUnit->setMoveLenght(UNITS_RATINGS[M_JEEP][2]);
-            
+
             temp.Attack = UNITS_RATINGS[M_JEEP][0];
             temp.Guard  = UNITS_RATINGS[M_JEEP][1];
             temp.Expirence = 0.0;
-            
+
             newUnit->setStatistic("HumVee", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
-            
+
             _units.push_back(newUnit);
         }
             break;
-            
+
         case M_LTANK: {
-            
+
             newUnit = new GameUnit(_rootPath,
                                    "tank",
                                    "turret",
@@ -2163,25 +2174,25 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
                                    xVec2(80,80),
                                    xVec2(-6,-6),
                                    teamID);
-            
+
             newUnit->setMap(_mainMap);
             newUnit->setSize(10);
             newUnit->setUnitType(M_LTANK);
             newUnit->setMoveLenght(UNITS_RATINGS[M_LTANK][2]);
-            
+
             temp.Attack = UNITS_RATINGS[M_LTANK][0];
             temp.Guard  = UNITS_RATINGS[M_LTANK][1];
             temp.Expirence = 0.0;
-            
+
             newUnit->setStatistic("LightTank", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
-            
+
             _units.push_back(newUnit);
         }
             break;
-            
+
         case M_ARTILLERY:{
-            
+
             newUnit = new GameUnit(_rootPath,
                                    "tank",
                                    "artilleryturret",
@@ -2192,21 +2203,21 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
                                    xVec2(64,64),
                                    xVec2(4,-2),
                                    teamID);
-            
+
             newUnit->setAnimation(8, 0.1);
             newUnit->setMap(_mainMap);
             newUnit->setSize(10);
             newUnit->setUnitType(M_ARTILLERY);
             newUnit->setMoveLenght(UNITS_RATINGS[M_ARTILLERY][2]);
             newUnit->setAttackLenght(5);
-            
+
             temp.Attack = UNITS_RATINGS[M_ARTILLERY][0];
             temp.Guard  = UNITS_RATINGS[M_ARTILLERY][1];
             temp.Expirence = 0.0;
-            
+
             newUnit->setStatistic("Artillery", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
-            
+
             _units.push_back(newUnit);
         }
             break;
@@ -2231,11 +2242,11 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 }
 
 void GameLogic::setHardAI(const bool & hardAI){
-    
+
     _hardAI = hardAI;
-    
+
     for (auto ai : _bots) {
-        
+
         ai->setHardAI(_hardAI);
     }
 }
@@ -2316,7 +2327,7 @@ void GameLogic::teardownOpenGL() {
 void GameLogic::sortUnits() {
 
     auto comparator = [](GameUnit *a, GameUnit *b) {
-        
+
         auto p1 = a->getRealPosition();
         auto p2 = b->getRealPosition();
 

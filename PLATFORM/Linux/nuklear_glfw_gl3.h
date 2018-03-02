@@ -272,7 +272,6 @@ nk_glfw3_render(enum nk_anti_aliasing AA, int max_vertex_buffer, int max_element
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-    glDisable(GL_BLEND);
     glDisable(GL_SCISSOR_TEST);
 }
 

@@ -47,6 +47,9 @@ static SceneManager *sceneManager;
 static Audio *audioUnit;
 static Audio::SoundID selectSound;
 
+struct nk_font *atlanbig = nullptr;
+struct nk_font *atlansmall = nullptr;
+
 std::string getexepath() {
   char result[ PATH_MAX ];
 
@@ -116,7 +119,7 @@ void initializeAudio(std::string rootPath) {
 
     selectSound = audioUnit->loadSound(soundPath);
 
-    audioUnit->setVolume(1.0);
+    audioUnit->setVolume(0.2);
 
     playMusic(menuPath);
 
@@ -187,10 +190,10 @@ int main() {
 
     struct nk_font_atlas *atlas;
     nk_glfw3_font_stash_begin(&atlas);
-    struct nk_font *atlan = nk_font_atlas_add_from_file(atlas, atlanpath.c_str(), 36, 0);
-    struct nk_font *lato = nk_font_atlas_add_from_file(atlas, latopath.c_str(), 36, 0);
+    atlanbig = nk_font_atlas_add_from_file(atlas, atlanpath.c_str(), 36, 0);
+    atlansmall = nk_font_atlas_add_from_file(atlas, latopath.c_str(), 15, 0);
     nk_glfw3_font_stash_end();
-    nk_style_set_font(ctx, &atlan->handle);
+    nk_style_set_font(ctx, &atlanbig->handle);
 
     sceneManager = new SceneManager(ctx, rootPath);
 
@@ -218,7 +221,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.4, 0.4, 0.4, 1);
 
-        switch (sceneManager->Render()) {
+        switch (sceneManager->Render(atlansmall, atlanbig)) {
 
         case SceneTypeMenu: {
 
@@ -296,29 +299,54 @@ int main() {
             sceneManager->setCurrent("render");
 
             auto nptr = sceneManager->getCurrentScenePointer();
-            nptr->Init();
-
             auto renderGame = dynamic_cast<RenderScene*>(nptr);
+
+            renderGame->setAudio(audioUnit);
+            renderGame->Init();
 
             if (newGame) {
 
+                std::string mapname;
+                int players = newGame->getPlayersCount();
+                int playerid = newGame->getSelectedPlayer();
 
+                switch(newGame->getSelectedMap()) {
+                case 0 : mapname = "tutorial";
+                    break;
+                case 1 : mapname = "Hunt";
+                    break;
+                case 2 : mapname = "pasage";
+                    break;
+                case 3 : mapname = "waterway";
+                    break;
+                case 4 : mapname = "kingofhill";
+                    break;
+
+                }
+
+                renderGame->newGame(mapname, players, playerid);
             }
             else if(loadGame) {
 
-
+                //renderGame->loadGame();
             }
 
         }
             break;
 
-        case SceneTypeNone: break;
+        case SceneTypeNone: {
+            sceneManager->getCurrentScenePointer()->handleMouse(-1, 0, x, y);
+        }
+            break;
         default: break;
 
         }
 
         nk_glfw3_render(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
         glfwSwapBuffers(win);
+
+        //slow down
+        usleep(3000);
     }
 
     delete sceneManager;

@@ -38,6 +38,8 @@ Audio::Audio() {
 
 #endif
 
+    _paths.clear();
+
     _result = _system->init(32, FMOD_INIT_NORMAL, nullptr);
     this->checkResult(_result);
 

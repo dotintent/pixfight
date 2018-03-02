@@ -9,7 +9,7 @@ LoadGameScene::~LoadGameScene() {
 }
 
 
-SceneType LoadGameScene::Render() {
+SceneType LoadGameScene::Render(struct nk_font *small, struct nk_font *normal) {
 
     return _type;
 }

@@ -476,7 +476,7 @@
 	"GameUnit.hpp"
 	"GameBase.hpp"
 
-1519846845 source:/home/marcin/Desktop/pixfight/CORE/Audio/Audio.cpp
+1519914191 source:/home/marcin/Desktop/pixfight/CORE/Audio/Audio.cpp
 	<math.h>
 	<algorithm>
 	"Audio.hpp"
@@ -498,7 +498,7 @@
 1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/glTextureLoader.hpp
 	"Core-pch.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
+1519934263 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
 	"GameLogic.hpp"
 	"glTextureLoader.hpp"
 	"AIPlayer.hpp"
@@ -596,7 +596,7 @@
 	<bits/posix2_lim.h>
 	<bits/xopen_lim.h>
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.cpp
+1519935325 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.cpp
 	"AndroidTimer.hpp"
 	<time.h>
 
@@ -612,7 +612,7 @@
 1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/DarwinTimer.hpp
 	"GameTimer.hpp"
 
-1519849998 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/main.cpp
+1520027028 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/main.cpp
 	<iostream>
 	<fstream>
 	<limits.h>
@@ -634,49 +634,51 @@
 	<stdarg.h>
 	<assert.h>
 
-1519759499 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.cpp
+1519933998 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.cpp
 	"MenuScene.hpp"
 	"glTextureLoader.hpp"
 
-1519679179 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.hpp
+1519933981 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.hpp
 	"BaseScene.hpp"
 
-1519849660 /home/marcin/Desktop/pixfight/PLATFORM/Linux/BaseScene.hpp
+1519933776 /home/marcin/Desktop/pixfight/PLATFORM/Linux/BaseScene.hpp
 	"Core-pch.hpp"
 	"EnumOptionMacro.hpp"
 	"nuklear.h"
 
-1519668763 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.cpp
+1519933936 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.cpp
 	"LoadGameScene.hpp"
 
-1519668713 /home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.hpp
+1519933930 /home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.hpp
 	"BaseScene.hpp"
 
-1519843978 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.cpp
+1519934003 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.cpp
 	"NewGameScene.hpp"
 	"glTextureLoader.hpp"
 
-1519844258 /home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.hpp
+1519933941 /home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.hpp
 	"BaseScene.hpp"
 
-1519668792 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.cpp
+1520032951 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.cpp
 	"RenderScene.hpp"
+	"glTextureLoader.hpp"
 
-1519849677 /home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
+1520033585 /home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
 	"BaseScene.hpp"
+	"GameLogic.hpp"
 
-1519668803 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.cpp
+1519934083 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.cpp
 	"SettingsScene.hpp"
 
-1519668736 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.hpp
+1519934065 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.hpp
 	"BaseScene.hpp"
 
-1519668731 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.hpp
+1519933727 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.hpp
 	<string>
 	<map>
 	"BaseScene.hpp"
 
-1519668109 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.cpp
+1519934078 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.cpp
 	"SceneManager.hpp"
 	"MenuScene.hpp"
 	"NewGameScene.hpp"
@@ -684,7 +686,7 @@
 	"SettingsScene.hpp"
 	"RenderScene.hpp"
 
-1519596333 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear_glfw_gl3.h
+1519927096 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear_glfw_gl3.h
 	<string.h>
 	<GLFW/glfw3.h>
 
