@@ -1,5 +1,6 @@
 #include "RenderScene.hpp"
 #include "glTextureLoader.hpp"
+#include "PFSettings.h"
 
 RenderScene::RenderScene(const std::string & name, const std::string rootPath, struct nk_context *ctx)
 : BaseScene(name, rootPath, ctx)
@@ -10,7 +11,9 @@ RenderScene::RenderScene(const std::string & name, const std::string rootPath, s
 , _botsthinking(false)
 , _baseselected(false)
 , _selectedBase(nullptr)
-, _homemenu(false) {
+, _homemenu(false)
+, _saved(false)
+, _error(false) {
 
 }
 
@@ -25,6 +28,22 @@ SceneType RenderScene::Render(struct nk_font *small, struct nk_font *normal) {
 
     //ui
     _ctx->style.window.fixed_background = nk_style_item_color(nk_rgb(100, 100, 100));
+
+    if (_saved) {
+
+        if (nk_begin(_ctx, _error ? "ERROR" : "GAME SAVED", nk_rect((1024 - 600) * 0.5, (768 - 150) * 0.5, 600, 150), NK_WINDOW_CLOSABLE|NK_WINDOW_TITLE|NK_WINDOW_BORDER)) {
+
+            nk_layout_row_static(_ctx, 20, 10, 1);
+            nk_layout_row_static(_ctx, 40, 570, 1);
+            nk_label(_ctx, _error ? "Game could not be saved" : "Game saved sucessfully", NK_TEXT_ALIGN_CENTERED);
+        }
+        else {
+
+            _saved = false;
+        }
+
+        nk_end(_ctx);
+    }
 
     if (_gamewin) {
 
@@ -73,13 +92,28 @@ SceneType RenderScene::Render(struct nk_font *small, struct nk_font *normal) {
             if (nk_button_label(_ctx, "QUIT")) {
 
                 _type = SceneTypeMenu;
+                _homemenu = false;
             }
 
             nk_layout_row_static(_ctx, 40, 160, 1);
             if (nk_button_label(_ctx, "SAVE")) {
 
+                //get time
 
-                //save
+                time_t rawtime;
+                struct tm * timeinfo;
+                char buffer[255];
+
+                time (&rawtime);
+                timeinfo = localtime(&rawtime);
+
+                strftime(buffer, sizeof(buffer),"%m_%d_%Y_%I:%M:%S", timeinfo);
+                std::string str(buffer);
+
+                std::string fullpath = _rootPath + "save/" + _gameLogic->getCurrentMapName() + "_" + str + ".sav";
+
+                _error = !_gameLogic->saveGame(fullpath);
+                _saved = true;
                 _homemenu = false;
             }
 
@@ -189,7 +223,7 @@ SceneType RenderScene::Render(struct nk_font *small, struct nk_font *normal) {
         nk_layout_row(_ctx, NK_DYNAMIC, 32, 5, ratio);
 
         //back button
-        if (nk_button_label(_ctx, "")) {
+        if (nk_button_label(_ctx, "") && !_saved) {
 
             _homemenu = true;
         }
@@ -263,7 +297,7 @@ void RenderScene::Init() {
         _selectedBase = base;
     };
 
-    bool hardAI = false;
+    bool hardAI = GameSettings->getHardai();
     _gameLogic->setHardAI(hardAI);
 }
 
@@ -280,6 +314,18 @@ void RenderScene::newGame(std::string mapname, int players, int playerID) {
     int teamID = playerID+1;
 
     _gameLogic->createNewGame(mapname, teamID, players);
+
+    setup(teamID);
+}
+
+void RenderScene::loadGame(std::string path) {
+
+    _gameLogic->loadGame(path);
+
+    setup(PLAYERTEAMSELECTED);
+}
+
+void RenderScene::setup(int teamID) {
 
     auto htexpath = _rootPath + "home.png";
     auto etexpath = _rootPath + "empty.png";
@@ -349,11 +395,6 @@ void RenderScene::newGame(std::string mapname, int players, int playerID) {
     _buttonnormal = nk_subimage_id(btnntex, 160, 40, nk_rect(0, 0, 160, 40));
 }
 
-void RenderScene::loadGame(std::string path) {
-
-
-}
-
 void RenderScene::handleScroll(double s) {
 
     if (_gameLogic == nullptr) {
@@ -398,7 +439,7 @@ void RenderScene::handleMouse(int button, int action, double x, double y) {
         xVec2 dir = (cPos - initialPos);
 
         dir.normalize();
-        dir = dir * 210.0f;
+        dir = dir * 240.0f;
 
         _gameLogic->setDirectionVec(dir);
     }

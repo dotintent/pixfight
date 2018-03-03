@@ -14,6 +14,8 @@
 
 Audio::Audio() {
 
+    _muted = false;
+
     _result = FMOD::System_Create(&_system);
     this->checkResult(_result);
 

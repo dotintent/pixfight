@@ -65,6 +65,7 @@
 		</Linker>
 		<ExtraCommands>
 			<Add before="mkdir -p $(TARGET_OUTPUT_DIR)/data" />
+			<Add before="mkdir -p $(TARGET_OUTPUT_DIR)/data/save" />
 			<Add before='cp  &quot;$(PROJECT_DIR)/FMOD/lib/x86_64/libfmod.so&quot; &quot;/usr/lib/x86_64-linux-gnu&quot;' />
 			<Add before='cp  &quot;$(PROJECT_DIR)/FMOD/lib/x86_64/libfmodL.so&quot; &quot;/usr/lib/x86_64-linux-gnu&quot;' />
 			<Add before='cp  &quot;$(PROJECT_DIR)/FMOD/lib/x86_64/libfmod.so.10&quot; &quot;/usr/lib/x86_64-linux-gnu&quot;' />
@@ -162,6 +163,8 @@
 		<Unit filename="MenuScene.hpp" />
 		<Unit filename="NewGameScene.cpp" />
 		<Unit filename="NewGameScene.hpp" />
+		<Unit filename="PFSettings.cpp" />
+		<Unit filename="PFSettings.h" />
 		<Unit filename="RenderScene.cpp" />
 		<Unit filename="RenderScene.hpp" />
 		<Unit filename="SceneManager.cpp" />

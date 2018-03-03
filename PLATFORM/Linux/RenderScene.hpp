@@ -33,6 +33,8 @@ public:
 
 private:
 
+    void setup(int teamID);
+
     GameLogic *_gameLogic;
     Audio *_audio;
 
@@ -55,4 +57,7 @@ private:
     bool _homemenu;
 
     struct nk_image _buttonnormal;
+
+    bool _saved;
+    bool _error;
 };

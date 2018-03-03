@@ -10,6 +10,7 @@
 #include "NewGameScene.hpp"
 #include "LoadGameScene.hpp"
 #include "RenderScene.hpp"
+#include "SettingsScene.hpp"
 
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 768
@@ -42,6 +43,10 @@ struct nk_vec2 double_click_pos;
 #ifndef NK_GLFW_DOUBLE_CLICK_HI
 #define NK_GLFW_DOUBLE_CLICK_HI 0.2
 #endif
+
+#include "PFSettings.h"
+
+PFSettings *GameSettings = nullptr;
 
 static SceneManager *sceneManager;
 static Audio *audioUnit;
@@ -119,12 +124,11 @@ void initializeAudio(std::string rootPath) {
 
     selectSound = audioUnit->loadSound(soundPath);
 
-    audioUnit->setVolume(0.2);
+    audioUnit->setVolume(0.5);
 
     playMusic(menuPath);
 
-    //TODO: add settings
-    bool muted = false;
+    bool muted = GameSettings->getMute();
 
     if (muted) {
 
@@ -146,6 +150,8 @@ int main() {
     double_click_pos = nk_vec2(0, 0);
 
     std::string rootPath = getexepath();
+
+    GameSettings = new PFSettings(rootPath);
 
     static GLFWwindow *win;
     int width = 0, height = 0;
@@ -280,6 +286,10 @@ int main() {
             sceneManager->setCurrent("settings");
 
             auto nptr = sceneManager->getCurrentScenePointer();
+
+            auto settingsPtr = dynamic_cast<SettingsScene *>(nptr);
+            settingsPtr->setAudio(audioUnit);
+
             nptr->Init();
         }
             break;
@@ -328,7 +338,9 @@ int main() {
             }
             else if(loadGame) {
 
-                //renderGame->loadGame();
+                std::string path = rootPath + "save/" + loadGame->getSelectedSave();
+
+                renderGame->loadGame(path);
             }
 
         }
@@ -350,6 +362,7 @@ int main() {
     }
 
     delete sceneManager;
+    delete GameSettings;
 
     tearDownAudio();
     nk_glfw3_shutdown();

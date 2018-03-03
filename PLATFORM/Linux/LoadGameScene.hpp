@@ -20,7 +20,16 @@ public:
     virtual void Init() override;
     virtual void Destroy() override;
 
+    std::string getSelectedSave();
+
 private:
 
+    struct nk_image _windowbg;
+    struct nk_image _buttonhome;
+    std::vector<std::string> _files;
 
+    struct nk_image _buttonnormal;
+    struct nk_image _buttonactive;
+
+    int _selectedFile;
 };

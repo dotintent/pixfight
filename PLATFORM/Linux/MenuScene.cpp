@@ -74,6 +74,7 @@ void MenuScene::Init() {
     _buttonactive = nk_subimage_id(_btnatex, 320, 80, nk_rect(0, 0, 320, 80));
 
     _ctx->style.button.normal = nk_style_item_image(_buttonnormal);
+    _ctx->style.button.hover  = nk_style_item_image(_buttonactive);
     _ctx->style.button.active = nk_style_item_image(_buttonactive);
 
     _ctx->style.button.text_normal = nk_rgb(0, 0, 0);

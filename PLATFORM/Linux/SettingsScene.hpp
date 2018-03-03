@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseScene.hpp"
+#include "Audio.hpp"
 
 class SettingsScene final : public BaseScene {
 
@@ -20,7 +21,12 @@ public:
     virtual void Init() override;
     virtual void Destroy() override;
 
+    void setAudio(Audio *audio) { _audio = audio; }
+
 private:
 
+    struct nk_image _windowbg;
+    struct nk_image _buttonhome;
 
+    Audio *_audio;
 };
