@@ -181,6 +181,9 @@ bool GameLogic::createNewGame(const std::string &gamename,
 
 bool GameLogic::loadGame(const std::string & loadpath) {
 
+    auto okSoundPath = _rootPath + "ok.wav";
+    okSound = _audioUnit->loadSound(okSoundPath);
+    
     std::fstream m_file;
 
     m_file.open(loadpath.c_str(), std::fstream::in|std::fstream::binary);
@@ -1476,6 +1479,13 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
                     auto destroy = attackUnit(unit, current, _units, _bases);
 
+                    if (unit->getUnitMode() == UNIT_NOTMOVE) {
+                        unit->setUnitMode(UNIT_ENDTURN);
+                    }
+                    else {
+                        unit->setMayAttack(false);
+                    }
+
                     auto path = _rootPath + "explode.png";
 
                     switch (destroy) {
@@ -1564,6 +1574,12 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
                 //set our unit that its cannot move anymore in this turn
                 unit->setUnitMode(UNIT_NOTMOVE);
+
+                if (!unit->canAttack()) {
+                    
+                    unit->setUnitMode(UNIT_ENDTURN);
+                }
+
                 if (unit->getUnitType() == M_ARTILLERY) unit->setMayAttack(false);
                 clean = true;
             }

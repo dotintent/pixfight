@@ -664,6 +664,15 @@ void AIPlayer::updateAI(std::vector<GameUnit *> & units, std::vector<GameBase *>
     };
 
     std::sort(_allObjects.begin(), _allObjects.end(), comparator);
+
+    auto comparatorUnit = [](AIObject * a, AIObject * b) -> bool {
+
+        return  a->ownType == M_INFANTRY || b->ownType == M_INFANTRY ||
+                a->ownType == M_BAZOOKA || b->ownType == M_BAZOOKA;
+    };
+
+    std::sort(_allObjects.begin(), _allObjects.end(), comparatorUnit);
+    
 }
 
 void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *> & bases, GameMap * map) {
@@ -811,10 +820,6 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
 
                                                 _playerMoney -= Costs[currentBase->_unitToBuild];
                                             }
-                                            else {
-
-                                                _playerMoney = 200;
-                                            }
 
                                             syncToMainLoop([currentBase, this](void *context, GameLogic *sender){
 
@@ -828,13 +833,20 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                     }
                                     else{
 
-                                        if (rand() % 2) { //cheap part
+                                        if (_hardAI) {
 
-                                            currentBase->_unitToBuild = (rand() % 3);
+                                            currentBase->_unitToBuild = rand() % 5;
                                         }
-                                        else{
+                                        else {
 
-                                            currentBase->_unitToBuild = 3 + (rand() % 2);
+                                            if (rand() % 2) { //cheap part
+
+                                                currentBase->_unitToBuild = (rand() % 3);
+                                            }
+                                            else{
+
+                                                currentBase->_unitToBuild = 3 + (rand() % 2);
+                                            }
                                         }
 
                                         if (!_hardAI) {
@@ -860,10 +872,6 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                             if (!_hardAI) {
 
                                                 _playerMoney -= Costs[currentBase->_unitToBuild];
-                                            }
-                                            else {
-
-                                                _playerMoney = 200;
                                             }
 
                                             syncToMainLoop([currentBase, this](void *context, GameLogic *sender){
@@ -959,11 +967,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                             break;
                                         case DESTROY_SECOND: {
 
+                                            fUnit->setUnitMode(UNIT_INTERFACE);
                                             unitsToRemove.push_back(fUnit->getUniqueID());
                                         }
                                             break;
                                         case DESTROY_BOTH: {
 
+                                            fUnit->setUnitMode(UNIT_INTERFACE);
                                             unitsToRemove.push_back(currentObject->getUniqueID());
                                             unitsToRemove.push_back(fUnit->getUniqueID());
                                             currentObject = nullptr;
@@ -1138,11 +1148,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                 break;
                                             case DESTROY_SECOND: {
 
+                                                fUnit->setUnitMode(UNIT_INTERFACE);
                                                 unitsToRemove.push_back(fUnit->getUniqueID());
                                             }
                                                 break;
                                             case DESTROY_BOTH: {
 
+                                                fUnit->setUnitMode(UNIT_INTERFACE);
                                                 unitsToRemove.push_back(currentObject->getUniqueID());
                                                 unitsToRemove.push_back(fUnit->getUniqueID());
                                                 currentObject = nullptr;
@@ -1222,6 +1234,103 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                     }
                                     //********************************************************************************
                                 }
+                                else {
+
+                                    //Test if we are on base UNIT MUST GO OUT OF IT!!!
+                                    for (int ver=0; ver<7; ver++) {
+
+                                        xVec2 dir = ((xVec2(directionVersor[ver], 0) * 64.0)) - currentObject->getRealPosition();
+                                        dir.normalize();
+
+                                        xVec2 goToPoint;
+                                        xVec2 A, B;
+
+                                        float distMag = (currentObject->getRealPosition()).mag();
+                                        float targetMag = 0;
+
+                                        bool canGo = true;
+
+                                        for (int it = currentObject->_lenghtMove; it >= 1; it--) {
+
+                                            auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
+
+                                            goToPoint = this->farthesPositionInDirection(dir, fnPoints);
+
+                                            targetMag = (currentObject->getRealPosition() - goToPoint).mag();
+
+                                            A = currentObject->getAIPosition();
+                                            B = map->selectionForPosition(goToPoint);
+
+                                            canGo = true;
+
+                                            float finalDistance = (currentTask->score > 0.45 ? (128.0) : (isONBase ? 320.0 : 384.0));
+
+                                            if (this->canMove(A, B) && (targetMag <= distMag) && (distMag-targetMag >= finalDistance)) {
+
+                                                for (auto b : bases) {
+
+                                                    if (AlmostEqual(b->getPosition(), goToPoint)) {
+                                                        canGo = false;
+                                                        break;
+                                                    }
+                                                }
+
+                                                if(canGo){
+
+                                                    currentObject->_currentPos = goToPoint;
+                                                    actual->AIMode = UNIT_ENDTURN;
+
+                                                    break;
+                                                }
+
+                                            } else { //IF CAN MOVE TO POINT
+
+                                                canGo = false;
+                                            }
+
+                                        } //FOR ITERATOR
+
+                                        if(canGo) break;
+
+                                    } // FOR VERSOR
+
+                                    if (actual->AIMode != UNIT_ENDTURN) {
+
+                                        xVec2 A;
+                                        xVec2 B;
+                                        xVec2 goToPoint;
+
+                                        bool canGo = true;
+
+                                        for (int post = 0; post < 9; ++post) {
+
+                                            A = currentObject->getAIPosition();
+                                            B = xVec2(A.x + artilleryVersor[post], A.y);
+                                            goToPoint =  map->positionForSelection(B);
+
+                                            canGo = true;
+
+                                            if (this->canMove(A, B)) {
+
+                                                for (auto b : bases) {
+
+                                                    if (AlmostEqual(b->getPosition(), goToPoint)) {
+                                                        canGo = false;
+                                                        break;
+                                                    }
+                                                }
+
+                                                if (canGo) {
+
+                                                    currentObject->_currentPos = goToPoint;
+                                                    actual->AIMode = UNIT_ENDTURN;
+
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
 
                             }
 
@@ -1261,11 +1370,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                             break;
                                         case DESTROY_SECOND: {
 
+                                            fUnit->setUnitMode(UNIT_INTERFACE);
                                             unitsToRemove.push_back(fUnit->getUniqueID());
                                         }
                                             break;
                                         case DESTROY_BOTH: {
 
+                                            fUnit->setUnitMode(UNIT_INTERFACE);
                                             unitsToRemove.push_back(currentObject->getUniqueID());
                                             unitsToRemove.push_back(fUnit->getUniqueID());
                                             currentObject = nullptr;
@@ -1421,11 +1532,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                                     break;
                                                                 case DESTROY_SECOND: {
 
+                                                                    fUnit->setUnitMode(UNIT_INTERFACE);
                                                                     unitsToRemove.push_back(fUnit->getUniqueID());
                                                                 }
                                                                     break;
                                                                 case DESTROY_BOTH: {
 
+                                                                    fUnit->setUnitMode(UNIT_INTERFACE);
                                                                     unitsToRemove.push_back(currentObject->getUniqueID());
                                                                     unitsToRemove.push_back(fUnit->getUniqueID());
                                                                     currentObject = nullptr;
@@ -1526,11 +1639,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                 break;
                                             case DESTROY_SECOND: {
 
+                                                fUnit->setUnitMode(UNIT_INTERFACE);
                                                 unitsToRemove.push_back(fUnit->getUniqueID());
                                             }
                                                 break;
                                             case DESTROY_BOTH: {
 
+                                                fUnit->setUnitMode(UNIT_INTERFACE);
                                                 unitsToRemove.push_back(currentObject->getUniqueID());
                                                 unitsToRemove.push_back(fUnit->getUniqueID());
                                                 currentObject = nullptr;
@@ -1687,11 +1802,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                                         break;
                                                                     case DESTROY_SECOND: {
 
+                                                                        fUnit->setUnitMode(UNIT_INTERFACE);
                                                                         unitsToRemove.push_back(fUnit->getUniqueID());
                                                                     }
                                                                         break;
                                                                     case DESTROY_BOTH: {
 
+                                                                        fUnit->setUnitMode(UNIT_INTERFACE);
                                                                         unitsToRemove.push_back(currentObject->getUniqueID());
                                                                         unitsToRemove.push_back(fUnit->getUniqueID());
                                                                         currentObject = nullptr;
@@ -1929,7 +2046,7 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                     basePos = currBase->getAIPosition();
                                     xVec2 unitTestPoint = currentObject->getAIPosition();
 
-                                    if (this->canMove(unitTestPoint, basePos)) {
+                                    if (this->canMove(unitTestPoint, basePos) && currBase->getBaseAction() != BASE_CAPTURED) {
                                         //a star allow to move this point go there
 
                                         currentObject->_currentPos = currBase->getPosition();
@@ -2010,11 +2127,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                         break;
                                                     case DESTROY_SECOND: {
 
+                                                        fightUnit->setUnitMode(UNIT_INTERFACE);
                                                         unitsToRemove.push_back(fightUnit->getUniqueID());
                                                     }
                                                         break;
                                                     case DESTROY_BOTH: {
 
+                                                        fightUnit->setUnitMode(UNIT_INTERFACE);
                                                         unitsToRemove.push_back(currentObject->getUniqueID());
                                                         unitsToRemove.push_back(fightUnit->getUniqueID());
                                                         currentObject = nullptr;
@@ -2246,11 +2365,11 @@ std::vector<xVec2> AIPlayer::getAIPoints(GameUnit* current, const int & maxlengh
         if (!FLT_EQUAL(TestPoint.x, 0) && !FLT_EQUAL(TestPoint.y, 0)) { //if this point its locked we not need to test it
         
             //but if its not locked test if there is a unit on it so we can skip it
-            for(auto A : units){
+            for (auto A : units){
                 
                 TestPoint2 = A->getRealPosition();
                 
-                if (AlmostEqual(TestPoint, TestPoint2)) {
+                if (AlmostEqual(TestPoint, TestPoint2)) { //TODO: A-> UNIT_INTEFACE && teamID != currentTEAMID
                    
                     nBreak = true;
                     break;

@@ -51,7 +51,7 @@
     self.glView = (GLKView *)self.view;
     self.glView.context = self.context;
     self.glView.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-    self.preferredFramesPerSecond = 60;
+    self.preferredFramesPerSecond = 120;
     
     self.glView.delegate = self;
     self.view.backgroundColor = [UIColor whiteColor];
