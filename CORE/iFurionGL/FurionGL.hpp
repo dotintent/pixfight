@@ -401,7 +401,7 @@ public:
         temp.destination = destination;
     }
 
-	byte destination;			// Dest or ADest ?
+	xbyte destination;			// Dest or ADest ?
 
 	bool buffered;				// when buffered is true, class is not able to
 								// be Push()'ed by FGLDDLOOP
