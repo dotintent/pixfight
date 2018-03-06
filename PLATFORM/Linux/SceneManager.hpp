@@ -12,7 +12,7 @@ public:
     SceneManager(struct nk_context *ctx, const std::string path);
     ~SceneManager() noexcept;
 
-    SceneType Render(struct nk_font *small, struct nk_font *normal);
+    SceneType Render(struct nk_font *smallfont, struct nk_font *normal);
 
     bool setCurrent(const std::string & name);
 	BaseScene* getScenePointer(const std::string & name);

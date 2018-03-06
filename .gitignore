@@ -21,3 +21,7 @@ PLATFORM/Android/app/build
 
 PLATFORM/Linux/obj/
 PLATFORM/Linux/bin/
+
+#windows
+
+PLATFORM/Windows/pixfight/.vs/

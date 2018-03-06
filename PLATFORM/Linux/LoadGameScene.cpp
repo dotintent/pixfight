@@ -1,8 +1,12 @@
 #include "LoadGameScene.hpp"
 #include "glTextureLoader.hpp"
 
+#ifdef __linux__
 #include <dirent.h>
 #include <unistd.h>
+#else
+#include <windows.h>
+#endif
 
 LoadGameScene::LoadGameScene(const std::string & name, const std::string rootPath, struct nk_context *ctx) : BaseScene(name, rootPath, ctx) {
 
@@ -14,8 +18,7 @@ LoadGameScene::~LoadGameScene() {
 
 }
 
-
-SceneType LoadGameScene::Render(struct nk_font *small, struct nk_font *normal) {
+SceneType LoadGameScene::Render(struct nk_font *smallfont, struct nk_font *normal) {
 
     _ctx->style.window.fixed_background = nk_style_item_image(_windowbg);
     if (nk_begin(_ctx, "Loadgame", nk_rect(0, 0, 1024, 768), NK_WINDOW_BACKGROUND)) {
@@ -48,8 +51,11 @@ SceneType LoadGameScene::Render(struct nk_font *small, struct nk_font *normal) {
 
             std::string deletePath =  _rootPath + "save/" + _files[_selectedFile];
 
-            //TODO: throw error if false
+#ifdef __linux__
             unlink(deletePath.c_str());
+#else
+			_unlink(deletePath.c_str());
+#endif
 
             _files.erase(_files.begin() + _selectedFile);
         }
@@ -72,7 +78,7 @@ SceneType LoadGameScene::Render(struct nk_font *small, struct nk_font *normal) {
 
     if (nk_begin(_ctx, "Saves", nk_rect((1024 - 400) * 0.5, 15, 400, 500), NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
 
-        nk_style_set_font(_ctx, &small->handle);
+        nk_style_set_font(_ctx, &smallfont->handle);
 
         for (int i = 0; i < _files.size(); ++i) {
 
@@ -114,6 +120,7 @@ void LoadGameScene::Init() {
 
     _files.clear();
 
+#ifdef __linux__
     DIR *dpdf;
     struct dirent *epdf;
 
@@ -142,6 +149,36 @@ void LoadGameScene::Init() {
     }
 
     closedir(dpdf);
+
+#else 
+
+	std::string pattern = _rootPath + "save/";
+	pattern.append("*.sav");
+	WIN32_FIND_DATA data;
+	HANDLE hFind;
+
+	wchar_t* wString = new wchar_t[MAX_PATH];
+	MultiByteToWideChar(CP_ACP, 0, pattern.c_str(), -1, wString, MAX_PATH);
+
+	if ((hFind = FindFirstFile(wString, &data)) != INVALID_HANDLE_VALUE) {
+		
+		do {
+
+			size_t wcsChars = wcslen(data.cFileName);
+			int size_needed = WideCharToMultiByte(CP_UTF8, 0, data.cFileName, wcsChars, NULL, 0, NULL, NULL);
+			std::string path(size_needed, 0);
+			WideCharToMultiByte(CP_UTF8, 0, data.cFileName, wcsChars, &path[0], size_needed, NULL, NULL);
+
+			_files.push_back(path);
+		} 
+		while (FindNextFile(hFind, &data) != 0);
+		
+		FindClose(hFind);
+	}
+
+	delete wString;
+
+#endif
 
     if (_files.size() > 0) {
         _selectedFile = 0;

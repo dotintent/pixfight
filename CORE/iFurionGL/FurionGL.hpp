@@ -38,10 +38,10 @@
 #define cPoint	 cFGLPOINT
 #define cCircle	 cFGLCIRCLE
 
-typedef xU16 byte;
+typedef xU16 xbyte;
 // defines what kind of box will you pass to cFGLDD structure
-const byte DD_BOX  = 1;
-const byte DD_ABOX = 2;
+const xbyte DD_BOX  = 1;
+const xbyte DD_ABOX = 2;
 
 // Selectors
 const int FGL_DDL = 1;

@@ -16,7 +16,7 @@ public:
     RenderScene & operator= (const RenderScene & other) = delete;
     RenderScene & operator= (RenderScene && other) noexcept = delete;
 
-    virtual SceneType Render(struct nk_font *small, struct nk_font *normal) override;
+    virtual SceneType Render(struct nk_font *smallfont, struct nk_font *normal) override;
 
     virtual void Init() override;
     virtual void Destroy() override;

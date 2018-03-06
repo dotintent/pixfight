@@ -13,7 +13,7 @@
 #endif
 
 #ifdef _WIN32
-
+	#include "WindowsTimer.hpp"
 #endif
 
 #ifdef __APPLE__
@@ -31,7 +31,7 @@ extern GameTimer *getPlatformTimerInstance() {
 #endif
 
 #ifdef _WIN32
-
+	return new WindowsTimer();
 #endif
 
 #ifdef __APPLE__

@@ -11,7 +11,7 @@ SettingsScene::~SettingsScene() {
 
 }
 
-SceneType SettingsScene::Render(struct nk_font *small, struct nk_font *normal) {
+SceneType SettingsScene::Render(struct nk_font *smallfont, struct nk_font *normal) {
 
     _ctx->style.window.fixed_background = nk_style_item_image(_windowbg);
     if (nk_begin(_ctx, "Settings", nk_rect(0, 0, 1024, 768), NK_WINDOW_BACKGROUND)) {

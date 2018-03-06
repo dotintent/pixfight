@@ -9,6 +9,10 @@
 #include <string.h>
 #include "glMatrix4x4.hpp"
 
+#ifdef _WIN32
+#define M_PI 3.1415
+#endif
+
 void glMatrix4x4::set(const xReal *m) {
 
     memcpy(matrix, m, 16 * sizeof(xReal));

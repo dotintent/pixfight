@@ -10,7 +10,7 @@ MenuScene::~MenuScene() {
 
 }
 
-SceneType MenuScene::Render(struct nk_font *small, struct nk_font *normal) {
+SceneType MenuScene::Render(struct nk_font *smallfont, struct nk_font *normal) {
 
     //logo
     _ctx->style.window.fixed_background = nk_style_item_image(_logo);

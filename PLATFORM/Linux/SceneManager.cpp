@@ -40,9 +40,9 @@ SceneManager::~SceneManager() noexcept {
 	_sceneDB.clear();
 }
 
-SceneType SceneManager::Render(struct nk_font *small, struct nk_font *normal) {
+SceneType SceneManager::Render(struct nk_font *smallfont, struct nk_font *normal) {
 
-    return _currentScene->Render(small, normal);
+    return _currentScene->Render(smallfont, normal);
 }
 
 bool SceneManager::setCurrent(const std::string & name) {

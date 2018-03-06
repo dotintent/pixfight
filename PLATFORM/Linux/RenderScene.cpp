@@ -21,7 +21,7 @@ RenderScene::~RenderScene() {
 
 }
 
-SceneType RenderScene::Render(struct nk_font *small, struct nk_font *normal) {
+SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal) {
 
     //game render
     _gameLogic->Render();
@@ -107,13 +107,18 @@ SceneType RenderScene::Render(struct nk_font *small, struct nk_font *normal) {
                 time (&rawtime);
                 timeinfo = localtime(&rawtime);
 
-                strftime(buffer, sizeof(buffer),"%m_%d_%Y_%I:%M:%S", timeinfo);
+#ifdef _WIN32
+				strftime(buffer, sizeof(buffer), "%m_%d_%Y_%I_%M_%S", timeinfo);
+#else
+                strftime(buffer, sizeof(buffer), "%m_%d_%Y_%I:%M:%S", timeinfo);
+#endif
+
                 std::string str(buffer);
 
                 std::string fullpath = _rootPath + "save/" + _gameLogic->getCurrentMapName() + "_" + str + ".sav";
 
                 _error = !_gameLogic->saveGame(fullpath);
-                _saved = true;
+				_saved = true;
                 _homemenu = false;
             }
 
@@ -128,7 +133,7 @@ SceneType RenderScene::Render(struct nk_font *small, struct nk_font *normal) {
 
     if (_baseselected && _selectedBase) {
 
-        nk_style_set_font(_ctx, &small->handle);
+        nk_style_set_font(_ctx, &smallfont->handle);
 
         int cash = _gameLogic->getPlayerCash();
 
@@ -239,7 +244,7 @@ SceneType RenderScene::Render(struct nk_font *small, struct nk_font *normal) {
         ss << "X";
         ss << _time;
 
-        nk_style_set_font(_ctx, &small->handle);
+        nk_style_set_font(_ctx, &smallfont->handle);
         if (nk_button_label(_ctx, ss.str().c_str())) {
 
             _time = _gameLogic->multiplyTime();

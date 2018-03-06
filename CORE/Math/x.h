@@ -22,7 +22,14 @@ template<class Type> void X_Swap(Type& a, Type& b)
 
 #include <time.h>
 #include "xSimpleTypes.h"
+
+#ifdef _WIN32
+#include <malloc.h>
+#define alloca _alloca
+#else
 #include <alloca.h>
+#endif
+
 #include <stdlib.h>
 #define xAlloca(x)	alloca(x)
 
