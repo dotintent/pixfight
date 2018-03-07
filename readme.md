@@ -6,7 +6,7 @@ This is an opensource crossplatform pixelart turn based strategy with AI done in
 [2. Credits](#2-Credits)  
 [3. 3rd party libraries](#3-3rd-party-libraries)  
 [4. Building](#4.-Building)  
-[5. Next steps](#5.-Next-steps)   
+[5. Next steps](#Next-steps)   
 
 #1. Idea
 
@@ -22,7 +22,6 @@ Big thanks to [infullmobile](www.infullmobile.com) for providing textures for th
 
 #4. Building
 
-<a id="5.-Next-steps" />
-#5. Next steps
+#Next steps
 
 
