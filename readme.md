@@ -1,6 +1,6 @@
 #Pixfight
 
-This is an opensource crossplatform pixelart turn based strategy with AI done in C++14 with OpenGL 2.0 ES / 3.2 Core. With native applications for each platform (iOS, macOS, Linux, Windows, Android)
+This is an opensource crossplatform pixelart turn based strategy with AI. Done in C++14 with OpenGL 2.0 ES / 3.2 Core. With native applications for each platform (iOS, macOS, Linux, Windows, Android)
 
 ##System Requirements:
 
@@ -41,7 +41,7 @@ A: I wanted to learn new languages and libraries and understand how to connect C
 
 #1. Idea
 
-The root idea behind this project is to show how to integrate C++ code with some 3rd party libraries into your native application done in other platforms as a "business logic" Core game logic is written in C++14 and use FMOD, OpenGL and freetype2 as dependencies. Each platform uses this Core to render game in their native environment. (e.g: Android in Java, iOS in objC etc.)
+The root idea behind this project is to show how to integrate C++ code with some 3rd party libraries into your native application, done in other platforms as a "business logic" Core game logic is written in C++14 and use FMOD, OpenGL and freetype2 as dependencies. Each platform uses this Core to render game in their native environment. (e.g: Android in Java, iOS in objC etc.)
 
 AI in this game is based on the following article from [gamasutra](https://www.gamasutra.com/view/feature/129959/designing_ai_algorithms_for_.php)
 
@@ -55,7 +55,7 @@ This project use the following 3rd party libraries:
 
 Gaphics library - [OpenGL](https://www.khronos.org/opengl)  
 Sound library - [FMOD](https://www.fmod.com)  
-Fount loading - [freetype2](https://www.freetype.org)  
+Font loading - [freetype2](https://www.freetype.org)  
 Image loading - [stb_image](https://github.com/nothings/stb)  
 UI components on Linux and Windows - [nuclear](https://github.com/vurtun/nuklear)  
 Window creation and input on Linux and Windows [GLFW](http://www.glfw.org)  
