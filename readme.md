@@ -2,6 +2,36 @@
 
 This is an opensource crossplatform pixelart turn based strategy with AI done in C++14 with OpenGL 2.0 ES / 3.2 Core. With native applications for each platform (iOS, macOS, Linux, Windows, Android)
 
+##System Requirements:
+
+Basically this should run on modern sandwich toasters: 
+
+* 32Bit operating system 
+* Single core CPU running at about 800Mhz (dual core 1Ghz recommended)
+* 128MB RAM (256 recommended)
+* GPU able to run GL2.0 ES or 3.2Core Profile with about 128MB (256 recommended)
+* About 20MB disk space (depends on platform and build type)
+* Music card
+
+## FAQ:
+
+Q: Can you provide a *.exe or *.ipa for me?  
+A: No, if you want to run this please download the appropriate IDE and build it for yourself.
+
+Q: Can I make a spinoff / modify it?   
+A: Of course the whole idea of this project is to motivate people to make this even better.
+
+Q: Do you consider support for other platforms like Switch, PS4, HTML5?  
+A: Yes, but I don't have access to the hardware required to build it or test it. Most likely I will try to build HMTL5 version using Web-assembly.
+
+Q: Can I contribute ?  
+A: Yes! If you think you are able to help adding another platform drop me a line or fork this repo and make pull request.
+
+Q: Why did you not make it a true cross-platform (Raw OpenGL + C++) ?  
+A: I wanted to learn new languages and libraries and understand how to connect C++ code to native application.
+
+## Contents
+
 [1. Idea](#1.-Idea)  
 [2. Credits](#2.-Credits)  
 [3. 3rd party libraries](#3.-3rd-party-libraries)  
@@ -11,7 +41,7 @@ This is an opensource crossplatform pixelart turn based strategy with AI done in
 
 #1. Idea
 
-The root idea behind this project is to show how to integrate C++ code with some 3rd party libraries into your native application done in other platforms as a "business logic" Core game logic is written in C++14 and use FMOD, OpenGL and freetype2 as dependencies. Each platform uses this Core to render game in their native environment. (Eg Android in Java, iOS in objC etc.)
+The root idea behind this project is to show how to integrate C++ code with some 3rd party libraries into your native application done in other platforms as a "business logic" Core game logic is written in C++14 and use FMOD, OpenGL and freetype2 as dependencies. Each platform uses this Core to render game in their native environment. (e.g: Android in Java, iOS in objC etc.)
 
 AI in this game is based on the following article from [gamasutra](https://www.gamasutra.com/view/feature/129959/designing_ai_algorithms_for_.php)
 
