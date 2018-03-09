@@ -136,7 +136,8 @@ This project require at least `Visual Studio 2017 community version`
 #5. Next steps  
   
   
-* Game need a lot of refactoring mostly in C++ code.
+* Add Undo / Redo move
+* Game need a lot of refactoring mostly in C++ code
 * Bugfixes  
 * I'm planning to add hot seats mode like in Heroes game
 * Multiplayer    
