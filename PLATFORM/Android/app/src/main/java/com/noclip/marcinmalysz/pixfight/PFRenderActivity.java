@@ -191,7 +191,7 @@ public class PFRenderActivity extends AppCompatActivity {
 
         Date currentTime = Calendar.getInstance().getTime();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy_HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         String dateString = sdf.format(currentTime);

@@ -107,11 +107,7 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
                 time (&rawtime);
                 timeinfo = localtime(&rawtime);
 
-#ifdef _WIN32
 				strftime(buffer, sizeof(buffer), "%m_%d_%Y_%I_%M_%S", timeinfo);
-#else
-                strftime(buffer, sizeof(buffer), "%m_%d_%Y_%I:%M:%S", timeinfo);
-#endif
 
                 std::string str(buffer);
 
