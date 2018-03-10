@@ -30,6 +30,15 @@ A: Yes! If you think you are able to help adding another platform drop me a line
 Q: Why did you not make it a true cross-platform (Raw OpenGL + C++) ?  
 A: I wanted to learn new languages and libraries and understand how to connect C++ code to native application.
 
+
+## Gallery
+
+!["NO IMAGE"](images/iphone.png "iPhone")  
+!["NO IMAGE"](images/pixandroid.png "Android")  
+!["NO IMAGE"](images/pixlinux.png "Linux")    
+!["NO IMAGE"](images/pixmacos.png "macOS")  
+!["NO IMAGE"](images/pixwin32.png "Windows")  
+
 ## Contents
 
 [1. Idea](#1.-Idea)  
