@@ -33,11 +33,11 @@ A: I wanted to learn new languages and libraries and understand how to connect C
 
 ## Gallery
 
-!["NO IMAGE"](images/iphone.png =250x "iPhone") 
-!["NO IMAGE"](images/pixandroid.png =250x "Android")  
-!["NO IMAGE"](images/pixlinux.png =250x "Linux")
-!["NO IMAGE"](images/pixmacos.png =250x "macOS")   
-!["NO IMAGE"](images/pixwin32.png =250x "Windows")  
+![iphone](images/iphone.png =250x) 
+![Android](images/pixandroid.png =250x)  
+![Linux](images/pixlinux.png =250x)
+![macOS](images/pixmacos.png =250x)   
+![Windows](images/pixwin32.png =250x)  
 
 ## Contents
 
