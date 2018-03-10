@@ -33,11 +33,11 @@ A: I wanted to learn new languages and libraries and understand how to connect C
 
 ## Gallery
 
-<div style="width:50%">![iphone](images/iphone.png =250x)</div>
-<div style="width:50%">![Android](images/pixandroid.png =250x)</div>  
-<div style="width:50%">![Linux](images/pixlinux.png =250x)</div> 
-<div style="width:50%">![macOS](images/pixmacos.png =250x)</div>   
-<div style="width:50%">![Windows](images/pixwin32.png =250x)</div>  
+<img src="images/iphone.png" width="300">
+<img src="images/pixandroid.png" width="300">
+<img src="images/pixlinux.png" width="300">
+<img src="images/pixmacos.png" width="300">
+<img src="images/pixwin32.png" width="300">
 
 ## Contents
 
