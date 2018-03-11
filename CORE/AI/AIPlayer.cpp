@@ -967,13 +967,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                             break;
                                         case DESTROY_SECOND: {
 
-                                            fUnit->setUnitMode(UNIT_INTERFACE);
+                                            fUnit->setUnitMode(UNIT_NONE);
                                             unitsToRemove.push_back(fUnit->getUniqueID());
                                         }
                                             break;
                                         case DESTROY_BOTH: {
 
-                                            fUnit->setUnitMode(UNIT_INTERFACE);
+                                            fUnit->setUnitMode(UNIT_NONE);
                                             unitsToRemove.push_back(currentObject->getUniqueID());
                                             unitsToRemove.push_back(fUnit->getUniqueID());
                                             currentObject = nullptr;
@@ -1148,13 +1148,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                 break;
                                             case DESTROY_SECOND: {
 
-                                                fUnit->setUnitMode(UNIT_INTERFACE);
+                                                fUnit->setUnitMode(UNIT_NONE);
                                                 unitsToRemove.push_back(fUnit->getUniqueID());
                                             }
                                                 break;
                                             case DESTROY_BOTH: {
 
-                                                fUnit->setUnitMode(UNIT_INTERFACE);
+                                                fUnit->setUnitMode(UNIT_NONE);
                                                 unitsToRemove.push_back(currentObject->getUniqueID());
                                                 unitsToRemove.push_back(fUnit->getUniqueID());
                                                 currentObject = nullptr;
@@ -1370,13 +1370,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                             break;
                                         case DESTROY_SECOND: {
 
-                                            fUnit->setUnitMode(UNIT_INTERFACE);
+                                            fUnit->setUnitMode(UNIT_NONE);
                                             unitsToRemove.push_back(fUnit->getUniqueID());
                                         }
                                             break;
                                         case DESTROY_BOTH: {
 
-                                            fUnit->setUnitMode(UNIT_INTERFACE);
+                                            fUnit->setUnitMode(UNIT_NONE);
                                             unitsToRemove.push_back(currentObject->getUniqueID());
                                             unitsToRemove.push_back(fUnit->getUniqueID());
                                             currentObject = nullptr;
@@ -1532,13 +1532,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                                     break;
                                                                 case DESTROY_SECOND: {
 
-                                                                    fUnit->setUnitMode(UNIT_INTERFACE);
+                                                                    fUnit->setUnitMode(UNIT_NONE);
                                                                     unitsToRemove.push_back(fUnit->getUniqueID());
                                                                 }
                                                                     break;
                                                                 case DESTROY_BOTH: {
 
-                                                                    fUnit->setUnitMode(UNIT_INTERFACE);
+                                                                    fUnit->setUnitMode(UNIT_NONE);
                                                                     unitsToRemove.push_back(currentObject->getUniqueID());
                                                                     unitsToRemove.push_back(fUnit->getUniqueID());
                                                                     currentObject = nullptr;
@@ -1639,13 +1639,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                 break;
                                             case DESTROY_SECOND: {
 
-                                                fUnit->setUnitMode(UNIT_INTERFACE);
+                                                fUnit->setUnitMode(UNIT_NONE);
                                                 unitsToRemove.push_back(fUnit->getUniqueID());
                                             }
                                                 break;
                                             case DESTROY_BOTH: {
 
-                                                fUnit->setUnitMode(UNIT_INTERFACE);
+                                                fUnit->setUnitMode(UNIT_NONE);
                                                 unitsToRemove.push_back(currentObject->getUniqueID());
                                                 unitsToRemove.push_back(fUnit->getUniqueID());
                                                 currentObject = nullptr;
@@ -1802,13 +1802,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                                         break;
                                                                     case DESTROY_SECOND: {
 
-                                                                        fUnit->setUnitMode(UNIT_INTERFACE);
+                                                                        fUnit->setUnitMode(UNIT_NONE);
                                                                         unitsToRemove.push_back(fUnit->getUniqueID());
                                                                     }
                                                                         break;
                                                                     case DESTROY_BOTH: {
 
-                                                                        fUnit->setUnitMode(UNIT_INTERFACE);
+                                                                        fUnit->setUnitMode(UNIT_NONE);
                                                                         unitsToRemove.push_back(currentObject->getUniqueID());
                                                                         unitsToRemove.push_back(fUnit->getUniqueID());
                                                                         currentObject = nullptr;
@@ -2127,13 +2127,13 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                                                         break;
                                                     case DESTROY_SECOND: {
 
-                                                        fightUnit->setUnitMode(UNIT_INTERFACE);
+                                                        fightUnit->setUnitMode(UNIT_NONE);
                                                         unitsToRemove.push_back(fightUnit->getUniqueID());
                                                     }
                                                         break;
                                                     case DESTROY_BOTH: {
 
-                                                        fightUnit->setUnitMode(UNIT_INTERFACE);
+                                                        fightUnit->setUnitMode(UNIT_NONE);
                                                         unitsToRemove.push_back(currentObject->getUniqueID());
                                                         unitsToRemove.push_back(fightUnit->getUniqueID());
                                                         currentObject = nullptr;
@@ -2368,8 +2368,8 @@ std::vector<xVec2> AIPlayer::getAIPoints(GameUnit* current, const int & maxlengh
             for (auto A : units){
                 
                 TestPoint2 = A->getRealPosition();
-                
-                if (AlmostEqual(TestPoint, TestPoint2)) { //TODO: A-> UNIT_INTEFACE && teamID != currentTEAMID
+
+                if (AlmostEqual(TestPoint, TestPoint2) && A->getUnitMode() != UNIT_NONE) {
                    
                     nBreak = true;
                     break;
@@ -2428,8 +2428,8 @@ std::vector<xVec2> AIPlayer::getAIPoints(GameUnit* current, const int & maxlengh
                 for (auto A : units) {
                     
                     TestPoint2 = A->getRealPosition();
-                    
-                    if (AlmostEqual(TestPoint, TestPoint2)) {
+
+                    if (AlmostEqual(TestPoint, TestPoint2) && A->getUnitMode() != UNIT_NONE) {
                      
                         nBreak = true;
                         break;
@@ -2482,8 +2482,8 @@ std::vector<xVec2> AIPlayer::getAIPoints(GameUnit* current, const int & maxlengh
                 for (auto A : units) {
                    
                     TestPoint2 = A->getRealPosition();
-                    
-                    if (AlmostEqual(TestPoint, TestPoint2)) {
+
+                    if (AlmostEqual(TestPoint, TestPoint2) && A->getUnitMode() != UNIT_NONE) {
                         
                         nBreak = true;
                         break;
