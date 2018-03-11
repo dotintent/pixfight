@@ -62,6 +62,7 @@ Big thanks to [infullmobile](https://www.infullmobile.com) for providing texture
 
 This project use the following 3rd party libraries:
 
+2D Helper library - [FurionGL](http://rezoner.net/)  
 Gaphics library - [OpenGL](https://www.khronos.org/opengl)  
 Sound library - [FMOD](https://www.fmod.com)  
 Font loading - [freetype2](https://www.freetype.org)  
