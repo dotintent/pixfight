@@ -14,6 +14,9 @@
 		1C74E649201A7E2800334C21 /* pasage.map in Resources */ = {isa = PBXBuildFile; fileRef = 1CE784EC2017B9E400819AF2 /* pasage.map */; };
 		1C74E64A201A7E2800334C21 /* tutorial.map in Resources */ = {isa = PBXBuildFile; fileRef = 1CE784F02017B9E400819AF2 /* tutorial.map */; };
 		1C74E64B201A7E2800334C21 /* kingofhill.map in Resources */ = {isa = PBXBuildFile; fileRef = 1CE784F62017B9E400819AF2 /* kingofhill.map */; };
+		1C86441D2058112000AD4361 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C86441C2058112000AD4361 /* libfreetype.a */; };
+		1C86441F2058112300AD4361 /* liblzma.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C86441E2058112300AD4361 /* liblzma.a */; };
+		1C8644212058112500AD4361 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C8644202058112500AD4361 /* libpng.a */; };
 		1C954A70201C74140081C255 /* PFLoadGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C954A6F201C74140081C255 /* PFLoadGameViewController.m */; };
 		1CB77FE8201A21FA008BC2B8 /* PFRenderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CB77FE7201A21FA008BC2B8 /* PFRenderViewController.mm */; };
 		1CB77FEC201A286D008BC2B8 /* PFSelectTeamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB77FEA201A286D008BC2B8 /* PFSelectTeamController.m */; };
@@ -162,12 +165,10 @@
 		1CE786332017BA2100819AF2 /* fontsimple.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 1CE786312017BA2100819AF2 /* fontsimple.vsh */; };
 		1CE786342017BA2100819AF2 /* fontsimple.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 1CE786322017BA2100819AF2 /* fontsimple.fsh */; };
 		1CE786722017BD7000819AF2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE786712017BD7000819AF2 /* OpenGL.framework */; };
-		1CE786732017CE9200819AF2 /* libfreetype.6.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 1CE7866E2017BCCD00819AF2 /* libfreetype.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1CE786752017CE9500819AF2 /* libfmodL.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 1CE784D32017B9B600819AF2 /* libfmodL.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1CE786762017CE9700819AF2 /* libfmod.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 1CE784D42017B9B600819AF2 /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1CE786772017CEB100819AF2 /* libfmodL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE784D32017B9B600819AF2 /* libfmodL.dylib */; };
 		1CE786782017CEB300819AF2 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE784D42017B9B600819AF2 /* libfmod.dylib */; };
-		1CE786792017CEB800819AF2 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE7866E2017BCCD00819AF2 /* libfreetype.6.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -178,7 +179,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				1CE786762017CE9700819AF2 /* libfmod.dylib in Embed Libraries */,
-				1CE786732017CE9200819AF2 /* libfreetype.6.dylib in Embed Libraries */,
 				1CE786752017CE9500819AF2 /* libfmodL.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
@@ -191,6 +191,9 @@
 		1C74E63F201A4F7900334C21 /* NSView+DisableActions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSView+DisableActions.m"; sourceTree = "<group>"; };
 		1C74E641201A5C7500334C21 /* PFRendererGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFRendererGLView.h; sourceTree = "<group>"; };
 		1C74E642201A5C7500334C21 /* PFRendererGLView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFRendererGLView.mm; sourceTree = "<group>"; };
+		1C86441C2058112000AD4361 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../../../../usr/local/lib/libfreetype.a; sourceTree = "<group>"; };
+		1C86441E2058112300AD4361 /* liblzma.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblzma.a; path = ../../../../../../../usr/local/lib/liblzma.a; sourceTree = "<group>"; };
+		1C8644202058112500AD4361 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = ../../../../../../../usr/local/lib/libpng.a; sourceTree = "<group>"; };
 		1C954A6E201C74140081C255 /* PFLoadGameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFLoadGameViewController.h; sourceTree = "<group>"; };
 		1C954A6F201C74140081C255 /* PFLoadGameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PFLoadGameViewController.m; sourceTree = "<group>"; };
 		1CB77FE6201A21FA008BC2B8 /* PFRenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFRenderViewController.h; sourceTree = "<group>"; };
@@ -413,59 +416,6 @@
 		1CE785A72017B9E400819AF2 /* Core-pch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "Core-pch.cpp"; sourceTree = "<group>"; };
 		1CE786312017BA2100819AF2 /* fontsimple.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fontsimple.vsh; sourceTree = "<group>"; };
 		1CE786322017BA2100819AF2 /* fontsimple.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fontsimple.fsh; sourceTree = "<group>"; };
-		1CE786392017BCCD00819AF2 /* ftsnames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftsnames.h; sourceTree = "<group>"; };
-		1CE7863A2017BCCD00819AF2 /* ftwinfnt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftwinfnt.h; sourceTree = "<group>"; };
-		1CE7863B2017BCCD00819AF2 /* ftpcfdrv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftpcfdrv.h; sourceTree = "<group>"; };
-		1CE7863C2017BCCD00819AF2 /* ftsizes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftsizes.h; sourceTree = "<group>"; };
-		1CE7863D2017BCCD00819AF2 /* fttypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fttypes.h; sourceTree = "<group>"; };
-		1CE7863E2017BCCD00819AF2 /* ftmm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmm.h; sourceTree = "<group>"; };
-		1CE786402017BCCD00819AF2 /* ftstdlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftstdlib.h; sourceTree = "<group>"; };
-		1CE786412017BCCD00819AF2 /* ftheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftheader.h; sourceTree = "<group>"; };
-		1CE786422017BCCD00819AF2 /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
-		1CE786432017BCCD00819AF2 /* ftoption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftoption.h; sourceTree = "<group>"; };
-		1CE786442017BCCD00819AF2 /* ftmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmodule.h; sourceTree = "<group>"; };
-		1CE786452017BCCD00819AF2 /* ftmodapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmodapi.h; sourceTree = "<group>"; };
-		1CE786462017BCCD00819AF2 /* ftbzip2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftbzip2.h; sourceTree = "<group>"; };
-		1CE786472017BCCD00819AF2 /* ttunpat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ttunpat.h; sourceTree = "<group>"; };
-		1CE786482017BCCD00819AF2 /* fttrigon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fttrigon.h; sourceTree = "<group>"; };
-		1CE786492017BCCD00819AF2 /* ftbbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftbbox.h; sourceTree = "<group>"; };
-		1CE7864A2017BCCD00819AF2 /* ftgzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftgzip.h; sourceTree = "<group>"; };
-		1CE7864B2017BCCD00819AF2 /* ftoutln.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftoutln.h; sourceTree = "<group>"; };
-		1CE7864C2017BCCD00819AF2 /* ftadvanc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftadvanc.h; sourceTree = "<group>"; };
-		1CE7864D2017BCCD00819AF2 /* ftsynth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftsynth.h; sourceTree = "<group>"; };
-		1CE7864E2017BCCD00819AF2 /* fterrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fterrors.h; sourceTree = "<group>"; };
-		1CE7864F2017BCCD00819AF2 /* ftgasp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftgasp.h; sourceTree = "<group>"; };
-		1CE786502017BCCD00819AF2 /* ftstroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftstroke.h; sourceTree = "<group>"; };
-		1CE786512017BCCD00819AF2 /* ftcache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftcache.h; sourceTree = "<group>"; };
-		1CE786522017BCCD00819AF2 /* ftotval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftotval.h; sourceTree = "<group>"; };
-		1CE786532017BCCD00819AF2 /* freetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = freetype.h; sourceTree = "<group>"; };
-		1CE786542017BCCD00819AF2 /* ftincrem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftincrem.h; sourceTree = "<group>"; };
-		1CE786552017BCCD00819AF2 /* ftfntfmt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftfntfmt.h; sourceTree = "<group>"; };
-		1CE786562017BCCD00819AF2 /* ftttdrv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftttdrv.h; sourceTree = "<group>"; };
-		1CE786572017BCCD00819AF2 /* fterrdef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fterrdef.h; sourceTree = "<group>"; };
-		1CE786582017BCCD00819AF2 /* ttnameid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ttnameid.h; sourceTree = "<group>"; };
-		1CE786592017BCCD00819AF2 /* ftpfr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftpfr.h; sourceTree = "<group>"; };
-		1CE7865A2017BCCD00819AF2 /* ftgxval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftgxval.h; sourceTree = "<group>"; };
-		1CE7865B2017BCCD00819AF2 /* ftcffdrv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftcffdrv.h; sourceTree = "<group>"; };
-		1CE7865C2017BCCD00819AF2 /* ftchapters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftchapters.h; sourceTree = "<group>"; };
-		1CE7865D2017BCCD00819AF2 /* tttags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tttags.h; sourceTree = "<group>"; };
-		1CE7865E2017BCCD00819AF2 /* ftlzw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftlzw.h; sourceTree = "<group>"; };
-		1CE7865F2017BCCD00819AF2 /* ftsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftsystem.h; sourceTree = "<group>"; };
-		1CE786602017BCCD00819AF2 /* t1tables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = t1tables.h; sourceTree = "<group>"; };
-		1CE786612017BCCD00819AF2 /* ftimage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftimage.h; sourceTree = "<group>"; };
-		1CE786622017BCCD00819AF2 /* tttables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tttables.h; sourceTree = "<group>"; };
-		1CE786632017BCCD00819AF2 /* ftcid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftcid.h; sourceTree = "<group>"; };
-		1CE786642017BCCD00819AF2 /* ftglyph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftglyph.h; sourceTree = "<group>"; };
-		1CE786652017BCCD00819AF2 /* ftmoderr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmoderr.h; sourceTree = "<group>"; };
-		1CE786662017BCCD00819AF2 /* ftbitmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftbitmap.h; sourceTree = "<group>"; };
-		1CE786672017BCCD00819AF2 /* ftlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftlist.h; sourceTree = "<group>"; };
-		1CE786682017BCCD00819AF2 /* ftmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmac.h; sourceTree = "<group>"; };
-		1CE786692017BCCD00819AF2 /* ftlcdfil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftlcdfil.h; sourceTree = "<group>"; };
-		1CE7866A2017BCCD00819AF2 /* ftautoh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftautoh.h; sourceTree = "<group>"; };
-		1CE7866B2017BCCD00819AF2 /* ftbdf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftbdf.h; sourceTree = "<group>"; };
-		1CE7866C2017BCCD00819AF2 /* ftrender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftrender.h; sourceTree = "<group>"; };
-		1CE7866D2017BCCD00819AF2 /* ft2build.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ft2build.h; sourceTree = "<group>"; };
-		1CE7866E2017BCCD00819AF2 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libfreetype.6.dylib; sourceTree = "<group>"; };
 		1CE786712017BD7000819AF2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -475,8 +425,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CE786722017BD7000819AF2 /* OpenGL.framework in Frameworks */,
+				1C86441D2058112000AD4361 /* libfreetype.a in Frameworks */,
+				1C86441F2058112300AD4361 /* liblzma.a in Frameworks */,
+				1C8644212058112500AD4361 /* libpng.a in Frameworks */,
 				1CE786772017CEB100819AF2 /* libfmodL.dylib in Frameworks */,
-				1CE786792017CEB800819AF2 /* libfreetype.6.dylib in Frameworks */,
 				1CE786782017CEB300819AF2 /* libfmod.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -526,7 +478,6 @@
 			isa = PBXGroup;
 			children = (
 				1CE784D72017B9E400819AF2 /* CORE */,
-				1CE786352017BCCD00819AF2 /* freetype */,
 				1CE784C82017B9B600819AF2 /* FMOD */,
 				1CE784B02017B70B00819AF2 /* PixFight */,
 				1CE784AF2017B70B00819AF2 /* Products */,
@@ -943,101 +894,12 @@
 			path = font;
 			sourceTree = "<group>";
 		};
-		1CE786352017BCCD00819AF2 /* freetype */ = {
-			isa = PBXGroup;
-			children = (
-				1CE786362017BCCD00819AF2 /* include */,
-				1CE7866E2017BCCD00819AF2 /* libfreetype.6.dylib */,
-			);
-			path = freetype;
-			sourceTree = "<group>";
-		};
-		1CE786362017BCCD00819AF2 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				1CE786372017BCCD00819AF2 /* freetype2 */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		1CE786372017BCCD00819AF2 /* freetype2 */ = {
-			isa = PBXGroup;
-			children = (
-				1CE786382017BCCD00819AF2 /* freetype */,
-				1CE7866D2017BCCD00819AF2 /* ft2build.h */,
-			);
-			path = freetype2;
-			sourceTree = "<group>";
-		};
-		1CE786382017BCCD00819AF2 /* freetype */ = {
-			isa = PBXGroup;
-			children = (
-				1CE786392017BCCD00819AF2 /* ftsnames.h */,
-				1CE7863A2017BCCD00819AF2 /* ftwinfnt.h */,
-				1CE7863B2017BCCD00819AF2 /* ftpcfdrv.h */,
-				1CE7863C2017BCCD00819AF2 /* ftsizes.h */,
-				1CE7863D2017BCCD00819AF2 /* fttypes.h */,
-				1CE7863E2017BCCD00819AF2 /* ftmm.h */,
-				1CE7863F2017BCCD00819AF2 /* config */,
-				1CE786452017BCCD00819AF2 /* ftmodapi.h */,
-				1CE786462017BCCD00819AF2 /* ftbzip2.h */,
-				1CE786472017BCCD00819AF2 /* ttunpat.h */,
-				1CE786482017BCCD00819AF2 /* fttrigon.h */,
-				1CE786492017BCCD00819AF2 /* ftbbox.h */,
-				1CE7864A2017BCCD00819AF2 /* ftgzip.h */,
-				1CE7864B2017BCCD00819AF2 /* ftoutln.h */,
-				1CE7864C2017BCCD00819AF2 /* ftadvanc.h */,
-				1CE7864D2017BCCD00819AF2 /* ftsynth.h */,
-				1CE7864E2017BCCD00819AF2 /* fterrors.h */,
-				1CE7864F2017BCCD00819AF2 /* ftgasp.h */,
-				1CE786502017BCCD00819AF2 /* ftstroke.h */,
-				1CE786512017BCCD00819AF2 /* ftcache.h */,
-				1CE786522017BCCD00819AF2 /* ftotval.h */,
-				1CE786532017BCCD00819AF2 /* freetype.h */,
-				1CE786542017BCCD00819AF2 /* ftincrem.h */,
-				1CE786552017BCCD00819AF2 /* ftfntfmt.h */,
-				1CE786562017BCCD00819AF2 /* ftttdrv.h */,
-				1CE786572017BCCD00819AF2 /* fterrdef.h */,
-				1CE786582017BCCD00819AF2 /* ttnameid.h */,
-				1CE786592017BCCD00819AF2 /* ftpfr.h */,
-				1CE7865A2017BCCD00819AF2 /* ftgxval.h */,
-				1CE7865B2017BCCD00819AF2 /* ftcffdrv.h */,
-				1CE7865C2017BCCD00819AF2 /* ftchapters.h */,
-				1CE7865D2017BCCD00819AF2 /* tttags.h */,
-				1CE7865E2017BCCD00819AF2 /* ftlzw.h */,
-				1CE7865F2017BCCD00819AF2 /* ftsystem.h */,
-				1CE786602017BCCD00819AF2 /* t1tables.h */,
-				1CE786612017BCCD00819AF2 /* ftimage.h */,
-				1CE786622017BCCD00819AF2 /* tttables.h */,
-				1CE786632017BCCD00819AF2 /* ftcid.h */,
-				1CE786642017BCCD00819AF2 /* ftglyph.h */,
-				1CE786652017BCCD00819AF2 /* ftmoderr.h */,
-				1CE786662017BCCD00819AF2 /* ftbitmap.h */,
-				1CE786672017BCCD00819AF2 /* ftlist.h */,
-				1CE786682017BCCD00819AF2 /* ftmac.h */,
-				1CE786692017BCCD00819AF2 /* ftlcdfil.h */,
-				1CE7866A2017BCCD00819AF2 /* ftautoh.h */,
-				1CE7866B2017BCCD00819AF2 /* ftbdf.h */,
-				1CE7866C2017BCCD00819AF2 /* ftrender.h */,
-			);
-			path = freetype;
-			sourceTree = "<group>";
-		};
-		1CE7863F2017BCCD00819AF2 /* config */ = {
-			isa = PBXGroup;
-			children = (
-				1CE786402017BCCD00819AF2 /* ftstdlib.h */,
-				1CE786412017BCCD00819AF2 /* ftheader.h */,
-				1CE786422017BCCD00819AF2 /* ftconfig.h */,
-				1CE786432017BCCD00819AF2 /* ftoption.h */,
-				1CE786442017BCCD00819AF2 /* ftmodule.h */,
-			);
-			path = config;
-			sourceTree = "<group>";
-		};
 		1CE786702017BD7000819AF2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1C8644202058112500AD4361 /* libpng.a */,
+				1C86441E2058112300AD4361 /* liblzma.a */,
+				1C86441C2058112000AD4361 /* libfreetype.a */,
 				1CE786712017BD7000819AF2 /* OpenGL.framework */,
 			);
 			name = Frameworks;
@@ -1396,14 +1258,14 @@
 				DEVELOPMENT_TEAM = 5TSZE6ES9Y;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/FMOD/inc/",
-					"$(SRCROOT)/freetype/include/freetype2/",
+					/usr/local/include/freetype2/,
 				);
 				INFOPLIST_FILE = PixFight/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FMOD/lib",
-					"$(PROJECT_DIR)/freetype",
+					/usr/local/lib/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = NoClip.PixFight;
@@ -1421,14 +1283,14 @@
 				DEVELOPMENT_TEAM = 5TSZE6ES9Y;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/FMOD/inc/",
-					"$(SRCROOT)/freetype/include/freetype2/",
+					/usr/local/include/freetype2/,
 				);
 				INFOPLIST_FILE = PixFight/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FMOD/lib",
-					"$(PROJECT_DIR)/freetype",
+					/usr/local/lib/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = NoClip.PixFight;
