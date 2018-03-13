@@ -1416,8 +1416,6 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
                     unit->setFindID(a);
                     _mainMap->selectTile(touch);
 
-                    unitSelected = true;
-
                     _selectedUnit = unit;
                     this->roadForUnit(unit);
                     break;

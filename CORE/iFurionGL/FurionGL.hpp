@@ -86,7 +86,7 @@ cFGLLINE gLine ( int x1, int y1, int x2, int y2  );
 struct cFGLCIRCLE{ int x, y; int r; };
 cFGLCIRCLE gCircle( int x, int y, int r );
 //-----------------------------------------------------------------------------------//
-struct cFGLPOLY{ cFGLVERTEX * v; int count; void I(int c); void P(int x, int y); void I( int c, cFGLVERTEX * nv ); };
+struct cFGLPOLY{ cFGLPOLY():v(nullptr),count(0) {} cFGLVERTEX * v; int count; void I(int c); void P(int x, int y); void I( int c, cFGLVERTEX * nv ); };
 cFGLPOLY gPoly( int c, cFGLVERTEX * v );
 //-----------------------------------------------------------------------------------//
 typedef unsigned int u32;

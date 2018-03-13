@@ -357,8 +357,7 @@ void cFGLPOLY::I( int c )
 
 void cFGLPOLY::I( int c, cFGLVERTEX * nv )
 {
-	if(v) delete [] v;
-	v = new cFGLVERTEX[c];
+	if (v) delete [] v;
 	count = c;
 	v = nv;
 }

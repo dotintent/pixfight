@@ -73,7 +73,7 @@ GLuint glTextureLoader::loadFile(const std::string & filepath,
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, currentAnisotropy);
     }
     
-    int width, height, comp;
+    int width = 0, height = 0, comp = 0;
 
     std::cout << "[INFO] Loading texture: " << filename << std::endl;
 
