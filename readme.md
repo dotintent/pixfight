@@ -13,6 +13,27 @@ Basically this should run on modern sandwich toasters:
 * About 20MB disk space (depends on platform and build type)
 * Music card
 
+## Controls
+
+Desktop:
+
+* RMB move map
+* LMB select
+* Scroll wheel to zoom
+
+Mobile:
+
+* pinch to scale 
+* use two fingers to move
+* tap to select unit 
+  
+Gameplay:
+
+* Click / tap on base to open build menu
+
+* After selecting unit it will show its area of movement, tap in are to select path and confirm it by tapping / clicking on destination point.
+* To attack tap/klick on your unit and select unit to attack (if you are close enough / artillery use range of movement)
+
 ## FAQ:
 
 Q: Can you provide a *.exe or *.ipa for me?  
