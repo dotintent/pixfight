@@ -3,15 +3,6 @@
 #define NUMBER_OF_COMPONENTS_PER_VERTEX 2
 #define NUMBER_OF_INDICES 6
 
-#ifdef __linux__
-
-    #include <GL/glew.h>
-    #include <GL/gl.h>
-    #include <GLFW/glfw3.h>
-    #define GL_RED_EXT GL_RED
-
-#endif
-
 #ifdef _WIN32
 	
 	#define NOMINMAX
@@ -80,6 +71,13 @@
     #define glBindVertexArray glBindVertexArrayOES
     #define glGenVertexArrays glGenVertexArraysOES
     #define glDeleteVertexArrays glDeleteVertexArraysOES
+
+#elif defined(__linux__)
+
+    #include <GL/glew.h>
+    #include <GL/gl.h>
+    #include <GLFW/glfw3.h>
+    #define GL_RED_EXT GL_RED
 
 #endif
 
