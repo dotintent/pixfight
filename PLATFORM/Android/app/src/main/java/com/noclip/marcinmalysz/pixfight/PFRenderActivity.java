@@ -324,7 +324,7 @@ public class PFRenderActivity extends AppCompatActivity {
                 R.drawable.icon_artillery4
         };
 
-        ListAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), R.drawable.list_item, types) {
+        ListAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_item, types) {
 
             ViewHolder holder;
 
@@ -343,7 +343,7 @@ public class PFRenderActivity extends AppCompatActivity {
 
                 if (convertView == null) {
 
-                    convertView = inflater.inflate(R.drawable.list_item, null);
+                    convertView = inflater.inflate(R.layout.list_item, null);
 
                     holder = new ViewHolder();
 
