@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="pixfight" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/pixfight" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="PLATFORM/Linux" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/pixfight" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+					<Add directory="PLATFORM/Linux" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++14" />
+			<Add option="-fexceptions" />
+			<Add directory="../../CORE/AI" />
+			<Add directory="../../CORE/Audio" />
+			<Add directory="../../CORE/GameLogic" />
+			<Add directory="../../CORE/Math" />
+			<Add directory="../../CORE/PathFinding" />
+			<Add directory="../../CORE/Rendering" />
+			<Add directory="../../CORE/Shader" />
+			<Add directory="../../CORE/font" />
+			<Add directory="../../CORE/iFurionGL" />
+			<Add directory="../../CORE/utilities" />
+			<Add directory="../../CORE/utilities/Timer" />
+			<Add directory="../../CORE" />
+			<Add directory="/usr/include/freetype2" />
+			<Add directory="FMOD/inc" />
+			<Add directory="../Linux" />
+		</Compiler>
+		<Linker>
+			<Add option="-lpthread" />
+			<Add option="-lGL" />
+			<Add option="-lglut" />
+			<Add option="-lfreetype" />
+			<Add option="-lGLEW" />
+			<Add option="-lglfw" />
+			<Add library="FMOD/lib/x86_64/libfmod.so" />
+			<Add library="FMOD/lib/x86_64/libfmodL.so" />
+			<Add library="/usr/lib/x86_64-linux-gnu/libpng.a" />
+			<Add library="/usr/lib/x86_64-linux-gnu/libz.a" />
+		</Linker>
+		<ExtraCommands>
+			<Add before="mkdir -p $(TARGET_OUTPUT_DIR)/data" />
+			<Add before="mkdir -p $(TARGET_OUTPUT_DIR)/data/save" />
+			<Add before='cp  &quot;$(PROJECT_DIR)/FMOD/lib/x86_64/libfmod.so&quot; &quot;/usr/lib/x86_64-linux-gnu&quot;' />
+			<Add before='cp  &quot;$(PROJECT_DIR)/FMOD/lib/x86_64/libfmodL.so&quot; &quot;/usr/lib/x86_64-linux-gnu&quot;' />
+			<Add before='cp  &quot;$(PROJECT_DIR)/FMOD/lib/x86_64/libfmod.so.10&quot; &quot;/usr/lib/x86_64-linux-gnu&quot;' />
+			<Add before='cp  &quot;$(PROJECT_DIR)/FMOD/lib/x86_64/libfmodL.so.10&quot; &quot;/usr/lib/x86_64-linux-gnu&quot;' />
+			<Add before='cp  &quot;$(PROJECT_DIR)/FMOD/lib/x86_64/libfmod.so.10.3&quot; &quot;/usr/lib/x86_64-linux-gnu&quot;' />
+			<Add before='cp  &quot;$(PROJECT_DIR)/FMOD/lib/x86_64/libfmodL.so.10.3&quot; &quot;/usr/lib/x86_64-linux-gnu&quot;' />
+			<Add before='cp &quot;$(PROJECT_DIR)/../../CORE/Resources/FFFATLAN.TTF&quot; &quot;$(TARGET_OUTPUT_DIR)/data&quot;' />
+			<Add before='cp &quot;$(PROJECT_DIR)/../../CORE/Resources/Lato-Black.ttf&quot;  &quot;$(TARGET_OUTPUT_DIR)/data&quot;' />
+			<Add before='cp -a &quot;$(PROJECT_DIR)/../../CORE/Resources/sfx/.&quot; &quot;$(TARGET_OUTPUT_DIR)/data&quot;' />
+			<Add before='cp -a &quot;$(PROJECT_DIR)/../../CORE/Resources/shaders/Desktop/.&quot; &quot;$(TARGET_OUTPUT_DIR)/data&quot;' />
+			<Add before='cp -a &quot;$(PROJECT_DIR)/../../CORE/Resources/maps/.&quot; &quot;$(TARGET_OUTPUT_DIR)/data&quot;' />
+			<Add before='cp -a &quot;$(PROJECT_DIR)/../../CORE/Resources/music/.&quot; &quot;$(TARGET_OUTPUT_DIR)/data&quot;' />
+			<Add before='cp -a &quot;$(PROJECT_DIR)/../../CORE/Resources/textures/.&quot; &quot;$(TARGET_OUTPUT_DIR)/data&quot;' />
+			<Add before='cp -a &quot;$(PROJECT_DIR)/../../CORE/Resources/UI/.&quot; &quot;$(TARGET_OUTPUT_DIR)/data&quot;' />
+		</ExtraCommands>
+		<Unit filename="../../CORE/AI/AIAware.hpp" />
+		<Unit filename="../../CORE/AI/AIBaseInclude.hpp" />
+		<Unit filename="../../CORE/AI/AIObject.cpp" />
+		<Unit filename="../../CORE/AI/AIObject.hpp" />
+		<Unit filename="../../CORE/AI/AIPlayer.cpp" />
+		<Unit filename="../../CORE/AI/AIPlayer.hpp" />
+		<Unit filename="../../CORE/AI/AITask.hpp" />
+		<Unit filename="../../CORE/AI/AITaskGenerator.cpp" />
+		<Unit filename="../../CORE/AI/AITaskGenerator.hpp" />
+		<Unit filename="../../CORE/Audio/Audio.cpp" />
+		<Unit filename="../../CORE/Audio/Audio.hpp" />
+		<Unit filename="../../CORE/Core-pch.cpp" />
+		<Unit filename="../../CORE/Core-pch.hpp" />
+		<Unit filename="../../CORE/EnumOptionMacro.hpp" />
+		<Unit filename="../../CORE/GameLogic/Drawable.hpp" />
+		<Unit filename="../../CORE/GameLogic/GameBase.cpp" />
+		<Unit filename="../../CORE/GameLogic/GameBase.hpp" />
+		<Unit filename="../../CORE/GameLogic/GameEnums.hpp" />
+		<Unit filename="../../CORE/GameLogic/GameLogic.cpp" />
+		<Unit filename="../../CORE/GameLogic/GameLogic.hpp" />
+		<Unit filename="../../CORE/GameLogic/GameMap.cpp" />
+		<Unit filename="../../CORE/GameLogic/GameMap.hpp" />
+		<Unit filename="../../CORE/GameLogic/GameSync.cpp" />
+		<Unit filename="../../CORE/GameLogic/GameSync.hpp" />
+		<Unit filename="../../CORE/GameLogic/GameUnit.cpp" />
+		<Unit filename="../../CORE/GameLogic/GameUnit.hpp" />
+		<Unit filename="../../CORE/GameLogic/MapTile.hpp" />
+		<Unit filename="../../CORE/Math/MathTypes.h" />
+		<Unit filename="../../CORE/Math/x.h" />
+		<Unit filename="../../CORE/Math/x9F32.h" />
+		<Unit filename="../../CORE/Math/xMat33.h" />
+		<Unit filename="../../CORE/Math/xMat34.h" />
+		<Unit filename="../../CORE/Math/xMath.cpp" />
+		<Unit filename="../../CORE/Math/xMath.h" />
+		<Unit filename="../../CORE/Math/xPlane.h" />
+		<Unit filename="../../CORE/Math/xQuat.h" />
+		<Unit filename="../../CORE/Math/xSimpleTypes.h" />
+		<Unit filename="../../CORE/Math/xVec2.h" />
+		<Unit filename="../../CORE/Math/xVec3.cpp" />
+		<Unit filename="../../CORE/Math/xVec3.h" />
+		<Unit filename="../../CORE/Math/xf.h" />
+		<Unit filename="../../CORE/PathFinding/SearchNode.cpp" />
+		<Unit filename="../../CORE/PathFinding/SearchNode.hpp" />
+		<Unit filename="../../CORE/PathFinding/fsa.hpp" />
+		<Unit filename="../../CORE/PathFinding/stlastar.hpp" />
+		<Unit filename="../../CORE/Rendering/DrawingContext.cpp" />
+		<Unit filename="../../CORE/Rendering/DrawingContext.hpp" />
+		<Unit filename="../../CORE/Rendering/GameAnimation.cpp" />
+		<Unit filename="../../CORE/Rendering/GameAnimation.hpp" />
+		<Unit filename="../../CORE/Rendering/Mesh2d.cpp" />
+		<Unit filename="../../CORE/Rendering/Mesh2d.hpp" />
+		<Unit filename="../../CORE/Shader/ShaderProgram.cpp" />
+		<Unit filename="../../CORE/Shader/ShaderProgram.hpp" />
+		<Unit filename="../../CORE/font/FontRender.cpp" />
+		<Unit filename="../../CORE/font/FontRender.hpp" />
+		<Unit filename="../../CORE/iFurionGL/DataTypes.cpp" />
+		<Unit filename="../../CORE/iFurionGL/FGLCollisions.cpp" />
+		<Unit filename="../../CORE/iFurionGL/FGLDrawingDescriptor.cpp" />
+		<Unit filename="../../CORE/iFurionGL/FGLMath.cpp" />
+		<Unit filename="../../CORE/iFurionGL/FGLTexture.cpp" />
+		<Unit filename="../../CORE/iFurionGL/FGLVector.cpp" />
+		<Unit filename="../../CORE/iFurionGL/FurionGL.cpp" />
+		<Unit filename="../../CORE/iFurionGL/FurionGL.hpp" />
+		<Unit filename="../../CORE/utilities/BasePathExtraction.cpp" />
+		<Unit filename="../../CORE/utilities/BasePathExtraction.hpp" />
+		<Unit filename="../../CORE/utilities/CFrustum.hpp" />
+		<Unit filename="../../CORE/utilities/Timer/AndroidTimer.cpp" />
+		<Unit filename="../../CORE/utilities/Timer/AndroidTimer.hpp" />
+		<Unit filename="../../CORE/utilities/Timer/GameTimer.cpp" />
+		<Unit filename="../../CORE/utilities/Timer/GameTimer.hpp" />
+		<Unit filename="../../CORE/utilities/glMatrix4x4.cpp" />
+		<Unit filename="../../CORE/utilities/glMatrix4x4.hpp" />
+		<Unit filename="../../CORE/utilities/glTextureLoader.cpp" />
+		<Unit filename="../../CORE/utilities/glTextureLoader.hpp" />
+		<Unit filename="../../CORE/utilities/stb_image.h" />
+		<Unit filename="BaseScene.hpp" />
+		<Unit filename="LoadGameScene.cpp" />
+		<Unit filename="LoadGameScene.hpp" />
+		<Unit filename="MenuScene.cpp" />
+		<Unit filename="MenuScene.hpp" />
+		<Unit filename="NewGameScene.cpp" />
+		<Unit filename="NewGameScene.hpp" />
+		<Unit filename="PFSettings.cpp" />
+		<Unit filename="PFSettings.h" />
+		<Unit filename="RenderScene.cpp" />
+		<Unit filename="RenderScene.hpp" />
+		<Unit filename="SceneManager.cpp" />
+		<Unit filename="SceneManager.hpp" />
+		<Unit filename="SettingsScene.cpp" />
+		<Unit filename="SettingsScene.hpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="nuklear.h" />
+		<Unit filename="nuklear_glfw_gl3.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

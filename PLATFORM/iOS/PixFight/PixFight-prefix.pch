@@ -1,0 +1,21 @@
+//
+//  PixFight-prefix.pch
+//  PixFight
+//
+//  Created by Marcin Małysz on 03/01/2018.
+//  Copyright © 2018 Marcin Małysz. All rights reserved.
+//
+
+#import <Availability.h>
+#import <TargetConditionals.h>
+
+#ifdef __OBJC__
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+#endif
+
+
+
+
