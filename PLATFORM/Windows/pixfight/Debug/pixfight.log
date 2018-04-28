@@ -1,7 +1,4 @@
-﻿  A subdirectory or file C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\data already exists.
-  A subdirectory or file C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\data\save already exists.
-  A subdirectory or file C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\data\icons already exists.
-  C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\..\FMOD\bin\fmod.dll
+﻿  C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\..\FMOD\bin\fmod.dll
   C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\..\FMOD\bin\fmod_codec_raw.dll
   C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\..\FMOD\bin\fmod_distance_filter.dll
   C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\..\FMOD\bin\fmod_gain.dll
@@ -132,6 +129,7 @@
   C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\..\..\..\CORE\Resources\textures\icons\icon_tank3.png
   C:\Users\noxyt\Desktop\pixfight\PLATFORM\Windows\pixfight\..\..\..\CORE\Resources\textures\icons\icon_tank4.png
          20 file(s) copied.
+  stdafx.cpp
   AIObject.cpp
   AIPlayer.cpp
 c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winspool.h(328): warning C4005: 'MAX_PRIORITY': macro redefinition
@@ -299,65 +297,66 @@ c:\users\noxyt\desktop\pixfight\core\gamelogic\gamelogic.cpp(2271): warning C424
   GameMap.cpp
 c:\users\noxyt\desktop\pixfight\core\core-pch.hpp(13): warning C4005: 'GL_RED_EXT': macro redefinition
   c:\users\noxyt\desktop\pixfight\platform\windows\glew\include\gl\glew.h(12529): note: see previous definition of 'GL_RED_EXT'
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(243): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(244): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(256): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(303): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(311): warning C4018: '<': signed/unsigned mismatch
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(314): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(313): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(316): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(333): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(343): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(358): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(417): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(418): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(423): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(424): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(444): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(445): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(459): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(460): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(480): warning C4244: '=': conversion from 'double' to 'int32_t', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(481): warning C4244: '=': conversion from 'double' to 'int32_t', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(494): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(495): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(507): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(509): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(510): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(515): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(516): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(524): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(525): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(535): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(536): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(543): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(544): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(646): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(659): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(686): warning C4244: '=': conversion from 'const float' to 'unsigned int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(687): warning C4244: '=': conversion from 'const float' to 'unsigned int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(688): warning C4244: '=': conversion from 'const float' to 'unsigned int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(689): warning C4244: '=': conversion from 'const float' to 'unsigned int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(693): warning C4018: '>=': signed/unsigned mismatch
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(694): warning C4018: '>=': signed/unsigned mismatch
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(698): warning C4018: '>=': signed/unsigned mismatch
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(699): warning C4018: '>=': signed/unsigned mismatch
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(701): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(702): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(704): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(705): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(741): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(245): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(262): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(309): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(317): warning C4018: '<': signed/unsigned mismatch
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(320): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(319): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(322): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(339): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(349): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(364): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(369): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(428): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(429): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(434): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(435): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(455): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(456): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(470): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(471): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(491): warning C4244: '=': conversion from 'double' to 'int32_t', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(492): warning C4244: '=': conversion from 'double' to 'int32_t', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(505): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(506): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(518): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(520): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(521): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(526): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(527): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(535): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(536): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(546): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(547): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(554): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(555): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(657): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(670): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(697): warning C4244: '=': conversion from 'const float' to 'unsigned int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(698): warning C4244: '=': conversion from 'const float' to 'unsigned int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(699): warning C4244: '=': conversion from 'const float' to 'unsigned int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(700): warning C4244: '=': conversion from 'const float' to 'unsigned int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(704): warning C4018: '>=': signed/unsigned mismatch
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(705): warning C4018: '>=': signed/unsigned mismatch
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(709): warning C4018: '>=': signed/unsigned mismatch
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(710): warning C4018: '>=': signed/unsigned mismatch
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(712): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(713): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(715): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(716): warning C4244: '=': conversion from 'int32_t' to 'float', possible loss of data
 c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(752): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(777): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(778): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(787): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(803): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(807): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(1059): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(1060): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(1067): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(1068): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(763): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(788): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(789): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(798): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(814): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(818): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(1070): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(1071): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(1078): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\noxyt\desktop\pixfight\core\gamelogic\gamemap.cpp(1079): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   GameSync.cpp
   GameUnit.cpp
 c:\users\noxyt\desktop\pixfight\core\core-pch.hpp(13): warning C4005: 'GL_RED_EXT': macro redefinition
@@ -479,11 +478,12 @@ c:\users\noxyt\desktop\pixfight\core\ifuriongl\furiongl.cpp(36): warning C4244: 
 c:\users\noxyt\desktop\pixfight\core\ifuriongl\furiongl.cpp(37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\noxyt\desktop\pixfight\core\ifuriongl\furiongl.cpp(57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   xMath.cpp
+  xVec3.cpp
+  Generating Code...
+  Compiling...
   SearchNode.cpp
 c:\users\noxyt\desktop\pixfight\core\core-pch.hpp(13): warning C4005: 'GL_RED_EXT': macro redefinition
   c:\users\noxyt\desktop\pixfight\platform\windows\glew\include\gl\glew.h(12529): note: see previous definition of 'GL_RED_EXT'
-  Generating Code...
-  Compiling...
   DrawingContext.cpp
 c:\users\noxyt\desktop\pixfight\core\core-pch.hpp(13): warning C4005: 'GL_RED_EXT': macro redefinition
   c:\users\noxyt\desktop\pixfight\platform\windows\glew\include\gl\glew.h(12529): note: see previous definition of 'GL_RED_EXT'
@@ -524,6 +524,9 @@ c:\users\noxyt\desktop\pixfight\core\utilities\glmatrix4x4.cpp(135): warning C42
   glTextureLoader.cpp
 c:\users\noxyt\desktop\pixfight\core\core-pch.hpp(13): warning C4005: 'GL_RED_EXT': macro redefinition
   c:\users\noxyt\desktop\pixfight\platform\windows\glew\include\gl\glew.h(12529): note: see previous definition of 'GL_RED_EXT'
+  GameTimer.cpp
+  WindowsTimer.cpp
+c:\users\noxyt\desktop\pixfight\core\utilities\timer\windowstimer.cpp(5): warning C4244: '=': conversion from '__int64' to 'double', possible loss of data
   LoadGameScene.cpp
 c:\users\noxyt\desktop\pixfight\core\core-pch.hpp(13): warning C4005: 'GL_RED_EXT': macro redefinition
   c:\users\noxyt\desktop\pixfight\platform\windows\glew\include\gl\glew.h(12529): note: see previous definition of 'GL_RED_EXT'

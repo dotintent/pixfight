@@ -65,7 +65,11 @@ static struct nk_glfw {
     struct nk_vec2 fb_scale;
 } glfw;
 
+#ifdef __APPLE__
+#define NK_SHADER_VERSION "#version 150\n"
+#else
 #define NK_SHADER_VERSION "#version 300 es\n"
+#endif
 
 NK_API void
 nk_glfw3_device_create(void)

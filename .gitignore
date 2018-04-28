@@ -27,3 +27,9 @@ PLATFORM/Windows/pixfight/Debug/
 PLATFORM/Windows/pixfight/Release/
 PLATFORM/Windows/pixfight/data/
 PLATFORM/Windows/pixfight/*.dll
+
+#editor
+MAPEDITOR/PixEditor/DerivedData/
+MAPEDITOR/DerivedData/
+MAPEDITOR/bin/
+MAPEDITOR/nul
