@@ -8,8 +8,6 @@
 
 #pragma once
 
-//#define MAP_EDITOR
-
 #include <fstream>
 
 #include "Core-pch.hpp"
@@ -41,6 +39,7 @@ public:
 
     xVec2 getBias();
     xVec2 getMapSize();
+    xVec2 getRenderSize();
     TTile** getMap();
     float getCurrendScale();
 

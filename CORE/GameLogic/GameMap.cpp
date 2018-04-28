@@ -69,6 +69,7 @@ GameMap::GameMap(const std::string & texPathDirectory) {
     }
 
 #ifdef MAP_EDITOR
+    penSize = 0;
     hideLock = false;
 #endif
 }
@@ -243,8 +244,13 @@ void GameMap::draw(const DrawingContext & context) {
     _offX = fmax((_sx/32.0), 0);
     _offY = fmax((_sy/94.0), 0);
 
+#ifdef MAP_EDITOR
+    _fx = (_drawOffsetX) + _offX + 1;
+    _fy = (_drawOffsetY) + _offY + 1;
+#else
     _fx = (_drawOffsetX) + _offX;
     _fy = (_drawOffsetY) + _offY;
+#endif
 
     if(_fx > _maxX) _fx = _maxX;
     if(_fy > _maxY) _fy = _maxY;
@@ -356,6 +362,11 @@ xVec2 GameMap::getBias() {
 xVec2 GameMap::getMapSize() {
 
     return xVec2(_maxX, _maxY);
+}
+
+xVec2 GameMap::getRenderSize() {
+
+    return xVec2(_renderX, _renderY);
 }
 
 TTile** GameMap::getMap() {

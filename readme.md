@@ -180,13 +180,34 @@ This project require at least `Visual Studio 2017 community version`
 * Open pixfight.sln
 * Press F5 or play button to build and run.
 
+### Mapeditor
+
+Editor uses `Makefile`, you need to install `cmake` to compile and build.
+
+* Open bash console (on Windows you can use mingw)
+* Navigate to pixfight/MAPEDITOR/
+* Type `make` and tap enter
+* Binaries with additional catalogues will be placed in `bin` directory
+
+To run on macOS / Linux navigate to `bin` directory and type `./editor`. Windows will generate appropriate `*.exe` file
+
+To build it on Windows you will need to install [MinGW](http://www.mingw.org/) with `gcc` compiler as dependency. Also you need to download [glew](http://glew.sourceforge.net/) and [glfw](http://www.glfw.org/) and copy content of `lib` and `include` directories to appropriate folders in `C:\MinGW\` (Please choose mingw32 libraries)
+
+If you have problems running editor on macOS (mostly High Sierra) you will need to manually download [glfw source code](https://github.com/glfw/glfw) and follow this steps: (then rebuild)  
+
+* Download and extract the GLFW source code  
+* Open the Terminal  
+* `cd` to the extracted directory  
+* Type in `cmake .`, hit return  
+* A Makefile will be created for you  
+* Type in `make`, hit return  
+* After the compilation process, type in `sudo make install`  
+* The libraries will be copied to `/usr/local/lib/`, the header files to `/usr/local/include/`  
+
 # 5. Next steps  
   
   
 * Add Undo / Redo move
-* Game need a lot of refactoring mostly in C++ code
-* Bugfixes  
-* I'm planning to add hot seats mode like in Heroes game
 * Multiplayer    
 
 I will cooperate with [infullmobile](https://www.infullmobile.com) to create a fully functional iOS/Android version of this game.
