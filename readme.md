@@ -29,12 +29,28 @@ Mobile:
 * use two fingers to move
 * tap to select unit 
   
-Gameplay:
+## How to play:
+
+Your main task is to capture all bases on map, to do that you need infantry units. Capturing the base take 2 turns. You can repair damaged unit (not infantry unit) if you move back into your own base. Repair cost 1 turn.
+If unit stays on base it gets extra defence bonus.
 
 * Click / tap on base to open build menu
 
-* After selecting unit it will show its area of movement, tap in are to select path and confirm it by tapping / clicking on destination point.
+* After selecting unit it will show its area of movement, tap within grey area to select path and confirm it by tapping again by tapping / clicking on destination point.
 * To attack tap/klick on your unit and select unit to attack (if you are close enough / artillery use range of movement)
+
+### Units:
+
+![Infantry](../master/CORE/Resources/textures/icons/icon_infantry1.png) - Infantry unit, cost 75. Can capture bases. Strong against other infantry units, weak against Jeep.  
+
+![Bazooka](../master/CORE/Resources/textures/icons/icon_bazooka1.png) - Bazooka unit, cost 150. Can capture bases. Strong against mobile units, weak against Jeep.  
+ 
+![Jeep](../master/CORE/Resources/textures/icons/icon_jeep1.png) - Jeep unit, cost 200. Strong against infantry units, weak against Tank or Artillery.  
+
+![Tank](../master/CORE/Resources/textures/icons/icon_tank1.png) - Tank unit, cost 300. Strong against mobile and infantry units, weak against Bazooka unit. 
+
+![Artillery](../master/CORE/Resources/textures/icons/icon_artillery1.png) - Artillery unit, cost 200. Strong against any unit. May shoot at distance. If you move it first it cannot shoot. Weak agains Tank and Bazooka unit.
+
 
 ## Download
 

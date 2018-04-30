@@ -42,6 +42,8 @@
     gameLogic = nullptr;
     selectedBase = nullptr;
 
+    self.blurView.alpha = 0.3;
+
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     
     if (!self.context) {

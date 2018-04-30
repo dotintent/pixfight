@@ -109,6 +109,11 @@ GameMap::~GameMap() noexcept {
     }
 }
 
+void GameMap::clearPath() {
+
+    AStarWay.clear();
+}
+
 void GameMap::setup(const int & x, const int & y, const int & Rx, const int & Ry) {
 
     _maxX = x;
@@ -162,7 +167,7 @@ void GameMap::setup(const int & x, const int & y, const int & Rx, const int & Ry
     MAP_WIDTH = _maxX;
     MAP_HEIGHT = _maxY;
 
-    AStarWay.clear();
+    clearPath();
 }
 
 void GameMap::resize(const int & x, const int & y) {
@@ -233,7 +238,7 @@ void GameMap::resize(const int & x, const int & y) {
     MAP_WIDTH = _maxX;
     MAP_HEIGHT = _maxY;
 
-    AStarWay.clear();
+    clearPath();
 }
 
 void GameMap::draw(const DrawingContext & context) {
@@ -244,13 +249,8 @@ void GameMap::draw(const DrawingContext & context) {
     _offX = fmax((_sx/32.0), 0);
     _offY = fmax((_sy/94.0), 0);
 
-#ifdef MAP_EDITOR
     _fx = (_drawOffsetX) + _offX + 1;
     _fy = (_drawOffsetY) + _offY + 1;
-#else
-    _fx = (_drawOffsetX) + _offX;
-    _fy = (_drawOffsetY) + _offY;
-#endif
 
     if(_fx > _maxX) _fx = _maxX;
     if(_fy > _maxY) _fy = _maxY;
@@ -410,7 +410,7 @@ void GameMap::cleanAStar() {
     if (!AStarWay.empty()) {
 
         _selectedPoint = xVec2(-128,-128);
-        AStarWay.clear();
+        clearPath();
     }
 }
 
@@ -537,7 +537,7 @@ void GameMap::selectTile(const xVec2 & p) {
 
     if (!AStarWay.empty()) {
 
-        AStarWay.clear();
+        clearPath();
     }
 }
 
@@ -578,7 +578,7 @@ bool GameMap::selectEndPoint(const xVec2 & p) {
     //#define DISPLAY_SOLUTION 1
     //#define DEBUG_LIST_LENGTHS_ONLY 1
 
-    AStarWay.clear();
+    clearPath();
 
     while(SearchCount < NumSearches) {
 
@@ -649,7 +649,7 @@ bool GameMap::selectEndPoint(const xVec2 & p) {
 #endif
             int steps = 0;
 
-            AStarWay.clear();
+            clearPath();
 
 #if DISPLAY_SOLUTION
             node->PrintNodeInfo();
@@ -724,7 +724,7 @@ bool GameMap::canMoveFromTo(const xVec2 & start, const xVec2 & end) {
 
     const unsigned int NumSearches = 1;
 
-    AStarWay.clear();
+    clearPath();
 
     while(SearchCount < NumSearches) {
 
@@ -748,7 +748,7 @@ bool GameMap::canMoveFromTo(const xVec2 & start, const xVec2 & end) {
 
             int steps = 0;
 
-            AStarWay.clear();
+            clearPath();
             AStarWay.push_back(xVec2(node->x,node->y));
 
             for( ;; )
@@ -772,7 +772,8 @@ bool GameMap::canMoveFromTo(const xVec2 & start, const xVec2 & end) {
         }
         else if( SearchState == AStarSearch<SearchNode>::SEARCH_STATE_FAILED )
         {
-            std::cout<< "Search terminated. Did not find goal state" << std::endl;
+            std::cout<< "Search terminated. Did not find goal state"
+                     << "[" << _nodeStart.x <<","<< _nodeStart.y <<"] - [" << _nodeEnd.x<<","<<_nodeEnd.y<<"]" << std::endl;
         }
 
         SearchCount ++;
@@ -1210,7 +1211,7 @@ bool GameMap::load(const std::string & path) {
     MAP_WIDTH = _maxX;
     MAP_HEIGHT = _maxY;
 
-    AStarWay.clear();
+    clearPath();
     m_file.close();
 
     return true;

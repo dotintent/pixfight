@@ -39,8 +39,11 @@ private:
     Audio *_audio;
 
     struct nk_image _homebtn;
-    struct nk_image _timebtn;
-    struct nk_image _turnbtn;
+	struct nk_image _homebtnp;
+	struct nk_image _timebtn;
+	struct nk_image _timebtnp;
+	struct nk_image _turnbtn;
+	struct nk_image _turnbtnp;
 
     struct nk_image _infantry;
     struct nk_image _bazooka;

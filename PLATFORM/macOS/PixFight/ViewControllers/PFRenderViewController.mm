@@ -43,6 +43,7 @@
     [super viewDidLoad];
 
     self.overlayView.hidden = YES;
+    self.overlayView.alphaValue = 0.3;
     [self.spinner startAnimation:nil];
 
     gameLogic = nullptr;
@@ -72,8 +73,7 @@
 
 - (void)viewWillAppear {
     [super viewWillAppear];
-    //[self.view enableSubViews];
-    
+
     if (!gameLogic) {
         
         self.renderView = [[PFRendererGLView alloc] initWithFrame:self.view.bounds];
@@ -93,11 +93,6 @@
                                                                       return incomingEvent;
                                                                   }];
     }
-}
-
-- (void)viewWillDisappear {
-    [super viewWillDisappear];
-    //[self.view disableSubViews];
 }
 
 - (void)setupGame {

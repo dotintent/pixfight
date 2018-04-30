@@ -1304,7 +1304,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FMOD/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = NOCLIP.PixFight;
+				PRODUCT_BUNDLE_IDENTIFIER = NOCLIP.PixFight.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1329,7 +1329,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FMOD/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = NOCLIP.PixFight;
+				PRODUCT_BUNDLE_IDENTIFIER = NOCLIP.PixFight.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

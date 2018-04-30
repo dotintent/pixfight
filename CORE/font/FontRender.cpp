@@ -140,7 +140,6 @@ void FontRender::begin() {
     glBindTexture(GL_TEXTURE_2D, _tex);
     
     glUniform1i(_uniformTex, 0);
-    glUniform4fv(_uniformColor, 1, _color);
 }
 
 void FontRender::drawText(const char *text, float x, float y, float sx, float sy) {
@@ -148,6 +147,8 @@ void FontRender::drawText(const char *text, float x, float y, float sx, float sy
     if (!this->isLoaded()) {
         return;
     }
+
+    glUniform4fv(_uniformColor, 1, _color);
     
     const char *p;
 

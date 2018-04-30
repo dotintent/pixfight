@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -143,12 +143,12 @@
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="menubg" id="EqG-kZ-ayv"/>
                             </imageView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6zC-eC-u7S">
-                                <rect key="frame" x="333" y="574" width="358" height="94"/>
+                                <rect key="frame" x="154" y="480" width="716" height="188"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="94" id="SAP-SE-iuE"/>
-                                    <constraint firstAttribute="width" constant="358" id="ggb-Og-DGm"/>
+                                    <constraint firstAttribute="height" constant="188" id="SAP-SE-iuE"/>
+                                    <constraint firstAttribute="width" constant="716" id="ggb-Og-DGm"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logo" id="L7S-1l-982"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="logo" id="L7S-1l-982"/>
                             </imageView>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="Zgr-kV-zR6">
                                 <rect key="frame" x="432" y="100" width="160" height="40"/>
@@ -489,7 +489,7 @@
                                     <constraint firstAttribute="height" constant="32" id="bCR-is-0f7"/>
                                     <constraint firstAttribute="width" constant="32" id="k5Z-Ry-KJq"/>
                                 </constraints>
-                                <buttonCell key="cell" type="square" title="X1" bezelStyle="shadowlessSquare" image="empty" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="qWt-Fh-oWc">
+                                <buttonCell key="cell" type="square" title="X4" bezelStyle="shadowlessSquare" image="empty" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="qWt-Fh-oWc">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -560,7 +560,7 @@
                             <scrollView focusRingType="none" borderType="line" horizontalLineScroll="34" horizontalPageScroll="10" verticalLineScroll="34" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" findBarPosition="belowContent" translatesAutoresizingMaskIntoConstraints="NO" id="LAZ-aK-bYh">
                                 <rect key="frame" x="372" y="204" width="280" height="360"/>
                                 <clipView key="contentView" copiesOnScroll="NO" id="GTc-E4-kf6">
-                                    <rect key="frame" x="1" y="24" width="278" height="335"/>
+                                    <rect key="frame" x="1" y="1" width="278" height="358"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="32" headerView="Jcc-cf-gev" id="Ryw-jp-bgs">
@@ -850,7 +850,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P2K-la-diB">
-                                <rect key="frame" x="165" y="133" width="70" height="17"/>
+                                <rect key="frame" x="165" y="145" width="70" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="XeN-e4-mAX"/>
                                 </constraints>
@@ -863,7 +863,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VS7-Oi-QP0">
-                                <rect key="frame" x="165" y="95" width="81" height="17"/>
+                                <rect key="frame" x="165" y="107" width="81" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="yfB-25-GCs"/>
                                 </constraints>
@@ -875,19 +875,43 @@ Gw
                                     <action selector="hardAIAction:" target="Veh-cR-mVn" id="gmE-m8-bOQ"/>
                                 </connections>
                             </button>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v1A-4T-luU">
+                                <rect key="frame" x="116" y="48" width="168" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="164" id="efE-KH-AKO"/>
+                                    <constraint firstAttribute="height" constant="15" id="qHt-SH-ylN"/>
+                                </constraints>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="1" doubleValue="0.5" tickMarkPosition="above" sliderType="linear" id="Qnh-RI-Fzw"/>
+                                <connections>
+                                    <action selector="volumeChangeAction:" target="Veh-cR-mVn" id="2CF-DP-1jT"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gav-B8-Jji">
+                                <rect key="frame" x="116" y="73" width="68" height="23"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Volume" id="Lya-qw-Xci">
+                                    <font key="font" size="13" name="FFFAtlantisTrial"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="v1A-4T-luU" firstAttribute="top" secondItem="Gav-B8-Jji" secondAttribute="bottom" constant="8" id="ALM-10-KPC"/>
+                            <constraint firstItem="Gav-B8-Jji" firstAttribute="top" secondItem="VS7-Oi-QP0" secondAttribute="bottom" constant="13" id="Cma-l3-SAR"/>
                             <constraint firstAttribute="trailing" secondItem="2vY-o7-3cd" secondAttribute="trailing" constant="20" id="DG3-3d-lAY"/>
                             <constraint firstItem="VS7-Oi-QP0" firstAttribute="leading" secondItem="P2K-la-diB" secondAttribute="leading" id="TeV-tD-QTu"/>
                             <constraint firstItem="P2K-la-diB" firstAttribute="centerX" secondItem="nua-KA-rjF" secondAttribute="centerX" id="a2y-cJ-nsB"/>
+                            <constraint firstItem="Gav-B8-Jji" firstAttribute="leading" secondItem="v1A-4T-luU" secondAttribute="leading" id="epw-x6-tfl"/>
                             <constraint firstItem="VS7-Oi-QP0" firstAttribute="top" secondItem="P2K-la-diB" secondAttribute="bottom" constant="25" id="gdv-jl-7Xr"/>
                             <constraint firstAttribute="bottom" secondItem="2vY-o7-3cd" secondAttribute="bottom" constant="20" id="kG9-gb-BHQ"/>
-                            <constraint firstItem="P2K-la-diB" firstAttribute="top" secondItem="nua-KA-rjF" secondAttribute="top" constant="52" id="uHf-zL-39f"/>
+                            <constraint firstItem="v1A-4T-luU" firstAttribute="centerX" secondItem="nua-KA-rjF" secondAttribute="centerX" id="mLs-So-5p0"/>
+                            <constraint firstItem="P2K-la-diB" firstAttribute="top" secondItem="nua-KA-rjF" secondAttribute="top" constant="40" id="uHf-zL-39f"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="hardAISwitch" destination="VS7-Oi-QP0" id="GxM-Na-fdv"/>
                         <outlet property="muteSwitch" destination="P2K-la-diB" id="dKe-NH-1Qh"/>
+                        <outlet property="volumeSlider" destination="v1A-4T-luU" id="6PH-OH-hya"/>
                     </connections>
                 </viewController>
                 <customObject id="acX-cD-cBT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

@@ -27,7 +27,7 @@ GameLogic::GameLogic(const float &screenWidth,
 , _bots({})
 , _currentScale(1.0)
 , _directionVector(0, 0)
-, _timeMultiplier(1.0)
+, _timeMultiplier(4.0)
 , _gameLoaded(false)
 , _winnerID(0)
 , _playersPlaying(0)
@@ -59,7 +59,7 @@ GameLogic::GameLogic(const float &screenWidth,
     baseSelectedCallback = nullptr;
 
     _hardAI = false;
-    _allowRendering = true;
+    _botsThinking = false;
 }
 
 GameLogic::~GameLogic() noexcept {
@@ -755,7 +755,6 @@ void GameLogic::startTurn() {
             if (base->getTeamID() == CURRENT_WIN_ID) {
                 PLAYERS_LEFT++;
 
-                std::cout<< "PLAYERLEFT: " << PLAYERS_LEFT << " CURRENT_WIN_ID: " << CURRENT_WIN_ID << std::endl;
                 _winnerID = CURRENT_WIN_ID;
                 break;
             }
@@ -853,23 +852,16 @@ void GameLogic::endTurn() {
             botsStartThinkCallback(this->context);
         }
 
-        _allowRendering = false;
+        _botsThinking = true;
 
-#ifdef __linux__
+		std::thread thread([&]() {
 
-        std::async(std::launch::async, [&](){
+			this->proceedBotsLogic();
 
-            this->proceedBotsLogic();
-        });
+            std::cout << "Thread: " << std::this_thread::get_id() << " finished!" << std::endl;
+		});
 
-#else
-
-        std::async([&](){
-
-            this->proceedBotsLogic();
-        });
-#endif
-
+		thread.detach();
     }
 }
 
@@ -877,10 +869,6 @@ void GameLogic::Render() {
 
     if (!_gameLoaded) {
         return;
-    }
-
-    if (!syncQueue.empty()) {
-        std::cout << "Awaiting sync: "<< syncQueue.size() << std::endl;
     }
 
     //sync code if needed
@@ -920,8 +908,16 @@ void GameLogic::Render() {
         _accumulator -= MAX_FRAME_TIME;
     }
 
-    if (!_allowRendering) {
-        return;
+    if (_botsThinking) {
+
+        for (auto u : _units) {
+
+            if (u->isMoving()) {
+
+                _mainMap->move(u->getCurrentPosition() - xVec2(_screenWidth / 2.0, _screenHeight / 2.0));
+                break;
+            }
+        }
     }
 
     //render (iOS disclaimer: we do not need retina scale here so no x2)
@@ -961,16 +957,30 @@ void GameLogic::Render() {
     }
 
     //draw some statistics
-    int fps = int(1.0 / _sec);
-    std::stringstream ss;
-    ss << "FPS: " << fps;
-    auto infostr = ss.str();
 
     float sx = 2.0 / _screenWidth;
     float sy = 2.0 / _screenHeight;
 
+    int fps = int(1.0 / _sec);
+
+    std::stringstream ss;
+    ss << "FPS: " << fps;
+    auto infostr = ss.str();
+
+    ss.str("");
+    ss << "MONEY: " << _playerCash;
+    auto cashstr = ss.str();
+
     _font->begin();
-    _font->drawText(infostr.c_str(), -1.96, -1.9, sx, sy);
+
+    _font->setFontSize(30);
+    _font->setFontColor(FGLRed);
+    _font->drawText(infostr.c_str(), 1.7, -1.9, sx, sy);
+
+    _font->setFontSize(40);
+    _font->setFontColor(FGLBlack);
+    _font->drawText(cashstr.c_str(), -1.96, -1.9, sx, sy);
+
     _font->end();
 
     _drawingContext->unbindVertexArray();
@@ -1036,6 +1046,8 @@ void GameLogic::unitFinishMoving(GameUnit *unit) {
         }
     }
 
+    action = true;
+
     if (gameUnitFinishMoveCallback) {
 
         gameUnitFinishMoveCallback(this->context);
@@ -1044,13 +1056,13 @@ void GameLogic::unitFinishMoving(GameUnit *unit) {
 
 bool GameLogic::loadUndo(const std::string & path) {
 
-    //TODO: finis this
+    //TODO: finish this
     return true;
 }
 
 bool GameLogic::saveUndo(const std::string & path) {
 
-    //TODO: finis this
+    //TODO: finish this
     return true;
 }
 
@@ -1059,7 +1071,7 @@ float GameLogic::multiplyTime() {
     _timeMultiplier *= 2.0;
 
     if (_timeMultiplier > 4.0) {
-        _timeMultiplier = 1.0;
+        _timeMultiplier = 2.0;
     }
 
     return _timeMultiplier;
@@ -2361,7 +2373,7 @@ void GameLogic::proceedBotsLogic() {
 
     //finish
     if (botsEndThinkCallback) {
-        syncToMainLoop([&](void *, GameLogic*){
+        syncToMainLoop([&](void *, GameLogic*){    
 
             botsEndThinkCallback(this->context);
         });
@@ -2369,7 +2381,7 @@ void GameLogic::proceedBotsLogic() {
 
     syncToMainLoop([&](void *, GameLogic*){
 
-        this->_allowRendering = true;
+        this->_botsThinking = false;
         this->startTurn();
     });
 }

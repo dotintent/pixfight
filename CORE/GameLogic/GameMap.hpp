@@ -93,6 +93,10 @@ public:
 
 private:
 
+    void clearPath();
+
+private:
+
     std::string _rootPath;
 
     typedef struct TexStruct{

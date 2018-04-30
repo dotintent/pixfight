@@ -197,5 +197,5 @@ private:
     FontRender *_font;
     GameUnit *_selectedUnit;
     bool _hardAI;
-    bool _allowRendering;
+    bool _botsThinking;
 };

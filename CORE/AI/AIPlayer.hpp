@@ -62,6 +62,86 @@ private:
     bool canMove(const xVec2 & start, const xVec2 & end);
     std::vector<xVec2> getAIEnemyUnitsPos(GameUnit* current, const int & maxlenght, std::vector<GameUnit *> & units);
 
+    void moveCurrentObjectToPoint(GameUnit *currentObject, xVec2 &destination);
+
+    bool executeTask(std::vector<GameUnit *> & units,
+                     std::vector<GameBase *> & bases,
+                     GameMap * map,
+                     AIObject *actual,
+                     AITask *currentTask,
+                     std::vector<int> &unitsToRemove);
+
+    bool buildUnitTask(std::vector<GameUnit *> & units,
+                       std::vector<GameBase *> & bases,
+                       GameMap * map,
+                       AIObject *actual,
+                       AITask *currentTask,
+                       std::vector<int> &unitsToRemove);
+
+    bool captureBaseTask(std::vector<GameUnit *> & units,
+                         std::vector<GameBase *> & bases,
+                         GameMap * map,
+                         AIObject *actual,
+                         AITask *currentTask,
+                         std::vector<int> &unitsToRemove);
+
+    bool repairUnitTask(std::vector<GameUnit *> & units,
+                        std::vector<GameBase *> & bases,
+                        GameMap * map,
+                        AIObject *actual,
+                        AITask *currentTask,
+                        std::vector<int> &unitsToRemove);
+
+    bool attackUnitTask(std::vector<GameUnit *> & units,
+                        std::vector<GameBase *> & bases,
+                        GameMap * map,
+                        AIObject *actual,
+                        AITask *currentTask,
+                        std::vector<int> &unitsToRemove);
+
+    void moveAIUnit(std::vector<GameUnit *> & units,
+                    std::vector<GameBase *> & bases,
+                    GameUnit *fUnit,
+                    GameUnit *currentObject,
+                    GameMap * map,
+                    AIObject *actual,
+                    AITask *currentTask,
+                    bool isONBase,
+                    bool addUnitPosition,
+                    bool useDistance = true,
+                    std::function<void()> action = nullptr);
+
+    void simpleAIMove(std::vector<GameUnit *> & units,
+                      std::vector<GameBase *> & bases,
+                      GameUnit *fUnit,
+                      GameUnit *currentObject,
+                      GameMap * map,
+                      AIObject *actual);
+
+    void moveArtillery(GameUnit *currentObject,
+                       GameMap * map,
+                       AIObject *actual,
+                       std::vector<GameBase *> & bases);
+
+    void attackUnit(std::vector<GameUnit *> & units,
+                    std::vector<GameBase *> & bases,
+                    GameUnit *fUnit,
+                    GameUnit *currentObject,
+                    std::vector<int> &unitsToRemove);
+
+    void findNewUnit(std::vector<GameUnit *> & units,
+                     std::vector<GameBase *> & bases,
+                     GameUnit *fUnit,
+                     GameUnit *currentObject,
+                     AITask *currentTask,
+                     std::vector<xVec2> &funits,
+                     std::vector<int> &unitsToRemove,
+                     std::function<void()> attackAction,
+                     std::function<void()> moveAction,
+                     std::function<void()> notFoundAction = nullptr);
+
+private:
+
     int _playerID;
     int _playerMoney;
     bool _hardAI;
