@@ -17,7 +17,7 @@ class AIObject {
 public:
 
     AIObject(UNITTYPE type);
-    ~AIObject() {}
+    ~AIObject() { std::cout << "Removing AI executor: " << exectutorId << std::endl; }
 
     std::vector<int> prorities;
     int exectutorId;

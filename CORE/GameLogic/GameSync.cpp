@@ -10,6 +10,7 @@
 
 std::queue<std::function<void(void*context, GameLogic*sender)>> syncQueue;
 std::mutex syncMutex;
+std::atomic_bool action(true);
 
 void syncToMainLoop(std::function<void(void*, GameLogic*)> callback) {
 

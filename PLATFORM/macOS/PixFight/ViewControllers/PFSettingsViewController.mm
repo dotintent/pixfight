@@ -12,6 +12,7 @@
 @interface PFSettingsViewController ()
 @property (weak) IBOutlet NSButton *muteSwitch;
 @property (weak) IBOutlet NSButton *hardAISwitch;
+@property (weak) IBOutlet NSSlider *volumeSlider;
 @property (weak) AppDelegate *delegate;
 @end
 
@@ -31,6 +32,10 @@
 
     [self.muteSwitch setState: isMuted ? NSControlStateValueOn : NSControlStateValueOff];
     [self.hardAISwitch setState: isHardAI ? NSControlStateValueOn : NSControlStateValueOff];
+
+    Audio *audio = [self.delegate audioUnit];
+
+    self.volumeSlider.floatValue = audio->getVolume();
 }
 
 - (IBAction)dimissAction:(id)sender {
@@ -65,6 +70,15 @@
 
     [defaults setBool:sender.state == NSControlStateValueOn forKey:@"hardai"];
     [defaults synchronize];
+}
+
+- (IBAction)volumeChangeAction:(NSSlider *)sender {
+
+    float volume = sender.floatValue;
+
+    Audio *audio = [self.delegate audioUnit];
+
+    audio->setVolume(volume);
 }
 
 @end

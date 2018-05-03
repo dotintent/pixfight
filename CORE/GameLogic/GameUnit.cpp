@@ -51,6 +51,8 @@ xVec2 unitoffset[5*6] = {
     xVec2(-4,-2)
 };
 
+float easeOutQuad(float t) { return t*(2-t); }
+
 GameUnit::GameUnit(const std::string & path,
                    const std::string & texName,
                    const std::string & addTextName,
@@ -151,18 +153,19 @@ GameUnit::GameUnit(const std::string & path,
 
     baseName = path + "redgreen.png";
 
-    _arrowTex.iTexture = textureLoader.loadFile(baseName, GL_LINEAR, 0, GL_REPEAT, false);
-    _arrowTex.Width  = 64;
+    _arrowTex.iTexture = textureLoader.loadFile(baseName, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
+    _arrowTex.Width  = 128;
     _arrowTex.Height =  16;
-    _arrowTex.TileWidth = 24;
+    _arrowTex.TileWidth = 32;
     _arrowTex.TileHeight = 16;
-    _arrowTex.tiles_x = 1;
+    _arrowTex.tiles_x = 4;
     _arrowTex.tiles_y = 1;
     _arrowTex.active = true;
 
     _action = new Mesh2d(&_arrowTex);
 
     _move = false;
+    _selected = false;
     _size = 1;
     _sa = 0;
     _sb = 1;
@@ -172,6 +175,8 @@ GameUnit::GameUnit(const std::string & path,
 
     _currentPos = xVec2(fixX, fixY);
     _lastPosition = xVec2(fixX, fixY);
+    _finalPosition = _currentPos;
+    _direction = xVec2(0, 0);
 
     _lastPoint = xVec2(0,0);
     _currentPoint = xVec2(0,0);
@@ -181,10 +186,12 @@ GameUnit::GameUnit(const std::string & path,
     _radius = tile.x > tile.y ? tile.x : tile.y;
 
     _mode = UNIT_NONE;
+    _type = M_INFANTRY;
 
     _lenghtMove = 3;
     _lenghtAttack = 1;
     _findID = -1;
+
     _outputPosition = xVec2(0, 0);
 
     _name = "";
@@ -205,6 +212,9 @@ GameUnit::GameUnit(const std::string & path,
     _blinking = false;
     _animLock = false;
     _val = 50;
+
+    _map = nullptr;
+    _distance = 1;
 }
 
 GameUnit::~GameUnit() noexcept {
@@ -390,7 +400,7 @@ void GameUnit::draw(const DrawingContext & context) {
 #ifndef MAP_EDITOR
     if (_teamID == PLAYERTEAMSELECTED) {
 
-        _action->pos = _outputPosition + xVec2(20,-4+sin(_del)*6);
+        _action->pos = _outputPosition + xVec2(20, -4);
         _action->scale = _scale;
 
         _action->render(context);
@@ -409,22 +419,44 @@ void GameUnit::think(const float & dt, std::function<void(GameUnit *)> callback)
         _action->setAnimation(1, 0);
     }
 
-    if (_mayAttack && _mode != UNIT_LOCKED) {
+    if (_mode == UNIT_NONE) {
 
-        _del += dt * 2.0;
+        if (_mayAttack) {
 
-        if (_del >= FLT_MAX) {
-            _del = 0.0;
+            _action->setAnimation(0, 0);
+        }
+        else {
+
+            _action->setAnimation(2, 0);
+        }
+
+    }
+    else if (_mode == UNIT_NOTMOVE) {
+
+        if (_mayAttack) {
+
+            _action->setAnimation(1, 0);
+        }
+        else {
+
+            _action->setAnimation(3, 0);
         }
     }
-    else {
+    else if (_mode == UNIT_ENDTURN || _mode == UNIT_LOCKED) {
 
-        _del = 0.0;
+        _action->setAnimation(3, 0);
+    }
+
+    if (_fireing && _move) {
+        _fireing = false;
     }
 
     if (_move) {
 
-        _accum += dt;
+        float mag = (_finalPosition - _currentPos).mag();
+        float easying = std::min(std::max((_distance - mag), 0.0f) / _distance, 1.0f);
+
+        _accum += dt * (1.0 + easeOutQuad(easying));
 
         if (_accum > _basicAnimationSpeed) {
 
@@ -436,9 +468,13 @@ void GameUnit::think(const float & dt, std::function<void(GameUnit *)> callback)
             _accum = 0.0;
         }
 
-        if((fabs(_currentPos.x - _lastPosition.x) <= 2) && (fabs(_currentPos.y - _lastPosition.y) <= 2)){
+        _currentPos += _direction * dt * (1.0 + easeOutQuad(easying));
 
-            if(_pathCopy.empty()){
+        const float delta = 3;
+
+        if((fabs(_currentPos.x - _lastPosition.x) < delta) && (fabs(_currentPos.y - _lastPosition.y) < delta)){
+
+            if (_pathCopy.empty()) {
 
                 _move = false;
                 _selected = false;
@@ -448,6 +484,8 @@ void GameUnit::think(const float & dt, std::function<void(GameUnit *)> callback)
                 _mesh->setAnimation(_animX, _currentOR);
 
                 _currentPos = _lastPosition;
+                _finalPosition = _currentPos;
+                _distance = 1;
 
                 if (callback) {
                     callback(this);
@@ -461,17 +499,29 @@ void GameUnit::think(const float & dt, std::function<void(GameUnit *)> callback)
                 this->moveToPoint(_currentPoint);
 
                 _lastPosition = _map->positionForSelection(_currentPoint);
+
                 _direction = _lastPosition - _currentPos;
             }
 
         }
-
-        _currentPos += _direction * dt * 1.5;
     }
 
     if (_fireing) {
 
         _fireaccum += dt;
+
+        xVec2 versor;
+
+        switch (_currentOR) {
+            case OR_L:  versor = xVec2( 1, 0); break;
+            case OR_P:  versor = xVec2(-1, 0); break;
+            case OR_LD: versor = xVec2( 1,-1); break;
+            case OR_LG: versor = xVec2( 1, 1); break;
+            case OR_PD: versor = xVec2(-1,-1); break;
+            case OR_PG: versor = xVec2(-1, 1); break;
+        }
+
+        _currentPos += versor * sin(dt * 3.0);
 
         if (_fireaccum > _animationSpeed) {
 
@@ -480,6 +530,7 @@ void GameUnit::think(const float & dt, std::function<void(GameUnit *)> callback)
             if(_fireanim == _animationLenght) {
                 _fireanim = 0;
                 _fireing = false;
+                _currentPos = _finalPosition;
             }
 
             _addMesh->setAnimation(_fireanim, _currentOR);
@@ -528,6 +579,11 @@ bool GameUnit::isActive() {
 
 void GameUnit::makeMove() {
 
+    if (_size == 0) {
+        std::cout << "[Warning] No need to move unit does not exist" << std::endl;
+        return;
+    }
+    
     if ((_mode != UNIT_NOTMOVE) && !_move) {
 
         _move = true;
@@ -536,6 +592,7 @@ void GameUnit::makeMove() {
 
         if (astar.empty()) {
 
+            _distance = 1;
             _move = false;
         }
         else {
@@ -546,6 +603,9 @@ void GameUnit::makeMove() {
 
                     _pathCopy.push_back(astar[i]);
                 }
+
+                _finalPosition =  _map->positionForSelection(*_pathCopy.rbegin());
+                _distance = (_finalPosition - _currentPos).mag();
             }
         }
     }
@@ -571,6 +631,11 @@ xVec2 GameUnit::getUnitPosition() {
 }
 
 xVec2 GameUnit::getRealPosition() {
+
+    return _finalPosition;
+}
+
+xVec2 GameUnit::getCurrentPosition() {
 
     return _currentPos;
 }

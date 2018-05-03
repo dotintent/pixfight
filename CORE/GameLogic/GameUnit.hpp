@@ -53,7 +53,6 @@ public:
     void setMoveLenght(const int & movelenght) { _lenghtMove = movelenght; }
     void setAttackLenght(const int & attacklenght) { _lenghtAttack = attacklenght; }
 
-    void moveToPoint(const xVec2 & p);
     void think(const float & dt, std::function<void(GameUnit *)> callback);
     bool isActive();
     void makeMove();
@@ -62,6 +61,7 @@ public:
     xVec2 getAIPosition();
     xVec2 getUnitPosition();
     xVec2 getRealPosition();
+    xVec2 getCurrentPosition();
 
     void addExp(const float & exp);
     void setStats(const unitspec & sp);
@@ -101,6 +101,11 @@ public:
     virtual void setUnitMode(const UNITMODE & mode) override { _mode = mode; }
     virtual void setRequestID(const int & requestid) override { _requestBaseID = requestid; }
     virtual void setUniqueID(const int & uniqueid) override { _uniqueUnitID = uniqueid; };
+
+private:
+
+    void moveToPoint(const xVec2 & p);
+    
 
 private:
 
@@ -168,6 +173,8 @@ private:
     int     _fireanim;
     float   _fireaccum;
     int     _val;
-    float   _del;
+
+    float   _distance;
+    xVec2   _finalPosition;
 };
 

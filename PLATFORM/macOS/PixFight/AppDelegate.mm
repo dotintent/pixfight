@@ -56,7 +56,7 @@
 
     selectSound = audioUnit->loadSound(sound2.UTF8String);
 
-    audioUnit->setVolume(1.0);
+    audioUnit->setVolume(0.1);
 
     [self loadMusicNamed:@"menu"];
 
