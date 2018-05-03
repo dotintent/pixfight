@@ -5,6 +5,7 @@
 SettingsScene::SettingsScene(const std::string & name, const std::string rootPath, struct nk_context *ctx) : BaseScene(name, rootPath, ctx) {
 
     _audio = nullptr;
+	_volume = 10;
 }
 
 SettingsScene::~SettingsScene() {
@@ -85,6 +86,19 @@ SceneType SettingsScene::Render(struct nk_font *smallfont, struct nk_font *norma
         }
 
         nk_spacing(_ctx, 1);
+
+		nk_layout_row_dynamic(_ctx, 32, 4);
+
+		nk_spacing(_ctx, 1);  
+
+		nk_label(_ctx, "VOLUME ", NK_TEXT_RIGHT);
+
+		if (nk_progress(_ctx, &_volume, 100, nk_true)) {
+
+			_audio->setVolume(_volume / 100.0);
+		}
+
+		nk_spacing(_ctx, 1);
 
     }
     nk_end(_ctx);

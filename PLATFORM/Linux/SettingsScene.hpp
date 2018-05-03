@@ -21,7 +21,7 @@ public:
     virtual void Init() override;
     virtual void Destroy() override;
 
-    void setAudio(Audio *audio) { _audio = audio; }
+	void setAudio(Audio *audio) { _audio = audio; _audio->setVolume(_volume / 100.0); }
 
 private:
 
@@ -29,4 +29,5 @@ private:
     struct nk_image _buttonhome;
 
     Audio *_audio;
+	size_t _volume;
 };

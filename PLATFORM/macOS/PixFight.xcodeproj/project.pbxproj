@@ -194,6 +194,7 @@
 		1C86441C2058112000AD4361 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../../../../usr/local/lib/libfreetype.a; sourceTree = "<group>"; };
 		1C86441E2058112300AD4361 /* liblzma.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblzma.a; path = ../../../../../../../usr/local/lib/liblzma.a; sourceTree = "<group>"; };
 		1C8644202058112500AD4361 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = ../../../../../../../usr/local/lib/libpng.a; sourceTree = "<group>"; };
+		1C8ABC0D20986A2D00ADBFAC /* Semaphore.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Semaphore.hpp; sourceTree = "<group>"; };
 		1C954A6E201C74140081C255 /* PFLoadGameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFLoadGameViewController.h; sourceTree = "<group>"; };
 		1C954A6F201C74140081C255 /* PFLoadGameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PFLoadGameViewController.m; sourceTree = "<group>"; };
 		1CB77FE6201A21FA008BC2B8 /* PFRenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFRenderViewController.h; sourceTree = "<group>"; };
@@ -803,6 +804,7 @@
 				1CE7857B2017B9E400819AF2 /* CFrustum.hpp */,
 				1CE7857C2017B9E400819AF2 /* glMatrix4x4.hpp */,
 				1CE7857D2017B9E400819AF2 /* BasePathExtraction.hpp */,
+				1C8ABC0D20986A2D00ADBFAC /* Semaphore.hpp */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -868,19 +870,19 @@
 		1CE785962017B9E400819AF2 /* GameLogic */ = {
 			isa = PBXGroup;
 			children = (
-				1CE785972017B9E400819AF2 /* MapTile.hpp */,
-				1CE785982017B9E400819AF2 /* GameBase.hpp */,
-				1CE785992017B9E400819AF2 /* GameUnit.cpp */,
-				1CE7859A2017B9E400819AF2 /* GameSync.hpp */,
-				1CE7859B2017B9E400819AF2 /* GameMap.cpp */,
-				1CE7859C2017B9E400819AF2 /* GameLogic.hpp */,
-				1CE7859D2017B9E400819AF2 /* GameMap.hpp */,
 				1CE7859E2017B9E400819AF2 /* Drawable.hpp */,
-				1CE7859F2017B9E400819AF2 /* GameLogic.cpp */,
-				1CE785A02017B9E400819AF2 /* GameEnums.hpp */,
 				1CE785A12017B9E400819AF2 /* GameBase.cpp */,
-				1CE785A22017B9E400819AF2 /* GameUnit.hpp */,
+				1CE785982017B9E400819AF2 /* GameBase.hpp */,
+				1CE785A02017B9E400819AF2 /* GameEnums.hpp */,
+				1CE7859F2017B9E400819AF2 /* GameLogic.cpp */,
+				1CE7859C2017B9E400819AF2 /* GameLogic.hpp */,
+				1CE7859B2017B9E400819AF2 /* GameMap.cpp */,
+				1CE7859D2017B9E400819AF2 /* GameMap.hpp */,
 				1CE785A32017B9E400819AF2 /* GameSync.cpp */,
+				1CE7859A2017B9E400819AF2 /* GameSync.hpp */,
+				1CE785992017B9E400819AF2 /* GameUnit.cpp */,
+				1CE785A22017B9E400819AF2 /* GameUnit.hpp */,
+				1CE785972017B9E400819AF2 /* MapTile.hpp */,
 			);
 			path = GameLogic;
 			sourceTree = "<group>";

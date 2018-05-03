@@ -36,19 +36,23 @@
 
     #else
 
+    #ifndef MAP_EDITOR
         #ifdef __OBJC__
             #import <AppKit/AppKit.h>
             #import <Cocoa/Cocoa.h>
             #import <QuartzCore/CVDisplayLink.h>
         #endif
+    #endif
 
-        #import <OpenGL/gl3.h>
-        #import <OpenGL/gl3ext.h>
+        #include <OpenGL/gl3.h>
+        #include <OpenGL/gl3ext.h>
 
+    #ifndef MAP_EDITOR
         #define glBindVertexArray glBindVertexArray
         #define glGenVertexArrays glGenVertexArrays
         #define glDeleteVertexArrays glDeleteVertexArrays
         #define GL_RED_EXT GL_RED
+    #endif
 
     #endif
 

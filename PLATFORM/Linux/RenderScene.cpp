@@ -5,7 +5,7 @@
 RenderScene::RenderScene(const std::string & name, const std::string rootPath, struct nk_context *ctx)
 : BaseScene(name, rootPath, ctx)
 , _gameLogic(nullptr)
-, _time(1)
+, _time(4)
 , _gamewin(false)
 , _gamelost(false)
 , _botsthinking(false)
@@ -69,11 +69,10 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
     if (_botsthinking) {
 
-        if (nk_begin(_ctx, "BOTS", nk_rect((1024 - 400) * 0.5, (768 - 150) * 0.5, 400, 150), NK_WINDOW_BACKGROUND|NK_WINDOW_BORDER)) {
+        if (nk_begin(_ctx, "BOTS", nk_rect((1024 - 400) * 0.5,  50, 400, 50), NK_WINDOW_BACKGROUND|NK_WINDOW_BORDER)) {
 
-            nk_layout_row_static(_ctx, 20, 10, 1);
-            nk_layout_row_static(_ctx, 40, 570, 1);
-            nk_label(_ctx, "Thinking...", NK_TEXT_ALIGN_CENTERED);
+            nk_layout_row_static(_ctx, 26, 370, 1);
+            nk_label(_ctx, "Thinking", NK_TEXT_ALIGN_CENTERED);
         }
         nk_end(_ctx);
     }
@@ -216,7 +215,7 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
         _ctx->style.button.normal = nk_style_item_image(_homebtn);
         _ctx->style.button.hover  = nk_style_item_image(_homebtn);
-        _ctx->style.button.active = nk_style_item_image(_homebtn);
+        _ctx->style.button.active = nk_style_item_image(_homebtnp);
 
         nk_layout_row_static(_ctx, 5, 10, 0);
 
@@ -231,7 +230,7 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
         _ctx->style.button.normal = nk_style_item_image(_timebtn);
         _ctx->style.button.hover  = nk_style_item_image(_timebtn);
-        _ctx->style.button.active = nk_style_item_image(_timebtn);
+        _ctx->style.button.active = nk_style_item_image(_timebtnp);
 
         nk_spacing(_ctx, 1);
 
@@ -249,7 +248,7 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
         _ctx->style.button.normal = nk_style_item_image(_turnbtn);
         _ctx->style.button.hover  = nk_style_item_image(_turnbtn);
-        _ctx->style.button.active = nk_style_item_image(_turnbtn);
+        _ctx->style.button.active = nk_style_item_image(_turnbtnp);
 
         nk_spacing(_ctx, 1);
         if (nk_button_label(_ctx, "") && !_homemenu && !_baseselected) {
@@ -267,6 +266,10 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 }
 
 void RenderScene::Init() {
+
+	_gamewin = false;
+	_gamelost = false;
+	_botsthinking = false;
 
     _gameLogic = new GameLogic(1024, 768, _rootPath, _audio);
 
@@ -329,16 +332,25 @@ void RenderScene::loadGame(std::string path) {
 void RenderScene::setup(int teamID) {
 
     auto htexpath = _rootPath + "home.png";
+	auto htexpathp = _rootPath + "homep.png";
     auto etexpath = _rootPath + "empty.png";
-    auto ttexpath = _rootPath + "turn.png";
+	auto etexpathp = _rootPath + "emptyp.png";
+	auto ttexpath = _rootPath + "turn.png";
+	auto ttexpathp = _rootPath + "turnp.png";
 
     GLuint htex = textureLoader.loadFile(htexpath, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
-    GLuint etex = textureLoader.loadFile(etexpath, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
-    GLuint ttex = textureLoader.loadFile(ttexpath, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
+	GLuint htexp = textureLoader.loadFile(htexpathp, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
+	GLuint etex = textureLoader.loadFile(etexpath, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
+	GLuint etexp = textureLoader.loadFile(etexpathp, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
+	GLuint ttex = textureLoader.loadFile(ttexpath, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
+	GLuint ttexp = textureLoader.loadFile(ttexpathp, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
 
     _homebtn = nk_subimage_id(htex, 32, 32, nk_rect(0, 0, 32, 32));
-    _timebtn = nk_subimage_id(etex, 32, 32, nk_rect(0, 0, 32, 32));
-    _turnbtn = nk_subimage_id(ttex, 32, 32, nk_rect(0, 0, 32, 32));
+	_homebtnp = nk_subimage_id(htexp, 32, 32, nk_rect(0, 0, 32, 32));
+	_timebtn = nk_subimage_id(etex, 32, 32, nk_rect(0, 0, 32, 32));    
+	_timebtnp = nk_subimage_id(etexp, 32, 32, nk_rect(0, 0, 32, 32));
+	_turnbtn = nk_subimage_id(ttex, 32, 32, nk_rect(0, 0, 32, 32));
+	_turnbtnp = nk_subimage_id(ttexp, 32, 32, nk_rect(0, 0, 32, 32));
 
     std::stringstream icon;
 

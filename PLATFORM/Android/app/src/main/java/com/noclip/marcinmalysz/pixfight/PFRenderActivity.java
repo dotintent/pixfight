@@ -131,6 +131,7 @@ public class PFRenderActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(PFRenderActivity.this);
         progressDialog.setMessage("Thinking...");
         progressDialog.setCancelable(false);
+        progressDialog.getWindow().setGravity(Gravity.TOP);
     }
 
     public void buildMainMenu() {

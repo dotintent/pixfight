@@ -132,6 +132,10 @@ void AITaskGenerator::calculateScore(const std::vector<GameUnit *> & units, cons
 
                                 for (auto punit : units) {
 
+                                    if (punit == nullptr) {
+                                        continue;
+                                    }
+
                                     if (ab->isOccupated(punit)) {
 
                                         if (punit->getTeamID() == unit->getTeamID()){
@@ -278,7 +282,7 @@ void AITaskGenerator::calculateScore(const std::vector<GameUnit *> & units, cons
 
                         currLenght = (thisUnit - findUnit).mag();
 
-                        if (currLenght < lenght) {
+                        if (currLenght <= lenght) {
 
                             fID = pID;
                             lenght = currLenght;

@@ -403,6 +403,17 @@ AIObject *AIPlayer::addAIObject(AIAware *object) {
     return newAI;
 }
 
+void AIPlayer::moveCurrentObjectToPoint(GameUnit *currentObject, xVec2 &destination) {
+
+    //"lock" thread
+    action = false;
+
+    syncToMainLoop([currentObject](void *context, GameLogic *sender){
+
+        currentObject->makeMove();
+    });
+}
+
 void AIPlayer::updateAI(std::vector<GameUnit *> & units, std::vector<GameBase *> & bases) {
 
     std::vector<int> unitsToRemove;
@@ -560,6 +571,7 @@ void AIPlayer::updateAI(std::vector<GameUnit *> & units, std::vector<GameBase *>
             unitsToRemoveCopy.erase(rit);
             
             delete *it;
+            *it = nullptr;
             
             it = units->erase(it);
         }
@@ -684,14 +696,35 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
     AITask *currentTask = nullptr;
     bool shouldContinue = false;
 
-    for (auto actual : _allObjects) { //loop all objects
+    for (int i = 0; i < _allObjects.size(); ++i) { //loop all objects
+
+        auto actual = _allObjects[i];
 
         if (actual == nullptr) {
-            std::cout << "[WARNING] executeAI AIObject is not available! idx: " << distance(_allObjects.begin(), find(_allObjects.begin(), _allObjects.end(), actual)) << std::endl;
+
+            std::cout   << "[WARNING] executeAI AIObject is not available! idx: "
+                        << distance(_allObjects.begin(), find(_allObjects.begin(), _allObjects.end(), actual))
+                        << std::endl;
+
             continue;
         }
 
         for (int c = 0; c < 2; ++c) { //move by whole unit task
+
+            while (false == action.load()) {
+
+                std::this_thread::yield();
+            }
+
+            if (actual->firstPriorityTask == nullptr) {
+
+                continue;
+            }
+
+            if (actual->secondPriorityTask == nullptr) {
+
+                continue;
+            }
 
             switch (c) {
                 case 0: {
@@ -709,7 +742,8 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
                     break;
             }
 
-            if ((currentTask == nullptr) || (shouldContinue)) {
+            if ((currentTask == nullptr) || shouldContinue) {
+
                 shouldContinue = false;
                 continue;
             }
@@ -717,1481 +751,12 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
             //if end turn do not perform any action for AI if INTERFACE means it will be REMOVED at the end of TURN;
             if((actual->AIMode == UNIT_ENDTURN) ||
                (actual->AIMode == UNIT_INTERFACE) ||
-               (actual->AIMode == UNIT_LOCKED)) { continue; }
+               (actual->AIMode == UNIT_LOCKED)) {
 
-            //----------------------------------------------------------------
-
-            switch (currentTask->Priority) {
-
-                case AI_BUILD_UNIT: {
-
-                    GameBase *currentBase = nullptr;
-
-                    for (auto base : bases) {
-
-                        if(actual->exectutorId == base->getUniqueID()){
-                            currentBase = base;
-                            break;
-                        }
-                    }
-
-                    if (currentBase != nullptr) {
-
-                        //first be sure base is still our base :)
-                        if (currentBase->getTeamID() == _playerID) {
-
-                            if ((actual->AIMode != UNIT_LOCKED) && (currentBase->_mode != UNIT_LOCKED)) {
-
-                                bool occupated = false;
-
-                                xVec2 bPos = currentBase->getPosition();
-                                xVec2 uPos;
-
-                                for (auto ou : units) {
-
-                                    uPos = ou->getRealPosition();
-
-                                    if (AlmostEqual(bPos, uPos)) {
-                                        occupated = true;
-                                        break;
-                                    }
-                                }
-
-                                if (occupated == false) {
-
-                                    //Calculate whats going on
-                                    int Costs[5] = {75, 150, 200, 300, 200};
-
-                                    //Check if there are some bases we can capture
-                                    int infantryCount = 0;
-                                    int baseCount = 0;
-                                    bool buildInfantry = false;
-
-                                    for (auto tu : units) {
-
-                                        if ((tu->getTeamID() == _playerID) &&
-                                            (tu->getUnitType() == M_INFANTRY || tu->getUnitType() == M_BAZOOKA)) {
-
-                                            infantryCount++;
-                                        }
-                                    }
-
-                                    for (auto base : bases) {
-
-                                        if(base->getUniqueID() == currentBase->getUniqueID()) { continue; }
-
-                                        if (base->getTeamID() == 0) {
-
-                                            baseCount++;
-                                        }
-                                    }
-
-                                    if (infantryCount < baseCount) {
-                                        buildInfantry = true;
-                                    }
-
-                                    bool canBuild = true;
-
-                                    static unsigned int fake = 0;
-
-                                    srand(unsigned(time(nullptr) + fake));
-
-                                    fake++;
-                                    if(fake == UINT32_MAX) fake = 0;
-
-                                    if (buildInfantry) {
-                                        
-                                        currentBase->_unitToBuild = rand() % 2;
-
-                                        if (!_hardAI) {
-
-                                            if (_playerMoney - Costs[currentBase->_unitToBuild] < 0) {
-
-                                                currentBase->_unitToBuild = 0;
-
-                                                if (_playerMoney - Costs[currentBase->_unitToBuild] < 0) {
-
-                                                    canBuild = false;
-                                                }
-                                            }
-                                        }
-
-                                        if (canBuild) {
-
-                                            if (!_hardAI) {
-
-                                                _playerMoney -= Costs[currentBase->_unitToBuild];
-                                            }
-
-                                            syncToMainLoop([currentBase, this](void *context, GameLogic *sender){
-
-                                                auto toCreate = sender->buildUnit(currentBase);
-                                                auto newObj = this->addAIObject(toCreate);
-                                                newObj->AIMode = UNIT_LOCKED;
-                                            });
-
-                                            actual->AIMode = UNIT_LOCKED;
-                                        }
-                                    }
-                                    else{
-
-                                        if (_hardAI) {
-
-                                            currentBase->_unitToBuild = rand() % 5;
-                                        }
-                                        else {
-
-                                            if (rand() % 2) { //cheap part
-
-                                                currentBase->_unitToBuild = (rand() % 3);
-                                            }
-                                            else{
-
-                                                currentBase->_unitToBuild = 3 + (rand() % 2);
-                                            }
-                                        }
-
-                                        if (!_hardAI) {
-
-                                            if (_playerMoney - Costs[currentBase->_unitToBuild] < 0) {
-
-                                                currentBase->_unitToBuild = rand() % 2;
-
-                                                if (_playerMoney - Costs[currentBase->_unitToBuild] < 0) {
-
-                                                    currentBase->_unitToBuild = 0;
-                                                }
-
-                                                if (_playerMoney - Costs[currentBase->_unitToBuild] < 0)  {
-
-                                                    canBuild = false;
-                                                }
-                                            }
-                                        }
-
-                                        if (canBuild) {
-
-                                            if (!_hardAI) {
-
-                                                _playerMoney -= Costs[currentBase->_unitToBuild];
-                                            }
-
-                                            syncToMainLoop([currentBase, this](void *context, GameLogic *sender){
-
-                                                auto toCreate = sender->buildUnit(currentBase);
-                                                auto newObj = this->addAIObject(toCreate);
-                                                newObj->AIMode = UNIT_LOCKED;
-                                            });
-
-                                            actual->AIMode = UNIT_LOCKED;
-                                        }
-                                    }
-                                }
-                            }
-                            //WE ARE LOCKED CANNOT DO ANTYHING
-                        }
-                        else {
-
-                            actual->AIMode = UNIT_INTERFACE;
-                        } //sorry someone just captured the base remove aiobj
-
-                    } else {
-
-                        actual->AIMode = UNIT_INTERFACE;
-                    }
-
-                }
-                    break;
-
-                case AI_DEFENSE_BASES:
-                case AI_ATTACK_ENEMY: {
-
-                    GameUnit *currentObject = nullptr;
-
-                    //find unit
-                    for (auto unit : units) {
-
-                        if (actual->exectutorId == unit->getUniqueID()) {
-
-                            currentObject = unit;
-                            break;
-                        }
-                    }
-
-                    if (currentObject != nullptr) {
-
-                        if (currentObject->getUnitType() == M_ARTILLERY) { //if unit is an alltilery be a bit smarter and try hit enemy unit
-
-                            auto funits = this->getAIEnemyUnitsPos(currentObject, currentObject->_lenghtAttack, units);
-
-                            GameUnit *fUnit = nullptr;
-
-                            for (auto u : units) {
-
-                                if (currentTask->objectiveId == u->getUniqueID()) {
-                                    fUnit = u;
-                                    break;
-                                }
-                            }
-
-                            bool isONBase = false;
-
-                            xVec2 tPosA = currentObject->getRealPosition();
-                            xVec2 tPosB;
-
-                            for (auto ba : bases) {
-
-                                tPosB = ba->getPosition();
-
-                                if (AlmostEqual(tPosA, tPosB)) {
-                                    isONBase = true;
-                                    break;
-                                }
-                            }
-
-                            if (fUnit != nullptr) {
-
-                                //Get enemy unit pos
-                                xVec2 apos = fUnit->getRealPosition();
-
-                                //test if we can attack directly
-                                if (this->containsPoint(apos, funits) && (!isONBase)) {
-
-                                    //yes we can
-                                    auto result = attackUnit(currentObject, fUnit, units, bases);
-
-                                    switch (result) {
-                                        case DESTROY_FIRST: {
-
-                                            unitsToRemove.push_back(currentObject->getUniqueID());
-                                            currentObject = nullptr;
-                                        }
-                                            break;
-                                        case DESTROY_SECOND: {
-
-                                            fUnit->setUnitMode(UNIT_NONE);
-                                            unitsToRemove.push_back(fUnit->getUniqueID());
-                                        }
-                                            break;
-                                        case DESTROY_BOTH: {
-
-                                            fUnit->setUnitMode(UNIT_NONE);
-                                            unitsToRemove.push_back(currentObject->getUniqueID());
-                                            unitsToRemove.push_back(fUnit->getUniqueID());
-                                            currentObject = nullptr;
-                                        }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-
-                                    if (currentObject == nullptr) { //we died...
-
-                                        actual->AIMode = UNIT_INTERFACE;
-
-                                    }
-                                    else { //end turn we are done
-
-                                        actual->AIMode = UNIT_ENDTURN;
-                                    }
-                                }
-                                else {
-
-                                    //Test if we are on base UNIT MUST GO OUT OF IT!!!
-                                    for (int ver=0; ver<7; ver++) {
-
-                                        xVec2 dir = ((fUnit->getRealPosition() + (xVec2(directionVersor[ver], 0) * 64.0)) - currentObject->getRealPosition());
-                                        dir.normalize();
-
-                                        xVec2 goToPoint;
-                                        xVec2 A, B;
-
-                                        float distMag = (fUnit->getRealPosition() - currentObject->getRealPosition()).mag();
-                                        float targetMag = 0;
-
-                                        bool canGo = true;
-
-                                        for (int it = currentObject->_lenghtMove; it >= 1; it--) {
-
-                                            auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
-
-                                            goToPoint = this->farthesPositionInDirection(dir, fnPoints);
-
-                                            targetMag = (currentObject->getRealPosition() - goToPoint).mag();
-
-                                            A = currentObject->getAIPosition();
-                                            B = map->selectionForPosition(goToPoint);
-
-                                            canGo = true;
-
-                                            float finalDistance = (currentTask->score > 0.45 ? (128.0) : (isONBase ? 320.0 : 384.0));
-
-                                            if (this->canMove(A, B) && (targetMag <= distMag) && (distMag-targetMag >= finalDistance)) {
-
-                                                for (auto b : bases) {
-
-                                                    if (AlmostEqual(b->getPosition(), goToPoint)) {
-                                                        canGo = false;
-                                                        break;
-                                                    }
-                                                }
-
-                                                if(canGo){
-
-                                                    currentObject->_currentPos = goToPoint;
-                                                    actual->AIMode = UNIT_ENDTURN;
-
-                                                    break;
-                                                }
-
-                                            } else { //IF CAN MOVE TO POINT
-
-                                                canGo = false;
-                                            }
-
-                                        } //FOR ITERATOR
-
-                                        if(canGo) break;
-
-                                    } // FOR VERSOR
-
-                                    if (actual->AIMode != UNIT_ENDTURN) {
-
-                                        xVec2 A;
-                                        xVec2 B;
-                                        xVec2 goToPoint;
-
-                                        bool canGo = true;
-
-                                        for (int post = 0; post < 9; ++post) {
-
-                                            A = currentObject->getAIPosition();
-                                            B = xVec2(A.x + artilleryVersor[post], A.y);
-                                            goToPoint =  map->positionForSelection(B);
-
-                                            canGo = true;
-
-                                            if (this->canMove(A, B)) {
-
-                                                for (auto b : bases) {
-
-                                                    if (AlmostEqual(b->getPosition(), goToPoint)) {
-                                                        canGo = false;
-                                                        break;
-                                                    }
-                                                }
-
-                                                if (canGo) {
-
-                                                    currentObject->_currentPos = goToPoint;
-                                                    actual->AIMode = UNIT_ENDTURN;
-
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            else { //unit we tryied to attack its destroyed find other one!
-
-                                vector<GameUnit *> findUnits;
-
-                                for (auto u : units) {
-
-                                    if (u->getTeamID() != currentObject->getTeamID()) {
-
-                                        findUnits.push_back(u);
-                                    }
-                                }
-
-                                float currLenght = 0;
-                                float lenght = 1000000;
-                                int nearID = -1;
-
-                                xVec2 aPos = currentObject->getRealPosition();
-                                xVec2 bPos = xVec2(0,0);
-
-                                for (int p = 0; p < findUnits.size(); ++p) {
-
-                                    auto ab = findUnits[p];
-                                    bPos = ab->getRealPosition();
-                                    currLenght = (aPos-bPos).mag();
-
-                                    if (currLenght < lenght) {
-
-                                        nearID = p;
-                                        lenght = currLenght;
-                                    }
-                                }
-
-                                //Ok we get it
-                                if (nearID != -1) {
-
-                                    fUnit = findUnits[nearID];
-                                    currentTask->objectiveId = fUnit->getUniqueID();
-
-                                    //********************************************************************************
-
-                                    xVec2 apos = fUnit->getRealPosition();
-
-                                    //test if we can attack directly
-                                    if (this->containsPoint(apos, funits)) {
-                                        //yes we can
-
-                                        auto result = attackUnit(currentObject, fUnit, units, bases);
-
-                                        switch (result) {
-                                            case DESTROY_FIRST: {
-
-                                                unitsToRemove.push_back(currentObject->getUniqueID());
-                                                currentObject = nullptr;
-                                            }
-                                                break;
-                                            case DESTROY_SECOND: {
-
-                                                fUnit->setUnitMode(UNIT_NONE);
-                                                unitsToRemove.push_back(fUnit->getUniqueID());
-                                            }
-                                                break;
-                                            case DESTROY_BOTH: {
-
-                                                fUnit->setUnitMode(UNIT_NONE);
-                                                unitsToRemove.push_back(currentObject->getUniqueID());
-                                                unitsToRemove.push_back(fUnit->getUniqueID());
-                                                currentObject = nullptr;
-                                            }
-                                                break;
-                                            default:
-                                                break;
-                                        }
-
-                                        if(currentObject == nullptr){ //we died...
-
-                                            actual->AIMode = UNIT_INTERFACE;
-                                        }
-                                        else { //end turn we are done
-
-                                            actual->AIMode = UNIT_ENDTURN;
-                                        }
-                                    }
-                                    else {
-
-                                        for (int ver = 0; ver < 7; ++ver) {
-
-                                            xVec2 dir = ((fUnit->getRealPosition() + (xVec2(directionVersor[ver], 0) * 64.0)) - currentObject->getRealPosition());
-                                            dir.normalize();
-                                            xVec2 goToPoint;
-                                            xVec2 A,B;
-
-                                            float distMag = (fUnit->getRealPosition() - currentObject->getRealPosition()).mag();
-                                            float targetMag = 0;
-
-                                            bool canGo = true;
-
-                                            for (int it = currentObject->_lenghtMove; it >= 1; it--) {
-
-                                                auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
-
-                                                goToPoint = this->farthesPositionInDirection(dir, fnPoints);
-                                                targetMag = (currentObject->getRealPosition() - goToPoint).mag();
-
-                                                A = currentObject->getAIPosition();
-                                                B = map->selectionForPosition(goToPoint);
-
-                                                canGo = true;
-
-                                                float finalDistance = (currentTask->score > 0.45 ? (128.0) : (isONBase ? 320.0 : 384.0));
-
-                                                if (this->canMove(A, B) &&
-                                                   (targetMag <= distMag) &&
-                                                   (distMag - targetMag >= finalDistance)) {
-
-                                                    for (auto b : bases) {
-
-                                                        if (AlmostEqual(b->getPosition(), goToPoint)) {
-                                                            canGo = false;
-                                                            break;
-                                                        }
-                                                    }
-
-                                                    if (canGo) {
-
-                                                        currentObject->_currentPos = goToPoint;
-                                                        actual->AIMode = UNIT_ENDTURN;
-
-                                                        break;
-                                                    }
-
-                                                } else { //IF CAN MOVE TO POINT
-
-                                                    canGo = false;
-                                                }
-
-                                            } //FOR ITERATOR
-
-                                            if (canGo) { break; }
-
-                                        }// FOR VERSOR
-                                    }
-                                    //********************************************************************************
-                                }
-                                else {
-
-                                    //Test if we are on base UNIT MUST GO OUT OF IT!!!
-                                    for (int ver=0; ver<7; ver++) {
-
-                                        xVec2 dir = ((xVec2(directionVersor[ver], 0) * 64.0)) - currentObject->getRealPosition();
-                                        dir.normalize();
-
-                                        xVec2 goToPoint;
-                                        xVec2 A, B;
-
-                                        float distMag = (currentObject->getRealPosition()).mag();
-                                        float targetMag = 0;
-
-                                        bool canGo = true;
-
-                                        for (int it = currentObject->_lenghtMove; it >= 1; it--) {
-
-                                            auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
-
-                                            goToPoint = this->farthesPositionInDirection(dir, fnPoints);
-
-                                            targetMag = (currentObject->getRealPosition() - goToPoint).mag();
-
-                                            A = currentObject->getAIPosition();
-                                            B = map->selectionForPosition(goToPoint);
-
-                                            canGo = true;
-
-                                            float finalDistance = (currentTask->score > 0.45 ? (128.0) : (isONBase ? 320.0 : 384.0));
-
-                                            if (this->canMove(A, B) && (targetMag <= distMag) && (distMag-targetMag >= finalDistance)) {
-
-                                                for (auto b : bases) {
-
-                                                    if (AlmostEqual(b->getPosition(), goToPoint)) {
-                                                        canGo = false;
-                                                        break;
-                                                    }
-                                                }
-
-                                                if(canGo){
-
-                                                    currentObject->_currentPos = goToPoint;
-                                                    actual->AIMode = UNIT_ENDTURN;
-
-                                                    break;
-                                                }
-
-                                            } else { //IF CAN MOVE TO POINT
-
-                                                canGo = false;
-                                            }
-
-                                        } //FOR ITERATOR
-
-                                        if(canGo) break;
-
-                                    } // FOR VERSOR
-
-                                    if (actual->AIMode != UNIT_ENDTURN) {
-
-                                        xVec2 A;
-                                        xVec2 B;
-                                        xVec2 goToPoint;
-
-                                        bool canGo = true;
-
-                                        for (int post = 0; post < 9; ++post) {
-
-                                            A = currentObject->getAIPosition();
-                                            B = xVec2(A.x + artilleryVersor[post], A.y);
-                                            goToPoint =  map->positionForSelection(B);
-
-                                            canGo = true;
-
-                                            if (this->canMove(A, B)) {
-
-                                                for (auto b : bases) {
-
-                                                    if (AlmostEqual(b->getPosition(), goToPoint)) {
-                                                        canGo = false;
-                                                        break;
-                                                    }
-                                                }
-
-                                                if (canGo) {
-
-                                                    currentObject->_currentPos = goToPoint;
-                                                    actual->AIMode = UNIT_ENDTURN;
-
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                            }
-
-                        }
-                        else {
-
-                            //Test if unit is in attack range
-                            auto fUnits = this->getAIEnemyUnitsPos(currentObject, currentObject->_lenghtAttack, units);
-
-                            GameUnit *fUnit = nullptr;
-
-                            for (auto u : units) {
-
-                                if (currentTask->objectiveId == u->getUniqueID()) {
-                                    fUnit = u;
-                                    break;
-                                }
-                            }
-
-                            if (fUnit != nullptr) {
-
-                                //Get enemy unit pos
-                                xVec2 apos = fUnit->getRealPosition();
-
-                                //test if we can attack directly
-                                if (this->containsPoint(apos, fUnits)){
-
-                                    //yes we can
-                                    auto result = attackUnit(currentObject, fUnit, units, bases);
-
-                                    switch (result) {
-                                        case DESTROY_FIRST: {
-
-                                            unitsToRemove.push_back(currentObject->getUniqueID());
-                                            currentObject = nullptr;
-                                        }
-                                            break;
-                                        case DESTROY_SECOND: {
-
-                                            fUnit->setUnitMode(UNIT_NONE);
-                                            unitsToRemove.push_back(fUnit->getUniqueID());
-                                        }
-                                            break;
-                                        case DESTROY_BOTH: {
-
-                                            fUnit->setUnitMode(UNIT_NONE);
-                                            unitsToRemove.push_back(currentObject->getUniqueID());
-                                            unitsToRemove.push_back(fUnit->getUniqueID());
-                                            currentObject = nullptr;
-                                        }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-
-                                    if (currentObject == nullptr) { //we died...
-
-                                        actual->AIMode = UNIT_INTERFACE;
-
-                                    }else { //nope we are still here try run out :)
-
-                                        if (actual->AIMode == UNIT_NOTMOVE) {
-
-                                            actual->AIMode = UNIT_ENDTURN;
-                                        }
-                                        else {
-
-                                            //First test if you need to ... :]
-                                            fUnit = nullptr;
-
-                                            for (auto u : units) {
-
-                                                if (currentTask->objectiveId == u->getUniqueID()){
-                                                    fUnit = u;
-                                                    break;
-                                                }
-                                            }
-
-                                            if (fUnit != nullptr) { //yes you should
-
-                                                for (int ver = 0; ver < 7; ++ver) {
-
-                                                    xVec2 dir = ((fUnit->getRealPosition() + (xVec2(directionVersor[ver],0) * 64.0)) - currentObject->getRealPosition());
-                                                    dir.normalize();
-                                                    xVec2 goToPoint;
-                                                    xVec2 A,B;
-
-                                                    bool canGo = true;
-
-                                                    for (int it = currentObject->_lenghtMove; it >= 1; it--) {
-
-                                                        auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
-                                                        goToPoint = this->farthesPositionInDirection(dir, fnPoints);
-
-                                                        A = currentObject->getAIPosition();
-                                                        B = map->selectionForPosition(goToPoint);
-
-                                                        canGo = true;
-
-                                                        if (this->canMove(A, B)) {
-
-                                                            for (auto b : bases) {
-
-                                                                if (AlmostEqual(b->getPosition(), goToPoint)) {
-
-                                                                    canGo = false;
-                                                                    break;
-                                                                }
-                                                            }
-
-                                                            if (canGo) {
-
-                                                                currentObject->_currentPos = goToPoint;
-                                                                actual->AIMode = UNIT_ENDTURN;
-
-                                                                break;
-                                                            }
-
-                                                        } else { //IF CAN MOVE TO POINT
-
-                                                            canGo = false;
-                                                        }
-
-                                                    } //FOR ITERATOR
-
-                                                    if (canGo) { break; }
-
-                                                } //FOR VERSOR
-
-                                            } //FIGHT UNIT
-
-                                        } //ELSE NOT MOVE
-
-                                    }  //ELSE ENEMY UNIT STILL ALIVE
-
-                                }
-                                else{
-                                    //move to enemy unit
-
-                                    if (fUnit != nullptr) { //be sure there is a enemy unit you can move to
-
-                                        for (int ver = 0; ver < 7; ++ver) {
-
-                                            xVec2 dir = ((fUnit->getRealPosition() + (xVec2(directionVersor[ver], 0) * 64.0)) - currentObject->getRealPosition());
-                                            dir.normalize();
-                                            xVec2 goToPoint;
-                                            xVec2 A,B;
-
-                                            float distMag = (fUnit->getRealPosition() - currentObject->getRealPosition()).mag();
-                                            float targetMag = 0;
-
-                                            bool canGo = true;
-
-                                            for (int it = currentObject->_lenghtMove; it >= 1; it--) {
-
-                                                auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
-                                                goToPoint = this->farthesPositionInDirection(dir, fnPoints);
-
-                                                targetMag = (currentObject->getRealPosition() - goToPoint).mag();
-
-                                                A = currentObject->getAIPosition();
-                                                B = map->selectionForPosition(goToPoint);
-
-                                                canGo = true;
-
-                                                if (this->canMove(A, B) && (targetMag <= distMag)) {
-
-                                                    for (auto b : bases) {
-
-                                                        if (AlmostEqual(b->getPosition(), goToPoint)) {
-                                                            canGo = false;
-                                                            break;
-                                                        }
-                                                    }
-
-                                                    if (canGo) {
-
-                                                        currentObject->_currentPos = goToPoint;
-                                                        actual->AIMode = UNIT_NOTMOVE;
-
-                                                        //Now You should be close enougt to shot it try
-                                                        auto fmUnits = this->getAIEnemyUnitsPos(currentObject, currentObject->_lenghtAttack, units);
-
-                                                        //Get enemy unit pos
-                                                        xVec2 apos = fUnit->getRealPosition();
-
-                                                        //test if we can attack directly
-                                                        if (this->containsPoint(apos, fmUnits)) {
-                                                            //yes we can
-
-                                                            auto result = attackUnit(currentObject, fUnit, units, bases);
-
-                                                            switch (result) {
-                                                                case DESTROY_FIRST: {
-
-                                                                    unitsToRemove.push_back(currentObject->getUniqueID());
-                                                                    currentObject = nullptr;
-                                                                }
-                                                                    break;
-                                                                case DESTROY_SECOND: {
-
-                                                                    fUnit->setUnitMode(UNIT_NONE);
-                                                                    unitsToRemove.push_back(fUnit->getUniqueID());
-                                                                }
-                                                                    break;
-                                                                case DESTROY_BOTH: {
-
-                                                                    fUnit->setUnitMode(UNIT_NONE);
-                                                                    unitsToRemove.push_back(currentObject->getUniqueID());
-                                                                    unitsToRemove.push_back(fUnit->getUniqueID());
-                                                                    currentObject = nullptr;
-                                                                }
-                                                                    break;
-                                                                default:
-                                                                    break;
-                                                            }
-
-                                                            if (currentObject == nullptr) { //we died...
-
-                                                                actual->AIMode = UNIT_INTERFACE;
-                                                            }
-                                                            else { //not died end turn for this unit
-
-                                                                actual->AIMode = UNIT_ENDTURN;
-                                                            }
-                                                        }
-
-                                                        break;
-
-                                                    }
-
-                                                } else { //IF CAN MOVE TO POINT
-
-                                                    canGo = false;
-                                                }
-
-                                            } //FOR ITERATOR
-
-                                            if (canGo) { break; }
-
-                                        } //IF VERSOR
-
-                                    }//IF FIGHT UNIT != NIL
-
-                                }
-
-                            }
-                            else { //unit we tryied to attack its destroyed find other one!
-
-                                //HERE WE WERE DO SAME STUFF LIKE TASK GENERATOR DO JUST FIND CLOSEST UNIT AND FIGHT IT.
-
-                                vector<GameUnit *> fUnits;
-
-                                for (auto u : units) {
-
-                                    if (u->getTeamID() != currentObject->getTeamID()) {
-
-                                        fUnits.push_back(u);
-                                    }
-                                }
-
-                                float currLenght = 0;
-                                float lenght = 1000000;
-                                int nearID = -1;
-
-                                xVec2 aPos = currentObject->getRealPosition();
-                                xVec2 bPos = xVec2(0,0);
-
-                                for (int p = 0; p < fUnits.size(); ++p) {
-
-                                    auto ab = fUnits[p];
-
-                                    bPos = ab->getRealPosition();
-                                    currLenght = (aPos-bPos).mag();
-
-                                    if (currLenght < lenght) {
-
-                                        nearID = p;
-                                        lenght = currLenght;
-                                    }
-                                }
-
-                                //Ok we get it
-                                if (nearID != -1) {
-
-                                    fUnit = fUnits[nearID];
-                                    currentTask->objectiveId = fUnit->getUniqueID();
-
-                                    //********************************************************************************
-
-                                    auto fmUnits = this->getAIEnemyUnitsPos(currentObject, currentObject->_lenghtAttack, units);
-                                    xVec2 apos = fUnit->getRealPosition();
-
-                                    //test if we can attack directly
-                                    if (this->containsPoint(apos, fmUnits)) {
-                                        //yes we can
-
-                                        auto result = attackUnit(currentObject, fUnit, units, bases);
-
-                                        switch (result) {
-                                            case DESTROY_FIRST: {
-
-                                                unitsToRemove.push_back(currentObject->getUniqueID());
-                                                currentObject = nullptr;
-                                            }
-                                                break;
-                                            case DESTROY_SECOND: {
-
-                                                fUnit->setUnitMode(UNIT_NONE);
-                                                unitsToRemove.push_back(fUnit->getUniqueID());
-                                            }
-                                                break;
-                                            case DESTROY_BOTH: {
-
-                                                fUnit->setUnitMode(UNIT_NONE);
-                                                unitsToRemove.push_back(currentObject->getUniqueID());
-                                                unitsToRemove.push_back(fUnit->getUniqueID());
-                                                currentObject = nullptr;
-                                            }
-                                                break;
-                                            default:
-                                                break;
-                                        }
-
-                                        if (currentObject == nullptr) { //we died...
-
-                                            actual->AIMode = UNIT_INTERFACE;
-                                        }
-                                        else { //nope we are still here try run out :)
-
-                                            if (actual->AIMode == UNIT_NOTMOVE) {
-
-                                                actual->AIMode = UNIT_ENDTURN;
-                                            }
-                                            else {
-
-                                                //First test if you need to ... :]
-                                                fUnit = nullptr;
-
-                                                for (auto u : units) {
-
-                                                    if (actual->exectutorId == u->getUniqueID()) {
-
-                                                        fUnit = u;
-                                                        break;
-                                                    }
-                                                }
-
-                                                if ((fUnit != nullptr) && ( rand() % 2 )) { //yes you should
-
-                                                    for (int ver = 0; ver < 7; ++ver) {
-
-                                                        xVec2 dir = ((fUnit->getRealPosition() + (xVec2(directionVersor[ver],0)*64.0)) - currentObject->getRealPosition());
-                                                        dir.normalize();
-
-                                                        xVec2 goToPoint;
-                                                        xVec2 A,B;
-
-                                                        bool canGo = true;
-
-                                                        for (int it = currentObject->_lenghtMove; it >= 1; it--) {
-
-                                                            auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
-                                                            goToPoint = this->farthesPositionInDirection(dir, fnPoints);
-
-                                                            A = currentObject->getAIPosition();
-                                                            B = map->selectionForPosition(goToPoint);
-                                                            canGo = true;
-
-                                                            if (this->canMove(A, B)) {
-
-                                                                for (auto b : bases) {
-
-                                                                    if (AlmostEqual(b->getPosition(), goToPoint)) {
-                                                                        canGo = false;
-                                                                        break;
-                                                                    }
-                                                                }
-
-                                                                if (canGo) {
-
-                                                                    currentObject->_currentPos = goToPoint;
-                                                                    actual->AIMode = UNIT_ENDTURN;
-                                                                    break;
-                                                                }
-
-                                                            } else { //IF CAN MOVE TO POINT
-
-                                                                canGo = false;
-                                                            }
-
-                                                        } //FOR ITERATOR
-
-                                                        if (canGo) { break; }
-
-                                                    }//FOR VERSOR
-
-                                                } //FIGHT UNIT
-
-                                            } //ELSE NOT MOVE
-
-                                        }  //ELSE ENEMY UNIT STILL ALIVE
-
-                                    }
-                                    else {
-
-                                        //move to enemy unit
-                                        if (fUnit != nullptr) { //be sure there is a enemy unit you can move to
-
-                                            for (int ver = 0; ver < 7;  ++ver) {
-
-                                                xVec2 dir = ((fUnit->getRealPosition() + (xVec2(directionVersor[ver],0)*64.0)) - currentObject->getRealPosition());
-                                                dir.normalize();
-
-                                                xVec2 goToPoint;
-                                                xVec2 A, B;
-
-                                                float distMag = (fUnit->getRealPosition() - currentObject->getRealPosition()).mag();
-                                                float targetMag = 0;
-
-                                                bool canGo = true;
-
-                                                for (int it = currentObject->_lenghtMove; it >= 1; it--) {
-
-                                                    auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
-
-                                                    goToPoint = this->farthesPositionInDirection(dir, fnPoints);
-
-                                                    targetMag = (currentObject->getRealPosition() - goToPoint).mag();
-
-                                                    A = currentObject->getAIPosition();
-                                                    B = map->selectionForPosition(goToPoint);
-
-                                                    canGo = true;
-
-                                                    if (this->canMove(A, B) && (targetMag <= distMag)) {
-
-                                                        for (auto b : bases) {
-
-                                                            if (AlmostEqual(b->getPosition(), goToPoint)) {
-                                                                canGo = false;
-                                                                break;
-                                                            }
-                                                        }
-
-                                                        if (canGo) {
-
-                                                            currentObject->_currentPos = goToPoint;
-                                                            actual->AIMode = UNIT_NOTMOVE;
-
-                                                            //Now You should be close enougt to shot it try
-                                                            auto fmUnits = this->getAIEnemyUnitsPos(currentObject, currentObject->_lenghtAttack, units);
-
-                                                            //Get enemy unit pos
-                                                            xVec2 apos = fUnit->getRealPosition();
-
-                                                            //test if we can attack directly
-                                                            if (this->containsPoint(apos, fmUnits)) {
-                                                                //yes we can
-
-                                                                auto result = attackUnit(currentObject, fUnit, units, bases);
-
-                                                                switch (result) {
-                                                                    case DESTROY_FIRST: {
-
-                                                                        unitsToRemove.push_back(currentObject->getUniqueID());
-                                                                        currentObject = nullptr;
-                                                                    }
-                                                                        break;
-                                                                    case DESTROY_SECOND: {
-
-                                                                        fUnit->setUnitMode(UNIT_NONE);
-                                                                        unitsToRemove.push_back(fUnit->getUniqueID());
-                                                                    }
-                                                                        break;
-                                                                    case DESTROY_BOTH: {
-
-                                                                        fUnit->setUnitMode(UNIT_NONE);
-                                                                        unitsToRemove.push_back(currentObject->getUniqueID());
-                                                                        unitsToRemove.push_back(fUnit->getUniqueID());
-                                                                        currentObject = nullptr;
-                                                                    }
-                                                                        break;
-                                                                    default:
-                                                                        break;
-                                                                }
-
-                                                                if (currentObject == nullptr) { //we died...
-
-                                                                    actual->AIMode = UNIT_INTERFACE;
-                                                                }
-                                                                else { //not died end turn for this unit
-
-                                                                    actual->AIMode = UNIT_ENDTURN;
-                                                                }
-                                                            }
-
-                                                            break;
-                                                        }
-
-                                                    } else { //IF CAN MOVE TO POINT
-
-                                                        canGo = false;
-                                                    }
-
-                                                } //FOR ITERATOR
-
-                                                if (canGo) { break; }
-
-                                            }//FOR VERSOR
-
-                                        }//IF FIGHT UNIT != NIL
-
-                                    }
-
-                                    //********************************************************************************
-                                }
-                            }
-                        }
-
-                        if (actual->AIMode != UNIT_INTERFACE) {
-
-                            actual->AIMode = UNIT_ENDTURN;
-                        }
-
-                    } else { //propably destoyed
-
-                        actual->AIMode = UNIT_INTERFACE;
-                    }
-
-                }
-                    break;
-
-                case AI_REPAIR_UNIT: {
-
-                    GameUnit *currentObject = nullptr;
-
-                    //find unit
-                    for (auto u : units) {
-
-                        if (actual->exectutorId == u->getUniqueID()){
-                            currentObject = u;
-                            break;
-                        }
-                    }
-
-                    if (currentObject != nullptr) {
-
-                        int maxLen = currentObject->_lenghtMove;
-
-                        //firts get all point for movements
-                        auto fPoints = this->getAIPoints(currentObject, maxLen, units, bases);
-
-                        //getBase
-                        GameBase *currBase = nullptr;
-
-                        for (auto *base : bases) {
-
-                            if (currentTask->objectiveId == base->getUniqueID()) {
-                                currBase = base;
-                                break;
-                            }
-                        }
-
-                        //loop points
-                        xVec2 basePos = currBase->getPosition();
-                        bool baseFound = false;
-
-                        for (auto val : fPoints) {
-
-                            if (AlmostEqual(basePos, val)) {
-
-                                baseFound = true;
-                                break;
-                            }
-                        }
-
-                        //even if we founded base check if we can move on it
-                        for (auto u : units) {
-
-                            auto p = u->getRealPosition();
-
-                            if (AlmostEqual(basePos, p)) {
-
-                                baseFound = false; //you cannot heal someone is on the base
-                                break;
-                            }
-                        }
-
-                        if (baseFound) {
-
-                            basePos = currBase->getAIPosition();
-                            xVec2 unitTestPoint = currentObject->getAIPosition();
-
-                            if (this->canMove(unitTestPoint, basePos)) {
-                                //a star allow to move this point go there
-
-                                currentObject->_currentPos = currBase->getPosition();
-                                actual->AIMode = UNIT_LOCKED;
-
-                                currBase->_turnsToUnlock = 1;
-                                currBase->_baseAction = BASE_REPAIR;
-                                currBase->_mode = UNIT_INTERFACE;
-                                currentObject->_mode = UNIT_INTERFACE;
-                                currentObject->_requestBaseID = currBase->getUniqueID();
-                                currBase->_requestUnitID = currentObject->getUniqueID();
-
-                                shouldContinue = true;
-                            }
-                            else {
-
-                                baseFound = false;
-                            }
-                        }
-
-                        //if not find closest point to go
-                        if (!baseFound) {
-
-                            xVec2 dir = (currBase->getPosition() - currentObject->getRealPosition());
-                            dir.normalize();
-                            xVec2 goToPoint;
-
-                            float distMag = (currBase->getPosition() - currentObject->getRealPosition()).mag();
-                            float targetMag = 0;
-
-                            xVec2 A, B;
-                            std::vector<xVec2> fnPoints;
-
-                            for (int it = maxLen; it >= 1; it--) {
-
-                                fnPoints = this->getAIPoints(currentObject, it, units, bases);
-                                goToPoint = this->farthesPositionInDirection(dir, fnPoints);
-
-                                targetMag = (goToPoint - currentObject->getRealPosition()).mag();
-
-                                A = currentObject->getAIPosition();
-                                B = map->selectionForPosition(goToPoint);
-
-                                if (this->canMove(A, B) && (targetMag <= distMag)) {
-
-                                    //a star allow to move this point go there
-                                    currentObject->_currentPos = goToPoint;
-                                    actual->AIMode = UNIT_ENDTURN;
-                                    break;
-                                }
-
-                            } //for MAX LEN
-
-                        } //if BASE FOUND NO
-
-                    } else {
-
-                        actual->AIMode = UNIT_INTERFACE;
-                    }
-                }
-                    break;
-
-                case AI_CAPTURE_BASES:{
-
-                    GameUnit *currentObject = nullptr;
-
-                    //find unit
-                    for (auto u : units) {
-
-                        if (actual->exectutorId == u->getUniqueID()) {
-
-                            currentObject = u;
-                            break;
-                        }
-                    }
-
-                    if (currentObject != nullptr) {
-
-                        //test if we can move
-                        if ((actual->AIMode != UNIT_LOCKED) && (actual->AIMode != UNIT_NOTMOVE)) {
-
-                            //find base
-                            int maxLen = currentObject->_lenghtMove;
-
-                            //firts get all point for movements
-                            auto fPoints = this->getAIPoints(currentObject, maxLen, units, bases);
-
-                            //getBase
-                            GameBase *currBase = nullptr;
-
-                            for (auto base : bases) {
-
-                                if (currentTask->objectiveId == base->getUniqueID()) {
-
-                                    currBase = base;
-                                    break;
-                                }
-                            }
-
-                            //loop points
-                            if (currBase != nullptr) {
-
-                                xVec2 basePos = currBase->getPosition();
-
-                                bool baseFound = false;
-
-                                for (auto val : fPoints) {
-
-                                    if (AlmostEqual(basePos, val)) {
-
-                                        baseFound = true;
-                                        break;
-                                    }
-                                }
-
-                                if (baseFound) {
-
-                                    basePos = currBase->getAIPosition();
-                                    xVec2 unitTestPoint = currentObject->getAIPosition();
-
-                                    if (this->canMove(unitTestPoint, basePos) && currBase->getBaseAction() != BASE_CAPTURED) {
-                                        //a star allow to move this point go there
-
-                                        currentObject->_currentPos = currBase->getPosition();
-                                        actual->AIMode = UNIT_LOCKED;
-
-                                        currBase->_turnsToUnlock = 2;
-                                        currBase->_baseAction = BASE_CAPTURED;
-                                        currBase->_mode = UNIT_LOCKED;
-                                        currentObject->_mode = UNIT_INTERFACE;
-                                        currentObject->_requestBaseID = currBase->getUniqueID();
-                                        currBase->_requestUnitID = currentObject->getUniqueID();
-
-                                        shouldContinue = true;
-                                    }
-                                    else {
-
-                                        baseFound = false;
-                                    }
-                                }
-
-                                //if not find closest point to go
-                                if (!baseFound) {
-
-                                    xVec2 dir = (currBase->getPosition() - currentObject->getRealPosition());
-                                    dir.normalize();
-                                    xVec2 goToPoint;
-
-                                    float distMag = (currBase->getPosition() - currentObject->getRealPosition()).mag();
-                                    float targetMag = 0;
-
-                                    xVec2 A,B;
-                                    std::vector<xVec2> fnPoints;
-
-                                    for (int it = maxLen; it >= 1; it--) {
-
-                                        fnPoints = this->getAIPoints(currentObject, it, units, bases);
-                                        goToPoint = this->farthesPositionInDirection(dir, fnPoints);
-
-                                        targetMag = (goToPoint - currentObject->getRealPosition()).mag();
-
-                                        A = map->selectionForPosition(currentObject->getRealPosition());   
-                                        B = map->selectionForPosition(goToPoint);
-
-                                        if (this->canMove(A, B) && (targetMag <= distMag)) {
-                                            //a star allow to move this point go there
-
-                                            currentObject->_currentPos = goToPoint;
-                                            actual->AIMode = UNIT_ENDTURN;
-
-                                            //Check why we were not able to reach point
-                                            auto fUnits = this->getAIEnemyUnitsPos(currentObject, currentObject->_lenghtAttack, units);
-
-                                            GameUnit *fightUnit = nullptr;
-
-                                            for (auto u : units) {
-
-                                                xVec2 apos = u->getRealPosition();
-
-                                                if (this->containsPoint(apos, fUnits) && (u->getTeamID() != currentObject->getTeamID())) {
-
-                                                    //test if we can attack directly
-                                                    fightUnit = u;
-                                                    break;
-                                                }
-                                            }
-
-                                            //There is enemy on the base...
-                                            if (fightUnit != nullptr) {
-
-                                                auto result = attackUnit(currentObject, fightUnit, units, bases);
-
-                                                switch (result) {
-                                                    case DESTROY_FIRST: {
-
-                                                        unitsToRemove.push_back(currentObject->getUniqueID());
-                                                        currentObject = nullptr;
-                                                    }
-                                                        break;
-                                                    case DESTROY_SECOND: {
-
-                                                        fightUnit->setUnitMode(UNIT_NONE);
-                                                        unitsToRemove.push_back(fightUnit->getUniqueID());
-                                                    }
-                                                        break;
-                                                    case DESTROY_BOTH: {
-
-                                                        fightUnit->setUnitMode(UNIT_NONE);
-                                                        unitsToRemove.push_back(currentObject->getUniqueID());
-                                                        unitsToRemove.push_back(fightUnit->getUniqueID());
-                                                        currentObject = nullptr;
-                                                    }
-                                                        break;
-                                                    default:
-                                                        break;
-                                                }
-
-                                                if (currentObject == nullptr) {
-
-                                                    actual->AIMode = UNIT_INTERFACE;
-                                                }
-                                                else {
-
-                                                    actual->AIMode = UNIT_ENDTURN;
-                                                }
-                                            }
-                                            else {
-
-                                                shouldContinue = true;
-                                            }
-
-                                            break;
-                                        }
-
-                                    } //for MAX LEN
-
-                                } //if BASE FOUND NO
-
-                            } else {
-
-                                shouldContinue = true;
-                            }
-
-                        } //AI_LOCK && NOT_MOVE
-
-                    }
-                    else { //propably destroyed
-
-                        actual->AIMode = UNIT_INTERFACE;
-                    }
-                }
-                    break;
-
-                case AI_STAY_UNIT:
-                case AI_DO_NOTHING_PRIOR: {
-                    //nothing to do :]
-                }
-                    break;
-
-                default:
-                    break;
+                continue;
             }
 
-            //----------------------------------------------------------------
+            shouldContinue = executeTask(units, bases, map, actual, currentTask, unitsToRemove);
 
         } //for C < 2
 
@@ -2233,6 +798,7 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
             unitsToRemoveCopy.erase(rit);
 
             delete *it;
+            *it = nullptr;
 
             it = units->erase(it);
         }
@@ -2244,6 +810,8 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
         if ((*it)->AIMode == UNIT_INTERFACE) {
 
             delete *it;
+            *it = nullptr;
+
             it = _allObjects.erase(it);
         }
         else {
@@ -2253,18 +821,1104 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
     }
 }
 
-void AIPlayer::removeAI(const int & unitID) {
+bool AIPlayer::buildUnitTask(std::vector<GameUnit *> & units,
+                             std::vector<GameBase *> & bases,
+                             GameMap * map,
+                             AIObject *actual,
+                             AITask *currentTask,
+                             std::vector<int> &unitsToRemove) {
 
-    for (auto it = _allObjects.begin(); it != _allObjects.end(); ) {
+    bool shouldContinue = false;
 
-        if ((*it)->exectutorId == unitID) {
+    GameBase *currentBase = nullptr;
 
-            delete *it;
-            it = _allObjects.erase(it);
+    for (auto base : bases) {
+
+        if(actual->exectutorId == base->getUniqueID()){
+
+            currentBase = base;
+            break;
+        }
+    }
+
+    if (currentBase == nullptr) {
+
+        actual->AIMode = UNIT_INTERFACE;
+        return shouldContinue;
+    }
+
+    if (currentBase->getTeamID() != _playerID) {
+
+        actual->AIMode = UNIT_INTERFACE;
+        return shouldContinue;
+    }
+
+    if ((actual->AIMode != UNIT_LOCKED) && (currentBase->getUnitMode() != UNIT_LOCKED)) {
+
+        bool occupated = false;
+
+        xVec2 bPos = currentBase->getPosition();
+        xVec2 uPos;
+
+        for (auto ou : units) {
+
+            uPos = ou->getRealPosition();
+
+            if (AlmostEqual(bPos, uPos)) {
+                occupated = true;
+                break;
+            }
+        }
+
+        if (occupated == false) {
+
+            //Calculate whats going on
+            int Costs[5] = {75, 150, 200, 300, 200};
+
+            //Check if there are some bases we can capture
+            int infantryCount = 0;
+            int baseCount = 0;
+            bool buildInfantry = false;
+
+            for (auto tu : units) {
+
+                if ((tu->getTeamID() == _playerID) &&
+                    (tu->getUnitType() == M_INFANTRY || tu->getUnitType() == M_BAZOOKA)) {
+
+                    infantryCount++;
+                }
+            }
+
+            for (auto base : bases) {
+
+                if(base->getUniqueID() == currentBase->getUniqueID()) { continue; }
+
+                if (base->getTeamID() == 0) {
+
+                    baseCount++;
+                }
+            }
+
+            if (infantryCount < baseCount) {
+                buildInfantry = true;
+            }
+
+            bool canBuild = true;
+
+            static unsigned int fake = 0;
+
+            srand(unsigned(time(nullptr) + fake));
+
+            fake++;
+            if(fake == UINT32_MAX) fake = 0;
+
+            if (buildInfantry) {
+
+                currentBase->_unitToBuild = rand() % 2;
+
+                if (!_hardAI) {
+
+                    if (_playerMoney - Costs[currentBase->_unitToBuild] < 0) {
+
+                        currentBase->_unitToBuild = 0;
+
+                        if (_playerMoney - Costs[currentBase->_unitToBuild] < 0) {
+
+                            canBuild = false;
+                        }
+                    }
+                }
+
+                if (canBuild) {
+
+                    if (!_hardAI) {
+
+                        _playerMoney -= Costs[currentBase->_unitToBuild];
+                    }
+
+                    syncToMainLoop([currentBase, this](void *context, GameLogic *sender){
+
+                        auto toCreate = sender->buildUnit(currentBase);
+                        auto newObj = this->addAIObject(toCreate);
+                        newObj->AIMode = UNIT_LOCKED;
+                    });
+
+                    actual->AIMode = UNIT_LOCKED;
+                }
+            }
+            else{
+
+                if (_hardAI) {
+
+                    currentBase->_unitToBuild = rand() % 5;
+                }
+                else {
+
+                    if (rand() % 2) { //cheap part
+
+                        currentBase->_unitToBuild = (rand() % 3);
+                    }
+                    else{
+
+                        currentBase->_unitToBuild = 3 + (rand() % 2);
+                    }
+                }
+
+                if (!_hardAI) {
+
+                    if (_playerMoney - Costs[currentBase->_unitToBuild] < 0) {
+
+                        currentBase->_unitToBuild = rand() % 2;
+
+                        if (_playerMoney - Costs[currentBase->_unitToBuild] < 0) {
+
+                            currentBase->_unitToBuild = 0;
+                        }
+
+                        if (_playerMoney - Costs[currentBase->_unitToBuild] < 0)  {
+
+                            canBuild = false;
+                        }
+                    }
+                }
+
+                if (canBuild) {
+
+                    if (!_hardAI) {
+
+                        _playerMoney -= Costs[currentBase->_unitToBuild];
+                    }
+
+                    syncToMainLoop([currentBase, this](void *context, GameLogic *sender){
+
+                        auto toCreate = sender->buildUnit(currentBase);
+                        auto newObj = this->addAIObject(toCreate);
+                        newObj->AIMode = UNIT_LOCKED;
+                    });
+
+                    actual->AIMode = UNIT_LOCKED;
+                }
+            }
+        }
+    }
+
+    return shouldContinue;
+}
+
+bool AIPlayer::captureBaseTask(std::vector<GameUnit *> & units,
+                               std::vector<GameBase *> & bases,
+                               GameMap * map,
+                               AIObject *actual,
+                               AITask *currentTask,
+                               std::vector<int> &unitsToRemove) {
+
+    bool shouldContinue = false;
+
+    GameUnit *currentObject = nullptr;
+
+    //find unit
+    for (auto u : units) {
+
+        if (actual->exectutorId == u->getUniqueID()) {
+
+            currentObject = u;
+            break;
+        }
+    }
+
+    if (currentObject == nullptr) {
+
+        actual->AIMode = UNIT_INTERFACE;
+        return shouldContinue;
+    }
+
+    if ((actual->AIMode == UNIT_LOCKED) || (actual->AIMode == UNIT_NOTMOVE)) {
+
+        return shouldContinue;
+    }
+
+    //find base
+    int maxLen = currentObject->_lenghtMove;
+
+    //firts get all point for movements
+    auto fPoints = this->getAIPoints(currentObject, maxLen, units, bases);
+
+    //getBase
+    GameBase *currBase = nullptr;
+
+    for (auto base : bases) {
+
+        if (currentTask->objectiveId == base->getUniqueID()) {
+
+            currBase = base;
+            break;
+        }
+    }
+
+    //loop points
+    if (currBase == nullptr) {
+
+        shouldContinue = true;
+
+        return shouldContinue;
+    }
+
+    xVec2 basePos = currBase->getPosition();
+
+    bool baseFound = false;
+
+    for (auto val : fPoints) {
+
+        if (AlmostEqual(basePos, val)) {
+
+            baseFound = true;
+            break;
+        }
+    }
+
+    if (baseFound) {
+
+        basePos = currBase->getAIPosition();
+        xVec2 unitTestPoint = currentObject->getAIPosition();
+
+        if (this->canMove(unitTestPoint, basePos) && currBase->getBaseAction() != BASE_CAPTURED) {
+            //a star allow to move this point go there
+
+            moveCurrentObjectToPoint(currentObject, currBase->getPosition());
+            actual->AIMode = UNIT_LOCKED;
+
+            currBase->_turnsToUnlock = 2;
+            currBase->_baseAction = BASE_CAPTURED;
+            currBase->_mode = UNIT_LOCKED;
+            currentObject->_mode = UNIT_INTERFACE;
+            currentObject->_requestBaseID = currBase->getUniqueID();
+            currBase->_requestUnitID = currentObject->getUniqueID();
+
+            shouldContinue = true;
         }
         else {
 
-            ++it;
+            baseFound = false;
+        }
+    }
+
+    //if not find closest point to go
+    if (!baseFound) {
+
+        xVec2 dir = (currBase->getPosition() - currentObject->getRealPosition());
+        dir.normalize();
+        xVec2 goToPoint;
+
+        float distMag = (currBase->getPosition() - currentObject->getRealPosition()).mag();
+        float targetMag = 0;
+
+        xVec2 A,B;
+        std::vector<xVec2> fnPoints;
+
+        for (int it = maxLen; it >= 1; it--) {
+
+            fnPoints = this->getAIPoints(currentObject, it, units, bases);
+            goToPoint = this->farthesPositionInDirection(dir, fnPoints);
+
+            targetMag = (goToPoint - currentObject->getRealPosition()).mag();
+
+            A = map->selectionForPosition(currentObject->getRealPosition());
+            B = map->selectionForPosition(goToPoint);
+
+            if (this->canMove(A, B) && (targetMag <= distMag)) {
+                //a star allow to move this point go there
+
+                moveCurrentObjectToPoint(currentObject, goToPoint);
+                actual->AIMode = UNIT_ENDTURN;
+
+                //Check why we were not able to reach point
+                auto fUnits = this->getAIEnemyUnitsPos(currentObject, currentObject->_lenghtAttack, units);
+
+                GameUnit *fightUnit = nullptr;
+
+                for (auto u : units) {
+
+                    xVec2 apos = u->getRealPosition();
+
+                    if (this->containsPoint(apos, fUnits) && (u->getTeamID() != currentObject->getTeamID())) {
+
+                        //test if we can attack directly
+                        fightUnit = u;
+                        break;
+                    }
+                }
+
+                //There is enemy on the base...
+                if (fightUnit != nullptr) {
+
+                    attackUnit(units, bases, fightUnit, currentObject, unitsToRemove);
+
+                    if (currentObject == nullptr) {
+
+                        actual->AIMode = UNIT_INTERFACE;
+                    }
+                    else {
+
+                        actual->AIMode = UNIT_ENDTURN;
+                    }
+                }
+                else {
+
+                    shouldContinue = true;
+                }
+
+                break;
+            }
+
+        } //for MAX LEN
+
+    }
+
+    return shouldContinue;
+}
+
+bool AIPlayer::repairUnitTask(std::vector<GameUnit *> & units,
+                              std::vector<GameBase *> & bases,
+                              GameMap * map,
+                              AIObject *actual,
+                              AITask *currentTask,
+                              std::vector<int> &unitsToRemove) {
+
+    bool shouldContinue = false;
+
+    GameUnit *currentObject = nullptr;
+
+    //find unit
+    for (auto u : units) {
+
+        if (actual->exectutorId == u->getUniqueID()){
+            currentObject = u;
+            break;
+        }
+    }
+
+    if (currentObject == nullptr) {
+
+        actual->AIMode = UNIT_INTERFACE;
+        return shouldContinue;
+    }
+
+    int maxLen = currentObject->_lenghtMove;
+
+    //firts get all point for movements
+    auto fPoints = this->getAIPoints(currentObject, maxLen, units, bases);
+
+    //getBase
+    GameBase *currBase = nullptr;
+
+    for (auto *base : bases) {
+
+        if (currentTask->objectiveId == base->getUniqueID()) {
+            currBase = base;
+            break;
+        }
+    }
+
+    //loop points
+    xVec2 basePos = currBase->getPosition();
+    bool baseFound = false;
+
+    for (auto val : fPoints) {
+
+        if (AlmostEqual(basePos, val)) {
+
+            baseFound = true;
+            break;
+        }
+    }
+
+    //even if we founded base check if we can move on it
+    for (auto u : units) {
+
+        auto p = u->getRealPosition();
+
+        if (AlmostEqual(basePos, p)) {
+
+            baseFound = false; //you cannot heal someone is on the base
+            break;
+        }
+    }
+
+    if (baseFound) {
+
+        basePos = currBase->getAIPosition();
+        xVec2 unitTestPoint = currentObject->getAIPosition();
+
+        if (this->canMove(unitTestPoint, basePos)) {
+            //a star allow to move this point go there
+
+            moveCurrentObjectToPoint(currentObject, currBase->getPosition());
+            actual->AIMode = UNIT_LOCKED;
+
+            currBase->_turnsToUnlock = 1;
+            currBase->_baseAction = BASE_REPAIR;
+            currBase->_mode = UNIT_INTERFACE;
+            currentObject->_mode = UNIT_INTERFACE;
+            currentObject->_requestBaseID = currBase->getUniqueID();
+            currBase->_requestUnitID = currentObject->getUniqueID();
+
+            shouldContinue = true;
+        }
+        else {
+
+            baseFound = false;
+        }
+    }
+
+    //if not find closest point to go
+    if (!baseFound) {
+
+        xVec2 dir = (currBase->getPosition() - currentObject->getRealPosition());
+        dir.normalize();
+        xVec2 goToPoint;
+
+        float distMag = (currBase->getPosition() - currentObject->getRealPosition()).mag();
+        float targetMag = 0;
+
+        xVec2 A, B;
+        std::vector<xVec2> fnPoints;
+
+        for (int it = maxLen; it >= 1; it--) {
+
+            fnPoints = this->getAIPoints(currentObject, it, units, bases);
+            goToPoint = this->farthesPositionInDirection(dir, fnPoints);
+
+            targetMag = (goToPoint - currentObject->getRealPosition()).mag();
+
+            A = currentObject->getAIPosition();
+            B = map->selectionForPosition(goToPoint);
+
+            if (this->canMove(A, B) && (targetMag <= distMag)) {
+
+                //a star allow to move this point go there
+                moveCurrentObjectToPoint(currentObject, goToPoint);
+                actual->AIMode = UNIT_ENDTURN;
+                break;
+            }
+
+        } //for MAX LEN
+
+    } 
+
+    return shouldContinue;
+}
+
+void AIPlayer::moveAIUnit(std::vector<GameUnit *> &units,
+                          std::vector<GameBase *> &bases,
+                          GameUnit *fUnit,
+                          GameUnit *currentObject,
+                          GameMap *map,
+                          AIObject *actual,
+                          AITask *currentTask,
+                          bool isONBase,
+                          bool addUnitPosition,
+                          bool useDistance,
+                          std::function<void()> action) {
+
+    if (fUnit == nullptr) {
+        return;
+    }
+
+    if (currentObject->_map == nullptr) {
+        std::cout << "[ERROR] This is fatal!" << std::endl;
+        return;
+    }
+
+    for (int ver=0; ver<7; ver++) {
+
+        xVec2 dir = (((addUnitPosition ? fUnit->getRealPosition() : xVec2(0, 0)) + (xVec2(directionVersor[ver], 0) * 64.0)) - currentObject->getRealPosition());
+        dir.normalize();
+
+        xVec2 goToPoint;
+        xVec2 A, B;
+
+        float distMag = addUnitPosition ? (fUnit->getRealPosition() - currentObject->getRealPosition()).mag() : currentObject->getRealPosition().mag();
+        float targetMag = 0;
+
+        bool canGo = true;
+
+        for (int it = currentObject->_lenghtMove; it >= 1; it--) {
+
+            auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
+
+            goToPoint = this->farthesPositionInDirection(dir, fnPoints);
+
+            targetMag = (currentObject->getRealPosition() - goToPoint).mag();
+
+            A = currentObject->getAIPosition();
+            B = map->selectionForPosition(goToPoint);
+
+            canGo = true;
+
+            float finalDistance = (currentTask->score > 0.45 ? (128.0) : (isONBase ? 320.0 : 384.0));
+
+            if (this->canMove(A, B) && (targetMag <= distMag) && (useDistance ? (distMag-targetMag >= finalDistance) : true)) {
+
+                for (auto b : bases) {
+
+                    if (AlmostEqual(b->getPosition(), goToPoint)) {
+                        canGo = false;
+                        break;
+                    }
+                }
+
+                if(canGo){
+
+                    moveCurrentObjectToPoint(currentObject, goToPoint);
+                    actual->AIMode = UNIT_ENDTURN;
+
+                    if (action) {
+                        action();
+                    }
+
+                    break;
+                }
+
+            } else { //IF CAN MOVE TO POINT
+
+                canGo = false;
+            }
+
+        } //FOR ITERATOR
+
+        if(canGo) {
+
+            break;
+        }
+    }
+}
+
+void AIPlayer::moveArtillery(GameUnit *currentObject,
+                             GameMap * map,
+                             AIObject *actual,
+                             std::vector<GameBase *> & bases) {
+
+    if (actual->AIMode == UNIT_ENDTURN) {
+        return;
+    }
+
+    xVec2 A;
+    xVec2 B;
+    xVec2 goToPoint;
+
+    bool canGo = true;
+
+    for (int post = 0; post < 9; ++post) {
+
+        A = currentObject->getAIPosition();
+        B = xVec2(A.x + artilleryVersor[post], A.y);
+        goToPoint =  map->positionForSelection(B);
+
+        canGo = true;
+
+        if (this->canMove(A, B)) {
+
+            for (auto b : bases) {
+
+                if (AlmostEqual(b->getPosition(), goToPoint)) {
+                    canGo = false;
+                    break;
+                }
+            }
+
+            if (canGo) {
+
+                moveCurrentObjectToPoint(currentObject, goToPoint);
+                actual->AIMode = UNIT_ENDTURN;
+
+                break;
+            }
+        }
+    }
+}
+
+void AIPlayer::attackUnit(std::vector<GameUnit *> & units,
+                          std::vector<GameBase *> & bases,
+                          GameUnit *fUnit,
+                          GameUnit *currentObject,
+                          std::vector<int> &unitsToRemove) {
+
+    auto result = ::attackUnit(currentObject, fUnit, units, bases);
+
+    switch (result) {
+        case DESTROY_FIRST: {
+
+            unitsToRemove.push_back(currentObject->getUniqueID());
+            currentObject = nullptr;
+        }
+            break;
+        case DESTROY_SECOND: {
+
+            fUnit->setUnitMode(UNIT_NONE);
+            unitsToRemove.push_back(fUnit->getUniqueID());
+        }
+            break;
+        case DESTROY_BOTH: {
+
+            fUnit->setUnitMode(UNIT_NONE);
+            unitsToRemove.push_back(currentObject->getUniqueID());
+            unitsToRemove.push_back(fUnit->getUniqueID());
+            currentObject = nullptr;
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+void AIPlayer::simpleAIMove(std::vector<GameUnit *> & units,
+                            std::vector<GameBase *> & bases,
+                            GameUnit *fUnit,
+                            GameUnit *currentObject,
+                            GameMap * map,
+                            AIObject *actual) {
+
+    for (int ver = 0; ver < 7; ++ver) {
+
+        xVec2 dir = ((fUnit->getRealPosition() + (xVec2(directionVersor[ver],0) * 64.0)) - currentObject->getRealPosition());
+        dir.normalize();
+        xVec2 goToPoint;
+        xVec2 A,B;
+
+        bool canGo = true;
+
+        for (int it = currentObject->_lenghtMove; it >= 1; it--) {
+
+            auto fnPoints = this->getAIPoints(currentObject, it, units, bases);
+            goToPoint = this->farthesPositionInDirection(dir, fnPoints);
+
+            A = currentObject->getAIPosition();
+            B = map->selectionForPosition(goToPoint);
+
+            canGo = true;
+
+            if (this->canMove(A, B)) {
+
+                for (auto b : bases) {
+
+                    if (AlmostEqual(b->getPosition(), goToPoint)) {
+
+                        canGo = false;
+                        break;
+                    }
+                }
+
+                if (canGo) {
+
+                    moveCurrentObjectToPoint(currentObject, goToPoint);
+                    actual->AIMode = UNIT_ENDTURN;
+
+                    break;
+                }
+
+            } else {
+
+                canGo = false;
+            }
+
+        }
+
+        if (canGo) { break; }
+    }
+}
+
+void AIPlayer::findNewUnit(std::vector<GameUnit *> & units,
+                           std::vector<GameBase *> & bases,
+                           GameUnit *fUnit,
+                           GameUnit *currentObject,
+                           AITask *currentTask,
+                           std::vector<xVec2> &funits,
+                           std::vector<int> &unitsToRemove,
+                           std::function<void()> attackAction,
+                           std::function<void()> moveAction,
+                           std::function<void()> notFoundAction) {
+
+    vector<GameUnit *> findUnits;
+
+    for (auto u : units) {
+
+        if (u->getTeamID() != currentObject->getTeamID()) {
+
+            findUnits.push_back(u);
+        }
+    }
+
+    float currLenght = 0;
+    float lenght = 1000000;
+    int nearID = -1;
+
+    xVec2 aPos = currentObject->getRealPosition();
+    xVec2 bPos = xVec2(0,0);
+
+    for (int p = 0; p < findUnits.size(); ++p) {
+
+        auto ab = findUnits[p];
+        bPos = ab->getRealPosition();
+        currLenght = (aPos-bPos).mag();
+
+        if (currLenght < lenght) {
+
+            nearID = p;
+            lenght = currLenght;
+        }
+    }
+
+    //Ok we get it
+    if (nearID != -1) {
+
+        fUnit = findUnits[nearID];
+        currentTask->objectiveId = fUnit->getUniqueID();
+
+        xVec2 apos = fUnit->getRealPosition();
+
+        //test if we can attack directly
+        if (this->containsPoint(apos, funits)) {
+            //yes we can
+
+            attackUnit(units, bases, fUnit, currentObject, unitsToRemove);
+
+            if (attackAction) {
+
+                attackAction();
+            }
+        }
+        else {
+
+            if (moveAction) {
+
+                moveAction();
+            }
+        }
+
+        return;
+    }
+
+    if (notFoundAction) {
+
+        notFoundAction();
+    }
+}
+
+bool AIPlayer::attackUnitTask(std::vector<GameUnit *> & units,
+                              std::vector<GameBase *> & bases,
+                              GameMap * map,
+                              AIObject *actual,
+                              AITask *currentTask,
+                              std::vector<int> &unitsToRemove) {
+
+    bool shouldContinue = false;
+
+    GameUnit *currentObject = nullptr;
+
+    //find unit
+    for (auto unit : units) {
+
+        if (actual->exectutorId == unit->getUniqueID()) {
+
+            currentObject = unit;
+            break;
+        }
+    }
+
+    if (currentObject == nullptr) {
+
+        actual->AIMode = UNIT_INTERFACE;
+        return shouldContinue;
+    }
+
+    if (currentObject->getUnitType() == M_ARTILLERY) { //if unit is an alltilery be a bit smarter and try hit enemy unit
+
+        auto funits = this->getAIEnemyUnitsPos(currentObject, currentObject->_lenghtAttack, units);
+
+        GameUnit *fUnit = nullptr;
+
+        for (auto u : units) {
+
+            if (currentTask->objectiveId == u->getUniqueID()) {
+                fUnit = u;
+                break;
+            }
+        }
+
+        bool isONBase = false;
+
+        xVec2 tPosA = currentObject->getRealPosition();
+        xVec2 tPosB;
+
+        for (auto ba : bases) {
+
+            tPosB = ba->getPosition();
+
+            if (AlmostEqual(tPosA, tPosB)) {
+                isONBase = true;
+                break;
+            }
+        }
+
+        if (fUnit != nullptr) {
+
+            //Get enemy unit pos
+            xVec2 apos = fUnit->getRealPosition();
+
+            //test if we can attack directly
+            if (this->containsPoint(apos, funits) && (!isONBase)) {
+
+                attackUnit(units, bases, fUnit, currentObject, unitsToRemove);
+
+                if (currentObject == nullptr) { //we died...
+
+                    actual->AIMode = UNIT_INTERFACE;
+
+                }
+                else { //end turn we are done
+
+                    actual->AIMode = UNIT_ENDTURN;
+                }
+            }
+            else {
+
+                moveAIUnit(units, bases, fUnit, currentObject, map, actual, currentTask, isONBase, true);
+                moveArtillery(currentObject, map, actual, bases);
+            }
+        }
+        else { //unit we tryied to attack its destroyed find other one!
+
+            findNewUnit(units, bases, fUnit, currentObject, currentTask, funits, unitsToRemove, [&](){
+
+                if(currentObject == nullptr){ //we died...
+
+                    actual->AIMode = UNIT_INTERFACE;
+                }
+                else { //end turn we are done
+
+                    actual->AIMode = UNIT_ENDTURN;
+                }
+
+            }, [&](){
+
+                moveAIUnit(units, bases, fUnit, currentObject, map, actual, currentTask, isONBase, true);
+
+            }, [&](){
+
+                moveAIUnit(units, bases, fUnit, currentObject, map, actual, currentTask, isONBase, false);
+                moveArtillery(currentObject, map, actual, bases);
+            });
+        }
+    }
+    else {
+
+        //Test if unit is in attack range
+        auto fmUnits = this->getAIEnemyUnitsPos(currentObject, currentObject->_lenghtAttack, units);
+
+        GameUnit *fUnit = nullptr;
+
+        for (auto u : units) {
+
+            if (currentTask->objectiveId == u->getUniqueID()) {
+                fUnit = u;
+                break;
+            }
+        }
+
+        if (fUnit != nullptr) {
+
+            //Get enemy unit pos
+            xVec2 apos = fUnit->getRealPosition();
+
+            //test if we can attack directly
+            if (this->containsPoint(apos, fmUnits)){
+
+                //yes we can
+                attackUnit(units, bases, fUnit, currentObject, unitsToRemove);
+
+                if (currentObject == nullptr) { //we died...
+
+                    actual->AIMode = UNIT_INTERFACE;
+
+                } else { //nope we are still here try run out :)
+
+                    if (actual->AIMode == UNIT_NOTMOVE) {
+
+                        actual->AIMode = UNIT_ENDTURN;
+                    }
+                    else {
+
+                        fUnit = nullptr;
+
+                        for (auto u : units) {
+
+                            if (currentTask->objectiveId == u->getUniqueID()){
+                                fUnit = u;
+                                break;
+                            }
+                        }
+
+                        if (fUnit != nullptr) { //yes you should
+
+                            simpleAIMove(units, bases, fUnit, currentObject, map, actual);
+                        }
+                    }
+                }
+            }
+            else {
+
+                moveAIUnit(units, bases, fUnit, currentObject, map, actual, currentTask, false, true, false, [&](){
+
+                    //Get enemy unit pos
+                    xVec2 apos = fUnit->getRealPosition();
+
+                    //test if we can attack directly
+                    if (this->containsPoint(apos, fmUnits)) {
+                        //yes we can
+
+                        attackUnit(units, bases, fUnit, currentObject, unitsToRemove);
+
+                        if (currentObject == nullptr) { //we died...
+
+                            actual->AIMode = UNIT_INTERFACE;
+                        }
+                        else { //not died end turn for this unit
+
+                            actual->AIMode = UNIT_ENDTURN;
+                        }
+                    }
+
+                });
+            }
+        }
+        else { //unit we tryied to attack its destroyed find other one!
+
+            findNewUnit(units, bases, fUnit, currentObject, currentTask, fmUnits, unitsToRemove, [&](){
+
+                if (currentObject == nullptr) { //we died...
+
+                    actual->AIMode = UNIT_INTERFACE;
+                }
+                else { //nope we are still here try run out :)
+
+                    if (actual->AIMode == UNIT_NOTMOVE) {
+
+                        actual->AIMode = UNIT_ENDTURN;
+                    }
+                    else {
+
+                        //First test if you need to ... :]
+                        fUnit = nullptr;
+
+                        for (auto u : units) {
+
+                            if (actual->exectutorId == u->getUniqueID()) {
+
+                                fUnit = u;
+                                break;
+                            }
+                        }
+
+                        if ((fUnit != nullptr) && ( rand() % 2 )) { //yes you should
+
+                            simpleAIMove(units, bases, fUnit, currentObject, map, actual);
+                        }
+                    }
+                }
+
+            }, [&](){
+
+                moveAIUnit(units, bases, fUnit, currentObject, map, actual, currentTask, false, true, false, [&](){
+
+                    //Get enemy unit pos
+                    xVec2 apos = fUnit->getRealPosition();
+
+                    //test if we can attack directly
+                    if (this->containsPoint(apos, fmUnits)) {
+                        //yes we can
+
+                        attackUnit(units, bases, fUnit, currentObject, unitsToRemove);
+
+                        if (currentObject == nullptr) { //we died...
+
+                            actual->AIMode = UNIT_INTERFACE;
+                        }
+                        else { //not died end turn for this unit
+
+                            actual->AIMode = UNIT_ENDTURN;
+                        }
+                    }
+                });
+
+            });
+        }
+    }
+
+    if (actual->AIMode != UNIT_INTERFACE) {
+
+        actual->AIMode = UNIT_ENDTURN;
+    }
+
+    return shouldContinue;
+}
+
+bool AIPlayer::executeTask(std::vector<GameUnit *> & units,
+                           std::vector<GameBase *> & bases,
+                           GameMap * map,
+                           AIObject *actual,
+                           AITask *currentTask,
+                           std::vector<int> &unitsToRemove) {
+
+    bool shouldContinue = false;
+
+    switch (currentTask->Priority) {
+
+        case AI_BUILD_UNIT: {
+
+            shouldContinue = buildUnitTask(units, bases, map, actual, currentTask, unitsToRemove);
+        }
+            break;
+
+        case AI_DEFENSE_BASES:
+        case AI_ATTACK_ENEMY: {
+
+            shouldContinue = attackUnitTask(units, bases, map, actual, currentTask, unitsToRemove);
+        }
+            break;
+
+        case AI_REPAIR_UNIT: {
+
+            shouldContinue = repairUnitTask(units, bases, map, actual, currentTask, unitsToRemove);
+        }
+            break;
+
+        case AI_CAPTURE_BASES: {
+
+            shouldContinue = captureBaseTask(units, bases, map, actual, currentTask, unitsToRemove);
+        }
+            break;
+
+        case AI_STAY_UNIT:
+        case AI_DO_NOTHING_PRIOR:
+            break;
+
+        default:
+            break;
+    }
+
+    return shouldContinue;
+}
+
+void AIPlayer::removeAI(const int & unitID) {
+
+    for (int i = 0; i < _allObjects.size(); ++i) {
+
+        auto it = _allObjects[i];
+
+        if (it->exectutorId == unitID) {
+
+            it->AIMode = UNIT_INTERFACE;
+            break;
         }
     }
 }
@@ -2304,16 +1958,6 @@ xVec2 AIPlayer::farthesPositionInDirection(const xVec2 & direction, const std::v
     }
 
     return points[fId];
-
-//TODO: consider STD
-//    auto comparator = [direction](const auto & a, const auto & b)
-//    {
-//        return direction.dot(a) > direction.dot(b);
-//    };
-//
-//    sort(points.begin(), points.end(), comparator);
-//
-//    return *points.end();
 }
 
 bool AIPlayer::containsPoint(const xVec2 & p, const std::vector<xVec2> & points) {

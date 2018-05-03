@@ -46,7 +46,7 @@
             android:layout_height="32dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/empty2x"
-            android:text="X1"
+            android:text="X4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

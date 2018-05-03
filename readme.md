@@ -29,12 +29,28 @@ Mobile:
 * use two fingers to move
 * tap to select unit 
   
-Gameplay:
+## How to play:
+
+Your main task is to capture all bases on map, to do that you need infantry units. Capturing the base take 2 turns. You can repair damaged unit (not infantry unit) if you move back into your own base. Repair cost 1 turn.
+If unit stays on base it gets extra defence bonus.
 
 * Click / tap on base to open build menu
 
-* After selecting unit it will show its area of movement, tap in are to select path and confirm it by tapping / clicking on destination point.
+* After selecting unit it will show its area of movement, tap within grey area to select path and confirm it by tapping again by tapping / clicking on destination point.
 * To attack tap/klick on your unit and select unit to attack (if you are close enough / artillery use range of movement)
+
+### Units:
+
+![Infantry](../master/CORE/Resources/textures/icons/icon_infantry1.png) - Infantry unit, cost 75. Can capture bases. Strong against other infantry units, weak against Jeep.  
+
+![Bazooka](../master/CORE/Resources/textures/icons/icon_bazooka1.png) - Bazooka unit, cost 150. Can capture bases. Strong against mobile units, weak against Jeep.  
+ 
+![Jeep](../master/CORE/Resources/textures/icons/icon_jeep1.png) - Jeep unit, cost 200. Strong against infantry units, weak against Tank or Artillery.  
+
+![Tank](../master/CORE/Resources/textures/icons/icon_tank1.png) - Tank unit, cost 300. Strong against mobile and infantry units, weak against Bazooka unit. 
+
+![Artillery](../master/CORE/Resources/textures/icons/icon_artillery1.png) - Artillery unit, cost 200. Strong against any unit. May shoot at distance. If you move it first it cannot shoot. Weak agains Tank and Bazooka unit.
+
 
 ## Download
 
@@ -180,13 +196,34 @@ This project require at least `Visual Studio 2017 community version`
 * Open pixfight.sln
 * Press F5 or play button to build and run.
 
+### Mapeditor
+
+Editor uses `Makefile`, you need to install `cmake` to compile and build.
+
+* Open bash console (on Windows you can use mingw)
+* Navigate to pixfight/MAPEDITOR/
+* Type `make` and tap enter
+* Binaries with additional catalogues will be placed in `bin` directory
+
+To run on macOS / Linux navigate to `bin` directory and type `./editor`. Windows will generate appropriate `*.exe` file
+
+To build it on Windows you will need to install [MinGW](http://www.mingw.org/) with `gcc` compiler as dependency. Also you need to download [glew](http://glew.sourceforge.net/) and [glfw](http://www.glfw.org/) and copy content of `lib` and `include` directories to appropriate folders in `C:\MinGW\` (Please choose mingw32 libraries)
+
+If you have problems running editor on macOS (mostly High Sierra) you will need to manually download [glfw source code](https://github.com/glfw/glfw) and follow this steps: (then rebuild)  
+
+* Download and extract the GLFW source code  
+* Open the Terminal  
+* `cd` to the extracted directory  
+* Type in `cmake .`, hit return  
+* A Makefile will be created for you  
+* Type in `make`, hit return  
+* After the compilation process, type in `sudo make install`  
+* The libraries will be copied to `/usr/local/lib/`, the header files to `/usr/local/include/`  
+
 # 5. Next steps  
   
   
 * Add Undo / Redo move
-* Game need a lot of refactoring mostly in C++ code
-* Bugfixes  
-* I'm planning to add hot seats mode like in Heroes game
 * Multiplayer    
 
 I will cooperate with [infullmobile](https://www.infullmobile.com) to create a fully functional iOS/Android version of this game.
