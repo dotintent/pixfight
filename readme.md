@@ -60,8 +60,8 @@ Latest stable versions:
 [Windows](https://github.com/inFullMobile/pixfight/releases)  
 [Linux](https://github.com/inFullMobile/pixfight/releases) - Please follow building instructions to run it  
 [macOS](https://github.com/inFullMobile/pixfight/releases)  
-[iOS](https://developer.apple.com/xcode/) - Please download the source code and build it using xCode
-
+[iOS](https://developer.apple.com/xcode/) - Please download the source code and build it using xCode  
+[HTML5](https://github.com/inFullMobile/pixfight/releases)
 
 ## FAQ:
 
@@ -71,8 +71,8 @@ A: No, if you want to run this game on iPhone/iPad please download the xCode and
 Q: Can I make a spinoff / modify it?   
 A: Of course the whole idea of this project is to motivate people to make this even better.
 
-Q: Do you consider support for other platforms like Switch, PS4, HTML5?  
-A: Yes, but I don't have access to the hardware required to build it or test it. Most likely I will try to build HMTL5 version using Web-assembly.
+Q: Do you consider support for other platforms like Switch, PS4?  
+A: Yes, but I don't have access to the hardware required to build it or test it.   
 
 Q: Can I contribute ?  
 A: Yes! If you think you are able to help adding another platform drop me a line or fork this repo and make pull request.
@@ -88,6 +88,7 @@ A: I wanted to learn new languages and libraries and understand how to connect C
 ![Linux](../master/images/pixlinux.png)
 ![macOS](../master/images/pixmacos.png)   
 ![Windows](../master/images/pixwin32.png)  
+![HTML5](../master/images/html5.png)
 
 ## Contents
 
@@ -195,6 +196,31 @@ This project require at least `Visual Studio 2017 community version`
 * Navigate to pixfight/PLATFORM/Windows/pixfight
 * Open pixfight.sln
 * Press F5 or play button to build and run.
+
+### HTML5
+
+HTML5 version is experimental. It's a fully working game but lacks saving and multithreading* (read below how to enable threads) 
+
+To build it you need to download and install [Emscripten](http://kripken.github.io/emscripten-site/) (please follow instructions on site)
+
+* Open Terminal or shell
+* Navigate to pixfight/PLATFORM/HTML5
+* Type `emmake make` 
+* Build will be placed in `bin` directory  
+
+To run game you will need to start some local server e.g: by running `python -m SimpleHTTPServer 8000` in the same directory where you run `enmake make`  
+
+Now open browser and type `localhost:8000` it will open in `HTML5` directory. Navigate to `bin` and klick on `pixfight.html` the game will now run.
+
+**Threads support: (Chrome)**
+
+To enable threads in HTML5 you need to open `Makefile` in text editor and uncomment line 14 `EMFLAGS += -s USE_PTHREADS=1`
+
+Next you need to open chrome and type: `chrome://flags/` and activate:
+
+`Experimental enabled SharedArrayBuffer support in JavaScript.`
+
+This will give support for real multithreading in game (using std::thread) simply rebuild game and run it again.
 
 ### Mapeditor
 

@@ -41,6 +41,7 @@ GameLogic::GameLogic(const float &screenWidth,
 , _currentMapName("")
 , _timer(nullptr) {
 
+#ifndef __EMSCRIPTEN__
     auto fontPath = _rootPath + "Lato-Black.ttf";
     _font = new FontRender(fontPath);
 
@@ -48,6 +49,7 @@ GameLogic::GameLogic(const float &screenWidth,
     _font->setupOpenGL(shaderPath);
     _font->setFontSize(30);
     _font->setFontColor(FGLRed);
+#endif
 
     _selectedUnit = nullptr;
 
@@ -66,11 +68,14 @@ GameLogic::~GameLogic() noexcept {
 
     this->teardownOpenGL();
 
+#ifndef __EMSCRIPTEN__
     if (_font) {
 
         delete _font;
         _font = nullptr;
     }
+#endif
+
 }
 
 bool GameLogic::createNewGame(const std::string &gamename,
@@ -854,14 +859,36 @@ void GameLogic::endTurn() {
 
         _botsThinking = true;
 
-		std::thread thread([&]() {
+#ifdef __EMSCRIPTEN__
 
-			this->proceedBotsLogic();
+    #ifdef __EMSCRIPTEN_PTHREADS__
+        
+    std::thread thread([&]() {
 
-            std::cout << "Thread: " << std::this_thread::get_id() << " finished!" << std::endl;
-		});
+        this->proceedBotsLogic();
+    });
 
-		thread.detach();
+    thread.detach();
+
+    #else 
+
+        this->proceedBotsLogic();
+
+    #endif
+
+#else 
+
+    std::thread thread([&]() {
+
+        this->proceedBotsLogic();
+
+        std::cout << "Thread: " << std::this_thread::get_id() << " finished!" << std::endl;
+    });
+
+    thread.detach();
+
+#endif
+
     }
 }
 
@@ -958,6 +985,7 @@ void GameLogic::Render() {
 
     //draw some statistics
 
+#ifndef __EMSCRIPTEN__
     float sx = 2.0 / _screenWidth;
     float sy = 2.0 / _screenHeight;
 
@@ -982,6 +1010,7 @@ void GameLogic::Render() {
     _font->drawText(cashstr.c_str(), -1.96, -1.9, sx, sy);
 
     _font->end();
+#endif
 
     _drawingContext->unbindVertexArray();
 }

@@ -3,6 +3,22 @@
 #define NUMBER_OF_COMPONENTS_PER_VERTEX 2
 #define NUMBER_OF_INDICES 6
 
+#ifdef __EMSCRIPTEN__
+
+    #define GL_GLEXT_PROTOTYPES
+    #include <GLES/gl.h>
+    #include <GLES2/gl2.h>
+    #include <GLES2/gl2ext.h>
+    #define GLFW_INCLUDE_ES2
+    #include <GLFW/glfw3.h>
+    #include <emscripten/emscripten.h>
+  
+    #define glBindVertexArray glBindVertexArrayOES
+    #define glGenVertexArrays glGenVertexArraysOES
+    #define glDeleteVertexArrays glDeleteVertexArraysOES
+
+#else
+
 #ifdef _WIN32
 	
 	#define NOMINMAX
@@ -82,6 +98,8 @@
     #include <GL/gl.h>
     #include <GLFW/glfw3.h>
     #define GL_RED_EXT GL_RED
+
+#endif
 
 #endif
 

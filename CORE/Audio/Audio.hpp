@@ -39,6 +39,9 @@ public:
     void setVolume(float volume);
     float getVolume();
 
+    //required by webGL
+    void update();
+
 private:
 
     void unload();

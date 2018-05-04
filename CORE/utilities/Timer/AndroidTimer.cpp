@@ -14,7 +14,11 @@ void AndroidTimer::update() {
 
     timespec lTimeVal;
 
-    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &lTimeVal);
+#ifdef __EMSCRIPTEN__
+    clock_gettime(CLOCK_MONOTONIC, &lTimeVal); 
+#else 
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &lTimeVal); 
+#endif
 
     this->m_startTime = lTimeVal.tv_sec + (lTimeVal.tv_nsec * 1.0e-9);
     m_elapsed = (m_startTime - m_lastTime);

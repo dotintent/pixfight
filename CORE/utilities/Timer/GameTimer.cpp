@@ -24,6 +24,10 @@
     #include "AndroidTimer.hpp"
 #endif
 
+#ifdef __EMSCRIPTEN__
+    #include "AndroidTimer.hpp"
+#endif
+
 extern GameTimer *getPlatformTimerInstance() {
 
 #ifdef __linux__
@@ -41,6 +45,10 @@ extern GameTimer *getPlatformTimerInstance() {
 #ifdef __ANDROID__
     return new AndroidTimer();
 #endif
+
+#ifdef __EMSCRIPTEN__
+    return new AndroidTimer();
+#endif 
 
     return nullptr;
 }
