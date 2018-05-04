@@ -1,11 +1,11 @@
 #include "LoadGameScene.hpp"
 #include "glTextureLoader.hpp"
 
-#ifdef __linux__
-#include <dirent.h>
-#include <unistd.h>
+#if defined(__linux__) || defined(__EMSCRIPTEN__)
+    #include <dirent.h>
+    #include <unistd.h>
 #else
-#include <windows.h>
+    #include <windows.h>
 #endif
 
 LoadGameScene::LoadGameScene(const std::string & name, const std::string rootPath, struct nk_context *ctx) : BaseScene(name, rootPath, ctx) {
@@ -51,7 +51,7 @@ SceneType LoadGameScene::Render(struct nk_font *smallfont, struct nk_font *norma
 
             std::string deletePath =  _rootPath + "save/" + _files[_selectedFile];
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__EMSCRIPTEN__)
             unlink(deletePath.c_str());
 #else
 			_unlink(deletePath.c_str());
@@ -120,7 +120,7 @@ void LoadGameScene::Init() {
 
     _files.clear();
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__EMSCRIPTEN__)
     DIR *dpdf;
     struct dirent *epdf;
 

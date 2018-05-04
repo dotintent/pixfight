@@ -99,7 +99,19 @@
 
 	typedef float				xF32;
 	typedef double				xF64;
+#elif __EMSCRIPTEN__
+    typedef long long            xI64;
+    typedef signed int            xI32;
+    typedef signed short        xI16;
+    typedef signed char            xI8;
 
+    typedef unsigned long long    xU64;
+    typedef unsigned int        xU32;
+    typedef unsigned short        xU16;
+    typedef unsigned char        xU8;
+
+    typedef float                xF32;
+    typedef double                xF64;
 #else
 	#error Unknown platform!
 #endif

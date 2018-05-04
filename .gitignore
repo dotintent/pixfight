@@ -33,3 +33,6 @@ MAPEDITOR/PixEditor/DerivedData/
 MAPEDITOR/DerivedData/
 MAPEDITOR/bin/
 MAPEDITOR/nul
+
+#html5
+PLATFORM/HTML5/bin/
