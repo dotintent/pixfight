@@ -13,12 +13,14 @@
 #include "GameBase.hpp"
 #include "GameMap.hpp"
 
+#ifndef __EMSCRIPTEN__
 #include "FontRender.hpp"
+#endif
+
 #include "DrawingContext.hpp"
 #include "GameAnimation.hpp"
 #include "Audio.hpp"
 #include "GameTimer.hpp"
-#include "FontRender.hpp"
 #include "GameSync.hpp"
 
 class GameLogic final {
@@ -188,13 +190,16 @@ private:
     Audio::SoundID okSound;
     
     DrawingContext *_drawingContext;
-    FontRender *_fontRender;
+
     const Audio *_audioUnit;
     
     std::string _currentMapName;
     GameTimer *_timer;
 
+#ifndef __EMSCRIPTEN__
     FontRender *_font;
+#endif
+    
     GameUnit *_selectedUnit;
     bool _hardAI;
     bool _botsThinking;

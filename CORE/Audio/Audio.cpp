@@ -62,6 +62,11 @@ Audio::~Audio() noexcept {
     this->unload();
 }
 
+void Audio::update() {
+
+    _system->update();
+}
+
 void Audio::checkResult(FMOD_RESULT result) const {
 
     if (result == FMOD_OK) {

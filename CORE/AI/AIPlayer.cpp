@@ -408,10 +408,31 @@ void AIPlayer::moveCurrentObjectToPoint(GameUnit *currentObject, xVec2 &destinat
     //"lock" thread
     action = false;
 
+
+#ifdef __EMSCRIPTEN__
+
+    #ifdef __EMSCRIPTEN_PTHREADS__
+    
     syncToMainLoop([currentObject](void *context, GameLogic *sender){
 
         currentObject->makeMove();
-    });
+    });  
+
+    #else
+    
+    currentObject->makeMove();
+
+    #endif
+
+#else 
+            
+    syncToMainLoop([currentObject](void *context, GameLogic *sender){
+
+        currentObject->makeMove();
+    });   
+
+#endif
+   
 }
 
 void AIPlayer::updateAI(std::vector<GameUnit *> & units, std::vector<GameBase *> & bases) {
@@ -711,10 +732,25 @@ void AIPlayer::executeAI(std::vector<GameUnit *> & units, std::vector<GameBase *
 
         for (int c = 0; c < 2; ++c) { //move by whole unit task
 
+#ifdef __EMSCRIPTEN__
+
+    #ifdef __EMSCRIPTEN_PTHREADS__
+    
             while (false == action.load()) {
 
                 std::this_thread::yield();
             }
+
+    #endif
+
+#else 
+
+            while (false == action.load()) {
+
+                std::this_thread::yield();
+            }
+
+#endif
 
             if (actual->firstPriorityTask == nullptr) {
 

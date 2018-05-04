@@ -14,7 +14,16 @@
 #define NK_GLFW_GL3_H_
 
 #include <string.h>
+
+#ifdef __EMSCRIPTEN__
+
+#include "Core-pch.hpp"
+
+#else 
+
 #include <GLFW/glfw3.h>
+
+#endif
 
 NK_API struct nk_context*   nk_glfw3_init(GLFWwindow *win);
 NK_API void                 nk_glfw3_shutdown(void);
@@ -74,6 +83,32 @@ static struct nk_glfw {
 NK_API void
 nk_glfw3_device_create(void)
 {
+
+#ifdef __EMSCRIPTEN__
+    GLint status;
+    static const GLchar *vertex_shader =
+        "#version 100\n"
+        "uniform mat4 ProjMtx;\n"
+        "attribute vec2 Position;\n"
+        "attribute vec2 TexCoord;\n"
+        "attribute vec4 Color;\n"
+        "varying vec2 Frag_UV;\n"
+        "varying vec4 Frag_Color;\n"
+        "void main() {\n"
+        "   Frag_UV = TexCoord;\n"
+        "   Frag_Color = Color;\n"
+        "   gl_Position = ProjMtx * vec4(Position.xy, 0, 1);\n"
+        "}\n";
+    static const GLchar *fragment_shader =
+        "#version 100\n"
+        "precision mediump float;\n"
+        "uniform sampler2D Texture;\n"
+        "varying vec2 Frag_UV;\n"
+        "varying vec4 Frag_Color;\n"
+        "void main(){\n"
+        "   gl_FragColor = Frag_Color * texture2D(Texture, Frag_UV.st);\n"
+        "}\n";
+#else
     GLint status;
     static const GLchar *vertex_shader =
         NK_SHADER_VERSION
@@ -98,6 +133,7 @@ nk_glfw3_device_create(void)
         "void main(){\n"
         "   Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
         "}\n";
+#endif
 
     struct nk_glfw_device *dev = &glfw.ogl;
     nk_buffer_init_default(&dev->cmds);
@@ -223,6 +259,44 @@ nk_glfw3_render(enum nk_anti_aliasing AA, int max_vertex_buffer, int max_element
         glBufferData(GL_ARRAY_BUFFER, max_vertex_buffer, NULL, GL_STREAM_DRAW);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, max_element_buffer, NULL, GL_STREAM_DRAW);
 
+//WebGL does not support glMapBuffer use old way
+#ifdef __EMSCRIPTEN__
+
+        /* load vertices/elements directly into vertex/element buffer */
+        vertices = malloc((size_t)max_vertex_buffer);
+        elements = malloc((size_t)max_element_buffer);
+        {
+            /* fill convert configuration */
+            struct nk_convert_config config;
+            static const struct nk_draw_vertex_layout_element vertex_layout[] = {
+                {NK_VERTEX_POSITION, NK_FORMAT_FLOAT, NK_OFFSETOF(struct nk_glfw_vertex, position)},
+                {NK_VERTEX_TEXCOORD, NK_FORMAT_FLOAT, NK_OFFSETOF(struct nk_glfw_vertex, uv)},
+                {NK_VERTEX_COLOR, NK_FORMAT_R8G8B8A8, NK_OFFSETOF(struct nk_glfw_vertex, col)},
+                {NK_VERTEX_LAYOUT_END}
+            };
+            NK_MEMSET(&config, 0, sizeof(config));
+            config.vertex_layout = vertex_layout;
+            config.vertex_size = sizeof(struct nk_glfw_vertex);
+            config.vertex_alignment = NK_ALIGNOF(struct nk_glfw_vertex);
+            config.null = dev->null;
+            config.circle_segment_count = 22;
+            config.curve_segment_count = 22;
+            config.arc_segment_count = 22;
+            config.global_alpha = 1.0f;
+            config.shape_AA = AA;
+            config.line_AA = AA;
+
+            /* setup buffers to load vertices and elements */
+            nk_buffer_init_fixed(&vbuf, vertices, (nk_size)max_vertex_buffer);
+            nk_buffer_init_fixed(&ebuf, elements, (nk_size)max_element_buffer);
+            nk_convert(&glfw.ctx, &dev->cmds, &vbuf, &ebuf, &config);
+        }
+        glBufferSubData(GL_ARRAY_BUFFER, 0, (size_t)max_vertex_buffer, vertices);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, (size_t)max_element_buffer, elements);
+        free(vertices);
+        free(elements);
+#else 
+
         /* load draw vertices & elements directly into vertex + element buffer */
         vertices = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
         elements = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
@@ -254,6 +328,7 @@ nk_glfw3_render(enum nk_anti_aliasing AA, int max_vertex_buffer, int max_element
         }
         glUnmapBuffer(GL_ARRAY_BUFFER);
         glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+#endif
 
         /* iterate over and execute each draw command */
         nk_draw_foreach(cmd, &glfw.ctx, &dev->cmds)
