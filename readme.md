@@ -60,13 +60,13 @@ Latest stable versions:
 [Windows](https://github.com/inFullMobile/pixfight/releases)  
 [Linux](https://github.com/inFullMobile/pixfight/releases) - Please follow building instructions to run it  
 [macOS](https://github.com/inFullMobile/pixfight/releases)  
-[iOS](https://developer.apple.com/xcode/) - Please download the source code and build it using xCode  
+[iOS](https://developer.apple.com/xcode/) - Please download the source code and build it using Xcode  
 [HTML5](https://github.com/inFullMobile/pixfight/releases)
 
 ## FAQ:
 
 Q: Can you provide a *.ipa for me?  
-A: No, if you want to run this game on iPhone/iPad please download the xCode and build it for yourself.
+A: No, if you want to run this game on iPhone/iPad please download the Xcode and build it for yourself.
 
 Q: Can I make a spinoff / modify it?   
 A: Of course the whole idea of this project is to motivate people to make this even better.
