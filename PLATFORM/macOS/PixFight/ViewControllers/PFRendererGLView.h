@@ -12,9 +12,12 @@
 @interface PFRendererGLView : NSOpenGLView
 
 @property (weak) NSButton *endRoundButton;
+@property (weak) NSButton *undoTurnButton;
 
 - (void)setGameLogic:(GameLogic *)gameLogic;
 - (void)startAnimating;
 - (void)stopAnimating;
+
+- (void)undo;
 
 @end

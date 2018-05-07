@@ -25,6 +25,7 @@
 @property (assign) GameBase *selectedBase;
 @property (weak) IBOutlet NSButton *endTurnButton;
 @property (weak) IBOutlet NSButton *menuButton;
+@property (weak) IBOutlet NSButton *undoButton;
 @property (weak) IBOutlet NSVisualEffectView *overlayView;
 @property (weak) IBOutlet NSProgressIndicator *spinner;
 
@@ -174,6 +175,8 @@
     }
 
     self.renderView.endRoundButton = self.endTurnButton;
+    self.renderView.undoTurnButton = self.undoButton;
+
     [self.renderView setGameLogic:gameLogic];
 }
 
@@ -206,6 +209,13 @@
     int time = (int)gameLogic->multiplyTime();
     
     [sender setTitle:[NSString stringWithFormat:@"X%d", time]];
+}
+
+- (IBAction)undoAction:(NSButton *)sender {
+
+    [sender setState:NSControlStateValueOff];
+
+    [self.renderView undo];
 }
 
 - (void)saveGame {
@@ -411,10 +421,7 @@
 
         __weak PFRenderViewController *controller = (__bridge PFRenderViewController *)context;
 
-        controller.selectedBase->setUnitToBuild(unitId);
-        logic->setPlayerCash(cash);
-        logic->buildUnit(controller.selectedBase);
-        controller.selectedBase = nullptr;
+        logic->buildNewUnitFromBase(controller.selectedBase, unitId, cash);
     });
 }
 

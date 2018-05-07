@@ -30,6 +30,17 @@
             app:srcCompat="@drawable/back2x" />
 
         <Button
+            android:id="@+id/rendergame_undo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/undo2x"
+            app:layout_constraintStart_toEndOf="@+id/rendergame_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/back2x" />
+
+        <Button
             android:id="@+id/rendergame_endtrun"
             android:layout_width="32dp"
             android:layout_height="32dp"

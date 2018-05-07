@@ -44,6 +44,8 @@ private:
 	struct nk_image _timebtnp;
 	struct nk_image _turnbtn;
 	struct nk_image _turnbtnp;
+	struct nk_image _undobtn;
+	struct nk_image _undobtnp;
 
     struct nk_image _infantry;
     struct nk_image _bazooka;

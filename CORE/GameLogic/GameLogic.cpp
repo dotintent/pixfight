@@ -66,6 +66,8 @@ GameLogic::GameLogic(const float &screenWidth,
 
 GameLogic::~GameLogic() noexcept {
 
+    clearUndo();
+
     this->teardownOpenGL();
 
 #ifndef __EMSCRIPTEN__
@@ -832,6 +834,8 @@ bool GameLogic::canEndTurn() {
 
 void GameLogic::endTurn() {
 
+    clearUndo();
+
     _selectedUnit = nullptr;
     _mainMap->cleanRoad();
 
@@ -1083,16 +1087,107 @@ void GameLogic::unitFinishMoving(GameUnit *unit) {
     }
 }
 
-bool GameLogic::loadUndo(const std::string & path) {
+bool GameLogic::canUndo() {
 
-    //TODO: finish this
-    return true;
+    return !_undos.empty();
 }
 
-bool GameLogic::saveUndo(const std::string & path) {
+void GameLogic::undo() {
 
-    //TODO: finish this
-    return true;
+    syncToMainLoop([&](void *, GameLogic*){
+
+        this->loadUndo();
+    });
+}
+
+void GameLogic::loadUndo() {
+
+    if (_undos.empty()) {
+        return;
+    }
+
+    auto undo = _undos.back();
+
+    for (auto it = _units.begin(); it != _units.end(); ++it) {
+
+        delete *it;
+        *it = nullptr;
+    }
+
+    for (auto it = _bases.begin(); it != _bases.end(); ++it) {
+
+        delete *it;
+        *it = nullptr;
+    }
+
+    _playerCash = undo.cash;
+
+    _units.clear();
+    _bases.clear();
+
+    _units.insert(_units.end(), undo.units.begin(), undo.units.end());
+    _bases.insert(_bases.end(), undo.bases.begin(), undo.bases.end());
+
+    _undos.pop_back();
+}
+
+void GameLogic::saveUndo() {
+
+    moveUndo currentUndo;
+
+    currentUndo.cash = _playerCash;
+    currentUndo.bases.clear();
+    currentUndo.units.clear();
+
+    for (auto u : _units) {
+
+        currentUndo.units.push_back(new GameUnit(*u));
+    }
+
+    for (auto b : _bases) {
+
+        currentUndo.bases.push_back(new GameBase(*b));
+    }
+
+    _undos.push_back(currentUndo);
+
+    if (_undos.size() > MAX_UNDO_ALLOWED) {
+
+        auto undo = _undos.front();
+
+        for (auto unit : undo.units) {
+
+            delete unit;
+        }
+
+        for (auto base : undo.bases) {
+
+            delete base;
+        }
+
+        _undos.erase(_undos.begin());
+    }
+}
+
+void GameLogic::clearUndo() {
+
+    for (auto undo : _undos) {
+
+        for (auto unit : undo.units) {
+
+            delete unit;
+        }
+
+        for (auto base : undo.bases) {
+
+            delete base;
+        }
+
+        undo.units.clear();
+        undo.bases.clear();
+    }
+
+    _undos.clear();
 }
 
 float GameLogic::multiplyTime() {
@@ -1395,6 +1490,10 @@ void GameLogic::setDirectionVec(const xVec2 & vec) {
 
 void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
+    if (_botsThinking) {
+        return;
+    }
+
     if (_gameLoaded == false) {
         return;
     }
@@ -1498,6 +1597,8 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
             if (current->getTeamID() != unit->getTeamID()) {
 
                 if (_mainMap->canAttackAtTestPoint()) {
+
+                    saveUndo();
 
                     //cleanup old explosion
                     for (auto it = _explosions.begin(); it != _explosions.end(); ) {
@@ -1609,6 +1710,7 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
             if (readyToMove && _mainMap->isPointEqual(lastTouchedPoint, touch)) {
 
+                saveUndo();
                 unit->makeMove();
 
                 //set our unit that its cannot move anymore in this turn
@@ -2115,6 +2217,16 @@ void GameLogic::roadForUnit(GameUnit *current) {
     //last step temporary lock all hex that are outside the pool we already made.
     _mainMap->lockRoad();
     this->unitsToFight(current);
+}
+
+void GameLogic::buildNewUnitFromBase(GameBase *base, int unitId,  int remainingCash) {
+
+    saveUndo();
+
+    base->setUnitToBuild(unitId);
+    setPlayerCash(remainingCash);
+    buildUnit(base);
+    base = nullptr;
 }
 
 GameUnit* GameLogic::buildUnit(GameBase *base) {
