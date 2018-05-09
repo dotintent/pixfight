@@ -22,8 +22,10 @@
 
 @property (nonatomic, weak) GLKView *glView;
 @property (nonatomic, strong) EAGLContext *context;
+
 @property (nonatomic, weak) IBOutlet UIButton *endTurnButton;
 @property (nonatomic, weak) IBOutlet UIButton *menuButton;
+@property (nonatomic, weak) IBOutlet UIButton *undoButton;
 @property (nonatomic, weak) IBOutlet UIVisualEffectView *blurView;
 
 @property (nonatomic, assign) NSInteger selectedPlayer;
@@ -177,6 +179,15 @@
                                  playerID,
                                  playerCount);
     }
+}
+
+- (IBAction)undoAction:(id)sender {
+
+    if (!gameLogic) {
+        return;
+    }
+
+    gameLogic->undo();
 }
 
 - (IBAction)endTurnAction:(id)sender {
@@ -423,6 +434,7 @@
     gameLogic->Render();
 
     self.endTurnButton.enabled = gameLogic->canEndTurn();
+    self.undoButton.enabled = gameLogic->canUndo() && gameLogic->canEndTurn();
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -438,10 +450,7 @@
 - (void)selectUnitView:(PFSelectUnitViewController *)sender
    didFinishWithUnitID:(int)unitId {
 
-    selectedBase->setUnitToBuild(unitId);
-    gameLogic->setPlayerCash([sender remainedCash]);
-    gameLogic->buildUnit(selectedBase);
-    selectedBase = nullptr;
+    gameLogic->buildNewUnitFromBase(selectedBase, unitId, [sender remainedCash]);
 }
 
 @end

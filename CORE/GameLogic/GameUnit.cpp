@@ -217,6 +217,66 @@ GameUnit::GameUnit(const std::string & path,
     _distance = 1;
 }
 
+GameUnit::GameUnit(const GameUnit & other)
+: _tex(other._tex)
+, _addTex(other._addTex)
+, _texBias(other._texBias)
+, _animX(other._animX)
+, _accum(other._accum)
+, _fireaccum(other._fireaccum)
+, _fireanim(other._fireanim)
+, _fireing(other._fireing)
+, _teamID(other._teamID)
+, _currentOR(other._currentOR)
+, _digTex(other._digTex)
+, _arrowTex(other._arrowTex)
+, _move(other._move)
+, _selected(other._selected)
+, _size(other._size)
+, _sa(other._sa)
+, _sb(other._sb)
+, _currentPos(other._currentPos)
+, _lastPosition(other._lastPosition)
+, _finalPosition(other._finalPosition)
+, _direction(other._direction)
+, _lastPoint(other._lastPoint)
+, _currentPoint(other._currentPoint)
+, _AABB(other._AABB)
+, _radius(other._radius)
+, _mode(other._mode)
+, _type(other._type)
+, _lenghtMove(other._lenghtMove)
+, _lenghtAttack(other._lenghtAttack)
+, _findID(other._findID)
+, _outputPosition(other._outputPosition)
+, _name(other._name)
+, _uniqueUnitID(other._uniqueUnitID)
+, _requestBaseID(other._requestBaseID)
+, _pathCopy(other._pathCopy)
+, _mayAttack(other._mayAttack)
+, _damaged(other._damaged)
+, _animationSpeed(other._animationSpeed)
+, _animationLenght(other._animationLenght)
+, _basicAnimationSpeed(other._basicAnimationSpeed)
+, _basicAnimationLenght(other._basicAnimationLenght)
+, _blinking(other._blinking)
+, _animLock(other._animLock)
+, _val(other._val)
+, _map(other._map)
+, _distance(other._distance) {
+
+    _mesh = new Mesh2d(&_tex);
+    _addMesh = new Mesh2d(&_addTex);
+    _nr = new Mesh2d(&_digTex);
+    _action = new Mesh2d(&_arrowTex);
+
+    _mesh->Color = FGLFC;
+    _addMesh->Color = FGLFC;
+
+    _mesh->setAnimation(_animX, _currentOR);
+    _addMesh->setAnimation(_animX, _currentOR);
+}
+
 GameUnit::~GameUnit() noexcept {
 
     _map = nullptr;

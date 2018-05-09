@@ -21,10 +21,10 @@
 //this function will run on another thread bind to OpenGL context so dispatch from and to this code.
 - (void)drawView {
     
-    [[self openGLContext] makeCurrentContext];
-    
     CGLLockContext((CGLContextObj)[[self openGLContext] CGLContextObj]);
-    
+
+    [[self openGLContext] makeCurrentContext];
+
     if (_gameLogic) {
         
         _gameLogic->Render();
@@ -35,15 +35,29 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
 
-        if (self.endRoundButton) {
+        if (!_gameLogic) {
+            return;
+        }
 
-            if (!_gameLogic) {
-                return;
-            }
+        if (self.endRoundButton) {
 
             self.endRoundButton.enabled = _gameLogic->canEndTurn();
         }
+
+        if (self.undoTurnButton) {
+
+            self.undoTurnButton.enabled = _gameLogic->canUndo() && _gameLogic->canEndTurn();
+        }
     });
+}
+
+- (void)undo {
+
+    if (!_gameLogic) {
+        return;
+    }
+
+    _gameLogic->undo();
 }
 
 - (CVReturn)getFrameForTime:(const CVTimeStamp *)outputTime {

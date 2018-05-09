@@ -486,6 +486,17 @@
                                     <action selector="homeAction:" destination="YEj-zc-ROB" eventType="touchUpInside" id="wTB-3c-oHT"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIR-hD-gOU">
+                                <rect key="frame" x="57" y="10" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="1zS-ua-4eH"/>
+                                    <constraint firstAttribute="height" constant="32" id="pO6-Sa-J1e"/>
+                                </constraints>
+                                <state key="normal" image="undo.png"/>
+                                <connections>
+                                    <action selector="undoAction:" destination="YEj-zc-ROB" eventType="touchUpInside" id="NND-mb-lhU"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="snM-FS-iG9">
                                 <rect key="frame" x="625" y="10" width="32" height="32"/>
                                 <constraints>
@@ -517,12 +528,14 @@
                             <constraint firstItem="qBH-Dx-ZUd" firstAttribute="width" secondItem="K3e-NH-tDZ" secondAttribute="width" id="9iR-La-HHx"/>
                             <constraint firstItem="qBH-Dx-ZUd" firstAttribute="height" secondItem="K3e-NH-tDZ" secondAttribute="height" id="HjZ-XS-baS"/>
                             <constraint firstItem="DuK-Yf-68j" firstAttribute="leading" secondItem="K3e-NH-tDZ" secondAttribute="leading" constant="10" id="NpD-XW-oWb"/>
+                            <constraint firstItem="IIR-hD-gOU" firstAttribute="leading" secondItem="DuK-Yf-68j" secondAttribute="trailing" constant="15" id="Yya-hX-fN5"/>
                             <constraint firstItem="DuK-Yf-68j" firstAttribute="top" secondItem="Mu5-yK-K33" secondAttribute="bottom" constant="10" id="Zii-cY-8jC"/>
                             <constraint firstItem="o1I-m8-ARA" firstAttribute="top" secondItem="Mu5-yK-K33" secondAttribute="bottom" constant="10" id="foa-dY-6TI"/>
                             <constraint firstItem="o1I-m8-ARA" firstAttribute="centerX" secondItem="K3e-NH-tDZ" secondAttribute="centerX" id="gB7-D8-CP9"/>
                             <constraint firstItem="qBH-Dx-ZUd" firstAttribute="centerX" secondItem="K3e-NH-tDZ" secondAttribute="centerX" id="iAp-OG-Xpa"/>
                             <constraint firstItem="snM-FS-iG9" firstAttribute="top" secondItem="Mu5-yK-K33" secondAttribute="bottom" constant="10" id="mkk-KF-KrG"/>
                             <constraint firstItem="qBH-Dx-ZUd" firstAttribute="centerY" secondItem="K3e-NH-tDZ" secondAttribute="centerY" id="p7C-rB-NL1"/>
+                            <constraint firstItem="IIR-hD-gOU" firstAttribute="top" secondItem="Mu5-yK-K33" secondAttribute="bottom" constant="10" id="tpN-kt-0pX"/>
                         </constraints>
                         <connections>
                             <outlet property="delegate" destination="YEj-zc-ROB" id="Jjx-0f-Saa"/>
@@ -532,6 +545,7 @@
                         <outlet property="blurView" destination="qBH-Dx-ZUd" id="7EE-PI-clH"/>
                         <outlet property="endTurnButton" destination="snM-FS-iG9" id="Nlc-p3-9Yo"/>
                         <outlet property="menuButton" destination="DuK-Yf-68j" id="Crv-mg-m1m"/>
+                        <outlet property="undoButton" destination="IIR-hD-gOU" id="7wE-Ye-AJo"/>
                         <segue destination="QIh-WH-vhq" kind="presentation" identifier="PFBuildUnitSegueIdentifier" modalPresentationStyle="overCurrentContext" id="pDu-6H-Cjz"/>
                     </connections>
                 </glkViewController>
@@ -656,6 +670,7 @@
         <image name="menubg.png" width="480" height="320"/>
         <image name="turn.png" width="32" height="32"/>
         <image name="tutorial.png" width="128" height="128"/>
+        <image name="undo.png" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="DAt-tP-Mpb"/>

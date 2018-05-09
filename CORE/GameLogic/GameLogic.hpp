@@ -27,6 +27,8 @@ class GameLogic final {
 
     static const int32_t headerID;
 
+    constexpr static const int MAX_UNDO_ALLOWED = 3;
+
     //timer
     constexpr static const float MAX_FRAME_TIME = 0.01;
     float _accumulator;
@@ -73,8 +75,9 @@ public:
     //only valid context is 2.0ES / 3.2Core
     void Render();
 
-    bool loadUndo(const std::string & path);
-    bool saveUndo(const std::string & path);
+    //undo logic
+    bool canUndo();
+    void undo();
 
     float multiplyTime();
 
@@ -94,8 +97,11 @@ public:
     std::function<void(void *, GameBase *)> baseSelectedCallback;
 
     //use this function after showing build menu using base recivied from `baseSelectedCallback`
+    void buildNewUnitFromBase(GameBase *base, int unitId, int remainingCash);
+
+    //required by AI
     GameUnit* buildUnit(GameBase *base);
-    
+
     void setHardAI(const bool & hardAI);
 
     int & getPlayerCash() { return _playerCash; }
@@ -107,11 +113,26 @@ public:
     
 private:
 
+    void loadUndo();
+    void saveUndo();
+    void clearUndo();
+
     void think(const float & delta);
     void unitFinishMoving(GameUnit *unit);
     void unitsToMerge(GameUnit *unit);
     void unitsToFight(GameUnit *unit);
     void roadForUnit(GameUnit *unit);
+
+    bool loadLogic(const std::string & logicPath);
+    bool loadMap(const std::string & mapPath);
+
+    void setupOpenGL();
+    void teardownOpenGL();
+
+    void sortUnits();
+    void proceedBotsLogic();
+
+private:
 
     struct unitdata {
         xVec2 pos;
@@ -147,15 +168,6 @@ private:
         float scale;
     };
 
-    bool loadLogic(const std::string & logicPath);
-    bool loadMap(const std::string & mapPath);
-
-    void setupOpenGL();
-    void teardownOpenGL();
-
-    void sortUnits();
-    void proceedBotsLogic();
-    
     float _screenWidth;
     float _screenHeight;
     
@@ -203,4 +215,13 @@ private:
     GameUnit *_selectedUnit;
     bool _hardAI;
     bool _botsThinking;
+
+    struct moveUndo {
+        int cash;
+        std::vector<GameUnit *> units;
+        std::vector<GameBase *> bases;
+    };
+
+    std::vector<moveUndo> _undos;
 };
+

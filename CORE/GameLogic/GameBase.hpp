@@ -21,7 +21,7 @@ public:
     GameBase(const std::string & path, const xVec2 & size, const xVec2 & tile, const int & teamID);
     ~GameBase() noexcept;
 
-    GameBase(const GameBase & other) = delete;
+    GameBase(const GameBase & other);
     GameBase(GameBase && other) noexcept = delete;
 
     GameBase & operator= (const GameBase & other) = delete;
