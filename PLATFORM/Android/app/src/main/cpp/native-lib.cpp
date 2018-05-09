@@ -347,6 +347,24 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeOnS
     gameLogic = nullptr;
 }
 
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_undo(JNIEnv* jenv, jobject obj) {
+
+    if (gameLogic == nullptr) {
+        return;
+    }
+
+    gameLogic->undo();
+}
+
+JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_canUndo(JNIEnv* jenv, jobject obj) {
+
+    if (gameLogic == nullptr) {
+        return false;
+    }
+
+    return gameLogic->canUndo() && gameLogic->canEndTurn();
+}
+
 JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_canEndTurn(JNIEnv* jenv, jobject obj) {
 
     if (gameLogic == nullptr) {
@@ -379,10 +397,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_fi
     //we are coming from java UI thread!
     syncToMainLoop([unitid, cash](void *context, GameLogic *logic){
 
-        selectedBase->setUnitToBuild(unitid);
-        gameLogic->setPlayerCash(cash);
-        gameLogic->buildUnit(selectedBase);
-        selectedBase = nullptr;
+        logic->buildNewUnitFromBase(selectedBase, unitid, cash);
     });
 }
 

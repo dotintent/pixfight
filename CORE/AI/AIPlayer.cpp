@@ -408,6 +408,8 @@ void AIPlayer::moveCurrentObjectToPoint(GameUnit *currentObject, xVec2 &destinat
     //"lock" thread
     action = false;
 
+    //set destination for enemy calculation
+    currentObject->_finalPosition = destination;
 
 #ifdef __EMSCRIPTEN__
 
@@ -1255,6 +1257,11 @@ bool AIPlayer::repairUnitTask(std::vector<GameUnit *> & units,
         }
     }
 
+    if (currBase == nullptr) {
+
+        return shouldContinue;
+    }
+
     //loop points
     xVec2 basePos = currBase->getPosition();
     bool baseFound = false;
@@ -1911,31 +1918,43 @@ bool AIPlayer::executeTask(std::vector<GameUnit *> & units,
 
         case AI_BUILD_UNIT: {
 
+            std::cout<<"AI_BUILD_UNIT"<<std::endl;
             shouldContinue = buildUnitTask(units, bases, map, actual, currentTask, unitsToRemove);
         }
             break;
 
-        case AI_DEFENSE_BASES:
+        case AI_DEFENSE_BASES: 
         case AI_ATTACK_ENEMY: {
 
+            std::cout<<"AI_ATTACK_ENEMY"<<std::endl;
             shouldContinue = attackUnitTask(units, bases, map, actual, currentTask, unitsToRemove);
         }
             break;
 
         case AI_REPAIR_UNIT: {
 
+            std::cout<<"AI_REPAIR_UNIT"<<std::endl;
             shouldContinue = repairUnitTask(units, bases, map, actual, currentTask, unitsToRemove);
         }
             break;
 
         case AI_CAPTURE_BASES: {
 
+            std::cout<<"AI_CAPTURE_BASES"<<std::endl;
             shouldContinue = captureBaseTask(units, bases, map, actual, currentTask, unitsToRemove);
         }
             break;
 
-        case AI_STAY_UNIT:
-        case AI_DO_NOTHING_PRIOR:
+        case AI_STAY_UNIT: {
+
+            std::cout<<"AI_STAY_UNIT"<<std::endl;
+        }
+            break;
+
+        case AI_DO_NOTHING_PRIOR: {
+
+            std::cout<<"AI_DO_NOTHING_PRIOR"<<std::endl;
+        }
             break;
 
         default:

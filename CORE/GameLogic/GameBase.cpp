@@ -63,6 +63,29 @@ GameBase::GameBase(const std::string & path, const xVec2 & size, const xVec2 & t
     _scale = 1;
 }
 
+GameBase::GameBase(const GameBase & other)
+: _map(other._map)
+, _baseTex(other._baseTex)
+, _digitTex(other._digitTex)
+, _position(other._position)
+, _outputPos(other._outputPos)
+, _AABB(other._AABB)
+, _radius(other._radius)
+, _teamID(other._teamID)
+, _turnsToUnlock(other._turnsToUnlock)
+, _mode(other._mode)
+, _baseAction(other._baseAction)
+, _uniqueBaseID(other._uniqueBaseID)
+, _requestUnitID(other._requestUnitID) {
+
+    _mesh = new Mesh2d(&_baseTex);
+    _number = new Mesh2d(&_digitTex);
+
+    _number->Color = FGLFC;
+    _mesh->Color = FGLFC;
+    _mesh->setAnimation(_teamID, 0);
+}
+
 GameBase::~GameBase() noexcept {
 
     _map = nullptr;

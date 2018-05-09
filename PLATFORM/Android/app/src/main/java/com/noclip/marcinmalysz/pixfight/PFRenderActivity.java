@@ -47,6 +47,7 @@ public class PFRenderActivity extends AppCompatActivity {
     private Button backButton = null;
     private Button endTurnButton = null;
     private Button multiplyButton = null;
+    private Button undoButton = null;
     private ProgressDialog progressDialog = null;
 
     private static PFRenderActivity renderInstance = null;
@@ -78,6 +79,7 @@ public class PFRenderActivity extends AppCompatActivity {
         backButton = findViewById(R.id.rendergame_back);
         endTurnButton = findViewById(R.id.rendergame_endtrun);
         multiplyButton = findViewById(R.id.rendergame_timemultiply);
+        undoButton = findViewById(R.id.rendergame_undo);
 
         ConstraintLayout layout = findViewById(R.id.contraintLayout);
 
@@ -112,6 +114,19 @@ public class PFRenderActivity extends AppCompatActivity {
 
                 String timeText = "X" + Integer.toString(multiplyTime());
                 multiplyButton.setText(timeText);
+            }
+        });
+
+        undoButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                if (canUndo() == false) {
+                    return;
+                }
+
+                undo();
             }
         });
 
@@ -534,6 +549,8 @@ public class PFRenderActivity extends AppCompatActivity {
 
     //NDK
     public static native void initializeOpenGL(int width, int height);
+    public static native void undo();
+    public static native boolean canUndo();
     public static native boolean canEndTurn();
     public static native void endTurn();
     public static native int multiplyTime();

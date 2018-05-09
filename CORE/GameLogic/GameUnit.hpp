@@ -41,7 +41,7 @@ public:
 
     ~GameUnit() noexcept;
 
-    GameUnit(const GameUnit & other) = delete;
+    GameUnit(const GameUnit & other);
     GameUnit(GameUnit && other) noexcept = delete;
 
     GameUnit & operator= (const GameUnit & other) = delete;
