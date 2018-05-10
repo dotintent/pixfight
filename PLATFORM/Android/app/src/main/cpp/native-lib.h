@@ -31,6 +31,8 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeLoa
 
 //INTERACTION
 
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_undo(JNIEnv* jenv, jobject obj);
+JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_canUndo(JNIEnv* jenv, jobject obj);
 JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_initializeOpenGL(JNIEnv* jenv, jobject obj, int width, int height);
 JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_canEndTurn(JNIEnv* jenv, jobject obj);
 JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_endTurn(JNIEnv* jenv, jobject obj);

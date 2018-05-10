@@ -32,7 +32,7 @@ Mobile:
 ## How to play:
 
 Your main task is to capture all bases on map, to do that you need infantry units. Capturing the base take 2 turns. You can repair damaged unit (not infantry unit) if you move back into your own base. Repair cost 1 turn.
-If unit stays on base it gets extra defence bonus.
+If unit stays on base it gets extra defence bonus. Each turn you earn (N+1 * 100) of cash where N is amount of bases captured by you.
 
 * Click / tap on base to open build menu
 
@@ -249,12 +249,8 @@ If you have problems running editor on macOS (mostly High Sierra) you will need 
 # 5. Next steps  
   
   
-* Add Undo / Redo move
 * Multiplayer    
 
-I will cooperate with [infullmobile](https://www.infullmobile.com) to create a fully functional iOS/Android version of this game.
-
-I highly encourage everyone to fork / download and play with this prototype all suggestions and fixes will be appreciated as I'm not an expert on all listed platforms.
 
 # 6. License
 

@@ -189,11 +189,9 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
             if (selectedUnit != -1) {
 
-                _selectedBase->setUnitToBuild(selectedUnit);
-                _gameLogic->setPlayerCash(cash - cost);
-                _gameLogic->buildUnit(_selectedBase);
-                _selectedBase = nullptr;
+                _gameLogic->buildNewUnitFromBase(_selectedBase, selectedUnit, cash - cost);
 
+                _selectedBase = nullptr;
                 _baseselected = false;
             }
 
@@ -211,6 +209,12 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
     _ctx->style.button.text_normal = nk_rgb(0, 0, 0);
 
     _ctx->style.window.fixed_background = nk_style_item_color(nk_rgba(0, 0, 0, 0));
+
+    if (_botsthinking) {
+
+        return _type;
+    }
+
     if (nk_begin(_ctx, "", nk_rect(0, 0, 1024, 768), NK_WINDOW_BACKGROUND)) {
 
         _ctx->style.button.normal = nk_style_item_image(_homebtn);
@@ -219,13 +223,33 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
         nk_layout_row_static(_ctx, 5, 10, 0);
 
-        static const float ratio[] = {0.031f, 0.4535, 0.031f, 0.4535, 0.031f};
-        nk_layout_row(_ctx, NK_DYNAMIC, 32, 5, ratio);
+        static const float ratio[] = {0.031f, 0.03f, 0.031f, 0.3925, 0.031f, 0.4535, 0.031f};
+        nk_layout_row(_ctx, NK_DYNAMIC, 32, 7, ratio);
 
         //back button
         if (nk_button_label(_ctx, "") && !_saved) {
 
             _homemenu = true;
+        }
+
+        _ctx->style.button.normal = nk_style_item_image(_undobtn);
+        _ctx->style.button.hover  = nk_style_item_image(_undobtn);
+        _ctx->style.button.active = nk_style_item_image(_undobtnp);
+
+        nk_spacing(_ctx, 1);
+
+        if ( _gameLogic->canUndo()) {
+
+            if (nk_button_label(_ctx, "") && _gameLogic->canEndTurn()) {
+
+                _gameLogic->undo();
+
+            }
+
+        }
+        else {
+
+            nk_spacing(_ctx, 1);
         }
 
         _ctx->style.button.normal = nk_style_item_image(_timebtn);
@@ -297,7 +321,6 @@ void RenderScene::Init() {
 
     _gameLogic->baseSelectedCallback = [&](void* context, GameBase *base) {
 
-        _baseselected = true;
         _selectedBase = base;
     };
 
@@ -337,6 +360,8 @@ void RenderScene::setup(int teamID) {
 	auto etexpathp = _rootPath + "emptyp.png";
 	auto ttexpath = _rootPath + "turn.png";
 	auto ttexpathp = _rootPath + "turnp.png";
+	auto utexpath = _rootPath + "undo.png";
+	auto utexpathp = _rootPath + "undop.png";
 
     GLuint htex = textureLoader.loadFile(htexpath, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
 	GLuint htexp = textureLoader.loadFile(htexpathp, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
@@ -344,6 +369,8 @@ void RenderScene::setup(int teamID) {
 	GLuint etexp = textureLoader.loadFile(etexpathp, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
 	GLuint ttex = textureLoader.loadFile(ttexpath, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
 	GLuint ttexp = textureLoader.loadFile(ttexpathp, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
+    GLuint utex = textureLoader.loadFile(utexpath, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
+	GLuint utexp = textureLoader.loadFile(utexpathp, GL_LINEAR, 0, GL_CLAMP_TO_EDGE, false);
 
     _homebtn = nk_subimage_id(htex, 32, 32, nk_rect(0, 0, 32, 32));
 	_homebtnp = nk_subimage_id(htexp, 32, 32, nk_rect(0, 0, 32, 32));
@@ -351,6 +378,8 @@ void RenderScene::setup(int teamID) {
 	_timebtnp = nk_subimage_id(etexp, 32, 32, nk_rect(0, 0, 32, 32));
 	_turnbtn = nk_subimage_id(ttex, 32, 32, nk_rect(0, 0, 32, 32));
 	_turnbtnp = nk_subimage_id(ttexp, 32, 32, nk_rect(0, 0, 32, 32));
+	_undobtn = nk_subimage_id(utex, 32, 32, nk_rect(0, 0, 32, 32));
+    _undobtnp = nk_subimage_id(utexp, 32, 32, nk_rect(0, 0, 32, 32));
 
     std::stringstream icon;
 
@@ -435,6 +464,11 @@ void RenderScene::handleMouse(int button, int action, double x, double y) {
 
             _gameLogic->touchDownAtPoint(xVec2(x, y));
         }
+    }
+    else if (button == 0 && action == 0 && !_baseselected && _selectedBase != nullptr) {
+
+        _baseselected = true;
+
     }
     else if (button == 1 && action == 1) {
 
