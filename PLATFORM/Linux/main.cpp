@@ -108,6 +108,43 @@ void mouse_callback(GLFWwindow *win, int button, int action, int mods) {
     }
 }
 
+void key_callback(GLFWwindow* window) {
+
+    xVec2 direction = xVec2(0,0);
+
+    const float speed = 400;
+    bool move = false;
+
+    if (glfwGetKey(window, GLFW_KEY_A) || glfwGetKey(window, GLFW_KEY_LEFT)) {
+
+        direction.x = -speed;
+        move = true;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_D) || glfwGetKey(window, GLFW_KEY_RIGHT)) {
+
+        direction.x = speed;
+        move = true;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_W) || glfwGetKey(window, GLFW_KEY_UP)) {
+
+        direction.y = -speed;
+        move = true;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_S) || glfwGetKey(window, GLFW_KEY_DOWN)) {
+
+        direction.y = speed;
+        move = true;
+    }
+
+    if (move) {
+
+        sceneManager->getCurrentScenePointer()->handleMove(direction);
+    }
+}
+
 void playMusic(std::string path) {
 
     audioUnit->pauseMusic();
@@ -210,6 +247,8 @@ int main() {
     while (!glfwWindowShouldClose(win)) {
 
         glfwPollEvents();
+
+        key_callback(win);
 
         double x, y;
         nk_input_begin(ctx);

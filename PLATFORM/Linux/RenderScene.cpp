@@ -347,7 +347,7 @@ void RenderScene::setup(int teamID) {
 
     _homebtn = nk_subimage_id(htex, 32, 32, nk_rect(0, 0, 32, 32));
 	_homebtnp = nk_subimage_id(htexp, 32, 32, nk_rect(0, 0, 32, 32));
-	_timebtn = nk_subimage_id(etex, 32, 32, nk_rect(0, 0, 32, 32));    
+	_timebtn = nk_subimage_id(etex, 32, 32, nk_rect(0, 0, 32, 32));
 	_timebtnp = nk_subimage_id(etexp, 32, 32, nk_rect(0, 0, 32, 32));
 	_turnbtn = nk_subimage_id(ttex, 32, 32, nk_rect(0, 0, 32, 32));
 	_turnbtnp = nk_subimage_id(ttexp, 32, 32, nk_rect(0, 0, 32, 32));
@@ -456,4 +456,9 @@ void RenderScene::handleMouse(int button, int action, double x, double y) {
 
         _gameLogic->setDirectionVec(dir);
     }
+}
+
+void RenderScene::handleMove(const xVec2 &direction) {
+
+    _gameLogic->setDirectionVec(direction);
 }

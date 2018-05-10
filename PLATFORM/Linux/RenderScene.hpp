@@ -25,6 +25,7 @@ public:
 
     virtual void handleScroll(double s) override;
     virtual void handleMouse(int button, int action, double x, double y) override;
+    virtual void handleMove(const xVec2 &direction) override;
 
     void setAudio(Audio *audio) { _audio = audio; }
 

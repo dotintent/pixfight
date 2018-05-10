@@ -1,30 +1,30 @@
 # depslib dependency file v1.0
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/AI/AIObject.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/AI/AIObject.cpp
 	"AIObject.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/AI/AIObject.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AIObject.hpp
 	"AITask.hpp"
 	"GameEnums.hpp"
 	<vector>
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/AI/AITask.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AITask.hpp
 	"AIBaseInclude.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/AI/AIBaseInclude.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AIBaseInclude.hpp
 	"EnumOptionMacro.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/EnumOptionMacro.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/EnumOptionMacro.hpp
 	<iostream>
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameEnums.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameEnums.hpp
 	"EnumOptionMacro.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/AI/AIPlayer.cpp
+1525964609 source:/home/marcin/Desktop/pixfight/CORE/AI/AIPlayer.cpp
 	"AIPlayer.hpp"
 	"GameSync.hpp"
 	"GameLogic.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/AI/AIPlayer.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AIPlayer.hpp
 	"AIObject.hpp"
 	"AITaskGenerator.hpp"
 	"GameMap.hpp"
@@ -32,11 +32,11 @@
 	"GameUnit.hpp"
 	"EnumOptionMacro.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/AI/AITaskGenerator.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AITaskGenerator.hpp
 	"AITask.hpp"
 	"AIObject.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.hpp
 	<fstream>
 	"Core-pch.hpp"
 	"Drawable.hpp"
@@ -45,15 +45,26 @@
 	"SearchNode.hpp"
 	"MathTypes.h"
 
-1519465681 /home/marcin/Desktop/pixfight/CORE/Core-pch.hpp
+1525706292 /home/marcin/Desktop/pixfight/CORE/Core-pch.hpp
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<GLFW/glfw3.h>
+	<emscripten/emscripten.h>
+	<windows.h>
 	<GL/glew.h>
 	<GL/gl.h>
 	<GLFW/glfw3.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl3ext.h>
 	<GLES/gl.h>
 	<GLES2/gl2.h>
 	<GLES2/gl2ext.h>
 	<EGL/egl.h>
 	<string.h>
+	<GL/glew.h>
+	<GL/gl.h>
+	<GLFW/glfw3.h>
 	<cassert>
 	<string>
 	<vector>
@@ -144,11 +155,11 @@
 
 1515984531 /usr/include/xlocale.h
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/CFrustum.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/CFrustum.hpp
 	"Core-pch.hpp"
 	"xMath.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/xMath.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xMath.h
 	<math.h>
 	<float.h>
 	<stdlib.h>
@@ -186,9 +197,10 @@
 	<features.h>
 	<stddef.h>
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/x.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/x.h
 	<time.h>
 	"xSimpleTypes.h"
+	<malloc.h>
 	<alloca.h>
 	<stdlib.h>
 
@@ -203,27 +215,27 @@
 	<bits/types.h>
 	<xlocale.h>
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/xSimpleTypes.h
+1525706292 /home/marcin/Desktop/pixfight/CORE/Math/xSimpleTypes.h
 	"x.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/xVec2.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xVec2.h
 	"xf.h"
 	"xMath.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/xf.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xf.h
 	"x.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/GameLogic/Drawable.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/Drawable.hpp
 	"DrawingContext.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Rendering/DrawingContext.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/Rendering/DrawingContext.hpp
 	"Core-pch.hpp"
 	"FurionGL.hpp"
 	"ShaderProgram.hpp"
 	"xMath.h"
 	"CFrustum.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/iFurionGL/FurionGL.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/iFurionGL/FurionGL.hpp
 	<string.h>
 	"xSimpleTypes.h"
 	"glMatrix4x4.hpp"
@@ -233,43 +245,43 @@
 	"xQuat.h"
 	"ShaderProgram.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/glMatrix4x4.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/glMatrix4x4.hpp
 	"Core-pch.hpp"
 	"xf.h"
 	"xVec3.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/xVec3.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xVec3.h
 	"xf.h"
 	"xMath.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/xMat34.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xMat34.h
 	"xMat33.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/xMat33.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xMat33.h
 	"xVec3.h"
 	"xQuat.h"
 	"x9F32.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/xQuat.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xQuat.h
 	"xf.h"
 	"xVec3.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/x9F32.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/x9F32.h
 	"xf.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Shader/ShaderProgram.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/Shader/ShaderProgram.hpp
 	"Core-pch.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Rendering/Mesh2d.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/Rendering/Mesh2d.hpp
 	"Core-pch.hpp"
 	"FurionGL.hpp"
 	"DrawingContext.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/PathFinding/SearchNode.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/PathFinding/SearchNode.hpp
 	"stlastar.hpp"
 	"MapTile.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/PathFinding/stlastar.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/PathFinding/stlastar.hpp
 	<iostream>
 	<stdio.h>
 	<assert.h>
@@ -347,42 +359,42 @@
 1515984538 /usr/include/assert.h
 	<features.h>
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/PathFinding/fsa.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/PathFinding/fsa.hpp
 	<string.h>
 	<stdio.h>
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/GameLogic/MapTile.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/MapTile.hpp
 	"Core-pch.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/MathTypes.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/MathTypes.h
 	"xMat34.h"
 	"xQuat.h"
 	"xPlane.h"
 	"xVec2.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Math/xPlane.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xPlane.h
 	"xf.h"
 	"xMath.h"
 	"xVec3.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.hpp
+1525964609 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.hpp
 	"GameUnit.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.hpp
+1525964609 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.hpp
 	<functional>
 	"GameMap.hpp"
 	"GameEnums.hpp"
 	"AIAware.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/AI/AIAware.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AIAware.hpp
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameSync.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameSync.hpp
 	<functional>
 	<queue>
 	<mutex>
 	<future>
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.hpp
+1525964609 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.hpp
 	"Core-pch.hpp"
 	"GameUnit.hpp"
 	"GameBase.hpp"
@@ -392,10 +404,9 @@
 	"GameAnimation.hpp"
 	"Audio.hpp"
 	"GameTimer.hpp"
-	"FontRender.hpp"
 	"GameSync.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/font/FontRender.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/font/FontRender.hpp
 	<ft2build.h>
 	"Core-pch.hpp"
 	"FurionGL.hpp"
@@ -435,145 +446,145 @@
 	<i386-kfreebsd-gnu/freetype2/freetype/config/ftheader.h>
 	<i386-gnu/freetype2/freetype/config/ftheader.h>
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Rendering/GameAnimation.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/Rendering/GameAnimation.hpp
 	"Mesh2d.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/Audio/Audio.hpp
+1525706292 /home/marcin/Desktop/pixfight/CORE/Audio/Audio.hpp
 	<string>
 	<vector>
 	<iostream>
 	"fmod.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod.hpp
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod.hpp
 	"fmod_common.h"
 	"fmod.h"
 
-1519408686 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_common.h
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_common.h
 	"fmod_codec.h"
 	"fmod_dsp.h"
 	"fmod_output.h"
 
-1519408686 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_codec.h
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_codec.h
 
-1519408686 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_dsp.h
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_dsp.h
 	"fmod_dsp_effects.h"
 
-1519408686 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_dsp_effects.h
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_dsp_effects.h
 
-1519408686 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_output.h
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_output.h
 
-1519408686 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod.h
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod.h
 	"fmod_common.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/GameTimer.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/GameTimer.hpp
 	<stdio.h>
 	<stdlib.h>
 	<stdint.h>
 	<math.h>
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/AI/AITaskGenerator.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/AI/AITaskGenerator.cpp
 	"AITaskGenerator.hpp"
 	"GameUnit.hpp"
 	"GameBase.hpp"
 
-1520075900 source:/home/marcin/Desktop/pixfight/CORE/Audio/Audio.cpp
+1525706292 source:/home/marcin/Desktop/pixfight/CORE/Audio/Audio.cpp
 	<math.h>
 	<algorithm>
 	"Audio.hpp"
 	"fmod_errors.h"
 
-1519408686 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_errors.h
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_errors.h
 	"fmod.h"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/Core-pch.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Core-pch.cpp
 	"Core-pch.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/font/FontRender.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/font/FontRender.cpp
 	"FontRender.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.cpp
+1525964609 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.cpp
 	"GameBase.hpp"
 	"glTextureLoader.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/glTextureLoader.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/glTextureLoader.hpp
 	"Core-pch.hpp"
 
-1519934263 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
+1525964609 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
 	"GameLogic.hpp"
 	"glTextureLoader.hpp"
 	"AIPlayer.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.cpp
 	"GameMap.hpp"
 	"glTextureLoader.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameSync.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameSync.cpp
 	"GameSync.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.cpp
+1525964609 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.cpp
 	"GameUnit.hpp"
 	"glTextureLoader.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/DataTypes.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/DataTypes.cpp
 	"FurionGL.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLCollisions.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLCollisions.cpp
 	"FurionGL.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLDrawingDescriptor.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLDrawingDescriptor.cpp
 	"FurionGL.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLMath.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLMath.cpp
 	"FurionGL.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLTexture.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLTexture.cpp
 	"FurionGL.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLVector.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLVector.cpp
 	"FurionGL.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FurionGL.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FurionGL.cpp
 	"FurionGL.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/Math/xMath.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Math/xMath.cpp
 	"xMath.h"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/Math/xVec3.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Math/xVec3.cpp
 	"xVec3.h"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/PathFinding/SearchNode.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/PathFinding/SearchNode.cpp
 	"SearchNode.hpp"
 	<math.h>
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/Rendering/DrawingContext.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Rendering/DrawingContext.cpp
 	"DrawingContext.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/Rendering/GameAnimation.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Rendering/GameAnimation.cpp
 	"GameAnimation.hpp"
 	"glTextureLoader.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/Rendering/Mesh2d.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Rendering/Mesh2d.cpp
 	"Mesh2d.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/Shader/ShaderProgram.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Shader/ShaderProgram.cpp
 	"ShaderProgram.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/utilities/BasePathExtraction.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/utilities/BasePathExtraction.cpp
 	"BasePathExtraction.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/BasePathExtraction.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/BasePathExtraction.hpp
 	"Core-pch.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/utilities/glMatrix4x4.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/utilities/glMatrix4x4.cpp
 	<string.h>
 	"glMatrix4x4.hpp"
 
-1519408686 source:/home/marcin/Desktop/pixfight/CORE/utilities/glTextureLoader.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/utilities/glTextureLoader.cpp
 	"glTextureLoader.hpp"
 	"BasePathExtraction.hpp"
 	"stb_image.h"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/stb_image.h
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/stb_image.h
 	"stb_image.h"
 	<stdio.h>
 	<stdarg.h>
@@ -596,23 +607,25 @@
 	<bits/posix2_lim.h>
 	<bits/xopen_lim.h>
 
-1519935325 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.cpp
+1525706292 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.cpp
 	"AndroidTimer.hpp"
 	<time.h>
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.hpp
 	"GameTimer.hpp"
 
-1519416492 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/GameTimer.cpp
+1525706292 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/GameTimer.cpp
 	"GameTimer.hpp"
 	"AndroidTimer.hpp"
+	"WindowsTimer.hpp"
 	"DarwinTimer.hpp"
 	"AndroidTimer.hpp"
+	"AndroidTimer.hpp"
 
-1519408686 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/DarwinTimer.hpp
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/DarwinTimer.hpp
 	"GameTimer.hpp"
 
-1520080926 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/main.cpp
+1525965326 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/main.cpp
 	<iostream>
 	<fstream>
 	<limits.h>
@@ -628,7 +641,7 @@
 	"nuklear_glfw_gl3.h"
 	"PFSettings.h"
 
-1519580386 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear.h
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear.h
 	<sal.h>
 	<stdint.h>
 	<stdlib.h>
@@ -636,58 +649,59 @@
 	<stdarg.h>
 	<assert.h>
 
-1520079268 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.cpp
 	"MenuScene.hpp"
 	"glTextureLoader.hpp"
 
-1519933981 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.hpp
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.hpp
 	"BaseScene.hpp"
 
-1519933776 /home/marcin/Desktop/pixfight/PLATFORM/Linux/BaseScene.hpp
+1525965024 /home/marcin/Desktop/pixfight/PLATFORM/Linux/BaseScene.hpp
 	"Core-pch.hpp"
 	"EnumOptionMacro.hpp"
 	"nuklear.h"
 
-1520081544 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.cpp
+1525706293 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.cpp
 	"LoadGameScene.hpp"
 	"glTextureLoader.hpp"
 	<dirent.h>
 	<unistd.h>
+	<windows.h>
 
-1520080880 /home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.hpp
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.hpp
 	"BaseScene.hpp"
 
-1519934003 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.cpp
 	"NewGameScene.hpp"
 	"glTextureLoader.hpp"
 
-1519933941 /home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.hpp
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.hpp
 	"BaseScene.hpp"
 
-1520081685 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.cpp
+1525965083 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.cpp
 	"RenderScene.hpp"
 	"glTextureLoader.hpp"
 	"PFSettings.h"
 
-1520080981 /home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
+1525965039 /home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
 	"BaseScene.hpp"
 	"GameLogic.hpp"
 
-1520078283 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.cpp
 	"SettingsScene.hpp"
 	"glTextureLoader.hpp"
 	"PFSettings.h"
 
-1520075064 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.hpp
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.hpp
 	"BaseScene.hpp"
 	"Audio.hpp"
 
-1519933727 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.hpp
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.hpp
 	<string>
 	<map>
 	"BaseScene.hpp"
 
-1519934078 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.cpp
 	"SceneManager.hpp"
 	"MenuScene.hpp"
 	"NewGameScene.hpp"
@@ -695,13 +709,18 @@
 	"SettingsScene.hpp"
 	"RenderScene.hpp"
 
-1519927096 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear_glfw_gl3.h
+1525706293 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear_glfw_gl3.h
 	<string.h>
+	"Core-pch.hpp"
 	<GLFW/glfw3.h>
 
-1520070285 /home/marcin/Desktop/pixfight/PLATFORM/Linux/PFSettings.h
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/PFSettings.h
 	"Core-pch.hpp"
 
-1520070344 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/PFSettings.cpp
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/PFSettings.cpp
 	"PFSettings.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/WindowsTimer.hpp
+	"GameTimer.hpp"
+	<windows.h>
 
