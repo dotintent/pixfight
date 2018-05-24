@@ -1,16 +1,15 @@
 package com.noclip.marcinmalysz.pixfight;
 
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.CompoundButton;
-import android.content.SharedPreferences;
+import android.widget.Switch;
 
 public class PFSettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -25,7 +24,6 @@ public class PFSettingsActivity extends AppCompatActivity implements CompoundBut
 
         font = Typeface.createFromAsset(getAssets(), "FFFATLAN.TTF");
 
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_pfsettings);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         PFImmersiveMode.SetImmersiveMode(getWindow());

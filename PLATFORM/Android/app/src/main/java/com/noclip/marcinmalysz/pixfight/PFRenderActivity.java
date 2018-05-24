@@ -56,7 +56,6 @@ public class PFRenderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_pfrender);
 
         glView = new PFGL2View(getApplication());

@@ -31,7 +31,7 @@ public class PFNewGameActivity extends AppCompatActivity implements OnItemSelect
     private Button startButton = null;
     private ImageView mapImage = null;
     private TableLayout tableView = null;
-    private Map<Integer, Map<String, String>> data = new HashMap<Integer, Map<String, String>>();
+    private Map<Integer, Map<String, String>> data = new HashMap<>();
 
     private int selectedPlayer = 1;
     private int playersPlaying = 2;
@@ -42,8 +42,6 @@ public class PFNewGameActivity extends AppCompatActivity implements OnItemSelect
         super.onCreate(savedInstanceState);
 
         font = Typeface.createFromAsset(getAssets(), "FFFATLAN.TTF");
-
-        getSupportActionBar().hide();
 
         setContentView(R.layout.activity_pfnew_game);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);

@@ -28,7 +28,6 @@ public class PFLoadGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         font = Typeface.createFromAsset(getAssets(), "FFFATLAN.TTF");
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_pfload_game);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         PFImmersiveMode.SetImmersiveMode(getWindow());

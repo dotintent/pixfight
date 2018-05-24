@@ -45,7 +45,6 @@ public class PFMainMenuActivity extends AppCompatActivity {
         font = Typeface.createFromAsset(getAssets(), "FFFATLAN.TTF");
         // ResourcesCompat.getFont(this, R.font.fffatlan);
 
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_pfmain_menu);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         PFImmersiveMode.SetImmersiveMode(getWindow());
