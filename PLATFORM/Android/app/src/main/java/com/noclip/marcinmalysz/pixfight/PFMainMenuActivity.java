@@ -1,29 +1,28 @@
 package com.noclip.marcinmalysz.pixfight;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.content.res.ResourcesCompat;
-
-import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
-import android.util.Log;
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.content.res.AssetManager;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FileOutputStream;
 
 public class PFMainMenuActivity extends AppCompatActivity {
 
@@ -151,53 +150,24 @@ public class PFMainMenuActivity extends AppCompatActivity {
             Log.e("[ERROR]", "Failed to get asset file list.", e);
         }
 
-        Log.d("Files", "Size: "+ files.length);
-        for (int i = 0; i < files.length; i++)
-        {
-            Log.d("Files", "FileName:" + files[i]);
-        }
+        if (files != null) {
+            Log.d("Files", "Size: "+ files.length);
 
-        if (files != null) for (String filename : files) {
-
-            InputStream in = null;
-            OutputStream out = null;
-
-            if (filename.startsWith("images") || filename.startsWith("webkit") || filename.startsWith("sounds")) {
-                continue;
-            }
-
-            try {
-
-                in = assetManager.open(filename);
-                File outFile = new File(Environment.getExternalStorageDirectory() + "/PIXFIGHTDATA/", filename);
-                out = new FileOutputStream(outFile);
-                copyFile(in, out);
-
-            } catch(IOException e) {
-
-                Log.e("[ERROR]", "Failed to copy asset file: " + filename, e);
-            }
-            finally {
-
-                if (in != null) {
-
-                    try {
-
-                        in.close();
-
-                    } catch (IOException e) {
-                        // NOOP
-                    }
+            for (String filename : files) {
+                Log.d("Files", "FileName:" + filename);
+                
+                if (filename.startsWith("images") || filename.startsWith("webkit") || filename.startsWith("sounds")) {
+                    continue;
                 }
-                if (out != null) {
 
-                    try {
+                File outFile = new File(Environment.getExternalStorageDirectory() + "/PIXFIGHTDATA/", filename);
+                try (InputStream in = assetManager.open(filename); OutputStream out = new FileOutputStream(outFile)) {
 
-                        out.close();
+                    copyFile(in, out);
 
-                    } catch (IOException e) {
-                        // NOOP
-                    }
+                } catch (IOException e) {
+
+                    Log.e("[ERROR]", "Failed to copy asset file: " + filename, e);
                 }
             }
         }
