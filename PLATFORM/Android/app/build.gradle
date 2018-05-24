@@ -21,14 +21,14 @@ android {
         debug {
 
             ndk {
-                abiFilters 'x86', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+                abiFilters 'x86', 'armeabi-v7a', 'arm64-v8a'
             }
         }
 
         release {
 
             ndk {
-                abiFilters 'x86', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+                abiFilters 'x86', 'armeabi-v7a', 'arm64-v8a'
             }
 
             minifyEnabled false
