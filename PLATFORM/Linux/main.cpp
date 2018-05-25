@@ -201,9 +201,14 @@ int main() {
         exit(1);
     }
 
+#ifdef _RPI_
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+#else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif // _RPI_
 
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
     win = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "PixFight", NULL, NULL);
@@ -215,7 +220,7 @@ int main() {
 
     glfwSetScrollCallback(win, scroll_callback);
     glfwSetMouseButtonCallback(win, mouse_callback);
-
+#ifndef _RPI_
     glewExperimental = GL_TRUE;
 
     if (glewInit() != GLEW_OK) {
@@ -223,6 +228,9 @@ int main() {
         std::cout <<"Failed to setup GLEW" << std::endl;
         exit(1);
     }
+#else
+    eglBuildVertexArray();
+#endif // _RPI_
 
     initializeAudio(rootPath);
 
@@ -397,7 +405,9 @@ int main() {
         glfwSwapBuffers(win);
 
         //slow down
+        #ifndef _RPI_
         usleep(3000);
+        #endif // _RPI_
     }
 
     delete sceneManager;

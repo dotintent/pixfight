@@ -1,6 +1,6 @@
 #include "Core-pch.hpp"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(_RPI_)
 
 PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOES = nullptr;
 PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOES = nullptr;

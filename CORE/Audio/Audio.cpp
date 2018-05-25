@@ -13,7 +13,6 @@
 #include "fmod_errors.h"
 
 Audio::Audio() {
-
     _muted = false;
 
     _result = FMOD::System_Create(&_system);
@@ -39,6 +38,13 @@ Audio::Audio() {
     this->checkResult(_result);
 
 #endif
+
+#ifdef _RPI_
+
+    //this could be different depending on PI double check this in future
+    _system->setDriver(1);
+
+#endif // _RPI_
 
     _paths.clear();
 

@@ -10,7 +10,7 @@
 
 #include "DrawingContext.hpp"
 
-class Drawable {
+class DrawableObject {
 
 public:
 
