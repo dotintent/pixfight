@@ -14,7 +14,7 @@ void AndroidTimer::update() {
 
     timespec lTimeVal;
 
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) || defined (__ANDROID__)
     clock_gettime(CLOCK_MONOTONIC, &lTimeVal); 
 #else 
     clock_gettime(CLOCK_THREAD_CPUTIME_ID, &lTimeVal); 
