@@ -41,16 +41,44 @@ If unit stays on base it gets extra defence bonus. Each turn you earn (N+1 * 100
 
 ### Units:
 
-![Infantry](../master/CORE/Resources/textures/icons/icon_infantry1.png) - Infantry unit, cost 75. Can capture bases. Strong against other infantry units, weak against Jeep.  
+![Infantry](../master/CORE/Resources/textures/icons/icon_infantry1.png) - Infantry unit, cost 75. 
+ * Can capture bases. 
+ * Strong against other infantry units.
+ * Weak against Jeep.  
+ * Attack: 4
+ * Defence: 6
+ * Move: 5
 
-![Bazooka](../master/CORE/Resources/textures/icons/icon_bazooka1.png) - Bazooka unit, cost 150. Can capture bases. Strong against mobile units, weak against Jeep.  
+![Bazooka](../master/CORE/Resources/textures/icons/icon_bazooka1.png) - Bazooka unit, cost 150. 
+ * Can capture bases.
+ * Strong against mobile units.
+ * Weak against Jeep.  
+ * Attack: 6
+ * Defence: 6
+ * Move: 4
  
-![Jeep](../master/CORE/Resources/textures/icons/icon_jeep1.png) - Jeep unit, cost 200. Strong against infantry units, weak against Tank or Artillery.  
+![Jeep](../master/CORE/Resources/textures/icons/icon_jeep1.png) - Jeep unit, cost 200. 
+ * Strong against infantry units.
+ * Weak against Tank or Artillery.  
+ * Attack: 8
+ * Defence: 8
+ * Move: 6
 
-![Tank](../master/CORE/Resources/textures/icons/icon_tank1.png) - Tank unit, cost 300. Strong against mobile and infantry units, weak against Bazooka unit. 
-
-![Artillery](../master/CORE/Resources/textures/icons/icon_artillery1.png) - Artillery unit, cost 200. Strong against any unit. May shoot at distance. If you move it first it cannot shoot. Weak agains Tank and Bazooka unit.
-
+![Tank](../master/CORE/Resources/textures/icons/icon_tank1.png) - Tank unit, cost 300. 
+ * Strong against mobile and infantry units.
+ * Weak against Bazooka unit. 
+ * Attack: 10
+ * Defence: 10
+ * Move: 4
+ 
+![Artillery](../master/CORE/Resources/textures/icons/icon_artillery1.png) - Artillery unit, cost 200. 
+ * Strong against any unit. 
+ * May shoot at distance. 
+ * If you move it first it cannot shoot. 
+ * Weak agains Tank and Bazooka unit.
+ * Attack: 10
+ * Defence: 3
+ * Move: 3
 
 ## Download
 

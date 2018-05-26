@@ -20,8 +20,10 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
     GameUnit::unitspec s1 = a->getStats();
     GameUnit::unitspec s2 = b->getStats();
 
-    float BonusA = s1.Expirence;
-    float BonusB = s2.Expirence;
+    //Bouns should come from Terrain type
+    float BonusA = 0;
+    float BonusB = 0;
+
     float P = 0.0;
 
     float TaA = 0.0;
@@ -36,20 +38,20 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
     switch (TypeA) {
         case M_INFANTRY:
             switch (TypeB) {
-                case M_INFANTRY: {}
+                case M_INFANTRY:
                     break;
-                case M_BAZOOKA: {}
+                case M_BAZOOKA:
                     break;
                 case M_JEEP: {
-                    TaA = -3.0;
+                    TaA = -2.0;
                 }
                     break;
                 case M_LTANK: {
-                    TaA = -3.0;
+                    TaA = -2.0;
                 }
                     break;
                 case M_ARTILLERY: {
-                    TaA = -3.0;
+                    TaA = -2.0;
                 }
                     break;
                 default:
@@ -63,15 +65,15 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
                 case M_BAZOOKA: {}
                     break;
                 case M_JEEP: {
-                    TaA = 2.0;
+                    TaA = 3.0;
                 }
                     break;
                 case M_LTANK: {
-                    TaA = 2.0;
+                    TaA = 3.0;
                 }
                     break;
                 case M_ARTILLERY: {
-                    TaA = 2.0;
+                    TaA = 3.0;
                 }
                     break;
                 default:
@@ -81,26 +83,24 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
         case M_JEEP :
             switch (TypeB) {
                 case M_INFANTRY: {
-                    TaB = -3.0;
+                    TaB = -2.0;
+                    TdB = -2.0;
                 }
                     break;
                 case M_BAZOOKA: {
-                    TaB = 2.0;
+                    TaB =  3.0;
+                    TdB = -2.0;
                 }
                     break;
                 case M_JEEP: {
-                    TaA = -6.0;
-                    TaB = -6.0;
                 }
                     break;
                 case M_LTANK: {
-                    TaA = -6.0;
-                    TaB = -3.0;
+                    TaA = -4.0;
                 }
                     break;
                 case M_ARTILLERY :{
-                    TaA = -6.0;
-                    TaB = -6.0;
+                    TaA = -4.0;
                 }
                     break;
                 default:
@@ -110,27 +110,20 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
         case M_LTANK :
             switch (TypeB) {
                 case M_INFANTRY: {
-                    TaB = -3.0;
+                    TaB = -2.0;
                 }
                     break;
                 case M_BAZOOKA: {
-                    TaB = 2.0;
+                    TaB = 3.0;
                 }
                     break;
                 case M_JEEP: {
-                    TaA = -3.0;
-                    TaB = -6.0;
+                    TaB = -4.0;
                 }
                     break;
-                case M_LTANK: {
-                    TaA = -3.0;
-                    TaB = -3.0;
-                }
+                case M_LTANK:
                     break;
-                case M_ARTILLERY: {
-                    TaA = -3.0;
-                    TaB = -6.0;
-                }
+                case M_ARTILLERY:
                     break;
                 default:
                     break;
@@ -139,27 +132,20 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
         case M_ARTILLERY :
             switch (TypeB) {
                 case M_INFANTRY: {
-                    TaB = -3.0;
+                    TaB = -2.0;
                 }
                     break;
                 case M_BAZOOKA: {
-                    TaB = 2.0;
+                    TaB = 3.0;
                 }
                     break;
                 case M_JEEP: {
-                    TaA = -6.0;
-                    TaB = -6.0;
+                    TaB = -4.0;
                 }
                     break;
-                case M_LTANK: {
-                    TaA = -6.0;
-                    TaB = -3.0;
-                }
+                case M_LTANK:
                     break;
-                case M_ARTILLERY: {
-                    TaA = -6.0;
-                    TaB = -6.0;
-                }
+                case M_ARTILLERY: 
                     break;
                 default:
                     break;
@@ -274,28 +260,8 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
     auto TA = a;
     auto TB = b;
 
-    if (unitsToDestroyForB > 0.0) { //Unit hit oppnent
-
-        TA->addExp(0.05);
-    }
-    else {
-
-        TB->addExp(0.05);
-    }
-
-    if (unitsToDestroyForA > 0.0) {
-
-        TB->addExp(0.05);
-    }//not hited enemy Guard Bonus
-    else {
-
-        TA->addExp(0.05);
-    }
-
     //Units Removing
     if (unitsToDestroyForB >= SizeB) {
-
-        TA->addExp(0.1);
 
         if (TB->getRequestID() != -1) {
 
@@ -325,8 +291,6 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
     if(unitsToDestroyForA >= SizeA){
 
         if (TB != nullptr) {
-
-            TB->addExp(0.1);
 
             if (TA->getRequestID() != -1) {
 

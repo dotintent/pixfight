@@ -274,7 +274,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_INFANTRY][0];
                 temp.Guard  = UNITS_RATINGS[M_INFANTRY][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("Infantry", temp);
 
@@ -309,7 +308,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_BAZOOKA][0];
                 temp.Guard  = UNITS_RATINGS[M_BAZOOKA][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("BazookaMan", temp);
                 newUnit->setUniqueID(tempUnitData.UNIT_UNIQUEID);
@@ -342,7 +340,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_JEEP][0];
                 temp.Guard  = UNITS_RATINGS[M_JEEP][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("HumVee", temp);
 
@@ -376,7 +373,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_LTANK][0];
                 temp.Guard  = UNITS_RATINGS[M_LTANK][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("LightTank", temp);
 
@@ -412,7 +408,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_ARTILLERY][0];
                 temp.Guard  = UNITS_RATINGS[M_ARTILLERY][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("Artillery", temp);
                 newUnit->setUniqueID(tempUnitData.UNIT_UNIQUEID);
@@ -561,7 +556,7 @@ bool GameLogic::saveGame(const std::string & savepath) {
         tempUnitData.FIND_BASEID = currentUnit->getRequestID();
         tempUnitData.mayAttack = currentUnit->canAttack();
         GameUnit::unitspec tmpspec = currentUnit->getStats();
-        tempUnitData.experience = tmpspec.Expirence;
+        tempUnitData.experience = 0;
 
         m_file.write((const char*)&tempUnitData, sizeof(tempUnitData));
     }
@@ -1272,7 +1267,6 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_INFANTRY][0];
                 temp.Guard  = UNITS_RATINGS[M_INFANTRY][1];
-                temp.Expirence = 0.0;
 
                 newUnit->setStatistic("Infantry", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -1303,7 +1297,6 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_BAZOOKA][0];
                 temp.Guard  = UNITS_RATINGS[M_BAZOOKA][1];
-                temp.Expirence = 0.0;
 
                 newUnit->setStatistic("BazookaMan", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -1332,7 +1325,6 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_JEEP][0];
                 temp.Guard  = UNITS_RATINGS[M_JEEP][1];
-                temp.Expirence = 0.0;
 
                 newUnit->setStatistic("HumVee", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -1361,7 +1353,6 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_LTANK][0];
                 temp.Guard  = UNITS_RATINGS[M_LTANK][1];
-                temp.Expirence = 0.0;
 
                 newUnit->setStatistic("LightTank", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -1392,8 +1383,7 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_ARTILLERY][0];
                 temp.Guard  = UNITS_RATINGS[M_ARTILLERY][1];
-                temp.Expirence = 0.0;
-
+               
                 newUnit->setStatistic("Artillery", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
 
@@ -2260,7 +2250,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_INFANTRY][0];
             temp.Guard  = UNITS_RATINGS[M_INFANTRY][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("Infantry", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -2291,7 +2280,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_BAZOOKA][0];
             temp.Guard  = UNITS_RATINGS[M_BAZOOKA][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("BazookaMan", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -2320,7 +2308,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_JEEP][0];
             temp.Guard  = UNITS_RATINGS[M_JEEP][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("HumVee", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -2349,7 +2336,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_LTANK][0];
             temp.Guard  = UNITS_RATINGS[M_LTANK][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("LightTank", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -2380,7 +2366,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_ARTILLERY][0];
             temp.Guard  = UNITS_RATINGS[M_ARTILLERY][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("Artillery", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);

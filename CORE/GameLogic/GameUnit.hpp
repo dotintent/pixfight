@@ -25,7 +25,6 @@ public:
     typedef struct unitspec {
         float Attack;
         float Guard;
-        float Expirence;
     } unitspec;
 
     GameUnit(const std::string & path,
@@ -63,7 +62,6 @@ public:
     xVec2 getRealPosition();
     xVec2 getCurrentPosition();
 
-    void addExp(const float & exp);
     void setStats(const unitspec & sp);
 
     std::string & getName();

@@ -507,6 +507,7 @@ void GameMap::testPoint(const xVec2 & p) {
 
     int ax = int((p.x+((16.0+_rx)*_scale))/(32.0*_scale));
     int ay = int((p.y+((47.0+_ry)*_scale))/(94.0*_scale));
+
     int a = int(ax + ((_sx)/32.0));
     int b = int(ay + ((_sy)/94.0));
 
@@ -548,6 +549,7 @@ bool GameMap::selectEndPoint(const xVec2 & p) {
 
     int ax = int((p.x+((16.0+_rx)*_scale))/(32.0*_scale));
     int ay = int((p.y+((47.0+_ry)*_scale))/(94.0*_scale));
+
     _nodeEnd.x = int(ax + (_sx/32.0));
     _nodeEnd.y = int(ay + (_sy/94.0));
 

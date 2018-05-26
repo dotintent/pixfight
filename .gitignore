@@ -3,6 +3,9 @@
 #core
 CORE/build.gradle
 
+#SERVER
+SERVER/DerivedData/
+
 #iOS
 PLATFORM/iOS/DerivedData/
 PLATFORM/iOS/PixFight.xcodeproj/xcuserdata/

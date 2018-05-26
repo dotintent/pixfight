@@ -81,6 +81,7 @@ public class PFMainMenuActivity extends AppCompatActivity {
 
         Log.d("[STORAGE]", Environment.getExternalStorageDirectory().toString());
 
+        //TOOD: dodac plik .nomedia przy kopiowaniu
         File dir = new File(Environment.getExternalStorageDirectory(), "PIXFIGHTDATA");
 
         if(!dir.exists()) {
