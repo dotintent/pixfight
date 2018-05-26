@@ -111,6 +111,8 @@ Inspire for the game comes from [WeeWar](https://web.archive.org/web/20150315005
 
 Big thanks to [infullmobile](https://www.infullmobile.com) for providing textures for this project.  
 
+[Parseus](https://github.com/Parseus) - for kicking of RaspberryPi version
+
 # 3. 3rd party libraries
 
 This project use the following 3rd party libraries:
@@ -186,6 +188,50 @@ cp  "$(PROJECT_DIR)/FMOD/lib/x86_64/libfmodL.so.10.3" "/usr/lib/x86_64-linux-gnu
 ```
 
 * Navigate to pixfight/PLATFORM/Linux
+* Open pixfight.cbp project file
+* Press F9 or play button to build and run.
+
+### RaspberryPi
+
+You need to install [codeblocks](http://www.codeblocks.org) to compile this project.
+
+Before compiling and running you need to download additional libraries:
+```
+sudo apt-get install libfreetype6-dev
+sudo apt-get install libglfw3-dev 
+sudo apt-get install freeglut3-dev
+sudo apt-get install libgles2-mesa-dev
+```
+
+Also run codeblocks from terminal with sudo command to let it copy FMOD libs to `usr/lib/arm-linux-gnueabihf`
+
+Before compiling and running make sure your RaspberryPi is working with hardware driver for opengl:
+
+**Keep in mind this is experimental Driver and its not finished**
+
+Open terminal and type:
+
+```
+sudo apt-get update
+sudo apt-get upgrade
+sudo raspi-config
+```
+
+You will now see RPi configuration menu.
+
+* Go to 7 Advanced Options 
+* A3 Memory Split 
+* Set Amount to at least 256
+* Get back to Advanced Options
+* Choose A7 GL Driver
+* Set it to G1 GL (Full KMS)
+* Confirm and reboot
+
+More info can be found [here](http://www.raspberryconnect.com/gamessoftware/item/314-trying_out_opengl_on_raspberry_pi_3)
+
+After reboot you are ready to go.
+
+* Navigate to pixfight/PLATFORM/RaspberryPi
 * Open pixfight.cbp project file
 * Press F9 or play button to build and run.
 

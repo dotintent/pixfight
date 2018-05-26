@@ -1,0 +1,1394 @@
+# depslib dependency file v1.0
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/AI/AIObject.cpp
+	"AIObject.hpp"
+
+1525350901 hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AIObject.hpp
+	"AITask.hpp"
+	"GameEnums.hpp"
+	<vector>
+
+1525350901 
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AITask.hpp
+	"AIBaseInclude.hpp"
+
+1525350901 lude.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AIBaseInclude.hpp
+	"EnumOptionMacro.hpp"
+
+1525350901 nMacro.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/EnumOptionMacro.hpp
+	<iostream>
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameEnums.hpp
+	"EnumOptionMacro.hpp"
+
+1525878181 source:/home/marcin/Desktop/pixfight/CORE/AI/AIPlayer.cpp
+	"AIPlayer.hpp"
+	"GameSync.hpp"
+	"GameLogic.hpp"
+
+1525350901 .hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AIPlayer.hpp
+	"AIObject.hpp"
+	"AITaskGenerator.hpp"
+	"GameMap.hpp"
+	"GameBase.hpp"
+	"GameUnit.hpp"
+	"EnumOptionMacro.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AITaskGenerator.hpp
+	"AITask.hpp"
+	"AIObject.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.hpp
+	<fstream>
+	"Core-pch.hpp"
+	"Drawable.hpp"
+	"FurionGL.hpp"
+	"Mesh2d.hpp"
+	"SearchNode.hpp"
+	"MathTypes.h"
+
+1525350901 .h"
+
+1525706292 /home/marcin/Desktop/pixfight/CORE/Core-pch.hpp
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<GLFW/glfw3.h>
+	<emscripten/emscripten.h>
+	<windows.h>
+	<GL/glew.h>
+	<GL/gl.h>
+	<GLFW/glfw3.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl3ext.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<EGL/egl.h>
+	<string.h>
+	<GL/glew.h>
+	<GL/gl.h>
+	<GLFW/glfw3.h>
+	<cassert>
+	<string>
+	<vector>
+	<iostream>
+	<fstream>
+	<sstream>
+	<algorithm>
+	"EnumOptionMacro.hpp"
+	"CFrustum.hpp"
+	"xVec2.h"
+
+1517256433 /usr/include/GL/gl.h
+	"gl_mangle.h"
+	<windows.h>
+	<GL/glext.h>
+
+1525350901 h>
+
+1517256433 /usr/include/GL/gl_mangle.h
+
+1517256433 /usr/include/GL/glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1515984540 /usr/include/inttypes.h
+	<features.h>
+	<stdint.h>
+	<stddef.h>
+
+1515984530 /usr/include/features.h
+	<stdc-predef.h>
+	<sys/cdefs.h>
+	<gnu/stubs.h>
+
+1515984530 .h>
+
+1515984530 /usr/include/stdc-predef.h
+
+1515984540 /usr/include/stdint.h
+	<features.h>
+	<bits/wchar.h>
+	<bits/wordsize.h>
+
+1515984540 size.h>
+
+1444676947 /usr/include/GLFW/glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl3ext.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES/glext.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl3.h>
+	<GLES3/gl2ext.h>
+	<GLES3/gl31.h>
+	<GLES3/gl2ext.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	<GL/glu.h>
+
+1517256433 /usr/include/GL/glcorearb.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1445634967 /usr/include/GL/glu.h
+	"glu_mangle.h"
+	<GL/gl.h>
+
+1445634967 /usr/include/GL/glu_mangle.h
+
+1515984541 /usr/include/string.h
+	<features.h>
+	<stddef.h>
+	<xlocale.h>
+	<bits/string.h>
+	<bits/string2.h>
+	<bits/string3.h>
+
+1515984541 ng3.h>
+
+1515984531 /usr/include/xlocale.h
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/CFrustum.hpp
+	"Core-pch.hpp"
+	"xMath.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xMath.h
+	<math.h>
+	<float.h>
+	<stdlib.h>
+	"x.h"
+
+1515984539 /usr/include/math.h
+	<features.h>
+	<bits/math-vector.h>
+	<bits/huge_val.h>
+	<bits/huge_valf.h>
+	<bits/huge_vall.h>
+	<bits/inf.h>
+	<bits/nan.h>
+	<bits/mathdef.h>
+	<bits/mathcalls.h>
+	<bits/mathcalls.h>
+	<bits/mathcalls.h>
+	<bits/mathinline.h>
+	<bits/math-finite.h>
+
+1515984539 -finite.h>
+
+1515984540 /usr/include/stdlib.h
+	<features.h>
+	<stddef.h>
+	<bits/waitflags.h>
+	<bits/waitstatus.h>
+	<xlocale.h>
+	<sys/types.h>
+	<alloca.h>
+	<bits/stdlib-bsearch.h>
+	<bits/stdlib-float.h>
+	<bits/stdlib.h>
+	<bits/stdlib-ldbl.h>
+
+1515984540 ib-ldbl.h>
+
+1515984540 /usr/include/alloca.h
+	<features.h>
+	<stddef.h>
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/x.h
+	<time.h>
+	"xSimpleTypes.h"
+	<malloc.h>
+	<alloca.h>
+	<stdlib.h>
+
+1515984542 /usr/include/time.h
+	<features.h>
+	<stddef.h>
+	<bits/time.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<xlocale.h>
+
+1525350901 >
+
+1525706292 /home/marcin/Desktop/pixfight/CORE/Math/xSimpleTypes.h
+	"x.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xVec2.h
+	"xf.h"
+	"xMath.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xf.h
+	"x.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/Drawable.hpp
+	"DrawingContext.hpp"
+
+1525350901 ntext.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Rendering/DrawingContext.hpp
+	"Core-pch.hpp"
+	"FurionGL.hpp"
+	"ShaderProgram.hpp"
+	"xMath.h"
+	"CFrustum.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/iFurionGL/FurionGL.hpp
+	<string.h>
+	"xSimpleTypes.h"
+	"glMatrix4x4.hpp"
+	"xMat34.h"
+	"xVec2.h"
+	"xVec3.h"
+	"xQuat.h"
+	"ShaderProgram.hpp"
+
+1525350901 gram.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/glMatrix4x4.hpp
+	"Core-pch.hpp"
+	"xf.h"
+	"xVec3.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xVec3.h
+	"xf.h"
+	"xMath.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xMat34.h
+	"xMat33.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xMat33.h
+	"xVec3.h"
+	"xQuat.h"
+	"x9F32.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xQuat.h
+	"xf.h"
+	"xVec3.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/x9F32.h
+	"xf.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Shader/ShaderProgram.hpp
+	"Core-pch.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Rendering/Mesh2d.hpp
+	"Core-pch.hpp"
+	"FurionGL.hpp"
+	"DrawingContext.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/PathFinding/SearchNode.hpp
+	"stlastar.hpp"
+	"MapTile.hpp"
+
+1525878181 pp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/PathFinding/stlastar.hpp
+	<iostream>
+	<stdio.h>
+	<assert.h>
+	<algorithm>
+	<set>
+	<vector>
+	"fsa.hpp"
+
+1515984541 /usr/include/stdio.h
+	<features.h>
+	<stddef.h>
+	<bits/types.h>
+	<libio.h>
+	<stdarg.h>
+	<bits/stdio_lim.h>
+	<bits/sys_errlist.h>
+	<getopt.h>
+	<bits/stdio.h>
+	<bits/stdio2.h>
+	<bits/stdio-ldbl.h>
+
+1515984541 o-ldbl.h>
+
+1515984541 /usr/include/libio.h
+	<_G_config.h>
+	<stdarg.h>
+	<sys/cdefs.h>
+	<shlib-compat.h>
+	<bits/libio-ldbl.h>
+
+1515984541 /usr/include/_G_config.h
+	<bits/types.h>
+	<stddef.h>
+	<wchar.h>
+	<gconv.h>
+
+1515984542 /usr/include/wchar.h
+	<features.h>
+	<stdio.h>
+	<stdarg.h>
+	<bits/wchar.h>
+	<stddef.h>
+	<wctype.h>
+	<xlocale.h>
+	<xlocale.h>
+	<xlocale.h>
+	<wctype.h>
+	<bits/wchar2.h>
+	<bits/wchar-ldbl.h>
+
+1515984542 r-ldbl.h>
+
+1515984544 /usr/include/wctype.h
+	<features.h>
+	<bits/types.h>
+	<wchar.h>
+	<endian.h>
+	<xlocale.h>
+
+1515984541 /usr/include/endian.h
+	<features.h>
+	<bits/endian.h>
+	<bits/byteswap.h>
+
+1515984541 swap.h>
+
+1515984530 /usr/include/gconv.h
+	<features.h>
+	<wchar.h>
+	<stddef.h>
+
+1515984542 /usr/include/getopt.h
+	<ctype.h>
+
+1515984538 /usr/include/ctype.h
+	<features.h>
+	<bits/types.h>
+	<endian.h>
+	<xlocale.h>
+
+1515984538 /usr/include/assert.h
+	<features.h>
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/PathFinding/fsa.hpp
+	<string.h>
+	<stdio.h>
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/MapTile.hpp
+	"Core-pch.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/MathTypes.h
+	"xMat34.h"
+	"xQuat.h"
+	"xPlane.h"
+	"xVec2.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xPlane.h
+	"xf.h"
+	"xMath.h"
+	"xVec3.h"
+
+1525878181 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.hpp
+	"GameUnit.hpp"
+
+1525878181 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.hpp
+	<functional>
+	"GameMap.hpp"
+	"GameEnums.hpp"
+	"AIAware.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AIAware.hpp
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameSync.hpp
+	<functional>
+	<queue>
+	<mutex>
+	<future>
+
+1525878181 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.hpp
+	"Core-pch.hpp"
+	"GameUnit.hpp"
+	"GameBase.hpp"
+	"GameMap.hpp"
+	"FontRender.hpp"
+	"DrawingContext.hpp"
+	"GameAnimation.hpp"
+	"Audio.hpp"
+	"GameTimer.hpp"
+	"GameSync.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/font/FontRender.hpp
+	<ft2build.h>
+	"Core-pch.hpp"
+	"FurionGL.hpp"
+	"ShaderProgram.hpp"
+
+1493917555 /usr/include/freetype2/ft2build.h
+	<freetype/config/ftheader.h>
+
+1493917555 config/ftheader.h>
+
+1493917555 /usr/include/freetype2/freetype/config/ftheader.h
+	<x86_64-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<x86_64-linux-gnux32/freetype2/freetype/config/ftheader.h>
+	<i386-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<aarch64-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<alpha-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<arm-linux-gnueabihf/freetype2/freetype/config/ftheader.h>
+	<arm-linux-gnueabi/freetype2/freetype/config/ftheader.h>
+	<hppa-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<ia64-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<m68k-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<mipsel-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<mips64el-linux-gnuabin32/freetype2/freetype/config/ftheader.h>
+	<mips64el-linux-gnuabi64/freetype2/freetype/config/ftheader.h>
+	<mips-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<mips64-linux-gnuabin32/freetype2/freetype/config/ftheader.h>
+	<mips64-linux-gnuabi64/freetype2/freetype/config/ftheader.h>
+	<or1k-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<powerpc-linux-gnuspe/freetype2/freetype/config/ftheader.h>
+	<powerpc64le-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<powerpc64-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<powerpc-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<s390x-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<s390-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<sh4-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<sparc64-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<sparc-linux-gnu/freetype2/freetype/config/ftheader.h>
+	<x86_64-kfreebsd-gnu/freetype2/freetype/config/ftheader.h>
+	<i386-kfreebsd-gnu/freetype2/freetype/config/ftheader.h>
+	<i386-gnu/freetype2/freetype/config/ftheader.h>
+
+1493917555 freetype2/freetype/config/ftheader.h>
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/Rendering/GameAnimation.hpp
+	"Mesh2d.hpp"
+
+1525350901 p"
+
+1525706292 /home/marcin/Desktop/pixfight/CORE/Audio/Audio.hpp
+	<string>
+	<vector>
+	<iostream>
+	"fmod.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod.hpp
+	"fmod_common.h"
+	"fmod.h"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_common.h
+	"fmod_codec.h"
+	"fmod_dsp.h"
+	"fmod_output.h"
+
+1525350901 ut.h"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_codec.h
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_dsp.h
+	"fmod_dsp_effects.h"
+
+1525350901 effects.h"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_dsp_effects.h
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_output.h
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod.h
+	"fmod_common.h"
+
+1525350901 on.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/GameTimer.hpp
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<math.h>
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/AI/AITaskGenerator.cpp
+	"AITaskGenerator.hpp"
+	"GameUnit.hpp"
+	"GameBase.hpp"
+
+1525706292 source:/home/marcin/Desktop/pixfight/CORE/Audio/Audio.cpp
+	<math.h>
+	<algorithm>
+	"Audio.hpp"
+	"fmod_errors.h"
+
+1525706292 rs.h"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_errors.h
+	"fmod.h"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Core-pch.cpp
+	"Core-pch.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/font/FontRender.cpp
+	"FontRender.hpp"
+
+1525350901 r.hpp"
+
+1525878181 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.cpp
+	"GameBase.hpp"
+	"glTextureLoader.hpp"
+
+1525350901 Loader.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/glTextureLoader.hpp
+	"Core-pch.hpp"
+
+1525878181 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
+	"GameLogic.hpp"
+	"glTextureLoader.hpp"
+	"AIPlayer.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.cpp
+	"GameMap.hpp"
+	"glTextureLoader.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameSync.cpp
+	"GameSync.hpp"
+
+1525878181 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.cpp
+	"GameUnit.hpp"
+	"glTextureLoader.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/DataTypes.cpp
+	"FurionGL.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLCollisions.cpp
+	"FurionGL.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLDrawingDescriptor.cpp
+	"FurionGL.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLMath.cpp
+	"FurionGL.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLTexture.cpp
+	"FurionGL.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FGLVector.cpp
+	"FurionGL.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/iFurionGL/FurionGL.cpp
+	"FurionGL.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Math/xMath.cpp
+	"xMath.h"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Math/xVec3.cpp
+	"xVec3.h"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/PathFinding/SearchNode.cpp
+	"SearchNode.hpp"
+	<math.h>
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Rendering/DrawingContext.cpp
+	"DrawingContext.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Rendering/GameAnimation.cpp
+	"GameAnimation.hpp"
+	"glTextureLoader.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Rendering/Mesh2d.cpp
+	"Mesh2d.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/Shader/ShaderProgram.cpp
+	"ShaderProgram.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/utilities/BasePathExtraction.cpp
+	"BasePathExtraction.hpp"
+
+1525350901 xtraction.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/BasePathExtraction.hpp
+	"Core-pch.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/utilities/glMatrix4x4.cpp
+	<string.h>
+	"glMatrix4x4.hpp"
+
+1525350901 x4.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/CORE/utilities/glTextureLoader.cpp
+	"glTextureLoader.hpp"
+	"BasePathExtraction.hpp"
+	"stb_image.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/stb_image.h
+	"stb_image.h"
+	<stdio.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<assert.h>
+	<stdint.h>
+	<emmintrin.h>
+	<intrin.h>
+	<arm_neon.h>
+
+1515984530 /usr/include/limits.h
+	<features.h>
+	<bits/wordsize.h>
+	<bits/posix1_lim.h>
+	<bits/posix2_lim.h>
+	<bits/xopen_lim.h>
+
+1515984530 n_lim.h>
+
+1525706292 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.cpp
+	"AndroidTimer.hpp"
+	<time.h>
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.hpp
+	"GameTimer.hpp"
+
+1525706292 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/GameTimer.cpp
+	"GameTimer.hpp"
+	"AndroidTimer.hpp"
+	"WindowsTimer.hpp"
+	"DarwinTimer.hpp"
+	"AndroidTimer.hpp"
+	"AndroidTimer.hpp"
+
+1525706292 mer.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/DarwinTimer.hpp
+	"GameTimer.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/main.cpp
+	<iostream>
+	<fstream>
+	<limits.h>
+	<unistd.h>
+	"Core-pch.hpp"
+	"Audio.hpp"
+	"SceneManager.hpp"
+	"NewGameScene.hpp"
+	"LoadGameScene.hpp"
+	"RenderScene.hpp"
+	"SettingsScene.hpp"
+	"nuklear.h"
+	"nuklear_glfw_gl3.h"
+	"PFSettings.h"
+
+1525350901 s.h"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear.h
+	<sal.h>
+	<stdint.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdarg.h>
+	<assert.h>
+
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.cpp
+	"MenuScene.hpp"
+	"glTextureLoader.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.hpp
+	"BaseScene.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/BaseScene.hpp
+	"Core-pch.hpp"
+	"EnumOptionMacro.hpp"
+	"nuklear.h"
+
+1525350901 "
+
+1525706293 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.cpp
+	"LoadGameScene.hpp"
+	"glTextureLoader.hpp"
+	<dirent.h>
+	<unistd.h>
+	<windows.h>
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.hpp
+	"BaseScene.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.cpp
+	"NewGameScene.hpp"
+	"glTextureLoader.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.hpp
+	"BaseScene.hpp"
+
+1525885409 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.cpp
+	"RenderScene.hpp"
+	"glTextureLoader.hpp"
+	"PFSettings.h"
+
+1525878341 /home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
+	"BaseScene.hpp"
+	"GameLogic.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.cpp
+	"SettingsScene.hpp"
+	"glTextureLoader.hpp"
+	"PFSettings.h"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SettingsScene.hpp
+	"BaseScene.hpp"
+	"Audio.hpp"
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.hpp
+	<string>
+	<map>
+	"BaseScene.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.cpp
+	"SceneManager.hpp"
+	"MenuScene.hpp"
+	"NewGameScene.hpp"
+	"LoadGameScene.hpp"
+	"SettingsScene.hpp"
+	"RenderScene.hpp"
+
+1525350901 ne.hpp"
+
+1525706293 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear_glfw_gl3.h
+	<string.h>
+	"Core-pch.hpp"
+	<GLFW/glfw3.h>
+
+1525706293 3.h>
+
+1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/PFSettings.h
+	"Core-pch.hpp"
+
+1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/PFSettings.cpp
+	"PFSettings.h"
+
+1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/WindowsTimer.hpp
+	"GameTimer.hpp"
+	<windows.h>
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/AI/AIObject.cpp
+	"AIObject.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/AI/AIObject.hpp
+	"AITask.hpp"
+	"GameEnums.hpp"
+	<vector>
+
+1527258454 /home/pi/Desktop/pixfight/CORE/AI/AITask.hpp
+	"AIBaseInclude.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/AI/AIBaseInclude.hpp
+	"EnumOptionMacro.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/EnumOptionMacro.hpp
+	<iostream>
+
+1527258454 /home/pi/Desktop/pixfight/CORE/GameLogic/GameEnums.hpp
+	"EnumOptionMacro.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/AI/AIPlayer.cpp
+	"AIPlayer.hpp"
+	"GameSync.hpp"
+	"GameLogic.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/AI/AIPlayer.hpp
+	"AIObject.hpp"
+	"AITaskGenerator.hpp"
+	"GameMap.hpp"
+	"GameBase.hpp"
+	"GameUnit.hpp"
+	"EnumOptionMacro.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/AI/AITaskGenerator.hpp
+	"AITask.hpp"
+	"AIObject.hpp"
+
+1527277647 /home/pi/Desktop/pixfight/CORE/GameLogic/GameMap.hpp
+	<fstream>
+	"Core-pch.hpp"
+	"Drawable.hpp"
+	"FurionGL.hpp"
+	"Mesh2d.hpp"
+	"SearchNode.hpp"
+	"MathTypes.h"
+
+1527276739 /home/pi/Desktop/pixfight/CORE/Core-pch.hpp
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<GLFW/glfw3.h>
+	<emscripten/emscripten.h>
+	<windows.h>
+	<GL/glew.h>
+	<GL/gl.h>
+	<GLFW/glfw3.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl3ext.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<EGL/egl.h>
+	<string.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<EGL/egl.h>
+	<GL/glew.h>
+	<GL/gl.h>
+	<GLFW/glfw3.h>
+	<cassert>
+	<string>
+	<vector>
+	<iostream>
+	<fstream>
+	<sstream>
+	<algorithm>
+	"EnumOptionMacro.hpp"
+	"CFrustum.hpp"
+	"xVec2.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/utilities/CFrustum.hpp
+	"Core-pch.hpp"
+	"xMath.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/xMath.h
+	<math.h>
+	<float.h>
+	<stdlib.h>
+	"x.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/x.h
+	<time.h>
+	"xSimpleTypes.h"
+	<malloc.h>
+	<alloca.h>
+	<stdlib.h>
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/xSimpleTypes.h
+	"x.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/xVec2.h
+	"xf.h"
+	"xMath.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/xf.h
+	"x.h"
+
+1527277570 /home/pi/Desktop/pixfight/CORE/GameLogic/Drawable.hpp
+	"DrawingContext.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Rendering/DrawingContext.hpp
+	"Core-pch.hpp"
+	"FurionGL.hpp"
+	"ShaderProgram.hpp"
+	"xMath.h"
+	"CFrustum.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/iFurionGL/FurionGL.hpp
+	<string.h>
+	"xSimpleTypes.h"
+	"glMatrix4x4.hpp"
+	"xMat34.h"
+	"xVec2.h"
+	"xVec3.h"
+	"xQuat.h"
+	"ShaderProgram.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/utilities/glMatrix4x4.hpp
+	"Core-pch.hpp"
+	"xf.h"
+	"xVec3.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/xVec3.h
+	"xf.h"
+	"xMath.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/xMat34.h
+	"xMat33.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/xMat33.h
+	"xVec3.h"
+	"xQuat.h"
+	"x9F32.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/xQuat.h
+	"xf.h"
+	"xVec3.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/x9F32.h
+	"xf.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Shader/ShaderProgram.hpp
+	"Core-pch.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Rendering/Mesh2d.hpp
+	"Core-pch.hpp"
+	"FurionGL.hpp"
+	"DrawingContext.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/PathFinding/SearchNode.hpp
+	"stlastar.hpp"
+	"MapTile.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/PathFinding/stlastar.hpp
+	<iostream>
+	<stdio.h>
+	<assert.h>
+	<algorithm>
+	<set>
+	<vector>
+	"fsa.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/PathFinding/fsa.hpp
+	<string.h>
+	<stdio.h>
+
+1527258454 /home/pi/Desktop/pixfight/CORE/GameLogic/MapTile.hpp
+	"Core-pch.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/MathTypes.h
+	"xMat34.h"
+	"xQuat.h"
+	"xPlane.h"
+	"xVec2.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Math/xPlane.h
+	"xf.h"
+	"xMath.h"
+	"xVec3.h"
+
+1527277623 /home/pi/Desktop/pixfight/CORE/GameLogic/GameBase.hpp
+	"GameUnit.hpp"
+
+1527277637 /home/pi/Desktop/pixfight/CORE/GameLogic/GameUnit.hpp
+	<functional>
+	"GameMap.hpp"
+	"GameEnums.hpp"
+	"AIAware.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/AI/AIAware.hpp
+
+1527258454 /home/pi/Desktop/pixfight/CORE/GameLogic/GameSync.hpp
+	<functional>
+	<queue>
+	<mutex>
+	<future>
+
+1527258454 /home/pi/Desktop/pixfight/CORE/GameLogic/GameLogic.hpp
+	"Core-pch.hpp"
+	"GameUnit.hpp"
+	"GameBase.hpp"
+	"GameMap.hpp"
+	"FontRender.hpp"
+	"DrawingContext.hpp"
+	"GameAnimation.hpp"
+	"Audio.hpp"
+	"GameTimer.hpp"
+	"GameSync.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/font/FontRender.hpp
+	<ft2build.h>
+	"Core-pch.hpp"
+	"FurionGL.hpp"
+	"ShaderProgram.hpp"
+
+1493319460 /usr/include/freetype2/ft2build.h
+	<freetype/config/ftheader.h>
+
+1493319460 /usr/include/freetype2/freetype/config/ftheader.h
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Rendering/GameAnimation.hpp
+	"Mesh2d.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/Audio/Audio.hpp
+	<string>
+	<vector>
+	<iostream>
+	"fmod.hpp"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/FMOD/inc/fmod.hpp
+	"fmod_common.h"
+	"fmod.h"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/FMOD/inc/fmod_common.h
+	"fmod_codec.h"
+	"fmod_dsp.h"
+	"fmod_output.h"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/FMOD/inc/fmod_codec.h
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/FMOD/inc/fmod_dsp.h
+	"fmod_dsp_effects.h"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/FMOD/inc/fmod_dsp_effects.h
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/FMOD/inc/fmod_output.h
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/FMOD/inc/fmod.h
+	"fmod_common.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/utilities/Timer/GameTimer.hpp
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<math.h>
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/AI/AITaskGenerator.cpp
+	"AITaskGenerator.hpp"
+	"GameUnit.hpp"
+	"GameBase.hpp"
+
+1527342556 source:/home/pi/Desktop/pixfight/CORE/Audio/Audio.cpp
+	<math.h>
+	<algorithm>
+	"Audio.hpp"
+	"fmod_errors.h"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/FMOD/inc/fmod_errors.h
+	"fmod.h"
+
+1527276624 source:/home/pi/Desktop/pixfight/CORE/Core-pch.cpp
+	"Core-pch.hpp"
+
+1527324407 source:/home/pi/Desktop/pixfight/CORE/font/FontRender.cpp
+	"FontRender.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/GameLogic/GameBase.cpp
+	"GameBase.hpp"
+	"glTextureLoader.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/utilities/glTextureLoader.hpp
+	"Core-pch.hpp"
+
+1527323774 source:/home/pi/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
+	"GameLogic.hpp"
+	"glTextureLoader.hpp"
+	"AIPlayer.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/GameLogic/GameMap.cpp
+	"GameMap.hpp"
+	"glTextureLoader.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/GameLogic/GameSync.cpp
+	"GameSync.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/GameLogic/GameUnit.cpp
+	"GameUnit.hpp"
+	"glTextureLoader.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/iFurionGL/DataTypes.cpp
+	"FurionGL.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/iFurionGL/FGLCollisions.cpp
+	"FurionGL.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/iFurionGL/FGLDrawingDescriptor.cpp
+	"FurionGL.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/iFurionGL/FGLMath.cpp
+	"FurionGL.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/iFurionGL/FGLTexture.cpp
+	"FurionGL.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/iFurionGL/FGLVector.cpp
+	"FurionGL.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/iFurionGL/FurionGL.cpp
+	"FurionGL.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/Math/xMath.cpp
+	"xMath.h"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/Math/xVec3.cpp
+	"xVec3.h"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/PathFinding/SearchNode.cpp
+	"SearchNode.hpp"
+	<math.h>
+
+1527276443 source:/home/pi/Desktop/pixfight/CORE/Rendering/DrawingContext.cpp
+	"DrawingContext.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/Rendering/GameAnimation.cpp
+	"GameAnimation.hpp"
+	"glTextureLoader.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/Rendering/Mesh2d.cpp
+	"Mesh2d.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/Shader/ShaderProgram.cpp
+	"ShaderProgram.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/utilities/BasePathExtraction.cpp
+	"BasePathExtraction.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/utilities/BasePathExtraction.hpp
+	"Core-pch.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/utilities/glMatrix4x4.cpp
+	<string.h>
+	"glMatrix4x4.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/utilities/glTextureLoader.cpp
+	"glTextureLoader.hpp"
+	"BasePathExtraction.hpp"
+	"stb_image.h"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/utilities/stb_image.h
+	"stb_image.h"
+	<stdio.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<assert.h>
+	<stdint.h>
+	<emmintrin.h>
+	<intrin.h>
+	<arm_neon.h>
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.cpp
+	"AndroidTimer.hpp"
+	<time.h>
+
+1527258454 /home/pi/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.hpp
+	"GameTimer.hpp"
+
+1527258454 source:/home/pi/Desktop/pixfight/CORE/utilities/Timer/GameTimer.cpp
+	"GameTimer.hpp"
+	"AndroidTimer.hpp"
+	"WindowsTimer.hpp"
+	"DarwinTimer.hpp"
+	"AndroidTimer.hpp"
+	"AndroidTimer.hpp"
+
+1527258454 /home/pi/Desktop/pixfight/CORE/utilities/Timer/WindowsTimer.hpp
+	"GameTimer.hpp"
+	<windows.h>
+
+1527258454 /home/pi/Desktop/pixfight/CORE/utilities/Timer/DarwinTimer.hpp
+	"GameTimer.hpp"
+
+1527258666 source:/home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/LoadGameScene.cpp
+	"LoadGameScene.hpp"
+	"glTextureLoader.hpp"
+	<dirent.h>
+	<unistd.h>
+	<windows.h>
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/LoadGameScene.hpp
+	"BaseScene.hpp"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/BaseScene.hpp
+	"Core-pch.hpp"
+	"EnumOptionMacro.hpp"
+	"nuklear.h"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/nuklear.h
+	<sal.h>
+	<stdint.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdarg.h>
+	<assert.h>
+
+1527258800 source:/home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/main.cpp
+	<iostream>
+	<fstream>
+	<limits.h>
+	<unistd.h>
+	"Core-pch.hpp"
+	"Audio.hpp"
+	"SceneManager.hpp"
+	"NewGameScene.hpp"
+	"LoadGameScene.hpp"
+	"RenderScene.hpp"
+	"SettingsScene.hpp"
+	"nuklear.h"
+	"nuklear_glfw_gl3.h"
+	"PFSettings.h"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/SceneManager.hpp
+	<string>
+	<map>
+	"BaseScene.hpp"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/NewGameScene.hpp
+	"BaseScene.hpp"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/RenderScene.hpp
+	"BaseScene.hpp"
+	"GameLogic.hpp"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/SettingsScene.hpp
+	"BaseScene.hpp"
+	"Audio.hpp"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/nuklear_glfw_gl3.h
+	<string.h>
+	"Core-pch.hpp"
+	<GLFW/glfw3.h>
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/PFSettings.h
+	"Core-pch.hpp"
+
+1527258666 source:/home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/MenuScene.cpp
+	"MenuScene.hpp"
+	"glTextureLoader.hpp"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/MenuScene.hpp
+	"BaseScene.hpp"
+
+1527258666 source:/home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/NewGameScene.cpp
+	"NewGameScene.hpp"
+	"glTextureLoader.hpp"
+
+1527258666 source:/home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/PFSettings.cpp
+	"PFSettings.h"
+
+1527258666 source:/home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/RenderScene.cpp
+	"RenderScene.hpp"
+	"glTextureLoader.hpp"
+	"PFSettings.h"
+
+1527258666 source:/home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/SceneManager.cpp
+	"SceneManager.hpp"
+	"MenuScene.hpp"
+	"NewGameScene.hpp"
+	"LoadGameScene.hpp"
+	"SettingsScene.hpp"
+	"RenderScene.hpp"
+
+1527258666 source:/home/pi/Desktop/pixfight/PLATFORM/RaspberryPi/SettingsScene.cpp
+	"SettingsScene.hpp"
+	"glTextureLoader.hpp"
+	"PFSettings.h"
+
+1527258455 source:/home/pi/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.cpp
+	"LoadGameScene.hpp"
+	"glTextureLoader.hpp"
+	<dirent.h>
+	<unistd.h>
+	<windows.h>
+
+1527258455 /home/pi/Desktop/pixfight/PLATFORM/Linux/LoadGameScene.hpp
+	"BaseScene.hpp"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/Linux/BaseScene.hpp
+	"Core-pch.hpp"
+	"EnumOptionMacro.hpp"
+	"nuklear.h"
+
+1527258455 /home/pi/Desktop/pixfight/PLATFORM/Linux/nuklear.h
+	<sal.h>
+	<stdint.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdarg.h>
+	<assert.h>
+
+1527258455 source:/home/pi/Desktop/pixfight/PLATFORM/Linux/MenuScene.cpp
+	"MenuScene.hpp"
+	"glTextureLoader.hpp"
+
+1527258455 /home/pi/Desktop/pixfight/PLATFORM/Linux/MenuScene.hpp
+	"BaseScene.hpp"
+
+1527258455 source:/home/pi/Desktop/pixfight/PLATFORM/Linux/NewGameScene.cpp
+	"NewGameScene.hpp"
+	"glTextureLoader.hpp"
+
+1527258455 /home/pi/Desktop/pixfight/PLATFORM/Linux/NewGameScene.hpp
+	"BaseScene.hpp"
+
+1527258455 source:/home/pi/Desktop/pixfight/PLATFORM/Linux/PFSettings.cpp
+	"PFSettings.h"
+
+1527258455 /home/pi/Desktop/pixfight/PLATFORM/Linux/PFSettings.h
+	"Core-pch.hpp"
+
+1527258666 source:/home/pi/Desktop/pixfight/PLATFORM/Linux/RenderScene.cpp
+	"RenderScene.hpp"
+	"glTextureLoader.hpp"
+	"PFSettings.h"
+
+1527258666 /home/pi/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
+	"BaseScene.hpp"
+	"GameLogic.hpp"
+
+1527258455 source:/home/pi/Desktop/pixfight/PLATFORM/Linux/SceneManager.cpp
+	"SceneManager.hpp"
+	"MenuScene.hpp"
+	"NewGameScene.hpp"
+	"LoadGameScene.hpp"
+	"SettingsScene.hpp"
+	"RenderScene.hpp"
+
+1527258455 /home/pi/Desktop/pixfight/PLATFORM/Linux/SceneManager.hpp
+	<string>
+	<map>
+	"BaseScene.hpp"
+
+1527258455 /home/pi/Desktop/pixfight/PLATFORM/Linux/SettingsScene.hpp
+	"BaseScene.hpp"
+	"Audio.hpp"
+
+1527258455 source:/home/pi/Desktop/pixfight/PLATFORM/Linux/SettingsScene.cpp
+	"SettingsScene.hpp"
+	"glTextureLoader.hpp"
+	"PFSettings.h"
+
+1527280241 source:/home/pi/Desktop/pixfight/PLATFORM/Linux/main.cpp
+	<iostream>
+	<fstream>
+	<limits.h>
+	<unistd.h>
+	"Core-pch.hpp"
+	"Audio.hpp"
+	"SceneManager.hpp"
+	"NewGameScene.hpp"
+	"LoadGameScene.hpp"
+	"RenderScene.hpp"
+	"SettingsScene.hpp"
+	"nuklear.h"
+	"nuklear_glfw_gl3.h"
+	"PFSettings.h"
+
+1527272219 /home/pi/Desktop/pixfight/PLATFORM/Linux/nuklear_glfw_gl3.h
+	<string.h>
+	"Core-pch.hpp"
+	<GLFW/glfw3.h>
+

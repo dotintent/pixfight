@@ -15,7 +15,7 @@
 
 class AIPlayer;
 
-class GameUnit final : public Drawable, public AIAware {
+class GameUnit final : public DrawableObject, public AIAware {
 
     constexpr static const int MAXUNITSIZE = 10;
     friend class AIPlayer;
@@ -71,7 +71,7 @@ public:
     float getSize();
     bool canAttack() { return _mayAttack; }
     const M_ORIENTATION & getOrientation() const { return _currentOR; };
-    
+
     bool isMoving();
     void setBasicAnimation(const int & lenght, const float & speed);
     void setAnimation(const int & lenght, const float & speed);
@@ -82,7 +82,7 @@ public:
     const UNITMODE & getUnitMode() const { return _mode; }
     const int & getAttackLenght() const { return _lenghtAttack; }
     const int & getMoveLenght() const { return _lenghtMove; }
-    
+
     void setUnitType(const UNITTYPE & type) { _type = type; }
     void setMayAttack(const bool & attack) { _mayAttack = attack; }
 
@@ -105,7 +105,7 @@ public:
 private:
 
     void moveToPoint(const xVec2 & p);
-    
+
 
 private:
 

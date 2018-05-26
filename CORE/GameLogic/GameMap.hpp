@@ -17,7 +17,7 @@
 #include "SearchNode.hpp"
 #include "MathTypes.h"
 
-class GameMap final : public Drawable {
+class GameMap final : public DrawableObject {
 
     constexpr static const uint32_t MAX_PLAYERS_DEF = 4;
     constexpr static const int32_t HEADER_ID = 0xFFAD;
