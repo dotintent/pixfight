@@ -1,15 +1,18 @@
 package com.noclip.marcinmalysz.pixfight;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.os.Environment;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -20,21 +23,20 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.io.File;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class PFRenderActivity extends AppCompatActivity {
+public class PFRenderFragment extends Fragment {
 
     private PFGL2View glView = null;
 
@@ -50,17 +52,43 @@ public class PFRenderActivity extends AppCompatActivity {
     private Button undoButton = null;
     private ProgressDialog progressDialog = null;
 
-    private static PFRenderActivity renderInstance = null;
+    private static PFRenderFragment renderInstance = null;
+
+    private Bundle arguments = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_pfrender);
+        arguments = getArguments();
+    }
 
-        glView = new PFGL2View(getApplication());
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_pfrender, container, false);
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                tapDetector.onTouchEvent(event);
+                scaleDetector.onTouchEvent(event);
+                panDetector.onTouchEvent(event);
 
-        Display display = getWindowManager().getDefaultDisplay();
+                return true;
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        glView = new PFGL2View(getActivity());
+        glView.setPreserveEGLContextOnPause(true);
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getRealSize(size);
         int widthPixels = size.x;
@@ -68,19 +96,16 @@ public class PFRenderActivity extends AppCompatActivity {
 
         glView.getHolder().setFixedSize(widthPixels / 2, heightPixels / 2);
 
-        tapDetector = new GestureDetector(this, new PFGestureTapListener());
-        scaleDetector =  new ScaleGestureDetector(this, new PFScaleListener());
-        panDetector = new GestureDetector(this, new PFPanGestureListener());
+        tapDetector = new GestureDetector(getContext(), new PFGestureTapListener());
+        scaleDetector =  new ScaleGestureDetector(getContext(), new PFScaleListener());
+        panDetector = new GestureDetector(getContext(), new PFPanGestureListener());
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        PFImmersiveMode.SetImmersiveMode(getWindow());
+        backButton = getView().findViewById(R.id.rendergame_back);
+        endTurnButton = getView().findViewById(R.id.rendergame_endtrun);
+        multiplyButton = getView().findViewById(R.id.rendergame_timemultiply);
+        undoButton = getView().findViewById(R.id.rendergame_undo);
 
-        backButton = findViewById(R.id.rendergame_back);
-        endTurnButton = findViewById(R.id.rendergame_endtrun);
-        multiplyButton = findViewById(R.id.rendergame_timemultiply);
-        undoButton = findViewById(R.id.rendergame_undo);
-
-        ConstraintLayout layout = findViewById(R.id.contraintLayout);
+        ConstraintLayout layout = getView().findViewById(R.id.contraintLayout);
 
         layout.addView(glView, 0, new FrameLayout.LayoutParams(widthPixels, heightPixels));
 
@@ -98,7 +123,7 @@ public class PFRenderActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                if (canEndTurn() == false) {
+                if (!canEndTurn()) {
                     return;
                 }
 
@@ -121,7 +146,7 @@ public class PFRenderActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                if (canUndo() == false) {
+                if (!canUndo()) {
                     return;
                 }
 
@@ -140,13 +165,15 @@ public class PFRenderActivity extends AppCompatActivity {
             }
         };
 
-        glView.setBundle(getIntent().getExtras());
+        glView.setBundle(arguments);
 
-        progressDialog = new ProgressDialog(PFRenderActivity.this);
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Thinking...");
         progressDialog.setCancelable(false);
-        progressDialog.getWindow().setGravity(Gravity.TOP);
+        progressDialog.getWindow().setGravity(Gravity.TOP);   
     }
+
+
 
     public void buildMainMenu() {
 
@@ -155,7 +182,7 @@ public class PFRenderActivity extends AppCompatActivity {
                 "SAVE"
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("MENU");
         builder.setCancelable(true);
 
@@ -168,7 +195,7 @@ public class PFRenderActivity extends AppCompatActivity {
 
                     case 0: {
 
-                        finish();
+                        getFragmentManager().popBackStack();
                     }
                         break;
 
@@ -197,7 +224,7 @@ public class PFRenderActivity extends AppCompatActivity {
 
             CharSequence text = "Error save directory does not exist";
 
-            Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getContext(), text, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
             toast.show();
 
@@ -225,7 +252,7 @@ public class PFRenderActivity extends AppCompatActivity {
             text = "Error saving game.";
         }
 
-        Toast saveToast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+        Toast saveToast = Toast.makeText(getContext(), text, Toast.LENGTH_SHORT);
         saveToast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
         saveToast.show();
     }
@@ -234,14 +261,14 @@ public class PFRenderActivity extends AppCompatActivity {
 
         Log.d("[PIXFIGHT]", "onWinEvent");
 
-        this.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
 
                 CharSequence text = "Congratulations, You win!";
                 int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+                Toast toast = Toast.makeText(getContext(), text, duration);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
@@ -252,14 +279,14 @@ public class PFRenderActivity extends AppCompatActivity {
 
         Log.d("[PIXFIGHT]", "onLoseEvent");
 
-        this.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
 
                 CharSequence text = "Sorry, You lose!";
                 int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+                Toast toast = Toast.makeText(getContext(), text, duration);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
@@ -270,7 +297,7 @@ public class PFRenderActivity extends AppCompatActivity {
 
         Log.d("[PIXFIGHT]", "botsStartThinkEvent");
 
-        this.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
@@ -284,13 +311,12 @@ public class PFRenderActivity extends AppCompatActivity {
 
         Log.d("[PIXFIGHT]", "botsEndThinkEvent");
 
-        this.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
 
                 progressDialog.hide();
-                PFImmersiveMode.SetImmersiveMode(getWindow());
             }
         });
     }
@@ -339,7 +365,7 @@ public class PFRenderActivity extends AppCompatActivity {
                 R.drawable.icon_artillery4
         };
 
-        ListAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_item, types) {
+        ListAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.list_item, types) {
 
             ViewHolder holder;
 
@@ -352,9 +378,10 @@ public class PFRenderActivity extends AppCompatActivity {
                 return !(costs[position] > cash);
             }
 
-            public View getView(int position, View convertView, ViewGroup parent) {
+            @NonNull
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
-                final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                 if (convertView == null) {
 
@@ -362,8 +389,8 @@ public class PFRenderActivity extends AppCompatActivity {
 
                     holder = new ViewHolder();
 
-                    holder.icon = (ImageView)convertView.findViewById(R.id.icon);
-                    holder.title = (TextView)convertView.findViewById(R.id.title);
+                    holder.icon = convertView.findViewById(R.id.icon);
+                    holder.title = convertView.findViewById(R.id.title);
 
                     convertView.setTag(holder);
 
@@ -383,7 +410,7 @@ public class PFRenderActivity extends AppCompatActivity {
             }
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Build Unit - Cash: " + Integer.toString(cash));
         builder.setCancelable(true);
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
@@ -395,11 +422,10 @@ public class PFRenderActivity extends AppCompatActivity {
                 }
 
                 int localCash = cash;
-                int selectedUnit = which;
 
                 localCash -= costs[which];
 
-                finishBuilding(selectedUnit, localCash);
+                finishBuilding(which, localCash);
                 dialog.dismiss();
             }
         });
@@ -410,7 +436,7 @@ public class PFRenderActivity extends AppCompatActivity {
 
     public void onBaseSelected(final int team, final int cash) {
 
-        this.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
@@ -421,32 +447,15 @@ public class PFRenderActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        tapDetector.onTouchEvent(event);
-        scaleDetector.onTouchEvent(event);
-        panDetector.onTouchEvent(event);
-
-        return true;
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-
-        PFImmersiveMode.SetImmersiveMode(getWindow());
-    }
-
-    @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
 
-        PFGameLib.nativeOnStart(this);
+        PFGameLib.nativeOnStart(getActivity());
         PFAudioWrapper.playGameMusic();
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
 
         progressDialog.cancel();
@@ -557,6 +566,6 @@ public class PFRenderActivity extends AppCompatActivity {
     public static native void tapAction(float x, float y);
     public static native void scaleAction(float scale);
     public static native void panAction(float dx, float dy);
-    public static native boolean saveGame(String savepath);
-    public static native String getMapName();
+    public static native boolean saveGame(@NonNull String savepath);
+    @NonNull public static native String getMapName();
 }

@@ -1,51 +1,57 @@
 package com.noclip.marcinmalysz.pixfight;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import java.io.File;
 
-public class PFLoadGameActivity extends AppCompatActivity {
+public class PFLoadGameFragment extends Fragment {
 
-    private Typeface font = null;
     private TableLayout tableView = null;
     private Button loadButton = null;
     private Button deleteButton = null;
     private File[] files = null;
     private int selectedFile = -1;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_pfload_game, container, false);
+    }
 
-        font = Typeface.createFromAsset(getAssets(), "FFFATLAN.TTF");
-        setContentView(R.layout.activity_pfload_game);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        PFImmersiveMode.SetImmersiveMode(getWindow());
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        tableView = findViewById(R.id.saveFilesTable);
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "FFFATLAN.TTF");
 
-        Button backButton = findViewById(R.id.loadgame_back);
+        tableView = getView().findViewById(R.id.saveFilesTable);
+
+        Button backButton = getView().findViewById(R.id.loadgame_back);
         backButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
 
-                finish();
+                getFragmentManager().popBackStack();
             }
         });
 
 
-        loadButton = findViewById(R.id.loadgamebuttonstart);
+        loadButton = getView().findViewById(R.id.loadgamebuttonstart);
         loadButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -55,7 +61,7 @@ public class PFLoadGameActivity extends AppCompatActivity {
             }
         });
 
-        deleteButton = findViewById(R.id.loadgamebuttondelete);
+        deleteButton = getView().findViewById(R.id.loadgamebuttondelete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -69,13 +75,6 @@ public class PFLoadGameActivity extends AppCompatActivity {
         deleteButton.setTypeface(font);
 
         loadSaveFiles();
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-
-        PFImmersiveMode.SetImmersiveMode(getWindow());
     }
 
     private void loadGame() {
@@ -92,10 +91,16 @@ public class PFLoadGameActivity extends AppCompatActivity {
             return;
         }
 
-        Intent intent = new Intent(PFLoadGameActivity.this, PFRenderActivity.class);
-        intent.putExtra("savepath", fullPath.toString());
+        Bundle bundle =  new Bundle();
+        bundle.putString("savePath", fullPath.toString());
 
-        startActivity(intent);
+        PFRenderFragment renderFragment = new PFRenderFragment();
+        renderFragment.setArguments(bundle);
+
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, new PFRenderFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     private void deleteSave() {
@@ -129,17 +134,16 @@ public class PFLoadGameActivity extends AppCompatActivity {
         tableView.removeAllViews();
         files = dir.listFiles();
 
-        TableRow tr = null;
-        TextView tv = null;
+        TableRow tr;
+        TextView tv;
 
-        for (int i = 0; i < files.length; i++)  {
-
-            tr = new TableRow(this);
-            tv = new TextView(this);
+        for (File file : files) {
+            tr = new TableRow(getContext());
+            tv = new TextView(getContext());
 
             tv.setTextSize(18);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            tv.setText(files[i].getName());
+            tv.setText(file.getName());
             tv.setTextColor(Color.BLACK);
 
             tr.setClickable(true);

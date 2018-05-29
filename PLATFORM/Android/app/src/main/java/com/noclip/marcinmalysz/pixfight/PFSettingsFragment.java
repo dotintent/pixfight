@@ -1,53 +1,46 @@
 package com.noclip.marcinmalysz.pixfight;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-public class PFSettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class PFSettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
-    private Typeface font = null;
     private Switch aiSwitch = null;
     private Switch muteSwitch = null;
     private SharedPreferences preferences = null;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View layout = inflater.inflate(R.layout.fragment_pfsettings, container, false);
 
-        font = Typeface.createFromAsset(getAssets(), "FFFATLAN.TTF");
+        muteSwitch = layout.findViewById(R.id.mute_switch);
+        aiSwitch = layout.findViewById(R.id.ai_switch);
 
-        setContentView(R.layout.activity_pfsettings);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        PFImmersiveMode.SetImmersiveMode(getWindow());
-
-        Button backButton = findViewById(R.id.settings_back);
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-               finish();
-            }
-        });
-
-        muteSwitch = findViewById(R.id.mute_switch);
-        aiSwitch = findViewById(R.id.ai_switch);
-
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "FFFATLAN.TTF");
         muteSwitch.setTypeface(font);
         aiSwitch.setTypeface(font);
 
-        //setup initial values
+        View backButton = layout.findViewById(R.id.settings_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
+            }
+        });
 
-        preferences = this.getSharedPreferences("PixFightPreferences", this.MODE_PRIVATE);
+        preferences = getContext().getSharedPreferences("PixFightPreferences", Context.MODE_PRIVATE);
 
         muteSwitch.setChecked(preferences.getBoolean("mute", false));
         aiSwitch.setChecked(preferences.getBoolean("hardai", false));
@@ -55,17 +48,12 @@ public class PFSettingsActivity extends AppCompatActivity implements CompoundBut
         //listeners
         muteSwitch.setOnCheckedChangeListener(this);
         aiSwitch.setOnCheckedChangeListener(this);
+
+        return layout;
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
-
-        PFImmersiveMode.SetImmersiveMode(getWindow());
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
 
         SharedPreferences.Editor editor = preferences.edit();
 

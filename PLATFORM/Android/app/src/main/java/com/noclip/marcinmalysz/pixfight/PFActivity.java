@@ -1,21 +1,18 @@
 package com.noclip.marcinmalysz.pixfight;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.File;
@@ -24,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class PFMainMenuActivity extends AppCompatActivity {
+public class PFActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -34,23 +31,19 @@ public class PFMainMenuActivity extends AppCompatActivity {
     }
 
     private final int WRITE_STORAGEREQUESTCODE = 1337; //This should be unique somehow
-    private Typeface font = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        font = Typeface.createFromAsset(getAssets(), "FFFATLAN.TTF");
         // ResourcesCompat.getFont(this, R.font.fffatlan);
 
-        setContentView(R.layout.activity_pfmain_menu);
+        setContentView(R.layout.activity_main);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new PFMainMenuFragment()).commit();
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         PFImmersiveMode.SetImmersiveMode(getWindow());
-
-        addListenerOnNewGameButton();
-        addListenerOnLoadGameButton();
-        addListenerOnSettingsButton();
 
         if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) &&
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)) {
@@ -61,6 +54,8 @@ public class PFMainMenuActivity extends AppCompatActivity {
 
         preapreForCopy();
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
@@ -188,54 +183,5 @@ public class PFMainMenuActivity extends AppCompatActivity {
         PFImmersiveMode.SetImmersiveMode(getWindow());
     }
 
-    public void addListenerOnSettingsButton() {
 
-        Button button = findViewById(R.id.imageButtonSettings);
-        button.setTypeface(font);
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                PFAudioWrapper.playSelectSound();
-                Intent intent = new Intent(PFMainMenuActivity.this, PFSettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    public void addListenerOnLoadGameButton() {
-
-        Button button = findViewById(R.id.imageButtonLoadGame);
-        button.setTypeface(font);
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                PFAudioWrapper.playSelectSound();
-                Intent intent = new Intent(PFMainMenuActivity.this, PFLoadGameActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    public void addListenerOnNewGameButton() {
-
-        Button button = findViewById(R.id.imageButtonNewGame);
-        button.setTypeface(font);
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                PFAudioWrapper.playSelectSound();
-                Intent intent = new Intent(PFMainMenuActivity.this, PFNewGameActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 }

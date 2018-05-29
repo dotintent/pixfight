@@ -1,101 +1,102 @@
 package com.noclip.marcinmalysz.pixfight;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import java.lang.reflect.Field;
 
 
-public class PFNewGameActivity extends AppCompatActivity implements OnItemSelectedListener {
+public class PFNewGameFragment extends Fragment implements OnItemSelectedListener {
 
     private Typeface font = null;
     private Spinner teamButton = null;
     private Button startButton = null;
     private ImageView mapImage = null;
     private TableLayout tableView = null;
-    private Map<Integer, Map<String, String>> data = new HashMap<>();
+    private SparseArray<Map<String, String>> data = new SparseArray<>();
 
     private int selectedPlayer = 1;
     private int playersPlaying = 2;
     private String mapName = "tutorial";
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_pfnew_game, container, false);
+    }
 
-        font = Typeface.createFromAsset(getAssets(), "FFFATLAN.TTF");
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        setContentView(R.layout.activity_pfnew_game);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        PFImmersiveMode.SetImmersiveMode(getWindow());
+        font = Typeface.createFromAsset(getContext().getAssets(), "FFFATLAN.TTF");
 
         //back
-        Button backButton = findViewById(R.id.newgame_back);
+        Button backButton = getView().findViewById(R.id.newgame_back);
 
         backButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-
-                finish();
+                getFragmentManager().popBackStack();
             }
         });
 
-        teamButton = findViewById(R.id.teamspinner);
+        teamButton = getView().findViewById(R.id.teamspinner);
         teamButton.setOnItemSelectedListener(this);
         teamButton.setBackground(getResources().getDrawable(R.drawable.buttonn2x));
         createAdapter();
 
-        startButton = findViewById(R.id.startgamebutton);
+        startButton = getView().findViewById(R.id.startgamebutton);
         startButton.setTypeface(font);
 
         startButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-
-                Intent intent = new Intent(PFNewGameActivity.this, PFRenderActivity.class);
-
                 if (mapName == null) {
                     return;
                 }
+                
+                Bundle bundle = new Bundle();
+                bundle.putInt("playerID", selectedPlayer);
+                bundle.putInt("players", playersPlaying);
+                bundle.putString("mapname", mapName);
 
-                intent.putExtra("playerID", selectedPlayer);
-                intent.putExtra("players", playersPlaying);
-                intent.putExtra("mapname", mapName);
+                PFRenderFragment renderFragment = new PFRenderFragment();
+                renderFragment.setArguments(bundle);
 
-                startActivity(intent);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainer, renderFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
-        mapImage = findViewById(R.id.mapImage);
-        tableView = findViewById(R.id.mapPoolTable);
+        mapImage = getView().findViewById(R.id.mapImage);
+        tableView = getView().findViewById(R.id.mapPoolTable);
         createTablePool();
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-
-        PFImmersiveMode.SetImmersiveMode(getWindow());
     }
 
     private void createAdapter() {
@@ -130,23 +131,24 @@ public class PFNewGameActivity extends AppCompatActivity implements OnItemSelect
                 break;
         }
 
-        ArrayAdapter<String>adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String>adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, paths) {
 
-            public View getView(int position, View convertView, ViewGroup parent) {
+            @NonNull
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTypeface(font);
-                ((TextView) v).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
                 return v;
             }
 
-            public View getDropDownView(int position,  View convertView,  ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
 
                 View v = super.getDropDownView(position, convertView, parent);
                 ((TextView) v).setTypeface(font);
-                ((TextView) v).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
                 v.setBackgroundColor(getResources().getColor(R.color.rowSelected));
 
@@ -214,14 +216,13 @@ public class PFNewGameActivity extends AppCompatActivity implements OnItemSelect
             put("players", "4");
         }});
 
-        TableRow tr = null;
-        TextView tv = null;
+        TableRow tr;
+        TextView tv;
 
-        Integer i;
-        for (i = 0; i < data.size(); ++i) {
+        for (int i = 0; i < data.size(); ++i) {
 
-            tr = new TableRow(this);
-            tv = new TextView(this);
+            tr = new TableRow(getContext());
+            tv = new TextView(getContext());
 
             Map<String, String> mapInfo = data.get(i);
 
@@ -244,13 +245,13 @@ public class PFNewGameActivity extends AppCompatActivity implements OnItemSelect
         row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
     }
 
-    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+    public void onItemSelected(@NonNull AdapterView<?> parent, @NonNull View v, int position, long id) {
 
         selectedPlayer = position + 1;
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(@NonNull AdapterView<?> parent) {
         
     }
 

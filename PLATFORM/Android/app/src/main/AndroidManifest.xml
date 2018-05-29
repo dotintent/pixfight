@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".PFMainMenuActivity"
+            android:name=".PFActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,30 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".PFNewGameActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_pfnew_game"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".PFSettingsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_pfsettings"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".PFRenderActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_pfrender"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".PFLoadGameActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_pfload_game"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
