@@ -100,6 +100,16 @@ public class PFActivity extends AppCompatActivity {
             Log.d("[INFO]", "DIRECTORY ALREADY EXIST");
         }
 
+        String noMediaLocation = Environment.getExternalStorageDirectory().toString() + "/PIXFIGHTDATA/.nomedia";
+        File noMediaFile = new File(noMediaLocation);
+
+        if (!noMediaFile.exists()) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                noMediaFile.createNewFile();
+            } catch (IOException ignored) { }
+        }
+
         org.fmod.FMOD.init(this);
 
         if (dir.exists()) {
