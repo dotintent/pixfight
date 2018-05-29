@@ -1,6 +1,7 @@
 package com.noclip.marcinmalysz.pixfight;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Build;
@@ -30,7 +31,8 @@ public class PFActivity extends AppCompatActivity {
         System.loadLibrary("native-lib");
     }
 
-    private final int WRITE_STORAGEREQUESTCODE = 1337; //This should be unique somehow
+    private static final int WRITE_STORAGEREQUESTCODE = 1337; //This should be unique somehow
+    private boolean audioInitialized = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +57,14 @@ public class PFActivity extends AppCompatActivity {
         preapreForCopy();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        if (!isAudioMuted() && audioInitialized) {
+            PFAudioWrapper.muteMusic();
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
@@ -115,6 +124,7 @@ public class PFActivity extends AppCompatActivity {
         if (dir.exists()) {
 
             PFAudioWrapper.initializeAudio(this, dir.toString());
+            audioInitialized = true;
         }
     }
 
@@ -191,7 +201,15 @@ public class PFActivity extends AppCompatActivity {
         super.onPostResume();
 
         PFImmersiveMode.SetImmersiveMode(getWindow());
+
+        if (!isAudioMuted() && audioInitialized) {
+            PFAudioWrapper.unmuteMusic();
+        }
     }
 
+    private boolean isAudioMuted() {
+        SharedPreferences preferences = getSharedPreferences("PixFightPreferences", MODE_PRIVATE);
+        return preferences.getBoolean("mute", false);
+    }
 
 }
