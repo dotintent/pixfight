@@ -3,7 +3,6 @@ package com.noclip.marcinmalysz.pixfight;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -63,20 +62,17 @@ public class PFRenderFragment extends Fragment {
         arguments = getArguments();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pfrender, container, false);
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                tapDetector.onTouchEvent(event);
-                scaleDetector.onTouchEvent(event);
-                panDetector.onTouchEvent(event);
+        view.setOnTouchListener((v, event) -> {
+            tapDetector.onTouchEvent(event);
+            scaleDetector.onTouchEvent(event);
+            panDetector.onTouchEvent(event);
 
-                return true;
-            }
+            return true;
         });
         return view;
     }
@@ -109,61 +105,35 @@ public class PFRenderFragment extends Fragment {
 
         layout.addView(glView, 0, new FrameLayout.LayoutParams(widthPixels, heightPixels));
 
-        backButton.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(arg0 -> buildMainMenu());
 
-            @Override
-            public void onClick(View arg0) {
+        endTurnButton.setOnClickListener(arg0 -> {
 
-                buildMainMenu();
+            if (!canEndTurn()) {
+                return;
             }
+
+            endTurn();
         });
 
-        endTurnButton.setOnClickListener(new View.OnClickListener() {
+        multiplyButton.setOnClickListener(arg0 -> {
 
-            @Override
-            public void onClick(View arg0) {
-
-                if (!canEndTurn()) {
-                    return;
-                }
-
-                endTurn();
-            }
+            String timeText = "X" + Integer.toString(multiplyTime());
+            multiplyButton.setText(timeText);
         });
 
-        multiplyButton.setOnClickListener(new View.OnClickListener() {
+        undoButton.setOnClickListener(arg0 -> {
 
-            @Override
-            public void onClick(View arg0) {
-
-                String timeText = "X" + Integer.toString(multiplyTime());
-                multiplyButton.setText(timeText);
+            if (!canUndo()) {
+                return;
             }
-        });
 
-        undoButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                if (!canUndo()) {
-                    return;
-                }
-
-                undo();
-            }
+            undo();
         });
 
         renderInstance = this;
 
-        glView.callback = new PFSetupCallback() {
-
-            @Override
-            public void initalize(int width, int height) {
-
-                initializeOpenGL(width, height);
-            }
-        };
+        glView.callback = PFRenderFragment::initializeOpenGL;
 
         glView.setBundle(arguments);
 
@@ -186,25 +156,21 @@ public class PFRenderFragment extends Fragment {
         builder.setTitle("MENU");
         builder.setCancelable(true);
 
-        builder.setItems(items, new DialogInterface.OnClickListener() {
+        builder.setItems(items, (dialogInterface, i) -> {
 
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            switch (i) {
 
-                switch (i) {
+                case 0: {
 
-                    case 0: {
-
-                        getFragmentManager().popBackStack();
-                    }
-                        break;
-
-                    case 1: {
-
-                        saveCurrentGame();
-                    }
-                        break;
+                    getFragmentManager().popBackStack();
                 }
+                    break;
+
+                case 1: {
+
+                    saveCurrentGame();
+                }
+                    break;
             }
         });
 
@@ -261,17 +227,13 @@ public class PFRenderFragment extends Fragment {
 
         Log.d("[PIXFIGHT]", "onWinEvent");
 
-        getActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(() -> {
 
-            @Override
-            public void run() {
-
-                CharSequence text = "Congratulations, You win!";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(getContext(), text, duration);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
+            CharSequence text = "Congratulations, You win!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getContext(), text, duration);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         });
     }
 
@@ -279,17 +241,13 @@ public class PFRenderFragment extends Fragment {
 
         Log.d("[PIXFIGHT]", "onLoseEvent");
 
-        getActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(() -> {
 
-            @Override
-            public void run() {
-
-                CharSequence text = "Sorry, You lose!";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(getContext(), text, duration);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
+            CharSequence text = "Sorry, You lose!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getContext(), text, duration);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         });
     }
 
@@ -297,28 +255,14 @@ public class PFRenderFragment extends Fragment {
 
         Log.d("[PIXFIGHT]", "botsStartThinkEvent");
 
-        getActivity().runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                progressDialog.show();
-            }
-        });
+        getActivity().runOnUiThread(() -> progressDialog.show());
     }
 
     public void botsEndThinkEvent() {
 
         Log.d("[PIXFIGHT]", "botsEndThinkEvent");
 
-        getActivity().runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                progressDialog.hide();
-            }
-        });
+        getActivity().runOnUiThread(() -> progressDialog.hide());
     }
 
     private void buildDialog(final int teamID, final int cash) {
@@ -413,21 +357,18 @@ public class PFRenderFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Build Unit - Cash: " + Integer.toString(cash));
         builder.setCancelable(true);
-        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+        builder.setAdapter(adapter, (dialog, which) -> {
 
-            public void onClick(DialogInterface dialog, int which) {
-
-                if (costs[which] > cash) {
-                    return;
-                }
-
-                int localCash = cash;
-
-                localCash -= costs[which];
-
-                finishBuilding(which, localCash);
-                dialog.dismiss();
+            if (costs[which] > cash) {
+                return;
             }
+
+            int localCash = cash;
+
+            localCash -= costs[which];
+
+            finishBuilding(which, localCash);
+            dialog.dismiss();
         });
 
         builder.create();
@@ -436,14 +377,7 @@ public class PFRenderFragment extends Fragment {
 
     public void onBaseSelected(final int team, final int cash) {
 
-        getActivity().runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-
-               buildDialog(team, cash);
-            }
-        });
+        getActivity().runOnUiThread(() -> buildDialog(team, cash));
     }
 
     @Override

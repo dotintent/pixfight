@@ -41,35 +41,13 @@ public class PFLoadGameFragment extends Fragment {
         tableView = getView().findViewById(R.id.saveFilesTable);
 
         Button backButton = getView().findViewById(R.id.loadgame_back);
-        backButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                getFragmentManager().popBackStack();
-            }
-        });
-
+        backButton.setOnClickListener(arg0 -> getFragmentManager().popBackStack());
 
         loadButton = getView().findViewById(R.id.loadgamebuttonstart);
-        loadButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                loadGame();
-            }
-        });
+        loadButton.setOnClickListener(arg0 -> loadGame());
 
         deleteButton = getView().findViewById(R.id.loadgamebuttondelete);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                deleteSave();
-            }
-        });
+        deleteButton.setOnClickListener(arg0 -> deleteSave());
 
         loadButton.setTypeface(font);
         deleteButton.setTypeface(font);
@@ -168,25 +146,22 @@ public class PFLoadGameFragment extends Fragment {
         row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
     }
 
-    private View.OnClickListener tablerowOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener tablerowOnClickListener = v -> {
 
-        public void onClick(View v) {
+        for (int i = 0; i < tableView.getChildCount(); ++i) {
 
-            for (int i = 0; i < tableView.getChildCount(); ++i) {
+            View row = tableView.getChildAt(i);
 
-                View row = tableView.getChildAt(i);
+            if (row.equals(v)) {
 
-                if (row.equals(v)) {
-
-                    row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
-                }
-                else {
-
-                    row.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-                }
+                row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
             }
+            else {
 
-            selectedFile = tableView.indexOfChild(v);
+                row.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            }
         }
+
+        selectedFile = tableView.indexOfChild(v);
     };
 }

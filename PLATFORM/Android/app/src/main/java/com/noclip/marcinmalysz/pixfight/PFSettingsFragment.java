@@ -33,12 +33,7 @@ public class PFSettingsFragment extends Fragment implements CompoundButton.OnChe
         aiSwitch.setTypeface(font);
 
         View backButton = layout.findViewById(R.id.settings_back);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().popBackStack();
-            }
-        });
+        backButton.setOnClickListener(v -> getFragmentManager().popBackStack());
 
         preferences = getContext().getSharedPreferences("PixFightPreferences", Context.MODE_PRIVATE);
 

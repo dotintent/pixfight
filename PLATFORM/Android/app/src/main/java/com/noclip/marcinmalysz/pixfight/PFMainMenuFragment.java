@@ -37,13 +37,7 @@ public class PFMainMenuFragment extends Fragment {
         Button button = getView().findViewById(R.id.imageButtonSettings);
         button.setTypeface(font);
 
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                goToFragment(new PFSettingsFragment());
-            }
-        });
+        button.setOnClickListener(arg0 -> goToFragment(new PFSettingsFragment()));
     }
 
     public void addListenerOnLoadGameButton() {
@@ -51,13 +45,7 @@ public class PFMainMenuFragment extends Fragment {
         Button button = getView().findViewById(R.id.imageButtonLoadGame);
         button.setTypeface(font);
 
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                goToFragment(new PFLoadGameFragment());
-            }
-        });
+        button.setOnClickListener(arg0 -> goToFragment(new PFLoadGameFragment()));
     }
 
     public void addListenerOnNewGameButton() {
@@ -65,13 +53,7 @@ public class PFMainMenuFragment extends Fragment {
         Button button = getView().findViewById(R.id.imageButtonNewGame);
         button.setTypeface(font);
 
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                goToFragment(new PFNewGameFragment());
-            }
-        });
+        button.setOnClickListener(arg0 -> goToFragment(new PFNewGameFragment()));
     }
 
     private void goToFragment(Fragment fragment) {

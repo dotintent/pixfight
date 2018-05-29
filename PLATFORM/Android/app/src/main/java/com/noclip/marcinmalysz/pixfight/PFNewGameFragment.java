@@ -55,13 +55,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
         //back
         Button backButton = getView().findViewById(R.id.newgame_back);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                getFragmentManager().popBackStack();
-            }
-        });
+        backButton.setOnClickListener(arg0 -> getFragmentManager().popBackStack());
 
         teamButton = getView().findViewById(R.id.teamspinner);
         teamButton.setOnItemSelectedListener(this);
@@ -71,27 +65,23 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
         startButton = getView().findViewById(R.id.startgamebutton);
         startButton.setTypeface(font);
 
-        startButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                if (mapName == null) {
-                    return;
-                }
-                
-                Bundle bundle = new Bundle();
-                bundle.putInt("playerID", selectedPlayer);
-                bundle.putInt("players", playersPlaying);
-                bundle.putString("mapname", mapName);
-
-                PFRenderFragment renderFragment = new PFRenderFragment();
-                renderFragment.setArguments(bundle);
-
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentContainer, renderFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+        startButton.setOnClickListener(arg0 -> {
+            if (mapName == null) {
+                return;
             }
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("playerID", selectedPlayer);
+            bundle.putInt("players", playersPlaying);
+            bundle.putString("mapname", mapName);
+
+            PFRenderFragment renderFragment = new PFRenderFragment();
+            renderFragment.setArguments(bundle);
+
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentContainer, renderFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         });
 
         mapImage = getView().findViewById(R.id.mapImage);
@@ -255,35 +245,32 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
         
     }
 
-    private OnClickListener tablerowOnClickListener = new OnClickListener() {
+    private OnClickListener tablerowOnClickListener = v -> {
 
-        public void onClick(View v) {
+        for (int i = 0; i < tableView.getChildCount(); ++i) {
 
-            for (int i = 0; i < tableView.getChildCount(); ++i) {
+            View row = tableView.getChildAt(i);
 
-                View row = tableView.getChildAt(i);
+            if (row.equals(v)) {
 
-                if (row.equals(v)) {
-
-                    row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
-                }
-                else {
-
-                    row.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-                }
+                row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
             }
+            else {
 
-            Integer index = tableView.indexOfChild(v);
-            String resourceString = data.get(index).get("image");
-
-            mapImage.setImageDrawable(getResources().getDrawable(getId(resourceString, R.drawable.class)));
-
-            teamButton.setSelection(0);
-            selectedPlayer = 1;
-            playersPlaying = Integer.parseInt(data.get(index).get("players"));
-            mapName = data.get(index).get("mapname");
-
-            createAdapter();
+                row.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            }
         }
+
+        Integer index = tableView.indexOfChild(v);
+        String resourceString = data.get(index).get("image");
+
+        mapImage.setImageDrawable(getResources().getDrawable(getId(resourceString, R.drawable.class)));
+
+        teamButton.setSelection(0);
+        selectedPlayer = 1;
+        playersPlaying = Integer.parseInt(data.get(index).get("players"));
+        mapName = data.get(index).get("mapname");
+
+        createAdapter();
     };
 }
