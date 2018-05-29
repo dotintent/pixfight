@@ -14,6 +14,7 @@ android {
                 arguments '-DANDROID_STL=c++_static'
             }
         }
+        resConfigs "en"
     }
     buildTypes {
 
@@ -30,7 +31,8 @@ android {
                 abiFilters 'x86', 'armeabi-v7a', 'arm64-v8a'
             }
 
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

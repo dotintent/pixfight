@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -444,6 +445,7 @@ public class PFRenderFragment extends Fragment {
 
     //NDK to Java Bridge
 
+    @Keep
     public static void onWinEventBridge() {
 
         if (renderInstance == null) {
@@ -453,6 +455,7 @@ public class PFRenderFragment extends Fragment {
         renderInstance.onWinEvent();
     }
 
+    @Keep
     public static void onLoseEventBridge() {
 
         if (renderInstance == null) {
@@ -462,6 +465,7 @@ public class PFRenderFragment extends Fragment {
         renderInstance.onLoseEvent();
     }
 
+    @Keep
     public static void botsStartThinkEventBridge() {
 
         if (renderInstance == null) {
@@ -471,6 +475,7 @@ public class PFRenderFragment extends Fragment {
         renderInstance.botsStartThinkEvent();
     }
 
+    @Keep
     public static void botsEndThinkEventBridge() {
 
         if (renderInstance == null) {
@@ -480,6 +485,7 @@ public class PFRenderFragment extends Fragment {
         renderInstance.botsEndThinkEvent();
     }
 
+    @Keep
     public static void onBaseSelectedBridge(int team, int cash) {
 
         if (renderInstance == null) {
