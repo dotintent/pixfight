@@ -1,6 +1,7 @@
 package com.noclip.marcinmalysz.pixfight;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 
 /**
  * Created by marcinmalysz on 09/02/2018.
@@ -8,7 +9,7 @@ import android.app.Activity;
 
 public final class PFAudioWrapper {
 
-    public static native void initializeAudio(Activity activity, String rootpath);
+    public static native void initializeAudio(@NonNull Activity activity, @NonNull String rootpath);
     public static native void playSelectSound();
     public static native void playMenuMusic();
     public static native void playGameMusic();
