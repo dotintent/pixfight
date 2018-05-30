@@ -162,7 +162,7 @@ public class PFRenderFragment extends Fragment {
             switch (i) {
 
                 case 0: {
-
+                    PFAudioWrapper.playMenuMusic();
                     getFragmentManager().popBackStack();
                 }
                     break;
@@ -396,9 +396,6 @@ public class PFRenderFragment extends Fragment {
         progressDialog.cancel();
 
         renderInstance = null;
-
-        PFGameLib.nativeOnStop();
-        PFAudioWrapper.playMenuMusic();
     }
 
     //Private classes

@@ -9,6 +9,7 @@ import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceHolder;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -26,6 +27,7 @@ public class PFGL2View extends GLSurfaceView {
     private static final boolean DEBUG = false;
 
     public static PFSetupCallback callback = null;
+    private Renderer renderer;
 
     public PFGL2View(Context context) {
         super(context);
@@ -61,13 +63,23 @@ public class PFGL2View extends GLSurfaceView {
         setEGLConfigChooser( translucent ?
                 new ConfigChooser(8, 8, 8, 8, depth, stencil) :
                 new ConfigChooser(5, 6, 5, 0, depth, stencil) );
+
+        setPreserveEGLContextOnPause(true);
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        super.surfaceDestroyed(holder);
+
+        renderer.loaded = false;
+        PFGameLib.nativeOnStop();
     }
 
     public void setBundle(Bundle bundle) {
 
         /* Set the renderer responsible for frame rendering */
 
-        Renderer renderer = new Renderer();
+        renderer = new Renderer();
         renderer.gameBundle = bundle;
 
         setRenderer(renderer);
