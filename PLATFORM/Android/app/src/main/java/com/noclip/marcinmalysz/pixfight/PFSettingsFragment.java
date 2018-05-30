@@ -2,7 +2,6 @@ package com.noclip.marcinmalysz.pixfight;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,9 +27,8 @@ public class PFSettingsFragment extends Fragment implements CompoundButton.OnChe
         muteSwitch = layout.findViewById(R.id.mute_switch);
         aiSwitch = layout.findViewById(R.id.ai_switch);
 
-        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "FFFATLAN.TTF");
-        muteSwitch.setTypeface(font);
-        aiSwitch.setTypeface(font);
+        muteSwitch.setTypeface(PFUtils.getFont());
+        aiSwitch.setTypeface(PFUtils.getFont());
 
         View backButton = layout.findViewById(R.id.settings_back);
         backButton.setOnClickListener(v -> getFragmentManager().popBackStack());

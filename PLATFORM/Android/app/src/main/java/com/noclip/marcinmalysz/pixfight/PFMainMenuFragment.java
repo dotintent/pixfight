@@ -1,6 +1,5 @@
 package com.noclip.marcinmalysz.pixfight;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,8 +12,6 @@ import android.widget.Button;
 
 public class PFMainMenuFragment extends Fragment {
 
-    private Typeface font = null;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,7 +22,7 @@ public class PFMainMenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        font = Typeface.createFromAsset(getContext().getAssets(), "FFFATLAN.TTF");
+        PFUtils.loadFontFromAssets(getContext().getAssets());
 
         addListenerOnNewGameButton();
         addListenerOnLoadGameButton();
@@ -35,7 +32,7 @@ public class PFMainMenuFragment extends Fragment {
     public void addListenerOnSettingsButton() {
 
         Button button = getView().findViewById(R.id.imageButtonSettings);
-        button.setTypeface(font);
+        button.setTypeface(PFUtils.getFont());
 
         button.setOnClickListener(arg0 -> goToFragment(new PFSettingsFragment()));
     }
@@ -43,7 +40,7 @@ public class PFMainMenuFragment extends Fragment {
     public void addListenerOnLoadGameButton() {
 
         Button button = getView().findViewById(R.id.imageButtonLoadGame);
-        button.setTypeface(font);
+        button.setTypeface(PFUtils.getFont());
 
         button.setOnClickListener(arg0 -> goToFragment(new PFLoadGameFragment()));
     }
@@ -51,7 +48,7 @@ public class PFMainMenuFragment extends Fragment {
     public void addListenerOnNewGameButton() {
 
         Button button = getView().findViewById(R.id.imageButtonNewGame);
-        button.setTypeface(font);
+        button.setTypeface(PFUtils.getFont());
 
         button.setOnClickListener(arg0 -> goToFragment(new PFNewGameFragment()));
     }

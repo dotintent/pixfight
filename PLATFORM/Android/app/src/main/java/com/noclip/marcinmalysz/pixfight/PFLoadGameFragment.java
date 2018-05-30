@@ -1,7 +1,6 @@
 package com.noclip.marcinmalysz.pixfight;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -36,8 +35,6 @@ public class PFLoadGameFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "FFFATLAN.TTF");
-
         tableView = getView().findViewById(R.id.saveFilesTable);
 
         Button backButton = getView().findViewById(R.id.loadgame_back);
@@ -49,8 +46,8 @@ public class PFLoadGameFragment extends Fragment {
         deleteButton = getView().findViewById(R.id.loadgamebuttondelete);
         deleteButton.setOnClickListener(arg0 -> deleteSave());
 
-        loadButton.setTypeface(font);
-        deleteButton.setTypeface(font);
+        loadButton.setTypeface(PFUtils.getFont());
+        deleteButton.setTypeface(PFUtils.getFont());
 
         loadSaveFiles();
     }

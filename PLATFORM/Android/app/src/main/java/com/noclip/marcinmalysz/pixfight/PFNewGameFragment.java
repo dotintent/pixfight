@@ -1,7 +1,6 @@
 package com.noclip.marcinmalysz.pixfight;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,7 +28,6 @@ import java.util.Map;
 
 public class PFNewGameFragment extends Fragment implements OnItemSelectedListener {
 
-    private Typeface font = null;
     private Spinner teamButton = null;
     private Button startButton = null;
     private ImageView mapImage = null;
@@ -50,8 +48,6 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        font = Typeface.createFromAsset(getContext().getAssets(), "FFFATLAN.TTF");
-
         //back
         Button backButton = getView().findViewById(R.id.newgame_back);
 
@@ -63,7 +59,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
         createAdapter();
 
         startButton = getView().findViewById(R.id.startgamebutton);
-        startButton.setTypeface(font);
+        startButton.setTypeface(PFUtils.getFont());
 
         startButton.setOnClickListener(arg0 -> {
             if (mapName == null) {
@@ -128,7 +124,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
                 View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTypeface(font);
+                ((TextView) v).setTypeface(PFUtils.getFont());
                 v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
                 return v;
@@ -137,7 +133,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
 
                 View v = super.getDropDownView(position, convertView, parent);
-                ((TextView) v).setTypeface(font);
+                ((TextView) v).setTypeface(PFUtils.getFont());
                 v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
                 v.setBackgroundColor(getResources().getColor(R.color.rowSelected));
@@ -216,7 +212,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
 
             Map<String, String> mapInfo = data.get(i);
 
-            tv.setTypeface(font);
+            tv.setTypeface(PFUtils.getFont());
             tv.setTextSize(20);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             tv.setText(mapInfo.get("name"));
