@@ -142,7 +142,9 @@ bool PFServerRoom::isUnused() {
 
 bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
 
-    switch (player->getCurrentCommand()) {
+    auto command = player->getCurrentCommand();
+
+    switch (command) {
 
         case PFSocketCommandTypeMakeRoom:
         case PFSocketCommandTypeUnknown:
@@ -161,50 +163,210 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
         case PFSocketCommandTypeLeaveRoom: {
 
             confirmPacket(player);
-            
+            player->dispose();
+
             return true;
         }
         case PFSocketCommandTypeRemoveRoom: {
+
+            _status = PFRoomStatusFinished;
+            confirmPacket(player);
 
             break;
         }
         case PFSocketCommandTypeGameInfo: {
 
+            _lastUpdate = time(0);
+
+            auto roomData = player->getPacketData();
+            memcpy(&_roomInfo, roomData.data(), sizeof(_roomInfo));
+
+            confirmPacket(player);
+
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeGameInfo;
+            packet->size = (uint32_t)roomData.size();
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, roomData.data(), sizeof(_roomInfo));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            for (auto &local : _connectedPlayers) {
+
+                if (local == player) {
+                    continue;
+                }
+
+                local->sendPacket(packet);
+            }
+
             break;
         }
         case PFSocketCommandTypeSendTurn: {
 
-            break;
-        }
-        case PFSocketCommandTypeReceiveTurn: {
+            _currentPlayerTurn++;
+
+            if (_currentPlayerTurn >= _connectedPlayers.size()) {
+
+                _currentPlayerTurn = 0;
+            }
+
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeSendTurn;
+            packet->size = sizeof(_currentPlayerTurn) / sizeof(uint8_t);
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, &_currentPlayerTurn, sizeof(_currentPlayerTurn));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            for (auto &local : _connectedPlayers) {
+
+                local->sendPacket(packet);
+            }
 
             break;
         }
         case PFSocketCommandTypeEndGame: {
 
+            //finish game on each side sending player who wins and close room
+            auto result = player->getPacketData();
+            uint32_t winnerID = 0;
+            memcpy(&winnerID, result.data(), sizeof(winnerID));
+
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeEndGame;
+            packet->size = sizeof(winnerID) / sizeof(uint8_t);
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, &winnerID, sizeof(winnerID));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            for (auto &local : _connectedPlayers) {
+
+                local->sendPacket(packet);
+            }
+
+            _status = PFRoomStatusFinished;
+
             break;
         }
         case PFSocketCommandTypeReady: {
+
+            //if all players ready start game
+            _lastUpdate = time(0);
+
+            player->setReady(true);
+
+            uint16_t playersReady = 0;
+
+            for (auto &p : _connectedPlayers) {
+
+                if (p->isReady()) {
+                    playersReady++;
+                }
+            }
+
+            auto size = _connectedPlayers.size();
+
+            if (playersReady == size && _roomInfo.players == size) {
+
+                _status = PFRoomStatusPlaying;
+
+                auto packet = make_unique<PFPacket>();
+                packet->type = PFSocketCommandTypeLoad;
+
+                for (auto &p : _connectedPlayers) {
+
+                    p->sendPacket(packet);
+                }
+            }
 
             break;
         }
         case PFSocketCommandTypeLoad: {
 
+            //player loaded map send his turn info
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeSendTurn;
+            packet->size = sizeof(_currentPlayerTurn) / sizeof(uint8_t);
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, &_currentPlayerTurn, sizeof(_currentPlayerTurn));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            player->sendPacket(packet);
+
             break;
         }
         case PFSocketCommandTypeFire: {
 
-        }
+            //pass attacker id, attacked id and both size
+            auto result = player->getPacketData();
+
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeFire;
+            packet->size = (uint32_t)result.size();
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, result.data(), packet->size * sizeof(uint8_t));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            for (auto &p : _connectedPlayers) {
+
+                if (p == player) {
+                    continue;
+                }
+
+                p->sendPacket(packet);
+            }
+
             break;
+        }
         case PFSocketCommandTypeMove: {
+
+            //pass unit id and destination vector
+            auto result = player->getPacketData();
+
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeMove;
+            packet->size = (uint32_t)result.size();
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, result.data(), packet->size * sizeof(uint8_t));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            for (auto &p : _connectedPlayers) {
+
+                if (p == player) {
+                    continue;
+                }
+
+                p->sendPacket(packet);
+            }
 
             break;
         }
         case PFSocketCommandTypeBuild: {
 
+            //pass base id, unit type to build
+
+            auto result = player->getPacketData();
+
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeBuild;
+            packet->size = (uint32_t)result.size();
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, result.data(), packet->size * sizeof(uint8_t));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            for (auto &p : _connectedPlayers) {
+
+                if (p == player) {
+                    continue;
+                }
+
+                p->sendPacket(packet);
+            }
+
             break;
         }
     }
+
+    player->dispose();
 
     return false;
 }

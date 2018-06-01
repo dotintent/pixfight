@@ -53,7 +53,7 @@
 		1C22A16120AB2E8000B072F7 /* SimpleSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSocket.h; sourceTree = "<group>"; };
 		1CCAA4D620AF6D16009CEF61 /* PFServerRoom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PFServerRoom.cpp; sourceTree = "<group>"; };
 		1CCAA4D720AF6D16009CEF61 /* PFServerRoom.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PFServerRoom.hpp; sourceTree = "<group>"; };
-		1CD9011820ADDC2500B02F27 /* EnumOptionMacro.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EnumOptionMacro.hpp; path = ../CORE/EnumOptionMacro.hpp; sourceTree = "<group>"; };
+		1CD9011820ADDC2500B02F27 /* EnumOptionMacro.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EnumOptionMacro.hpp; sourceTree = "<group>"; };
 		1CD9011920ADDC5A00B02F27 /* PFServerCommandType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PFServerCommandType.hpp; sourceTree = "<group>"; };
 		1CD9011A20ADEA4600B02F27 /* PFSocketClient.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PFSocketClient.cpp; sourceTree = "<group>"; };
 		1CD9011B20ADEA4600B02F27 /* PFSocketClient.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PFSocketClient.hpp; sourceTree = "<group>"; };
@@ -83,6 +83,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C161CA220C0264200872132 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1CD9011D20AE0E6100B02F27 /* PFServerUtils.cpp */,
+				1CD9011E20AE0E6100B02F27 /* PFServerUtils.hpp */,
+				1CD9011920ADDC5A00B02F27 /* PFServerCommandType.hpp */,
+				1CD9011820ADDC2500B02F27 /* EnumOptionMacro.hpp */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		1C22A15920AB2E8000B072F7 /* clsocket */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,10 +112,7 @@
 		1CE3035120A86AB100939C50 = {
 			isa = PBXGroup;
 			children = (
-				1CD9011D20AE0E6100B02F27 /* PFServerUtils.cpp */,
-				1CD9011E20AE0E6100B02F27 /* PFServerUtils.hpp */,
-				1CD9011920ADDC5A00B02F27 /* PFServerCommandType.hpp */,
-				1CD9011820ADDC2500B02F27 /* EnumOptionMacro.hpp */,
+				1C161CA220C0264200872132 /* Utils */,
 				1C22A15920AB2E8000B072F7 /* clsocket */,
 				1CE3035C20A86AB100939C50 /* PFServer */,
 				1CE3036920A86C8100939C50 /* PFClient */,

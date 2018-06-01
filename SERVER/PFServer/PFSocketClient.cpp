@@ -80,7 +80,7 @@ void PFSocketClient::update() {
         if (_recivedData.size() > headerSize + _localHeader.size) {
 
             //copy additional data
-            memcpy(_data.data(), _recivedData.data() + headerSize, _localHeader.size);
+            memcpy(_data.data(), _recivedData.data() + headerSize, _localHeader.size * sizeof(uint8_t));
 
             uint32_t crc32 = 0;
             crc32 = crc32c(crc32, _data.data(), _localHeader.size);

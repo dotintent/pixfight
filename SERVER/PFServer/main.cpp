@@ -130,7 +130,12 @@ int main(int argc, const char * argv[]) {
                                 roomPort = lastPort->getPort() + 1;
                             }
 
-                            auto room = make_shared<PFServerRoom>(roomPort);
+                            bool isPrivate = false;
+
+                            auto data = client->getPacketData();
+                            memcpy(&isPrivate, data.data(), sizeof(bool));
+
+                            auto room = make_shared<PFServerRoom>(roomPort, isPrivate);
 
                             rooms.push_back(room);
 
@@ -145,6 +150,8 @@ int main(int argc, const char * argv[]) {
                             packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
 
                             client->sendPacket(packet);
+
+                            client->dispose();
                         }
                             break;
 
@@ -176,12 +183,16 @@ int main(int argc, const char * argv[]) {
                             packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
 
                             client->sendPacket(packet);
+
+                            client->dispose();
+
                         }
                             break;
 
                         case PFServerCommandDisconnectClient: {
 
                             client->close();
+                            client->dispose();
                             it = connections.erase(it);
                             continue;
                         }
@@ -245,7 +256,6 @@ PFServerCommand resolveCommand(const shared_ptr<PFSocketClient> &client) {
         case PFSocketCommandTypeRemoveRoom:
         case PFSocketCommandTypeGameInfo:
         case PFSocketCommandTypeSendTurn:
-        case PFSocketCommandTypeReceiveTurn:
         case PFSocketCommandTypeEndGame:
         case PFSocketCommandTypeReady:
         case PFSocketCommandTypeLoad:
