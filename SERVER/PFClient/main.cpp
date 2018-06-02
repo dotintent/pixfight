@@ -6,10 +6,7 @@
 //  Copyright © 2018 Marcin Małysz. All rights reserved.
 //
 
-#include <iostream>
-
-#include "PassiveSocket.h"
-#include "ActiveSocket.h"
+#include "PFMultiplayerClient.hpp"
 
 int main(int argc, const char * argv[]) {
 

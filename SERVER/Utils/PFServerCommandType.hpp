@@ -33,6 +33,7 @@ typedef PF_ENUM(uint32_t, PFSocketCommandType) {
 };
 
 #define PROTOCOL_VERSION 1
+#define DEFAULT_SERVER_PORT 5001
 
 class PFPacket final {
 public:
@@ -67,3 +68,12 @@ public:
     uint32_t size;
     uint8_t *data;
 };
+
+typedef struct {
+
+    char mapname[128];
+    uint16_t players;
+    time_t createdDate;
+    uint16_t roomPort;
+
+} PFRoomInfo;

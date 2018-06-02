@@ -25,15 +25,6 @@ typedef PF_ENUM(uint16_t, PFRoomStatus) {
     PFRoomStatusFinished
 };
 
-typedef struct {
-
-    char mapname[128];
-    uint16_t players;
-    time_t createdDate;
-    uint16_t roomPort;
-
-} PFRoomInfo;
-
 class PFServerRoom final {
 
 public:

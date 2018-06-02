@@ -13,6 +13,8 @@
 		1C22A16520AB2E8000B072F7 /* PassiveSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C22A15E20AB2E8000B072F7 /* PassiveSocket.cpp */; };
 		1C22A16620AB2E8000B072F7 /* ActiveSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C22A16020AB2E8000B072F7 /* ActiveSocket.cpp */; };
 		1C22A16720AB2E8000B072F7 /* ActiveSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C22A16020AB2E8000B072F7 /* ActiveSocket.cpp */; };
+		1C4CFD6420C1C4FF00022C9F /* PFMultiplayerClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C4CFD6220C1C4FF00022C9F /* PFMultiplayerClient.cpp */; };
+		1C4CFD6520C1DFA500022C9F /* PFSocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CD9011A20ADEA4600B02F27 /* PFSocketClient.cpp */; };
 		1CCAA4D820AF6D16009CEF61 /* PFServerRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CCAA4D620AF6D16009CEF61 /* PFServerRoom.cpp */; };
 		1CD9011C20ADEA4600B02F27 /* PFSocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CD9011A20ADEA4600B02F27 /* PFSocketClient.cpp */; };
 		1CD9011F20AE0E6100B02F27 /* PFServerUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CD9011D20AE0E6100B02F27 /* PFServerUtils.cpp */; };
@@ -51,6 +53,8 @@
 		1C22A15F20AB2E8000B072F7 /* PassiveSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassiveSocket.h; sourceTree = "<group>"; };
 		1C22A16020AB2E8000B072F7 /* ActiveSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActiveSocket.cpp; sourceTree = "<group>"; };
 		1C22A16120AB2E8000B072F7 /* SimpleSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSocket.h; sourceTree = "<group>"; };
+		1C4CFD6220C1C4FF00022C9F /* PFMultiplayerClient.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PFMultiplayerClient.cpp; sourceTree = "<group>"; };
+		1C4CFD6320C1C4FF00022C9F /* PFMultiplayerClient.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PFMultiplayerClient.hpp; sourceTree = "<group>"; };
 		1CCAA4D620AF6D16009CEF61 /* PFServerRoom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PFServerRoom.cpp; sourceTree = "<group>"; };
 		1CCAA4D720AF6D16009CEF61 /* PFServerRoom.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PFServerRoom.hpp; sourceTree = "<group>"; };
 		1CD9011820ADDC2500B02F27 /* EnumOptionMacro.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EnumOptionMacro.hpp; sourceTree = "<group>"; };
@@ -145,6 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				1CE3036A20A86C8100939C50 /* main.cpp */,
+				1C4CFD6220C1C4FF00022C9F /* PFMultiplayerClient.cpp */,
+				1C4CFD6320C1C4FF00022C9F /* PFMultiplayerClient.hpp */,
 			);
 			path = PFClient;
 			sourceTree = "<group>";
@@ -240,11 +246,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C4CFD6520C1DFA500022C9F /* PFSocketClient.cpp in Sources */,
 				1C22A16320AB2E8000B072F7 /* SimpleSocket.cpp in Sources */,
 				1C22A16520AB2E8000B072F7 /* PassiveSocket.cpp in Sources */,
 				1C22A16720AB2E8000B072F7 /* ActiveSocket.cpp in Sources */,
 				1CE3036B20A86C8100939C50 /* main.cpp in Sources */,
 				1CD9012020AE0E6100B02F27 /* PFServerUtils.cpp in Sources */,
+				1C4CFD6420C1C4FF00022C9F /* PFMultiplayerClient.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

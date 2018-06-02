@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
     socket.Initialize();
     socket.SetNonblocking();
 
-    if (!socket.Listen("0.0.0.0", 5001)) {
+    if (!socket.Listen("0.0.0.0", DEFAULT_SERVER_PORT)) {
 
         cout << "Error starting server: " << socket.DescribeError() << endl;
         socket.Close();
@@ -111,8 +111,8 @@ int main(int argc, const char * argv[]) {
 
                         case PFServerCommandCreateRoom: {
 
-                            auto initialPort = socket.GetServerPort();
-                            auto roomPort = initialPort;
+                            uint32_t initialPort = socket.GetServerPort();
+                            uint32_t roomPort = initialPort;
 
                             if (rooms.empty()) {
 
