@@ -26,23 +26,23 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeOnS
 JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeOnStop(JNIEnv* jenv, jobject obj);
 
 //LOGIC
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeStartGame(JNIEnv* jenv, jobject obj, jstring map, int playerSelected, int playersPlaying);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeStartGame(JNIEnv* jenv, jobject obj, jstring map, jint playerSelected, jint playersPlaying);
 JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeLoadGame(JNIEnv* jenv, jobject obj, jstring path);
 
 //INTERACTION
 
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_undo(JNIEnv* jenv, jobject obj);
-JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_canUndo(JNIEnv* jenv, jobject obj);
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_initializeOpenGL(JNIEnv* jenv, jobject obj, int width, int height);
-JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_canEndTurn(JNIEnv* jenv, jobject obj);
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_endTurn(JNIEnv* jenv, jobject obj);
-JNIEXPORT int  JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_multiplyTime(JNIEnv* jenv, jobject obj);
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_finishBuilding(JNIEnv* jenv, jobject obj, int unitid, int cash);
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_tapAction(JNIEnv* jenv, jobject obj, float x, float y);
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_scaleAction(JNIEnv* jenv, jobject obj, float scale);
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_panAction(JNIEnv* jenv, jobject obj, float x, float y);
-JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_saveGame(JNIEnv* jenv, jobject obj, jstring savepath);
-JNIEXPORT jstring JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_getMapName(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_undo(JNIEnv* jenv, jobject obj);
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_canUndo(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_initializeOpenGL(JNIEnv* jenv, jobject obj, jint width, jint height);
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_canEndTurn(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_endTurn(JNIEnv* jenv, jobject obj);
+JNIEXPORT jint  JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_multiplyTime(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_finishBuilding(JNIEnv* jenv, jobject obj, jint unitid, jint cash);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_tapAction(JNIEnv* jenv, jobject obj, jfloat x, jfloat y);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_scaleAction(JNIEnv* jenv, jobject obj, jfloat scale);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_panAction(JNIEnv* jenv, jobject obj, jfloat x, jfloat y);
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_saveGame(JNIEnv* jenv, jobject obj, jstring savepath);
+JNIEXPORT jstring JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_getMapName(JNIEnv* jenv, jobject obj);
 
 };
 

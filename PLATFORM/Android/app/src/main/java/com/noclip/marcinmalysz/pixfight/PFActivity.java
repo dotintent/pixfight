@@ -1,31 +1,28 @@
 package com.noclip.marcinmalysz.pixfight;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v4.content.res.ResourcesCompat;
-
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
-import android.util.Log;
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.content.res.AssetManager;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FileOutputStream;
 
-public class PFMainMenuActivity extends AppCompatActivity {
+public class PFActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -34,34 +31,38 @@ public class PFMainMenuActivity extends AppCompatActivity {
         System.loadLibrary("native-lib");
     }
 
-    private final int WRITE_STORAGEREQUESTCODE = 1337; //This should be unique somehow
-    private Typeface font = null;
+    private static final int WRITE_STORAGEREQUESTCODE = 1337; //This should be unique somehow
+    private boolean audioInitialized = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        font = Typeface.createFromAsset(getAssets(), "FFFATLAN.TTF");
         // ResourcesCompat.getFont(this, R.font.fffatlan);
 
-        getSupportActionBar().hide();
-        setContentView(R.layout.activity_pfmain_menu);
+        setContentView(R.layout.activity_main);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new PFMainMenuFragment()).commit();
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         PFImmersiveMode.SetImmersiveMode(getWindow());
 
-        addListenerOnNewGameButton();
-        addListenerOnLoadGameButton();
-        addListenerOnSettingsButton();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
 
-        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) &&
-                (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)) {
-
-            requestPermissions(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGEREQUESTCODE);
+            ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGEREQUESTCODE);
             return;
         }
 
         preapreForCopy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (isAudioPlaying() && audioInitialized) {
+            PFAudioWrapper.muteMusic();
+        }
     }
 
     @Override
@@ -108,11 +109,22 @@ public class PFMainMenuActivity extends AppCompatActivity {
             Log.d("[INFO]", "DIRECTORY ALREADY EXIST");
         }
 
+        String noMediaLocation = Environment.getExternalStorageDirectory().toString() + "/PIXFIGHTDATA/.nomedia";
+        File noMediaFile = new File(noMediaLocation);
+
+        if (!noMediaFile.exists()) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                noMediaFile.createNewFile();
+            } catch (IOException ignored) { }
+        }
+
         org.fmod.FMOD.init(this);
 
         if (dir.exists()) {
 
             PFAudioWrapper.initializeAudio(this, dir.toString());
+            audioInitialized = true;
         }
     }
 
@@ -153,53 +165,24 @@ public class PFMainMenuActivity extends AppCompatActivity {
             Log.e("[ERROR]", "Failed to get asset file list.", e);
         }
 
-        Log.d("Files", "Size: "+ files.length);
-        for (int i = 0; i < files.length; i++)
-        {
-            Log.d("Files", "FileName:" + files[i]);
-        }
+        if (files != null) {
+            Log.d("Files", "Size: "+ files.length);
 
-        if (files != null) for (String filename : files) {
-
-            InputStream in = null;
-            OutputStream out = null;
-
-            if (filename.startsWith("images") || filename.startsWith("webkit") || filename.startsWith("sounds")) {
-                continue;
-            }
-
-            try {
-
-                in = assetManager.open(filename);
-                File outFile = new File(Environment.getExternalStorageDirectory() + "/PIXFIGHTDATA/", filename);
-                out = new FileOutputStream(outFile);
-                copyFile(in, out);
-
-            } catch(IOException e) {
-
-                Log.e("[ERROR]", "Failed to copy asset file: " + filename, e);
-            }
-            finally {
-
-                if (in != null) {
-
-                    try {
-
-                        in.close();
-
-                    } catch (IOException e) {
-                        // NOOP
-                    }
+            for (String filename : files) {
+                Log.d("Files", "FileName:" + filename);
+                
+                if (filename.startsWith("images") || filename.startsWith("webkit") || filename.startsWith("sounds")) {
+                    continue;
                 }
-                if (out != null) {
 
-                    try {
+                File outFile = new File(Environment.getExternalStorageDirectory() + "/PIXFIGHTDATA/", filename);
+                try (InputStream in = assetManager.open(filename); OutputStream out = new FileOutputStream(outFile)) {
 
-                        out.close();
+                    copyFile(in, out);
 
-                    } catch (IOException e) {
-                        // NOOP
-                    }
+                } catch (IOException e) {
+
+                    Log.e("[ERROR]", "Failed to copy asset file: " + filename, e);
                 }
             }
         }
@@ -218,56 +201,15 @@ public class PFMainMenuActivity extends AppCompatActivity {
         super.onPostResume();
 
         PFImmersiveMode.SetImmersiveMode(getWindow());
+
+        if (isAudioPlaying() && audioInitialized) {
+            PFAudioWrapper.unmuteMusic();
+        }
     }
 
-    public void addListenerOnSettingsButton() {
-
-        Button button = findViewById(R.id.imageButtonSettings);
-        button.setTypeface(font);
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                PFAudioWrapper.playSelectSound();
-                Intent intent = new Intent(PFMainMenuActivity.this, PFSettingsActivity.class);
-                startActivity(intent);
-            }
-        });
+    private boolean isAudioPlaying() {
+        SharedPreferences preferences = getSharedPreferences("PixFightPreferences", MODE_PRIVATE);
+        return !preferences.getBoolean("mute", false);
     }
 
-    public void addListenerOnLoadGameButton() {
-
-        Button button = findViewById(R.id.imageButtonLoadGame);
-        button.setTypeface(font);
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                PFAudioWrapper.playSelectSound();
-                Intent intent = new Intent(PFMainMenuActivity.this, PFLoadGameActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    public void addListenerOnNewGameButton() {
-
-        Button button = findViewById(R.id.imageButtonNewGame);
-        button.setTypeface(font);
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                PFAudioWrapper.playSelectSound();
-                Intent intent = new Intent(PFMainMenuActivity.this, PFNewGameActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 }

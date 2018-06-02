@@ -39,3 +39,8 @@ MAPEDITOR/nul
 
 #html5
 PLATFORM/HTML5/bin/
+
+#raspberrypi
+
+PLATFORM/RaspberryPi/bin/
+PLATFORM/RaspberryPi/obj/
