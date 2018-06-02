@@ -47,10 +47,6 @@ public class PFRenderFragment extends Fragment {
 
     private float scaleFactor = 1.f;
 
-    private Button backButton = null;
-    private Button endTurnButton = null;
-    private Button multiplyButton = null;
-    private Button undoButton = null;
     private ProgressDialog progressDialog = null;
 
     private static PFRenderFragment renderInstance = null;
@@ -99,10 +95,10 @@ public class PFRenderFragment extends Fragment {
         scaleDetector =  new ScaleGestureDetector(getContext(), new PFScaleListener());
         panDetector = new GestureDetector(getContext(), new PFPanGestureListener());
 
-        backButton = getView().findViewById(R.id.rendergame_back);
-        endTurnButton = getView().findViewById(R.id.rendergame_endtrun);
-        multiplyButton = getView().findViewById(R.id.rendergame_timemultiply);
-        undoButton = getView().findViewById(R.id.rendergame_undo);
+        Button backButton = getView().findViewById(R.id.rendergame_back);
+        Button endTurnButton = getView().findViewById(R.id.rendergame_endtrun);
+        Button multiplyButton = getView().findViewById(R.id.rendergame_timemultiply);
+        Button undoButton = getView().findViewById(R.id.rendergame_undo);
 
         ConstraintLayout layout = getView().findViewById(R.id.contraintLayout);
 
