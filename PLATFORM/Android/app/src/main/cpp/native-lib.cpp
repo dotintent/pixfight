@@ -180,7 +180,7 @@ void callNativeVoidMethod(std::string method) {
 
     attachThread();
 
-    jclass cls = env->FindClass("com/noclip/marcinmalysz/pixfight/PFRenderActivity");
+    jclass cls = env->FindClass("com/noclip/marcinmalysz/pixfight/PFRenderFragment");
 
     if (!cls) {
         return;
@@ -208,7 +208,7 @@ void callNativeVoidMethodParams(std::string method, int param1, int param2) {
 
     attachThread();
 
-    jclass cls = env->FindClass("com/noclip/marcinmalysz/pixfight/PFRenderActivity");
+    jclass cls = env->FindClass("com/noclip/marcinmalysz/pixfight/PFRenderFragment");
 
     if (!cls) {
         return;
@@ -232,7 +232,7 @@ void callNativeVoidMethodParams(std::string method, int param1, int param2) {
     env->DeleteGlobalRef(globalClass);
 }
 
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_initializeOpenGL(JNIEnv* jenv, jobject obj, int width, int height) {
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_initializeOpenGL(JNIEnv* jenv, jobject obj, jint width, jint height) {
 
     __android_log_print(ANDROID_LOG_DEBUG, "[PIXFIGHT]", "initializeOpenGL %d %d", width, height);
 
@@ -291,7 +291,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_renderFra
     gameLogic->Render();
 }
 
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeStartGame(JNIEnv* jenv, jobject obj, jstring map, int playerSelected, int playersPlaying) {
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeStartGame(JNIEnv* jenv, jobject obj, jstring map, jint playerSelected, jint playersPlaying) {
 
     __android_log_print(ANDROID_LOG_DEBUG, "[PIXFIGHT]", "nativeStartGame");
 
@@ -347,7 +347,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeOnS
     gameLogic = nullptr;
 }
 
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_undo(JNIEnv* jenv, jobject obj) {
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_undo(JNIEnv* jenv, jobject obj) {
 
     if (gameLogic == nullptr) {
         return;
@@ -356,25 +356,25 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_un
     gameLogic->undo();
 }
 
-JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_canUndo(JNIEnv* jenv, jobject obj) {
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_canUndo(JNIEnv* jenv, jobject obj) {
 
     if (gameLogic == nullptr) {
-        return false;
+        return JNI_FALSE;
     }
 
-    return gameLogic->canUndo() && gameLogic->canEndTurn();
+    return static_cast<jboolean>(gameLogic->canUndo() && gameLogic->canEndTurn());
 }
 
-JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_canEndTurn(JNIEnv* jenv, jobject obj) {
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_canEndTurn(JNIEnv* jenv, jobject obj) {
 
     if (gameLogic == nullptr) {
-        return false;
+        return JNI_FALSE;
     }
 
-    return gameLogic->canEndTurn();
+    return static_cast<jboolean>(gameLogic->canEndTurn());
 }
 
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_endTurn(JNIEnv* jenv, jobject obj) {
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_endTurn(JNIEnv* jenv, jobject obj) {
 
     if (gameLogic == nullptr) {
         return;
@@ -383,7 +383,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_en
     gameLogic->endTurn();
 }
 
-JNIEXPORT int JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_multiplyTime(JNIEnv* jenv, jobject obj) {
+JNIEXPORT jint JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_multiplyTime(JNIEnv* jenv, jobject obj) {
 
     if (gameLogic == nullptr) {
         return 1;
@@ -392,7 +392,7 @@ JNIEXPORT int JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_mul
     return (int)gameLogic->multiplyTime();
 }
 
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_finishBuilding(JNIEnv* jenv, jobject obj, int unitid, int cash) {
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_finishBuilding(JNIEnv* jenv, jobject obj, jint unitid, jint cash) {
 
     //we are coming from java UI thread!
     syncToMainLoop([unitid, cash](void *context, GameLogic *logic){
@@ -401,7 +401,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_fi
     });
 }
 
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_tapAction(JNIEnv* jenv, jobject obj, float x, float y) {
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_tapAction(JNIEnv* jenv, jobject obj, jfloat x, jfloat y) {
 
     if (gameLogic == nullptr) {
         return;
@@ -415,7 +415,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_ta
     });
 }
 
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_scaleAction(JNIEnv* jenv, jobject obj, float scale) {
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_scaleAction(JNIEnv* jenv, jobject obj, jfloat scale) {
 
     if (gameLogic == nullptr) {
         return;
@@ -427,7 +427,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_sc
     });
 }
 
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_panAction(JNIEnv* jenv, jobject obj, float x, float y) {
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_panAction(JNIEnv* jenv, jobject obj, jfloat x, jfloat y) {
 
     if (gameLogic == nullptr) {
         return;
@@ -441,18 +441,18 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_pa
     });
 }
 
-JNIEXPORT bool JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_saveGame(JNIEnv* jenv, jobject obj, jstring savepath) {
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_saveGame(JNIEnv* jenv, jobject obj, jstring savepath) {
 
     if (gameLogic == nullptr) {
-        return false;
+        return JNI_FALSE;
     }
 
     std::string path = jstringTostring(jenv, savepath);
 
-    return gameLogic->saveGame(path);
+    return static_cast<jboolean>(gameLogic->saveGame(path));
 }
 
-JNIEXPORT jstring JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderActivity_getMapName(JNIEnv* jenv, jobject obj) {
+JNIEXPORT jstring JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_getMapName(JNIEnv* jenv, jobject obj) {
 
     if (gameLogic == nullptr) {
         return jenv->NewStringUTF("");
