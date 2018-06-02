@@ -4,11 +4,11 @@ import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -47,10 +47,9 @@ public class PFActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         PFImmersiveMode.SetImmersiveMode(getWindow());
 
-        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) &&
-                (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
 
-            requestPermissions(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGEREQUESTCODE);
+            ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGEREQUESTCODE);
             return;
         }
 
@@ -61,7 +60,7 @@ public class PFActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        if (!isAudioMuted() && audioInitialized) {
+        if (isAudioPlaying() && audioInitialized) {
             PFAudioWrapper.muteMusic();
         }
     }
@@ -202,14 +201,14 @@ public class PFActivity extends AppCompatActivity {
 
         PFImmersiveMode.SetImmersiveMode(getWindow());
 
-        if (!isAudioMuted() && audioInitialized) {
+        if (isAudioPlaying() && audioInitialized) {
             PFAudioWrapper.unmuteMusic();
         }
     }
 
-    private boolean isAudioMuted() {
+    private boolean isAudioPlaying() {
         SharedPreferences preferences = getSharedPreferences("PixFightPreferences", MODE_PRIVATE);
-        return preferences.getBoolean("mute", false);
+        return !preferences.getBoolean("mute", false);
     }
 
 }

@@ -1,13 +1,11 @@
 package com.noclip.marcinmalysz.pixfight;
 
-/**
- * Created by marcinmalysz on 13/02/2018.
- */
-
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -21,20 +19,24 @@ interface PFSetupCallback {
     void initalize(int width, int height);
 }
 
+/**
+ * Created by marcinmalysz on 13/02/2018.
+ */
 public class PFGL2View extends GLSurfaceView {
 
     private static String TAG = "GL2JNIView";
     private static final boolean DEBUG = false;
 
+    @Nullable
     public static PFSetupCallback callback = null;
     private Renderer renderer;
 
-    public PFGL2View(Context context) {
+    public PFGL2View(@NonNull Context context) {
         super(context);
         init(false, 0, 0);
     }
 
-    public PFGL2View(Context context, boolean translucent, int depth, int stencil) {
+    public PFGL2View(@NonNull Context context, boolean translucent, int depth, int stencil) {
         super(context);
         init(translucent, depth, stencil);
     }
@@ -68,14 +70,14 @@ public class PFGL2View extends GLSurfaceView {
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
         super.surfaceDestroyed(holder);
 
         renderer.loaded = false;
         PFGameLib.nativeOnStop();
     }
 
-    public void setBundle(Bundle bundle) {
+    public void setBundle(@NonNull Bundle bundle) {
 
         /* Set the renderer responsible for frame rendering */
 
@@ -110,7 +112,7 @@ public class PFGL2View extends GLSurfaceView {
 
     private static class ConfigChooser implements GLSurfaceView.EGLConfigChooser {
 
-        public ConfigChooser(int r, int g, int b, int a, int depth, int stencil) {
+        ConfigChooser(int r, int g, int b, int a, int depth, int stencil) {
             mRedSize = r;
             mGreenSize = g;
             mBlueSize = b;
@@ -159,8 +161,8 @@ public class PFGL2View extends GLSurfaceView {
             return chooseConfig(egl, display, configs);
         }
 
-        public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display,
-                                      EGLConfig[] configs) {
+        EGLConfig chooseConfig(EGL10 egl, EGLDisplay display,
+                               EGLConfig[] configs) {
             for(EGLConfig config : configs) {
                 int d = findConfigAttrib(egl, display, config,
                         EGL10.EGL_DEPTH_SIZE, 0);
@@ -292,12 +294,12 @@ public class PFGL2View extends GLSurfaceView {
         }
 
         // Subclasses can adjust these values:
-        protected int mRedSize;
-        protected int mGreenSize;
-        protected int mBlueSize;
-        protected int mAlphaSize;
-        protected int mDepthSize;
-        protected int mStencilSize;
+        int mRedSize;
+        int mGreenSize;
+        int mBlueSize;
+        int mAlphaSize;
+        int mDepthSize;
+        int mStencilSize;
         private int[] mValue = new int[1];
     }
 

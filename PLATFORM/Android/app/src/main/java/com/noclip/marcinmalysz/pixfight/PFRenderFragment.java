@@ -34,6 +34,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class PFRenderFragment extends Fragment {
@@ -134,7 +135,7 @@ public class PFRenderFragment extends Fragment {
 
         renderInstance = this;
 
-        glView.callback = PFRenderFragment::initializeOpenGL;
+        PFGL2View.callback = PFRenderFragment::initializeOpenGL;
 
         glView.setBundle(arguments);
 
@@ -200,7 +201,7 @@ public class PFRenderFragment extends Fragment {
 
         Date currentTime = Calendar.getInstance().getTime();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         String dateString = sdf.format(currentTime);
@@ -323,6 +324,7 @@ public class PFRenderFragment extends Fragment {
                 return !(costs[position] > cash);
             }
 
+            @SuppressLint("InflateParams")
             @NonNull
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
