@@ -140,6 +140,7 @@ Inspire for the game comes from [WeeWar](https://web.archive.org/web/20150315005
 Big thanks to [infullmobile](https://www.infullmobile.com) for providing textures for this project.  
 
 [Parseus](https://github.com/Parseus) - for kicking of RaspberryPi version
+[Parseus](https://github.com/Parseus) - for Refactoring Android version
 
 # 3. 3rd party libraries
 
