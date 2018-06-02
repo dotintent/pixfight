@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,7 +141,7 @@ public class PFLoadGameFragment extends Fragment {
 
         selectedFile = 0;
         View row = tableView.getChildAt(0);
-        row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
+        row.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rowSelected));
     }
 
     private View.OnClickListener tablerowOnClickListener = v -> {
@@ -151,11 +152,11 @@ public class PFLoadGameFragment extends Fragment {
 
             if (row.equals(v)) {
 
-                row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
+                row.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rowSelected));
             }
             else {
 
-                row.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                row.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
             }
         }
 
