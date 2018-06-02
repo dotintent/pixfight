@@ -54,6 +54,7 @@ public class PFRenderFragment extends Fragment {
     private ProgressDialog progressDialog = null;
 
     private static PFRenderFragment renderInstance = null;
+    private static boolean isAlreadyInGame = false;
 
     private Bundle arguments = null;
 
@@ -133,19 +134,25 @@ public class PFRenderFragment extends Fragment {
             undo();
         });
 
-        renderInstance = this;
-
-        PFGL2View.callback = PFRenderFragment::initializeOpenGL;
-
-        glView.setBundle(arguments);
-
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Thinking...");
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setGravity(Gravity.TOP);   
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        renderInstance = this;
+
+        PFGL2View.callback = PFRenderFragment::initializeOpenGL;
+
+        if (!isAlreadyInGame) {
+            glView.setBundle(arguments);
+            isAlreadyInGame = true;
+        }
+    }
 
     public void buildMainMenu() {
 
