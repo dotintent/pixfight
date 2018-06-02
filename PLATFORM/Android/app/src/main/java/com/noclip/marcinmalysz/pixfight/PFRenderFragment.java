@@ -170,6 +170,7 @@ public class PFRenderFragment extends Fragment {
             switch (i) {
 
                 case 0: {
+                    isAlreadyInGame = false;
                     PFAudioWrapper.playMenuMusic();
                     getFragmentManager().popBackStack();
                 }
