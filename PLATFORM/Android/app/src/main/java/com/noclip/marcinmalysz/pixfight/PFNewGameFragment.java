@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,6 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
         createAdapter();
 
         startButton = getView().findViewById(R.id.startgamebutton);
-        startButton.setTypeface(PFUtils.getFont());
 
         startButton.setOnClickListener(arg0 -> {
             if (mapName == null) {
@@ -125,7 +125,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
                 View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTypeface(PFUtils.getFont());
+                ((TextView) v).setTypeface(ResourcesCompat.getFont(getContext(), R.font.fffatlan));
                 v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
                 return v;
@@ -134,7 +134,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
 
                 View v = super.getDropDownView(position, convertView, parent);
-                ((TextView) v).setTypeface(PFUtils.getFont());
+                ((TextView) v).setTypeface(ResourcesCompat.getFont(getContext(), R.font.fffatlan));
                 v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
                 v.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rowSelected));
@@ -213,7 +213,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
 
             Map<String, String> mapInfo = data.get(i);
 
-            tv.setTypeface(PFUtils.getFont());
+            tv.setTypeface(ResourcesCompat.getFont(getContext(), R.font.fffatlan));
             tv.setTextSize(20);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             tv.setText(mapInfo.get("name"));

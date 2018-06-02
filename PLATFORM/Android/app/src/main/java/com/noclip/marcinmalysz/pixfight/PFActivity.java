@@ -39,8 +39,6 @@ public class PFActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        // ResourcesCompat.getFont(this, R.font.fffatlan);
-
         setContentView(R.layout.activity_main);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new PFMainMenuFragment()).commit();
 

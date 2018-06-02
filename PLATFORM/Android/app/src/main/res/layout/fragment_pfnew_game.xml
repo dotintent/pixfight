@@ -62,6 +62,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/statesbutton"
             android:contentDescription="startgame"
+            android:fontFamily="@font/fffatlan"
             android:text="START"
             app:layout_constraintBottom_toBottomOf="@+id/image_background_newgame"
             app:layout_constraintEnd_toEndOf="parent"

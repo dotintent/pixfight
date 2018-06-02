@@ -47,9 +47,6 @@ public class PFLoadGameFragment extends Fragment {
         deleteButton = getView().findViewById(R.id.loadgamebuttondelete);
         deleteButton.setOnClickListener(arg0 -> deleteSave());
 
-        loadButton.setTypeface(PFUtils.getFont());
-        deleteButton.setTypeface(PFUtils.getFont());
-
         loadSaveFiles();
     }
 
