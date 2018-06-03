@@ -36,3 +36,6 @@ MAPEDITOR/nul
 
 #html5
 PLATFORM/HTML5/bin/
+PLATFORM/Android/app/release/
+PLATFORM/Android/.idea/caches/
+PLATFORM/Android/.idea/assetWizardSettings.xml
