@@ -1,7 +1,6 @@
 package com.noclip.marcinmalysz.pixfight;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -131,9 +130,8 @@ public class PFRenderFragment extends Fragment {
         });
 
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Thinking...");
         progressDialog.setCancelable(false);
-        progressDialog.getWindow().setGravity(Gravity.TOP);   
+        progressDialog.getWindow().setGravity(Gravity.TOP);
     }
 
     @Override
