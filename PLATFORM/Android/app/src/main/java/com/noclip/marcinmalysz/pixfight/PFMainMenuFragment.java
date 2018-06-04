@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 public class PFMainMenuFragment extends Fragment {
 
@@ -22,35 +21,9 @@ public class PFMainMenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        PFUtils.loadFontFromAssets(getContext().getAssets());
-
-        addListenerOnNewGameButton();
-        addListenerOnLoadGameButton();
-        addListenerOnSettingsButton();
-    }
-
-    public void addListenerOnSettingsButton() {
-
-        Button button = getView().findViewById(R.id.imageButtonSettings);
-        button.setTypeface(PFUtils.getFont());
-
-        button.setOnClickListener(arg0 -> goToFragment(new PFSettingsFragment()));
-    }
-
-    public void addListenerOnLoadGameButton() {
-
-        Button button = getView().findViewById(R.id.imageButtonLoadGame);
-        button.setTypeface(PFUtils.getFont());
-
-        button.setOnClickListener(arg0 -> goToFragment(new PFLoadGameFragment()));
-    }
-
-    public void addListenerOnNewGameButton() {
-
-        Button button = getView().findViewById(R.id.imageButtonNewGame);
-        button.setTypeface(PFUtils.getFont());
-
-        button.setOnClickListener(arg0 -> goToFragment(new PFNewGameFragment()));
+        getView().findViewById(R.id.imageButtonNewGame).setOnClickListener(v -> goToFragment(new PFNewGameFragment()));
+        getView().findViewById(R.id.imageButtonLoadGame).setOnClickListener(v -> goToFragment(new PFLoadGameFragment()));
+        getView().findViewById(R.id.imageButtonSettings).setOnClickListener(v -> goToFragment(new PFSettingsFragment()));
     }
 
     private void goToFragment(Fragment fragment) {

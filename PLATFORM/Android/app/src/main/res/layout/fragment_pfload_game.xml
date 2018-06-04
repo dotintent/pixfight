@@ -42,6 +42,7 @@
             android:layout_marginEnd="15dp"
             android:background="@drawable/statesbutton"
             android:contentDescription="deletesave"
+            android:fontFamily="@font/fffatlan"
             android:text="DELETE"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/loadgamebuttonstart" />
@@ -54,6 +55,7 @@
             android:layout_marginEnd="15dp"
             android:background="@drawable/statesbutton"
             android:contentDescription="loadgame"
+            android:fontFamily="@font/fffatlan"
             android:text="LOAD"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

@@ -1,7 +1,6 @@
 package com.noclip.marcinmalysz.pixfight;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -47,13 +46,10 @@ public class PFRenderFragment extends Fragment {
 
     private float scaleFactor = 1.f;
 
-    private Button backButton = null;
-    private Button endTurnButton = null;
-    private Button multiplyButton = null;
-    private Button undoButton = null;
     private ProgressDialog progressDialog = null;
 
     private static PFRenderFragment renderInstance = null;
+    private static boolean isAlreadyInGame = false;
 
     private Bundle arguments = null;
 
@@ -98,10 +94,10 @@ public class PFRenderFragment extends Fragment {
         scaleDetector =  new ScaleGestureDetector(getContext(), new PFScaleListener());
         panDetector = new GestureDetector(getContext(), new PFPanGestureListener());
 
-        backButton = getView().findViewById(R.id.rendergame_back);
-        endTurnButton = getView().findViewById(R.id.rendergame_endtrun);
-        multiplyButton = getView().findViewById(R.id.rendergame_timemultiply);
-        undoButton = getView().findViewById(R.id.rendergame_undo);
+        Button backButton = getView().findViewById(R.id.rendergame_back);
+        Button endTurnButton = getView().findViewById(R.id.rendergame_endtrun);
+        Button multiplyButton = getView().findViewById(R.id.rendergame_timemultiply);
+        Button undoButton = getView().findViewById(R.id.rendergame_undo);
 
         ConstraintLayout layout = getView().findViewById(R.id.contraintLayout);
 
@@ -133,19 +129,24 @@ public class PFRenderFragment extends Fragment {
             undo();
         });
 
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setGravity(Gravity.TOP);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         renderInstance = this;
 
         PFGL2View.callback = PFRenderFragment::initializeOpenGL;
 
-        glView.setBundle(arguments);
-
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Thinking...");
-        progressDialog.setCancelable(false);
-        progressDialog.getWindow().setGravity(Gravity.TOP);   
+        if (!isAlreadyInGame) {
+            glView.setBundle(arguments);
+            isAlreadyInGame = true;
+        }
     }
-
-
 
     public void buildMainMenu() {
 
@@ -163,6 +164,7 @@ public class PFRenderFragment extends Fragment {
             switch (i) {
 
                 case 0: {
+                    isAlreadyInGame = false;
                     PFAudioWrapper.playMenuMusic();
                     getFragmentManager().popBackStack();
                 }
