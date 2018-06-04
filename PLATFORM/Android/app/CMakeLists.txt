@@ -113,7 +113,6 @@ set( ASSETS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/main/assets )
 set( FONTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/main/res/font )
 
 configure_file( ${lib_core_src_DIR}/Resources/Lato-Black.ttf ${ASSETS_DIR}/Lato-Black.ttf COPYONLY )
-configure_file( ${lib_core_src_DIR}/Resources/FFFATLAN.TTF ${ASSETS_DIR}/FFFATLAN.TTF COPYONLY )
 
 configure_file( ${lib_core_src_DIR}/Resources/FFFATLAN.TTF ${FONTS_DIR}/fffatlan.ttf COPYONLY )
 

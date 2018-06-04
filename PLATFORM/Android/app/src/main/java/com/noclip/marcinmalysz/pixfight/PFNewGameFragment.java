@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,11 +57,10 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
 
         teamButton = getView().findViewById(R.id.teamspinner);
         teamButton.setOnItemSelectedListener(this);
-        teamButton.setBackground(getResources().getDrawable(R.drawable.buttonn2x));
+        teamButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.buttonn2x));
         createAdapter();
 
         startButton = getView().findViewById(R.id.startgamebutton);
-        startButton.setTypeface(PFUtils.getFont());
 
         startButton.setOnClickListener(arg0 -> {
             if (mapName == null) {
@@ -124,7 +125,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
                 View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTypeface(PFUtils.getFont());
+                ((TextView) v).setTypeface(ResourcesCompat.getFont(getContext(), R.font.fffatlan));
                 v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
                 return v;
@@ -133,10 +134,10 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
 
                 View v = super.getDropDownView(position, convertView, parent);
-                ((TextView) v).setTypeface(PFUtils.getFont());
+                ((TextView) v).setTypeface(ResourcesCompat.getFont(getContext(), R.font.fffatlan));
                 v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
-                v.setBackgroundColor(getResources().getColor(R.color.rowSelected));
+                v.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rowSelected));
 
                 return v;
             }
@@ -212,7 +213,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
 
             Map<String, String> mapInfo = data.get(i);
 
-            tv.setTypeface(PFUtils.getFont());
+            tv.setTypeface(ResourcesCompat.getFont(getContext(), R.font.fffatlan));
             tv.setTextSize(20);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             tv.setText(mapInfo.get("name"));
@@ -228,7 +229,7 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
         }
 
         View row = tableView.getChildAt(0);
-        row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
+        row.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rowSelected));
     }
 
     public void onItemSelected(@NonNull AdapterView<?> parent, @NonNull View v, int position, long id) {
@@ -249,18 +250,18 @@ public class PFNewGameFragment extends Fragment implements OnItemSelectedListene
 
             if (row.equals(v)) {
 
-                row.setBackgroundColor(getResources().getColor(R.color.rowSelected));
+                row.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rowSelected));
             }
             else {
 
-                row.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                row.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
             }
         }
 
         Integer index = tableView.indexOfChild(v);
         String resourceString = data.get(index).get("image");
 
-        mapImage.setImageDrawable(getResources().getDrawable(getId(resourceString, R.drawable.class)));
+        mapImage.setImageDrawable(ContextCompat.getDrawable(getContext(), getId(resourceString, R.drawable.class)));
 
         teamButton.setSelection(0);
         selectedPlayer = 1;

@@ -27,9 +27,6 @@ public class PFSettingsFragment extends Fragment implements CompoundButton.OnChe
         muteSwitch = layout.findViewById(R.id.mute_switch);
         aiSwitch = layout.findViewById(R.id.ai_switch);
 
-        muteSwitch.setTypeface(PFUtils.getFont());
-        aiSwitch.setTypeface(PFUtils.getFont());
-
         View backButton = layout.findViewById(R.id.settings_back);
         backButton.setOnClickListener(v -> getFragmentManager().popBackStack());
 

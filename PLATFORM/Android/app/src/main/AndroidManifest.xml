@@ -19,7 +19,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".PFActivity"
-            android:screenOrientation="landscape">
+            android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
