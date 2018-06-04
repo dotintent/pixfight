@@ -190,7 +190,7 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
     auto okSoundPath = _rootPath + "ok.wav";
     okSound = _audioUnit->loadSound(okSoundPath);
-    
+
     std::fstream m_file;
 
     m_file.open(loadpath.c_str(), std::fstream::in|std::fstream::binary);
@@ -866,7 +866,7 @@ void GameLogic::endTurn() {
 #ifdef __EMSCRIPTEN__
 
     #ifdef __EMSCRIPTEN_PTHREADS__
-        
+
     std::thread thread([&]() {
 
         this->proceedBotsLogic();
@@ -874,13 +874,13 @@ void GameLogic::endTurn() {
 
     thread.detach();
 
-    #else 
+    #else
 
         this->proceedBotsLogic();
 
     #endif
 
-#else 
+#else
 
     std::thread thread([&]() {
 
@@ -1717,7 +1717,7 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
                 unit->setUnitMode(UNIT_NOTMOVE);
 
                 if (!unit->canAttack()) {
-                    
+
                     unit->setUnitMode(UNIT_ENDTURN);
                 }
 
@@ -2514,7 +2514,7 @@ void GameLogic::proceedBotsLogic() {
 
     //finish
     if (botsEndThinkCallback) {
-        syncToMainLoop([&](void *, GameLogic*){    
+        syncToMainLoop([&](void *, GameLogic*){
 
             botsEndThinkCallback(this->context);
         });
