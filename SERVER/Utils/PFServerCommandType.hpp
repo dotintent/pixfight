@@ -42,7 +42,6 @@ public:
     : version(PROTOCOL_VERSION)
     , crcsum(0)
     , type(PFSocketCommandTypeUnknown)
-    , uid(0)
     , size(0)
     , data(nullptr) {}
 
@@ -60,9 +59,6 @@ public:
 
     //command
     PFSocketCommandType type;
-
-    //unit ID / global ID
-    uint64_t uid;
 
     //additional data
     uint32_t size;

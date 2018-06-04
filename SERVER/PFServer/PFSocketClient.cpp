@@ -20,7 +20,8 @@ PFSocketClient::PFSocketClient(CActiveSocket *socket)
 , _sendSize(0)
 , _data({})
 , _lastPing(time(0))
-, _ready(false) {
+, _ready(false)
+, _loaded(false) {
 
 }
 
@@ -128,7 +129,7 @@ void PFSocketClient::sendPacket(const std::unique_ptr<PFPacket> &packet) {
     auto dataSize = packet->size;
     auto data = packet->data;
 
-    _sendBytes += _socket->Send(data, dataSize);
+    _sendBytes += _socket->Send(data, dataSize*sizeof(uint8_t));
 
     if (_sendBytes >= _sendSize) {
         _sendBytes = 0;

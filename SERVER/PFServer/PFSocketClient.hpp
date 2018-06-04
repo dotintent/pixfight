@@ -52,7 +52,10 @@ public:
     time_t getCurrentTime() const { return _lastPing; }
 
     void setReady(bool ready) { _ready = ready; }
-    bool isReady() { return _ready; }
+    bool isReady() const { return _ready; }
+
+    void setLoaded(bool loaded) { _loaded = loaded; }
+    bool isLoaded() const { return _loaded; }
 
 private:
 
@@ -70,4 +73,5 @@ private:
 
     time_t _lastPing;
     bool _ready;
+    bool _loaded;
 };

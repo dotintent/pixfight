@@ -40,7 +40,6 @@ const uint32_t PacketSize(const PFPacket &packet) {
     size += sizeof(packet.version);
     size += sizeof(packet.crcsum);
     size += sizeof(packet.type);
-    size += sizeof(packet.uid);
     size += sizeof(packet.size);
     size += packet.size;
 

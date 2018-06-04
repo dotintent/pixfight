@@ -144,6 +144,11 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
 
     auto command = player->getCurrentCommand();
 
+    if (command == PFSocketCommandTypeUnknown) {
+
+        return false;
+    }
+
     switch (command) {
 
         case PFSocketCommandTypeMakeRoom:
@@ -282,15 +287,36 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
         }
         case PFSocketCommandTypeLoad: {
 
-            //player loaded map send his turn info
-            auto packet = make_unique<PFPacket>();
-            packet->type = PFSocketCommandTypeSendTurn;
-            packet->size = sizeof(_currentPlayerTurn) / sizeof(uint8_t);
-            packet->data = new uint8_t[packet->size];
-            memcpy(packet->data, &_currentPlayerTurn, sizeof(_currentPlayerTurn));
-            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+            //TODO: all players need to send LOAD Info before start!
 
-            player->sendPacket(packet);
+            player->setLoaded(true);
+
+            uint16_t playersLoaded = 0;
+
+            for (auto &p : _connectedPlayers) {
+
+                if (p->isLoaded()) {
+                    playersLoaded++;
+                }
+            }
+
+            auto size = _connectedPlayers.size();
+
+            if (playersLoaded == size && _roomInfo.players == size) {
+
+                //player loaded map send his turn info
+                auto packet = make_unique<PFPacket>();
+                packet->type = PFSocketCommandTypeSendTurn;
+                packet->size = sizeof(_currentPlayerTurn) / sizeof(uint8_t);
+                packet->data = new uint8_t[packet->size];
+                memcpy(packet->data, &_currentPlayerTurn, sizeof(_currentPlayerTurn));
+                packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+                for (auto &p : _connectedPlayers) {
+
+                    p->sendPacket(packet);
+                }
+            }
 
             break;
         }

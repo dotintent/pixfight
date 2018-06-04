@@ -1,6 +1,6 @@
 # Pixfight
 
-This is an opensource crossplatform clone of [WeeWar](https://web.archive.org/web/20150315005124/http://weewar.com/) pixelart turn based strategy with AI. Done in C++14 with OpenGL 2.0 ES / 3.2 Core. With native applications for each platform (iOS, macOS, Linux, Windows, Android) 
+This is an opensource crossplatform clone of [WeeWar](https://web.archive.org/web/20150315005124/http://weewar.com/) pixelart turn based strategy with AI. Done in C++14 with OpenGL 2.0 ES / 3.2 Core. With native applications for each platform (iOS, macOS, Linux, Windows, Android, HTML5, Raspberry-Pi) 
 
 ## System Requirements:
 
@@ -87,9 +87,11 @@ Latest stable versions:
 [Android](https://github.com/inFullMobile/pixfight/releases)  
 [Windows](https://github.com/inFullMobile/pixfight/releases)  
 [Linux](https://github.com/inFullMobile/pixfight/releases) - Please follow building instructions to run it  
+[Raspberry Pi](https://github.com/inFullMobile/pixfight/releases) - Please follow building instructions to run it  
 [macOS](https://github.com/inFullMobile/pixfight/releases)  
 [iOS](https://developer.apple.com/xcode/) - Please download the source code and build it using Xcode  
-[HTML5](https://github.com/inFullMobile/pixfight/releases)
+[HTML5](https://github.com/inFullMobile/pixfight/releases)  
+[Map Editor](https://github.com/inFullMobile/pixfight/releases)
 
 ## FAQ:
 
@@ -139,7 +141,7 @@ Inspire for the game comes from [WeeWar](https://web.archive.org/web/20150315005
 
 Big thanks to [infullmobile](https://www.infullmobile.com) for providing textures for this project.  
 
-[Parseus](https://github.com/Parseus) - for kicking of RaspberryPi version
+[Parseus](https://github.com/Parseus) - for kicking of RaspberryPi version  
 [Parseus](https://github.com/Parseus) - for Refactoring Android version
 
 # 3. 3rd party libraries
@@ -324,7 +326,7 @@ If you have problems running editor on macOS (mostly High Sierra) you will need 
 # 5. Next steps  
   
   
-* Multiplayer    
+* Map terrain types will affect unit stats. (Grass, Woods, Sand, Mud etc)    
 
 
 # 6. License

@@ -20,6 +20,10 @@ class PFMultiplayerClient final {
 
 public:
 
+    PFCallback callback;
+
+public:
+
     PFMultiplayerClient(const std::string &serverAddress, bool async);
     
     ~PFMultiplayerClient() noexcept;
@@ -29,16 +33,25 @@ public:
     PFMultiplayerClient& operator= (const PFMultiplayerClient& other) = delete;
     PFMultiplayerClient& operator= (PFMultiplayerClient&& other) noexcept = delete;
 
-    void handleCommand(PFCallback callback);
+    bool connect();
+    void disconnect();
+
+    //commands
+    bool joinRoom(uint32_t roomid);
+    void makeRoom(bool isPrivate);
+    void removeRoom();
+    void listRooms();
+    void setReady();
+    void setLoaded();
+    void endTurn();
 
     void sendFireCommand(uint32_t unitID,
                          uint32_t attackedID,
                          uint32_t sizeA,
                          uint32_t sizeB);
-    void moveUnitCommand(uint32_t uintID, float x, float y);
-    void buildUnitCommand(uint32_t baseID, uint16_t unitType);
 
-    void tick(); //can be use inside game loop to avoid another thread
+    void moveUnitCommand(uint32_t unitID, float x, float y);
+    void buildUnitCommand(uint32_t baseID, uint16_t unitType);
 
 private:
 
@@ -56,4 +69,6 @@ private:
 
     std::thread _loopThread;
     std::atomic_bool _threadTerminate;
+
+    bool _playing;
 };
