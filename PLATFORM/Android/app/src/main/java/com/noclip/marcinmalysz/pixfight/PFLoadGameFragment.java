@@ -65,13 +65,13 @@ public class PFLoadGameFragment extends Fragment {
         }
 
         Bundle bundle =  new Bundle();
-        bundle.putString("savePath", fullPath.toString());
+        bundle.putString("savepath", fullPath.toString());
 
         PFRenderFragment renderFragment = new PFRenderFragment();
         renderFragment.setArguments(bundle);
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, new PFRenderFragment());
+        fragmentTransaction.replace(R.id.fragmentContainer, renderFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
