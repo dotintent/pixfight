@@ -13,14 +13,14 @@
 
 using namespace std;
 
-PFMultiplayerClient::PFMultiplayerClient(const std::string &serverAddress, bool async)
+PFMultiplayerClient::PFMultiplayerClient(const std::string &serverAddress)
 : callback(nullptr)
 , _serverAddress(serverAddress)
 , _port(DEFAULT_SERVER_PORT)
 , _socket(nullptr)
 , _roomDetails({})
 , _loopThread({})
-, _threadTerminate(!async)
+, _threadTerminate(false)
 , _playing(false) {
 
 }
@@ -63,6 +63,8 @@ bool PFMultiplayerClient::connect() {
     _loopThread = thread(&PFMultiplayerClient::loop, this);
     _loopThread.detach();
 
+    _playing = _port != DEFAULT_SERVER_PORT;
+
     return true;
 }
 
@@ -70,12 +72,14 @@ void PFMultiplayerClient::disconnect() {
 
     _threadTerminate = true;
 
-    if (!_playing) {
+    if (!_playing && _socket) {
 
         auto packet = make_unique<PFPacket>();
         packet->type = PFSocketCommandTypeDisconnect;
         _socket->sendPacket(packet);
     }
+
+    _playing = false;
 
     if (_socket) {
         _socket->close();
@@ -88,14 +92,11 @@ bool PFMultiplayerClient::joinRoom(uint32_t roomid) {
         return false;
     }
 
-    if (_socket) {
-        _socket->dispose();
-        _socket->close();
-        _socket = nullptr;
-    }
-
-    _threadTerminate = true;
     _port = roomid;
+
+    disconnect();
+
+    this_thread::sleep_for(chrono::milliseconds(200));
 
     return connect();
 }
@@ -111,6 +112,23 @@ void PFMultiplayerClient::makeRoom(bool isPrivate) {
     packet->size = sizeof(isPrivate)/sizeof(uint8_t);
     packet->data = new uint8_t[packet->size];
     memcpy(packet->data, &isPrivate, sizeof(isPrivate));
+    packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+    _socket->sendPacket(packet);
+}
+
+void PFMultiplayerClient::setRoomInfo(PFRoomInfo &roomInfo) {
+
+    _roomDetails = roomInfo;
+}
+
+void PFMultiplayerClient::sendRoomDetails() {
+
+    auto packet = make_unique<PFPacket>();
+    packet->type = PFSocketCommandTypeGameInfo;
+    packet->size = sizeof(_roomDetails) / sizeof(uint8_t);
+    packet->data = new uint8_t[packet->size];
+    memcpy(packet->data, &_roomDetails, sizeof(_roomDetails));
     packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
 
     _socket->sendPacket(packet);
@@ -250,15 +268,17 @@ void PFMultiplayerClient::loop() {
     time_t initial = time(0);
     time_t current = initial;
 
+    PFSocketCommandType exitCommand = PFSocketCommandTypeUnknown;
+
     while (false == _threadTerminate.load()) {
 
-        update();
+        exitCommand = update();
 
         current = time(0);
 
         double diff = difftime(current, initial);
 
-        if (diff > 1) {
+        if (diff > 1 && _playing) {
 
             initial = time(0);
 
@@ -268,9 +288,33 @@ void PFMultiplayerClient::loop() {
             _socket->sendPacket(packet);
         }
     }
+
+    cout << "loop terminated" << endl;
+
+    if (exitCommand == PFSocketCommandTypeUnknown) {
+
+        return;
+    }
+
+    cout << "Reconnecting..." << endl;
+
+    if (connect()) {
+
+        if (callback) {
+
+            callback(exitCommand, {});
+        }
+    }
+    else {
+
+        if (callback) {
+
+            callback(PFSocketCommandTypeDisconnect, {});
+        }
+    }
 }
 
-void PFMultiplayerClient::update() {
+PFSocketCommandType PFMultiplayerClient::update() {
 
     _socket->update();
 
@@ -278,7 +322,7 @@ void PFMultiplayerClient::update() {
 
     if (command == PFSocketCommandTypeUnknown) {
 
-        return;
+        return command;
     }
 
     switch (command) {
@@ -294,21 +338,6 @@ void PFMultiplayerClient::update() {
             _socket->dispose();
 
             disconnect();
-
-            if (connect()) {
-
-                if (callback) {
-
-                    callback(command, roomData);
-                }
-            }
-            else {
-
-                if (callback) {
-
-                    callback(PFSocketCommandTypeDisconnect, roomData);
-                }
-            }
 
             break;
         }
@@ -340,24 +369,9 @@ void PFMultiplayerClient::update() {
         case PFSocketCommandTypeLeaveRoom: {
 
             _socket->dispose();
-            disconnect();
-
             _port = DEFAULT_SERVER_PORT;
 
-            if (connect()) {
-
-                if (callback) {
-
-                    callback(command, {});
-                }
-            }
-            else {
-
-                if (callback) {
-
-                    callback(PFSocketCommandTypeDisconnect, {});
-                }
-            }
+            disconnect();
 
             break;
         }
@@ -386,5 +400,7 @@ void PFMultiplayerClient::update() {
     }
 
     _socket->dispose();
+
+    return command;
 }
 

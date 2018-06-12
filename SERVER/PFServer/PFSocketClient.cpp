@@ -60,7 +60,11 @@ void PFSocketClient::update() {
         return;
     }
 
-    if ((_recivedBytes += _socket->Receive(MAX_PACKET)) > 0 && (_command == PFSocketCommandTypeUnknown)) {
+    auto recived = _socket->Receive(MAX_PACKET);
+
+    if ((recived > 0) &&
+        (_recivedBytes += recived) > 0 &&
+        (_command == PFSocketCommandTypeUnknown)) {
 
         auto recivedData = _socket->GetData();
         auto recivedSize = _socket->GetBytesReceived();
@@ -74,11 +78,12 @@ void PFSocketClient::update() {
             memcpy(&_localHeader, _recivedData.data(), headerSize);
 
             //preallocate _data
-            _data.resize(_localHeader.size);
+            _data.clear();
+            _data.resize(_localHeader.size * sizeof(uint8_t));
         }
 
         //we have complete data
-        if (_recivedData.size() > headerSize + _localHeader.size) {
+        if (_recivedData.size() >= (headerSize + _localHeader.size)) {
 
             //copy additional data
             memcpy(_data.data(), _recivedData.data() + headerSize, _localHeader.size * sizeof(uint8_t));
@@ -86,10 +91,17 @@ void PFSocketClient::update() {
             uint32_t crc32 = 0;
             crc32 = crc32c(crc32, _data.data(), _localHeader.size);
 
+            //TODO: Add PFSocketCommandTypeVersionInvalid & PFSocketCommandTypeCRC32Error
             if (_localHeader.version == PROTOCOL_VERSION && _localHeader.crcsum == crc32) {
 
                 //assing command
                 _command = _localHeader.type;
+
+                cout << "Recived command: " << _command << endl;
+            }
+            else {
+
+                cout << "Version or sum mismatch error, CRC: " << _localHeader.crcsum << " calculated: " << crc32 << endl;
             }
 
             //reset receiving

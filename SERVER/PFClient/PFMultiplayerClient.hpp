@@ -16,7 +16,7 @@
 
 class PFMultiplayerClient final {
 
-    typedef std::function<bool(const PFSocketCommandType &command, const std::vector<uint8_t> data)> PFCallback;
+    typedef std::function<void(const PFSocketCommandType &command, const std::vector<uint8_t> data)> PFCallback;
 
 public:
 
@@ -24,7 +24,7 @@ public:
 
 public:
 
-    PFMultiplayerClient(const std::string &serverAddress, bool async);
+    PFMultiplayerClient(const std::string &serverAddress);
     
     ~PFMultiplayerClient() noexcept;
 
@@ -36,9 +36,13 @@ public:
     bool connect();
     void disconnect();
 
+    bool isValid() const { return _socket ? _socket->isValid() : false; }
+
     //commands
     bool joinRoom(uint32_t roomid);
     void makeRoom(bool isPrivate);
+    void setRoomInfo(PFRoomInfo &roomInfo);
+    void sendRoomDetails();
     void removeRoom();
     void listRooms();
     void setReady();
@@ -53,11 +57,14 @@ public:
     void moveUnitCommand(uint32_t unitID, float x, float y);
     void buildUnitCommand(uint32_t baseID, uint16_t unitType);
 
+    const PFRoomInfo & getRoomInfo() const { return _roomDetails; }
+    uint32_t getCurrentPort() const { return _port; }
+
 private:
 
     //it will run on dedicated thread
     void loop();
-    void update();
+    PFSocketCommandType update();
 
 private:
 

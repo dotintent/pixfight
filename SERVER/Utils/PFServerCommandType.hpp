@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <vector>
 #include "EnumOptionMacro.hpp"
 
 #define MAX_PACKET 4096
@@ -52,6 +53,14 @@ public:
 
     ~PFPacket() noexcept {
         if (data) { delete [] data; }
+    }
+
+    void setData(const std::vector<uint8_t> &packedData) {
+
+        memcpy(&version, packedData.data(), sizeof(uint16_t));
+        memcpy(&crcsum, packedData.data() + sizeof(uint16_t), sizeof(uint32_t));
+        memcpy(&type, packedData.data() + sizeof(uint16_t) + sizeof(uint32_t), sizeof(uint32_t));
+        memcpy(&size, packedData.data() + sizeof(uint16_t) + sizeof(uint32_t) * 2, sizeof(uint32_t));
     }
 
     uint16_t version; // PROTOCOL_VERSION

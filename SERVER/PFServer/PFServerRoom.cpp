@@ -26,14 +26,21 @@ PFServerRoom::PFServerRoom(uint32_t port, bool privateRoom)
 
     memset(&_roomInfo, 0, sizeof(_roomInfo));
 
+    //minimum players to allow connection so we can retrive map info
+    _roomInfo.players = 2;
+
     _roomSocket->Initialize();
     _roomSocket->SetNonblocking();
 
-    if (!_roomSocket->Listen(nullptr, _port)) {
+    if (!_roomSocket->Listen("0.0.0.0", _port)) {
 
         cout << "Error starting room: " << _roomSocket->DescribeError() << endl;
         _roomSocket->Close();
         _status = PFRoomStatusTimeout;
+    }
+    else {
+
+        cout << "Created room on port: " << _port << " private: "<< _private << endl;
     }
 }
 
@@ -49,17 +56,17 @@ PFServerRoom::~PFServerRoom() noexcept {
 
 void PFServerRoom::update() {
 
-    bool allowsPlayers = false;
+    bool allowsPlayers = true;
 
     if (_roomInfo.players > 0) {
 
-        allowsPlayers = _roomInfo.players < _connectedPlayers.size();
+        allowsPlayers = _connectedPlayers.size() < _roomInfo.players;
     }
 
     //finding clients
     if (((_client = _roomSocket->Accept()) != nullptr) && (_status == PFRoomStatusAwaiting) && allowsPlayers) {
 
-        cout << "Player connected." << endl;
+        cout << "Player connected to room." << endl;
 
         _lastUpdate = time(0);
 
@@ -133,11 +140,11 @@ bool PFServerRoom::isUnused() {
         if (diff > kMaximumRoomTime) {
 
             _status = PFRoomStatusTimeout;
-            return false;
+            return true;
         }
     }
 
-    return true;
+    return false;
 }
 
 bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
@@ -196,6 +203,8 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
             packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
 
             for (auto &local : _connectedPlayers) {
+
+                local->setReady(false);
 
                 if (local == player) {
                     continue;

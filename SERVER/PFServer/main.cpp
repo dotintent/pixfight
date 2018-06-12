@@ -107,6 +107,8 @@ int main(int argc, const char * argv[]) {
                         continue;
                     }
 
+                    cout << "Server command: " << command << endl;
+
                     switch (resolveCommand(client)) {
 
                         case PFServerCommandCreateRoom: {
@@ -214,6 +216,8 @@ int main(int argc, const char * argv[]) {
 
             if (!room->isValid() || room->isUnused()) {
 
+                cout << "Removing room: " << distance(rooms.begin(), it) << " status: " << (int)room->getStatus() << endl;
+
                 it = rooms.erase(it);
             }
             else {
@@ -249,7 +253,7 @@ PFServerCommand resolveCommand(const shared_ptr<PFSocketClient> &client) {
 
         case PFSocketCommandTypeDisconnect: return PFServerCommandDisconnectClient;
         case PFSocketCommandTypeMakeRoom: return PFServerCommandCreateRoom;
-        case PFSocketCommandTypeRooms: return PFServerCommandCreateRoom;
+        case PFSocketCommandTypeRooms: return PFServerCommandRoomList;
         case PFSocketCommandTypeUnknown:
         case PFSocketCommandTypeHeartbeat:
         case PFSocketCommandTypeLeaveRoom:
