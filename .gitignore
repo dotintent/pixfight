@@ -5,6 +5,8 @@ CORE/build.gradle
 
 #SERVER
 SERVER/DerivedData/
+SERVER/PFServer/bin/
+SERVER/PFClient/bin/
 
 #iOS
 PLATFORM/iOS/DerivedData/
