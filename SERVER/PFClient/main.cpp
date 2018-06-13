@@ -284,6 +284,12 @@ int main(int argc, const char * argv[]) {
                 break;
             }
 
+            case 'k' : {
+
+                client->leaveRoom();
+                break;
+            }
+
             case 'r' : {
 
                 cout << "Remove room" << endl;

@@ -40,6 +40,7 @@ public:
 
     //commands
     bool joinRoom(uint32_t roomid);
+    bool leaveRoom();
     void makeRoom(bool isPrivate);
     void setRoomInfo(PFRoomInfo &roomInfo);
     void sendRoomDetails();

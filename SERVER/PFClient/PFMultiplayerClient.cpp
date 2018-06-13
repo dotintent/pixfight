@@ -101,6 +101,29 @@ bool PFMultiplayerClient::joinRoom(uint32_t roomid) {
     return connect();
 }
 
+bool PFMultiplayerClient::leaveRoom() {
+
+    if (!_playing) {
+        return false;
+    }
+
+    if (_socket) {
+
+        auto packet = make_unique<PFPacket>();
+        packet->type = PFSocketCommandTypeLeaveRoom;
+
+        _socket->sendPacket(packet);
+    }
+
+    _port = DEFAULT_SERVER_PORT;
+
+    disconnect();
+
+    this_thread::sleep_for(chrono::milliseconds(200));
+
+    return connect();
+}
+
 void PFMultiplayerClient::makeRoom(bool isPrivate) {
 
     if (_playing) {
