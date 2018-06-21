@@ -62,7 +62,13 @@ extern "C"
 #endif
 
 #ifdef __APPLE__
+
     #define _DARWIN 1
+
+#elif defined(__linux__)
+
+    #define _LINUX 1
+    
 #endif
 
 #if defined(_LINUX) || defined(_DARWIN)

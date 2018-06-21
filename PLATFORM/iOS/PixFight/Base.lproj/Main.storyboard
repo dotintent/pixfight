@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9o0-se-Tz4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9o0-se-Tz4">
     <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
@@ -49,7 +49,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwI-Vh-vff">
-                                <rect key="frame" x="253" y="203" width="160" height="40"/>
+                                <rect key="frame" x="253" y="147" width="160" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="heV-1R-5jc"/>
                                 </constraints>
@@ -97,21 +97,38 @@
                                     <constraint firstAttribute="height" constant="94" id="ebb-Yi-YQi"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mD2-BO-BhU">
+                                <rect key="frame" x="253" y="203" width="160" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="USA-7E-CyL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="FFFAtlantisTrial" family="FFF Atlantis  Trial" pointSize="18"/>
+                                <state key="normal" title="MULTI" backgroundImage="buttonN.png">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="buttonP.png"/>
+                                <connections>
+                                    <action selector="multiplayerAction:" destination="BYB-gL-BRf" eventType="touchUpInside" id="FjE-hI-H4U"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="2Wa-s3-2pm" firstAttribute="centerX" secondItem="4A4-F1-Jka" secondAttribute="centerX" id="N3h-F1-cGC"/>
+                            <constraint firstItem="mD2-BO-BhU" firstAttribute="top" secondItem="cwI-Vh-vff" secondAttribute="bottom" constant="16" id="PKz-lZ-2UJ"/>
                             <constraint firstItem="cwI-Vh-vff" firstAttribute="centerX" secondItem="4A4-F1-Jka" secondAttribute="centerX" id="VhJ-RW-jh8"/>
                             <constraint firstItem="fG1-KI-vyC" firstAttribute="centerX" secondItem="4A4-F1-Jka" secondAttribute="centerX" id="aY4-zc-XYa"/>
+                            <constraint firstItem="mD2-BO-BhU" firstAttribute="centerX" secondItem="4A4-F1-Jka" secondAttribute="centerX" id="ds1-6b-4Un"/>
                             <constraint firstItem="pmF-zp-dNc" firstAttribute="top" secondItem="2Wa-s3-2pm" secondAttribute="bottom" constant="20" id="eEW-S7-AMp"/>
                             <constraint firstItem="4A4-F1-Jka" firstAttribute="centerY" secondItem="zx8-3E-Vf7" secondAttribute="centerY" id="h1P-Fo-fAX"/>
                             <constraint firstItem="fG1-KI-vyC" firstAttribute="top" secondItem="DG8-4N-OPd" secondAttribute="bottom" constant="35" id="jqK-j1-fw4"/>
+                            <constraint firstItem="XfM-od-oXs" firstAttribute="top" secondItem="mD2-BO-BhU" secondAttribute="bottom" constant="16" id="kNh-gL-aNL"/>
                             <constraint firstItem="4A4-F1-Jka" firstAttribute="centerX" secondItem="zx8-3E-Vf7" secondAttribute="centerX" id="pVl-nu-nk0"/>
                             <constraint firstItem="4A4-F1-Jka" firstAttribute="width" secondItem="zx8-3E-Vf7" secondAttribute="width" id="qjc-55-gJe"/>
                             <constraint firstItem="XfM-od-oXs" firstAttribute="centerX" secondItem="4A4-F1-Jka" secondAttribute="centerX" id="sSi-pk-hNC"/>
                             <constraint firstItem="2Wa-s3-2pm" firstAttribute="top" secondItem="XfM-od-oXs" secondAttribute="bottom" constant="16" id="tqs-kZ-LO7"/>
                             <constraint firstItem="4A4-F1-Jka" firstAttribute="height" secondItem="zx8-3E-Vf7" secondAttribute="height" priority="750" id="uXx-ER-SSO"/>
-                            <constraint firstItem="XfM-od-oXs" firstAttribute="top" secondItem="cwI-Vh-vff" secondAttribute="bottom" constant="16" id="xBe-Zm-n4L"/>
+                            <constraint firstItem="XfM-od-oXs" firstAttribute="top" secondItem="cwI-Vh-vff" secondAttribute="bottom" constant="72" id="xBe-Zm-n4L"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1AK-ZD-EjB"/>
@@ -122,6 +139,7 @@
                         <segue destination="Ylw-IU-jTU" kind="presentation" identifier="PFOptionSegueIdentifier" id="COu-dW-2tV"/>
                         <segue destination="It3-uW-tg7" kind="show" identifier="PFNewGameSegueIdentifier" id="OkW-wt-A5P"/>
                         <segue destination="NRo-6d-1De" kind="show" identifier="PFLoadGameSegueIdentifier" id="Qhd-lU-ADG"/>
+                        <segue destination="Z6g-ef-Kze" kind="show" identifier="PFMultiplayerSegueIdetifier" id="whp-Jx-C1o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Msa-q6-w1s" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -354,7 +372,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uUn-y0-Fhp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-76.011994002998506" y="952.79999999999995"/>
+            <point key="canvasLocation" x="-76" y="-1063"/>
         </scene>
         <!--Load Game View Controller-->
         <scene sceneID="k4Z-Ei-EFs">
@@ -434,7 +452,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OKo-Pr-ZHL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="706" y="1058"/>
+            <point key="canvasLocation" x="706" y="-1063"/>
         </scene>
         <!--GLKit View Controller-->
         <scene sceneID="lqb-Yg-uYb">
@@ -545,13 +563,14 @@
                         <outlet property="blurView" destination="qBH-Dx-ZUd" id="7EE-PI-clH"/>
                         <outlet property="endTurnButton" destination="snM-FS-iG9" id="Nlc-p3-9Yo"/>
                         <outlet property="menuButton" destination="DuK-Yf-68j" id="Crv-mg-m1m"/>
+                        <outlet property="multiplyButton" destination="o1I-m8-ARA" id="qzO-uE-Owg"/>
                         <outlet property="undoButton" destination="IIR-hD-gOU" id="7wE-Ye-AJo"/>
                         <segue destination="QIh-WH-vhq" kind="presentation" identifier="PFBuildUnitSegueIdentifier" modalPresentationStyle="overCurrentContext" id="pDu-6H-Cjz"/>
                     </connections>
                 </glkViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HoO-QV-TNn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1499" y="455"/>
+            <point key="canvasLocation" x="1621" y="2"/>
         </scene>
         <!--Select Unit View Controller-->
         <scene sceneID="FRZ-E8-cfH">
@@ -656,7 +675,356 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKG-Sl-IRZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1498" y="1383"/>
+            <point key="canvasLocation" x="1621" y="1012"/>
+        </scene>
+        <!--Multiplayer View Controller-->
+        <scene sceneID="pcZ-tx-OC5">
+            <objects>
+                <viewController id="Z6g-ef-Kze" customClass="PFMultiplayerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="IJZ-VN-2e1"/>
+                        <viewControllerLayoutGuide type="bottom" id="Sro-YU-Q3F"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1pd-cy-2we">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="menubg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Yef-1Z-anZ">
+                                <rect key="frame" x="0.0" y="-35" width="667" height="445"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Yef-1Z-anZ" secondAttribute="height" multiplier="3:2" id="d0r-ta-8EZ"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cM5-Mm-hAu">
+                                <rect key="frame" x="253" y="155.5" width="160" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Rc6-JK-hEA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="FFFAtlantisTrial" family="FFF Atlantis  Trial" pointSize="18"/>
+                                <state key="normal" title="MAKE ROOM" backgroundImage="buttonN.png">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="buttonP.png"/>
+                                <connections>
+                                    <action selector="makeRoomAction:" destination="Z6g-ef-Kze" eventType="touchUpInside" id="VLZ-w3-FlB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9s5-UQ-Xkt">
+                                <rect key="frame" x="253" y="247.5" width="160" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="co2-bo-K8O"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="FFFAtlantisTrial" family="FFF Atlantis  Trial" pointSize="18"/>
+                                <state key="normal" title="JOIN ROOM" backgroundImage="buttonN.png">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="buttonP.png"/>
+                                <connections>
+                                    <action selector="joinRoomAction:" destination="Z6g-ef-Kze" eventType="touchUpInside" id="xNr-ha-XN2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwu-vR-79a">
+                                <rect key="frame" x="10" y="10" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="KVy-je-DTA"/>
+                                    <constraint firstAttribute="width" constant="32" id="mgP-5r-gYs"/>
+                                </constraints>
+                                <state key="normal" image="back.png"/>
+                                <connections>
+                                    <action selector="backAction:" destination="Z6g-ef-Kze" eventType="touchUpInside" id="pXA-0F-99H"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Private" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VpX-06-z9V">
+                                <rect key="frame" x="253" y="203" width="81" height="24"/>
+                                <fontDescription key="fontDescription" name="FFFAtlantisTrial" family="FFF Atlantis  Trial" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gzk-Eh-SDv">
+                                <rect key="frame" x="366" y="200" width="49" height="31"/>
+                            </switch>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="9s5-UQ-Xkt" firstAttribute="top" secondItem="cM5-Mm-hAu" secondAttribute="bottom" constant="52" id="3ff-bR-ZvB"/>
+                            <constraint firstItem="gzk-Eh-SDv" firstAttribute="trailing" secondItem="cM5-Mm-hAu" secondAttribute="trailing" id="4TN-Sq-3Rh"/>
+                            <constraint firstItem="VpX-06-z9V" firstAttribute="leading" secondItem="cM5-Mm-hAu" secondAttribute="leading" id="8Ie-Rv-DtL"/>
+                            <constraint firstItem="9s5-UQ-Xkt" firstAttribute="centerY" secondItem="Yef-1Z-anZ" secondAttribute="centerY" constant="80" id="8mR-YB-bIQ"/>
+                            <constraint firstItem="gzk-Eh-SDv" firstAttribute="top" secondItem="cM5-Mm-hAu" secondAttribute="bottom" constant="4.5" id="C0g-G5-DlA"/>
+                            <constraint firstItem="Yef-1Z-anZ" firstAttribute="width" secondItem="1pd-cy-2we" secondAttribute="width" id="Fm6-rb-1sC"/>
+                            <constraint firstItem="Yef-1Z-anZ" firstAttribute="centerX" secondItem="1pd-cy-2we" secondAttribute="centerX" id="HQM-ab-Ia1"/>
+                            <constraint firstItem="VpX-06-z9V" firstAttribute="top" secondItem="cM5-Mm-hAu" secondAttribute="bottom" constant="7.5" id="Hxp-d7-JMy"/>
+                            <constraint firstItem="Yef-1Z-anZ" firstAttribute="centerY" secondItem="1pd-cy-2we" secondAttribute="centerY" id="IoK-TN-7O2"/>
+                            <constraint firstItem="cwu-vR-79a" firstAttribute="leading" secondItem="1pd-cy-2we" secondAttribute="leading" constant="10" id="PT9-xR-q6p"/>
+                            <constraint firstItem="9s5-UQ-Xkt" firstAttribute="centerX" secondItem="Yef-1Z-anZ" secondAttribute="centerX" id="SN0-gp-hEO"/>
+                            <constraint firstItem="Yef-1Z-anZ" firstAttribute="height" secondItem="1pd-cy-2we" secondAttribute="height" priority="750" id="fbZ-dU-VHW"/>
+                            <constraint firstItem="cM5-Mm-hAu" firstAttribute="centerX" secondItem="Yef-1Z-anZ" secondAttribute="centerX" id="ffY-bO-2MM"/>
+                            <constraint firstItem="cwu-vR-79a" firstAttribute="top" secondItem="IJZ-VN-2e1" secondAttribute="bottom" constant="10" id="hZS-rN-Zdn"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Od6-cW-GPD"/>
+                    <connections>
+                        <outlet property="backgroundEqualWidthLayoutConstraint" destination="Fm6-rb-1sC" id="EJ9-aZ-DuZ"/>
+                        <outlet property="joinRoomButton" destination="9s5-UQ-Xkt" id="giV-uO-gNf"/>
+                        <outlet property="makeRoomButton" destination="cM5-Mm-hAu" id="cNa-BC-Amb"/>
+                        <outlet property="privateSwitch" destination="gzk-Eh-SDv" id="Ww4-7x-Zld"/>
+                        <segue destination="LKV-wd-E5v" kind="show" identifier="PFRoomSegueIdentifier" id="jKW-ru-fSc"/>
+                        <segue destination="a0h-v6-OYK" kind="show" identifier="PFJoinSegueIdentfier" id="QQx-ms-DAz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TTg-Gi-m5d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-76.011994002998506" y="1012"/>
+        </scene>
+        <!--Room View Controller-->
+        <scene sceneID="OAI-sV-MJ6">
+            <objects>
+                <viewController id="LKV-wd-E5v" customClass="PFRoomViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Icn-wc-ar8"/>
+                        <viewControllerLayoutGuide type="bottom" id="0uF-Gg-7VI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MCl-cT-ypZ">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="menubg.png" translatesAutoresizingMaskIntoConstraints="NO" id="1G1-TV-RLY">
+                                <rect key="frame" x="0.0" y="-35" width="667" height="445"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1G1-TV-RLY" secondAttribute="height" multiplier="3:2" id="3Nk-Mr-ltX"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5G-hY-dHJ">
+                                <rect key="frame" x="253" y="10" width="160" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Rg0-kX-aEn"/>
+                                    <constraint firstAttribute="width" constant="160" id="qVU-ga-rgQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="FFFAtlantisTrial" family="FFF Atlantis  Trial" pointSize="18"/>
+                                <state key="normal" title="TUTORIAL" backgroundImage="buttonN.png">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="buttonP.png"/>
+                                <connections>
+                                    <action selector="mapAction:" destination="LKV-wd-E5v" eventType="touchUpInside" id="gog-j2-3Xh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0q9-rC-dEL">
+                                <rect key="frame" x="10" y="10" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="5zZ-Tc-0oQ"/>
+                                    <constraint firstAttribute="height" constant="32" id="smE-7L-ruO"/>
+                                </constraints>
+                                <state key="normal" image="back.png"/>
+                                <connections>
+                                    <action selector="backAction:" destination="LKV-wd-E5v" eventType="touchUpInside" id="LaR-bW-UtP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pQN-Pv-m1r">
+                                <rect key="frame" x="487" y="315" width="160" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="9WN-ry-h3f"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="FFFAtlantisTrial" family="FFF Atlantis  Trial" pointSize="18"/>
+                                <state key="normal" title="Ready" backgroundImage="buttonN.png">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="buttonP.png"/>
+                                <connections>
+                                    <action selector="readyAction:" destination="LKV-wd-E5v" eventType="touchUpInside" id="baA-gC-QH2"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PLAYERS 0/2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lYm-gs-l15">
+                                <rect key="frame" x="283" y="231" width="101.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game will start automatically when all players are ready" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdg-Su-dML">
+                                <rect key="frame" x="122" y="272" width="422" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorial.png" translatesAutoresizingMaskIntoConstraints="NO" id="4c8-Ic-ScH">
+                                <rect key="frame" x="269" y="79" width="128" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="376-hR-bCc"/>
+                                    <constraint firstAttribute="width" constant="128" id="4rA-eK-pwm"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="1G1-TV-RLY" firstAttribute="width" secondItem="MCl-cT-ypZ" secondAttribute="width" id="2hg-us-ZFe"/>
+                            <constraint firstItem="jdg-Su-dML" firstAttribute="centerX" secondItem="1G1-TV-RLY" secondAttribute="centerX" id="DWQ-LD-Dsw"/>
+                            <constraint firstAttribute="bottom" secondItem="pQN-Pv-m1r" secondAttribute="bottom" constant="20" id="Pqb-Us-76i"/>
+                            <constraint firstItem="lYm-gs-l15" firstAttribute="centerX" secondItem="1G1-TV-RLY" secondAttribute="centerX" id="WJZ-ap-2n0"/>
+                            <constraint firstItem="lYm-gs-l15" firstAttribute="top" secondItem="4c8-Ic-ScH" secondAttribute="bottom" constant="24" id="ab3-au-oV2"/>
+                            <constraint firstAttribute="trailing" secondItem="pQN-Pv-m1r" secondAttribute="trailing" constant="20" id="dCt-KO-v1G"/>
+                            <constraint firstItem="4c8-Ic-ScH" firstAttribute="top" secondItem="k5G-hY-dHJ" secondAttribute="bottom" constant="29" id="hXO-2r-5a7"/>
+                            <constraint firstItem="1G1-TV-RLY" firstAttribute="height" secondItem="MCl-cT-ypZ" secondAttribute="height" priority="750" id="isI-Ly-2sj"/>
+                            <constraint firstItem="k5G-hY-dHJ" firstAttribute="top" secondItem="Icn-wc-ar8" secondAttribute="bottom" constant="10" id="jMI-QW-8Ho"/>
+                            <constraint firstItem="4c8-Ic-ScH" firstAttribute="centerX" secondItem="1G1-TV-RLY" secondAttribute="centerX" id="jPO-oj-aGm"/>
+                            <constraint firstItem="1G1-TV-RLY" firstAttribute="centerY" secondItem="MCl-cT-ypZ" secondAttribute="centerY" id="n52-Cn-mAb"/>
+                            <constraint firstItem="0q9-rC-dEL" firstAttribute="leading" secondItem="MCl-cT-ypZ" secondAttribute="leading" constant="10" id="nPi-GF-lyx"/>
+                            <constraint firstItem="jdg-Su-dML" firstAttribute="top" secondItem="lYm-gs-l15" secondAttribute="bottom" constant="20" id="pcl-5g-ffA"/>
+                            <constraint firstItem="k5G-hY-dHJ" firstAttribute="centerX" secondItem="1G1-TV-RLY" secondAttribute="centerX" id="pnK-GM-Tqx"/>
+                            <constraint firstItem="0q9-rC-dEL" firstAttribute="top" secondItem="Icn-wc-ar8" secondAttribute="bottom" constant="10" id="rd7-zp-v4O"/>
+                            <constraint firstItem="1G1-TV-RLY" firstAttribute="centerX" secondItem="MCl-cT-ypZ" secondAttribute="centerX" id="tm1-7U-Xcr"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="pB4-M7-Pkp"/>
+                    <connections>
+                        <outlet property="backgroundEqualWidthLayoutConstraint" destination="2hg-us-ZFe" id="yKj-z5-PxF"/>
+                        <outlet property="infoLabel" destination="lYm-gs-l15" id="Yg4-US-Pfj"/>
+                        <outlet property="mapButton" destination="k5G-hY-dHJ" id="g0T-Gd-UMz"/>
+                        <outlet property="mapImage" destination="4c8-Ic-ScH" id="Gr0-iK-zzk"/>
+                        <outlet property="readyButton" destination="pQN-Pv-m1r" id="Bbb-zN-xa4"/>
+                        <segue destination="YEj-zc-ROB" kind="show" identifier="PFStartSegueIdentifier" id="n27-5Y-kkV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qDu-mf-UpD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="706" y="1508"/>
+        </scene>
+        <!--Join View Controller-->
+        <scene sceneID="j2z-6S-wcE">
+            <objects>
+                <viewController id="a0h-v6-OYK" customClass="PFJoinViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3eI-7o-VnC"/>
+                        <viewControllerLayoutGuide type="bottom" id="sfq-Hh-tOY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="93L-yc-Ph9">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="menubg.png" translatesAutoresizingMaskIntoConstraints="NO" id="f37-OR-Zan">
+                                <rect key="frame" x="0.0" y="-35" width="667" height="445"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="f37-OR-Zan" secondAttribute="height" multiplier="3:2" id="o7r-dK-Ghf"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yb2-gc-Yvq">
+                                <rect key="frame" x="319" y="315" width="160" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="1HV-Xc-MLN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="FFFAtlantisTrial" family="FFF Atlantis  Trial" pointSize="18"/>
+                                <state key="normal" title="join" backgroundImage="buttonN.png">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="buttonP.png"/>
+                                <connections>
+                                    <action selector="joinAction:" destination="a0h-v6-OYK" eventType="touchUpInside" id="T4n-g5-v0U"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JnR-Zd-ccm">
+                                <rect key="frame" x="487" y="315" width="160" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="6Ha-KY-ZEc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="FFFAtlantisTrial" family="FFF Atlantis  Trial" pointSize="18"/>
+                                <state key="normal" title="refresh" backgroundImage="buttonN.png">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="buttonP.png"/>
+                                <connections>
+                                    <action selector="refreshAction:" destination="a0h-v6-OYK" eventType="touchUpInside" id="2KG-2q-Y3b"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mXX-F1-9d7">
+                                <rect key="frame" x="10" y="10" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="HFm-aG-JTN"/>
+                                    <constraint firstAttribute="width" constant="32" id="XZG-nS-nS4"/>
+                                </constraints>
+                                <state key="normal" image="back.png"/>
+                                <connections>
+                                    <action selector="backAction:" destination="a0h-v6-OYK" eventType="touchUpInside" id="uE9-Ko-Itf"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tCb-ya-8pR">
+                                <rect key="frame" x="173" y="65" width="320" height="224"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="rkM-PY-tSw"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="PFRoomCellIdentifier" textLabel="NvO-kC-7zf" style="IBUITableViewCellStyleDefault" id="ji6-C4-7Ls">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ji6-C4-7Ls" id="nkx-ok-OEB">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Tutorial - Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NvO-kC-7zf">
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="1" green="0.72062673470000005" blue="0.10925492520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZLC-42-SbV">
+                                <rect key="frame" x="329" y="7" width="164" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="1U9-Rg-Dvf"/>
+                                    <constraint firstAttribute="width" constant="164" id="OCY-tG-zVc"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTER CODE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJb-LF-jzO">
+                                <rect key="frame" x="173" y="7" width="126" height="39"/>
+                                <fontDescription key="fontDescription" name="FFFAtlantisTrial" family="FFF Atlantis  Trial" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="cJb-LF-jzO" firstAttribute="leading" secondItem="tCb-ya-8pR" secondAttribute="leading" id="6dj-dY-DA8"/>
+                            <constraint firstAttribute="trailing" secondItem="JnR-Zd-ccm" secondAttribute="trailing" constant="20" id="7gy-e7-GRk"/>
+                            <constraint firstItem="cJb-LF-jzO" firstAttribute="top" secondItem="ZLC-42-SbV" secondAttribute="top" id="9u8-ae-04O"/>
+                            <constraint firstItem="sfq-Hh-tOY" firstAttribute="top" secondItem="Yb2-gc-Yvq" secondAttribute="bottom" constant="20" id="K0d-J4-5sr"/>
+                            <constraint firstItem="Yb2-gc-Yvq" firstAttribute="top" secondItem="tCb-ya-8pR" secondAttribute="bottom" constant="26" id="Llq-gi-Fow"/>
+                            <constraint firstItem="mXX-F1-9d7" firstAttribute="leading" secondItem="93L-yc-Ph9" secondAttribute="leading" constant="10" id="NaM-3g-0oq"/>
+                            <constraint firstItem="cJb-LF-jzO" firstAttribute="centerY" secondItem="ZLC-42-SbV" secondAttribute="centerY" id="Npz-91-Uk1"/>
+                            <constraint firstItem="f37-OR-Zan" firstAttribute="height" secondItem="93L-yc-Ph9" secondAttribute="height" priority="750" id="O1G-Ch-eTs"/>
+                            <constraint firstItem="mXX-F1-9d7" firstAttribute="top" secondItem="3eI-7o-VnC" secondAttribute="bottom" constant="10" id="XkH-1Q-G1i"/>
+                            <constraint firstItem="f37-OR-Zan" firstAttribute="width" secondItem="93L-yc-Ph9" secondAttribute="width" id="aVR-Vw-FvC"/>
+                            <constraint firstItem="ZLC-42-SbV" firstAttribute="trailing" secondItem="tCb-ya-8pR" secondAttribute="trailing" id="cVs-NC-mCl"/>
+                            <constraint firstItem="ZLC-42-SbV" firstAttribute="top" secondItem="3eI-7o-VnC" secondAttribute="bottom" constant="7" id="iMH-tT-nUF"/>
+                            <constraint firstItem="f37-OR-Zan" firstAttribute="centerY" secondItem="93L-yc-Ph9" secondAttribute="centerY" id="j73-tK-Q4U"/>
+                            <constraint firstAttribute="bottom" secondItem="JnR-Zd-ccm" secondAttribute="bottom" constant="20" id="rV8-zl-dPH"/>
+                            <constraint firstItem="tCb-ya-8pR" firstAttribute="centerX" secondItem="f37-OR-Zan" secondAttribute="centerX" id="uiK-yW-Qnb"/>
+                            <constraint firstItem="tCb-ya-8pR" firstAttribute="top" secondItem="ZLC-42-SbV" secondAttribute="bottom" constant="19" id="vMm-5r-1xF"/>
+                            <constraint firstItem="f37-OR-Zan" firstAttribute="centerX" secondItem="93L-yc-Ph9" secondAttribute="centerX" id="wCB-ax-WmA"/>
+                            <constraint firstItem="JnR-Zd-ccm" firstAttribute="leading" secondItem="Yb2-gc-Yvq" secondAttribute="trailing" constant="8" id="yVT-5W-xxP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="CjY-Dd-jFr"/>
+                    <connections>
+                        <outlet property="backgroundEqualWidthLayoutConstraint" destination="aVR-Vw-FvC" id="E1m-aV-rpC"/>
+                        <outlet property="codeTextField" destination="ZLC-42-SbV" id="Gd3-zp-q2k"/>
+                        <outlet property="joinButton" destination="Yb2-gc-Yvq" id="D7a-sc-M7s"/>
+                        <outlet property="refreshButton" destination="JnR-Zd-ccm" id="mWZ-DH-VfN"/>
+                        <outlet property="roomsTableView" destination="tCb-ya-8pR" id="SgS-uA-rKR"/>
+                        <segue destination="LKV-wd-E5v" kind="show" identifier="PFRoomSegueIdentifier" id="hYc-of-OnT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6T9-e8-nFy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-76.011994002998506" y="1949.5999999999999"/>
         </scene>
     </scenes>
     <resources>
@@ -673,6 +1041,7 @@
         <image name="undo.png" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DAt-tP-Mpb"/>
+        <segue reference="hYc-of-OnT"/>
+        <segue reference="n27-5Y-kkV"/>
     </inferredMetricsTieBreakers>
 </document>

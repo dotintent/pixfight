@@ -94,40 +94,39 @@
 
 #elif defined(__linux__)
 
+    #ifdef _RPI_
 
-#ifdef _RPI_
+        #include <GLES2/gl2.h>
+        #include <GLES2/gl2ext.h>
 
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
+        #include <EGL/egl.h>
 
-    #include <EGL/egl.h>
+        extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOES;
+        extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOES;
+        extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOES;
 
-    extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOES;
-    extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOES;
-    extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOES;
+        extern void eglBuildVertexArray();
 
-    extern void eglBuildVertexArray();
+        #define glBindVertexArray glBindVertexArrayOES
+        #define glGenVertexArrays glGenVertexArraysOES
+        #define glDeleteVertexArrays glDeleteVertexArraysOES
 
-    #define glBindVertexArray glBindVertexArrayOES
-    #define glGenVertexArrays glGenVertexArraysOES
-    #define glDeleteVertexArrays glDeleteVertexArraysOES
+        #define GLFW_INCLUDE_ES2
 
-    #define GLFW_INCLUDE_ES2
+    #else
 
-#else
+        #include <GL/glew.h>
+        #include <GL/gl.h>
 
-    #include <GL/glew.h>
-    #include <GL/gl.h>
+    #endif
 
-#endif
+        #include <GLFW/glfw3.h>
 
-    #include <GLFW/glfw3.h>
+        #ifndef _RPI_
+            #define GL_RED_EXT GL_RED
+        #endif
 
-#ifndef _RPI_
-    #define GL_RED_EXT GL_RED
-#endif
-
-#endif
+    #endif
 
 #endif
 

@@ -283,10 +283,17 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
 
                 _status = PFRoomStatusPlaying;
 
-                auto packet = make_unique<PFPacket>();
-                packet->type = PFSocketCommandTypeLoad;
-
                 for (auto &p : _connectedPlayers) {
+
+                    auto it = find(_connectedPlayers.begin(), _connectedPlayers.end(), p);
+                    uint32_t playerID = distance(_connectedPlayers.begin(), it);
+                  
+                    auto packet = make_unique<PFPacket>();
+                    packet->type = PFSocketCommandTypeLoad;
+                    packet->size = sizeof(playerID) / sizeof(uint8_t);
+                    packet->data = new uint8_t[packet->size];
+                    memcpy(packet->data, &playerID, sizeof(playerID));
+                    packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
 
                     p->sendPacket(packet);
                 }

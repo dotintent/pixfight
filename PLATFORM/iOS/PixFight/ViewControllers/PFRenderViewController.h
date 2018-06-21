@@ -9,7 +9,11 @@
 #import <GLKit/GLKit.h>
 #import <GLKit/GLKViewController.h>
 
+#import "PFMultiplayerClient.hpp"
+
 @interface PFRenderViewController : GLKViewController
+
+@property (nonatomic, assign) std::shared_ptr<PFMultiplayerClient> client;
 
 - (void)startGame:(NSString *)mapName
          playerID:(NSInteger)playerID

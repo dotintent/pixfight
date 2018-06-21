@@ -26,12 +26,14 @@
 @property (nonatomic, weak) IBOutlet UIButton *endTurnButton;
 @property (nonatomic, weak) IBOutlet UIButton *menuButton;
 @property (nonatomic, weak) IBOutlet UIButton *undoButton;
+@property (nonatomic, weak) IBOutlet UIButton *multiplyButton;
 @property (nonatomic, weak) IBOutlet UIVisualEffectView *blurView;
 
 @property (nonatomic, assign) NSInteger selectedPlayer;
 @property (nonatomic, assign) NSInteger playersCount;
 @property (nonatomic, copy) NSString *mapName;
 @property (nonatomic, copy) NSString *savePath;
+@property (nonatomic, assign) BOOL allowInteraction;
 
 @end
 
@@ -110,7 +112,6 @@
     popoverPresentationController.sourceRect = self.menuButton.bounds;
 }
 
-
 - (void)setupGame {
 
     std::string rootPath = [[NSBundle mainBundle] resourcePath].UTF8String;
@@ -177,8 +178,194 @@
 
         gameLogic->createNewGame(self.mapName.UTF8String,
                                  playerID,
-                                 playerCount);
+                                 playerCount,
+                                 self.client);
     }
+
+    if (self.client) {
+
+        [self setupMultiplayer];
+        [self updateMultiplayerState:0];
+
+        self.client->setLoaded();
+    }
+    else {
+
+        self.allowInteraction = YES;
+    }
+}
+
+- (void)disconnectAction {
+
+    UIAlertController *alert =  [UIAlertController alertControllerWithTitle:@"ERROR"
+                                                                    message:@"You have been disconnected from the game..."
+                                                             preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action) {
+
+                                                   [alert dismissViewControllerAnimated:YES
+                                                                             completion:^{
+
+                                                                                 [self.navigationController popToRootViewControllerAnimated:YES];
+                                                                             }];
+                                               }];
+
+    [alert addAction:ok];
+
+    [self presentViewController:alert
+                       animated:YES
+                     completion:nil];
+}
+
+- (void)mutliplayerWinAction:(NSInteger)playerID {
+
+    UIAlertController *alert =  [UIAlertController alertControllerWithTitle:@"GAME FINISED"
+                                                                    message:[NSString stringWithFormat:@"Player %ld win!", (long)playerID]
+                                                             preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action) {
+
+                                                   [alert dismissViewControllerAnimated:YES
+                                                                             completion:^{
+
+                                                                                 [self.navigationController popToRootViewControllerAnimated:YES];
+
+                                                                             }];
+                                               }];
+
+    [alert addAction:ok];
+
+    [self presentViewController:alert
+                       animated:YES
+                     completion:nil];
+}
+
+- (void)setupMultiplayer {
+
+    __weak __typeof__(self) weakSelf = self;
+
+    self.client->callback = [&](const PFSocketCommandType &command, const std::vector<uint8_t> data){
+
+        switch (command) {
+
+            case PFSocketCommandTypeMakeRoom:
+            case PFSocketCommandTypeLeaveRoom:
+            case PFSocketCommandTypeRemoveRoom:
+            case PFSocketCommandTypeGameInfo:
+            case PFSocketCommandTypeUnknown:
+            case PFSocketCommandTypeHeartbeat:
+            case PFSocketCommandTypeReady:
+            case PFSocketCommandTypeLoad:
+            case PFSocketCommandTypeRooms: {
+                break;
+            }
+            case PFSocketCommandTypeOk: {
+
+                cout << "PFSocketCommandTypeOk" << endl;
+                break;
+            }
+            case PFSocketCommandTypeDisconnect: {
+
+                cout << "PFSocketCommandTypeDisconnect" << endl;
+
+                weakSelf.client->disconnect();
+                [weakSelf disconnectAction];
+
+                break;
+            }
+            case PFSocketCommandTypeSendTurn: {
+
+                uint32_t currentPlayerTurn = 0;
+
+                memcpy(&currentPlayerTurn, data.data(), data.size() * sizeof(uint8_t));
+
+                cout << "Current player turn: " << currentPlayerTurn << endl;
+
+                NSInteger playerID = currentPlayerTurn + 1;
+
+                [weakSelf updateMultiplayerState:playerID];
+
+                if (weakSelf.allowInteraction) {
+
+                    gameLogic->startTurn();
+                }
+
+                break;
+            }
+            case PFSocketCommandTypeEndGame: {
+
+                uint32_t winnnerID = 0;
+                memcpy(&winnnerID, data.data(), data.size() * sizeof(uint8_t));
+
+                cout << "PFSocketCommandTypeEndGame" << endl;
+
+                [weakSelf mutliplayerWinAction:winnnerID];
+
+                break;
+            }
+            case PFSocketCommandTypeFire: {
+
+                cout << "PFSocketCommandTypeFire" << endl;
+
+                uint32_t idA = 0;
+                uint32_t idB = 0;
+                uint32_t sizeA = 0;
+                uint32_t sizeB = 0;
+
+                memcpy(&idA, data.data(), sizeof(uint32_t));
+                memcpy(&idB, data.data() + sizeof(uint32_t), sizeof(uint32_t));
+                memcpy(&sizeA, data.data() + sizeof(uint32_t) * 2, sizeof(uint32_t));
+                memcpy(&sizeB, data.data() + sizeof(uint32_t) * 3, sizeof(uint32_t));
+
+                gameLogic->remoteAttackUnit(idA, idB, sizeA, sizeB);
+
+                break;
+            }
+            case PFSocketCommandTypeMove: {
+
+                cout << "PFSocketCommandTypeMove" << endl;
+
+                uint32_t unitID = 0;
+                float posX = 0;
+                float posY = 0;
+
+                memcpy(&unitID, data.data(), sizeof(uint32_t));
+                memcpy(&posX, data.data() + sizeof(uint32_t), sizeof(float));
+                memcpy(&posY, data.data() + sizeof(uint32_t) + sizeof(float), sizeof(float));
+
+                gameLogic->remoteMoveUnit(unitID, posX, posY);
+
+                break;
+            }
+            case PFSocketCommandTypeBuild: {
+
+                cout << "PFSocketCommandTypeBuild" << endl;
+
+                uint32_t baseID = 0;
+                uint16_t unit = 0;
+
+                memcpy(&baseID, data.data(), sizeof(uint32_t));
+                memcpy(&unit, data.data() + sizeof(uint32_t), sizeof(float));
+
+                gameLogic->remoteBuildUnit(baseID, unit);
+
+                break;
+            }
+        }
+    };
+}
+
+- (void)updateMultiplayerState:(NSInteger)playerID {
+
+    self.allowInteraction = (PLAYERTEAMSELECTED == playerID);
+
+    self.multiplyButton.hidden = !self.allowInteraction;
+    self.endTurnButton.hidden = !self.allowInteraction;
+    self.undoButton.hidden = YES;
 }
 
 - (IBAction)undoAction:(id)sender {
@@ -200,6 +387,14 @@
 }
 
 - (IBAction)homeAction:(id)sender {
+
+    if (self.client) {
+
+        self.client->disconnect();
+        [self.navigationController popToRootViewControllerAnimated:YES];
+
+        return;
+    }
 
     UIAlertController *menuAlert = [UIAlertController alertControllerWithTitle:@"MENU"
                                                                        message:nil
@@ -372,6 +567,10 @@
 - (void)tapGestureRecognizerAction:(UITapGestureRecognizer *)recognizer {
 
     if (!gameLogic) {
+        return;
+    }
+
+    if (self.allowInteraction == NO) {
         return;
     }
 

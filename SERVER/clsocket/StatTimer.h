@@ -45,6 +45,8 @@
 
 #include <string.h>
 
+#include "Host.h"
+
 #if _WIN32
   #include <Winsock2.h>
   #include <time.h>
@@ -54,8 +56,6 @@
   #include <stdio.h>
   #include <sys/time.h>
 #endif
-
-#include "Host.h"
 
 #if defined(_WIN32)
   #define GET_CLOCK_COUNT(x) QueryPerformanceCounter((LARGE_INTEGER *)x)

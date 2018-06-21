@@ -217,6 +217,18 @@ void PFMultiplayerClient::endTurn() {
     _socket->sendPacket(packet);
 }
 
+void PFMultiplayerClient::sendWinnerID(uint32_t winnerID) {
+
+    auto packet = make_unique<PFPacket>();
+    packet->type = PFSocketCommandTypeEndGame;
+    packet->size = sizeof(winnerID) / sizeof(uint8_t);
+    packet->data = new uint8_t[packet->size];
+    memcpy(packet->data, &winnerID, sizeof(winnerID));
+    packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+    _socket->sendPacket(packet);
+}
+
 void PFMultiplayerClient::sendFireCommand(uint32_t unitID,
                                           uint32_t attackedID,
                                           uint32_t sizeA,

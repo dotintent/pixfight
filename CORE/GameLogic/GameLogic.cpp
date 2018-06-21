@@ -39,7 +39,8 @@ GameLogic::GameLogic(const float &screenWidth,
 , _drawingContext(nullptr)
 , _audioUnit(audioUnit)
 , _currentMapName("")
-, _timer(nullptr) {
+, _timer(nullptr)
+, _client() {
 
 #ifndef __EMSCRIPTEN__
     auto fontPath = _rootPath + "Lato-Black.ttf";
@@ -82,7 +83,10 @@ GameLogic::~GameLogic() noexcept {
 
 bool GameLogic::createNewGame(const std::string &gamename,
                               const int & selectedTeam,
-                              const int & maxplayers) {
+                              const int & maxplayers,
+                              std::shared_ptr<PFMultiplayerClient> client) {
+
+    _client = client;
 
     _gameLoaded = false;
 
@@ -148,33 +152,36 @@ bool GameLogic::createNewGame(const std::string &gamename,
     }
 
     //create bots
-    AIPlayer *botPlayer = nullptr;
+    if (_client.lock() != nullptr) {
 
-    for (int i = 1; i < _playersPlaying+1; ++i) {
+        AIPlayer *botPlayer = nullptr;
 
-        if (_playerTeamSelected == i) continue;
+        for (int i = 1; i < _playersPlaying+1; ++i) {
 
-        botPlayer = new AIPlayer(i, _mainMap, _rootPath);
-        botPlayer->setMoney(200);
-        botPlayer->setHardAI(_hardAI);
+            if (_playerTeamSelected == i) continue;
 
-        for (auto unit : _units) {
+            botPlayer = new AIPlayer(i, _mainMap, _rootPath);
+            botPlayer->setMoney(200);
+            botPlayer->setHardAI(_hardAI);
 
-            if (unit->getTeamID() == botPlayer->getPlayerID()) {
+            for (auto unit : _units) {
 
-                botPlayer->addAIObject(unit);
+                if (unit->getTeamID() == botPlayer->getPlayerID()) {
+
+                    botPlayer->addAIObject(unit);
+                }
             }
-        }
 
-        for (auto base : _bases) {
+            for (auto base : _bases) {
 
-            if (base->getTeamID() == botPlayer->getPlayerID()) {
+                if (base->getTeamID() == botPlayer->getPlayerID()) {
 
-                botPlayer->addAIObject(base);
+                    botPlayer->addAIObject(base);
+                }
             }
-        }
 
-        _bots.push_back(botPlayer);
+            _bots.push_back(botPlayer);
+        }
     }
 
     _gameLoaded = true;
@@ -798,6 +805,12 @@ void GameLogic::startTurn() {
         return;
     }
 
+    if (auto client = _client.lock()) {
+
+        client->sendWinnerID(_winnerID);
+        return;
+    }
+
     if (_winnerID == _playerTeamSelected) {
 
         if (winGameCallback) {
@@ -848,6 +861,13 @@ void GameLogic::endTurn() {
 
             base->setUnitMode(UNIT_ENDTURN);
         }
+    }
+
+    if (auto client = _client.lock()) {
+
+        client->endTurn();
+
+        return;
     }
 
     if (_winnerID == 0) {
@@ -1609,6 +1629,16 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
                     auto destroy = attackUnit(unit, current, _units, _bases);
 
+                    if (auto client = _client.lock()) {
+
+                        uint32_t unitIDA = unit->getUniqueID();
+                        uint32_t unitIDB = current->getUniqueID();
+                        uint32_t sizeA = std::max(unit->getSize(), 0.0f);
+                        uint32_t sizeB = std::max(current->getSize(), 0.0f);
+
+                        client->sendFireCommand(unitIDA, unitIDB, sizeA, sizeB);
+                    }
+
                     if (unit->getUnitMode() == UNIT_NOTMOVE) {
                         unit->setUnitMode(UNIT_ENDTURN);
                     }
@@ -1702,6 +1732,11 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
                 saveUndo();
                 unit->makeMove();
+
+                if (auto client = _client.lock()) {
+
+                    client->moveUnitCommand(unit->getUniqueID(), touch.x, touch.y);
+                }
 
                 //set our unit that its cannot move anymore in this turn
                 unit->setUnitMode(UNIT_NOTMOVE);
@@ -2213,6 +2248,11 @@ void GameLogic::buildNewUnitFromBase(GameBase *base, int unitId,  int remainingC
 
     saveUndo();
 
+    if (auto client = _client.lock()) {
+
+        client->buildUnitCommand(base->getUniqueID(), unitId);
+    }
+
     base->setUnitToBuild(unitId);
     setPlayerCash(remainingCash);
     buildUnit(base);
@@ -2512,3 +2552,133 @@ void GameLogic::proceedBotsLogic() {
     });
 }
 
+void GameLogic::remoteAttackUnit(const uint32_t &unitA,
+                                 const uint32_t &unitB,
+                                 const uint32_t sizeA,
+                                 const uint32_t sizeB) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto units = sender->getUnits();
+
+        GameUnit *uA = nullptr;
+        GameUnit *uB = nullptr;
+
+        for (auto u : *units) {
+
+            if (u->getUniqueID() == unitA) {
+                uA = u;
+                break;
+            }
+        }
+
+        for (auto u : *units) {
+
+            if (u->getUniqueID() == unitB) {
+                uB = u;
+                break;
+            }
+        }
+
+        if (uA && uB) {
+
+            uA->fire();
+            uB->fire();
+
+            uA->setSize(sizeA);
+            uB->setSize(sizeB);
+
+            auto path = sender->_rootPath + "explode.png";
+
+            if (sizeA == 0) {
+
+                auto unitPos = uA->getUnitPosition();
+
+                auto it = find(units->begin(), units->end(), uA);
+                delete *it;
+                units->erase(it);
+
+                auto explosion = new GameAnimation(path, unitPos, xVec2(512,64), xVec2(64,64), 8, 0.1);
+                sender->_explosions.push_back(explosion);
+                explosion->begin();
+            }
+
+            if (sizeB == 0) {
+
+                auto unitPos = uB->getUnitPosition();
+
+                auto it = find(units->begin(), units->end(), uB);
+                delete *it;
+                units->erase(it);
+
+                auto explosion = new GameAnimation(path, unitPos, xVec2(512,64), xVec2(64,64), 8, 0.1);
+                sender->_explosions.push_back(explosion);
+                explosion->begin();
+            }
+        }
+    });
+}
+
+void GameLogic::remoteMoveUnit(const uint32_t &unitID,
+                               const float &x,
+                               const float &y) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto units = sender->getUnits();
+        GameUnit *unit = nullptr;
+
+        for (auto u : *units) {
+
+            if (u->getUniqueID() == unitID) {
+                unit = u;
+                break;
+            }
+        }
+
+        if (unit == nullptr) {
+            return;
+        }
+
+        xVec2 unitPos = unit->getUnitPosition();
+        xVec2 selection = sender->_mainMap->selectionForPosition(unitPos);
+
+        sender->_mainMap->selectTile(selection);
+
+        this->roadForUnit(unit);
+
+        xVec2 touch(x,y);
+        sender->_mainMap->selectEndPoint(touch);
+
+        unit->makeMove();
+
+        sender->_mainMap->cleanRoad();
+        sender->_mainMap->cleanAStar();
+    });
+}
+
+void GameLogic::remoteBuildUnit(const uint32_t &baseID,
+                                const uint16_t &unitType) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto bases = sender->_bases;
+
+        GameBase *base = nullptr;
+
+        for (auto b : bases) {
+
+            if (b->getUniqueID() == baseID) {
+                base = b;
+                break;
+            }
+        }
+
+        if (base == nullptr) {
+            return;
+        }
+
+        base->setUnitToBuild(unitType);
+        buildUnit(base);
+    });
+}

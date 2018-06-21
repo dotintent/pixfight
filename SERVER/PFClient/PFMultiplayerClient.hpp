@@ -49,6 +49,7 @@ public:
     void setReady();
     void setLoaded();
     void endTurn();
+    void sendWinnerID(uint32_t winnerID);
 
     void sendFireCommand(uint32_t unitID,
                          uint32_t attackedID,
