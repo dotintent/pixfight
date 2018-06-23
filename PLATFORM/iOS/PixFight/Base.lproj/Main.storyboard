@@ -114,6 +114,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="cwI-Vh-vff" firstAttribute="top" relation="greaterThanOrEqual" secondItem="fG1-KI-vyC" secondAttribute="bottom" constant="18" id="DS3-EO-gun"/>
                             <constraint firstItem="2Wa-s3-2pm" firstAttribute="centerX" secondItem="4A4-F1-Jka" secondAttribute="centerX" id="N3h-F1-cGC"/>
                             <constraint firstItem="mD2-BO-BhU" firstAttribute="top" secondItem="cwI-Vh-vff" secondAttribute="bottom" constant="16" id="PKz-lZ-2UJ"/>
                             <constraint firstItem="cwI-Vh-vff" firstAttribute="centerX" secondItem="4A4-F1-Jka" secondAttribute="centerX" id="VhJ-RW-jh8"/>
@@ -121,7 +122,7 @@
                             <constraint firstItem="mD2-BO-BhU" firstAttribute="centerX" secondItem="4A4-F1-Jka" secondAttribute="centerX" id="ds1-6b-4Un"/>
                             <constraint firstItem="pmF-zp-dNc" firstAttribute="top" secondItem="2Wa-s3-2pm" secondAttribute="bottom" constant="20" id="eEW-S7-AMp"/>
                             <constraint firstItem="4A4-F1-Jka" firstAttribute="centerY" secondItem="zx8-3E-Vf7" secondAttribute="centerY" id="h1P-Fo-fAX"/>
-                            <constraint firstItem="fG1-KI-vyC" firstAttribute="top" secondItem="DG8-4N-OPd" secondAttribute="bottom" constant="35" id="jqK-j1-fw4"/>
+                            <constraint firstItem="fG1-KI-vyC" firstAttribute="top" secondItem="DG8-4N-OPd" secondAttribute="bottom" priority="750" constant="35" id="jqK-j1-fw4"/>
                             <constraint firstItem="XfM-od-oXs" firstAttribute="top" secondItem="mD2-BO-BhU" secondAttribute="bottom" constant="16" id="kNh-gL-aNL"/>
                             <constraint firstItem="4A4-F1-Jka" firstAttribute="centerX" secondItem="zx8-3E-Vf7" secondAttribute="centerX" id="pVl-nu-nk0"/>
                             <constraint firstItem="4A4-F1-Jka" firstAttribute="width" secondItem="zx8-3E-Vf7" secondAttribute="width" id="qjc-55-gJe"/>
@@ -219,7 +220,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" red="1" green="0.72062673470000005" blue="0.10925492520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="222" id="8MP-ky-FxX"/>
+                                    <constraint firstAttribute="height" priority="750" constant="222" id="8MP-ky-FxX"/>
                                     <constraint firstAttribute="width" constant="240" id="pyQ-ju-a12"/>
                                 </constraints>
                                 <prototypes>
@@ -251,6 +252,7 @@
                         <constraints>
                             <constraint firstItem="Hkg-yS-D34" firstAttribute="width" secondItem="QzO-cI-w5o" secondAttribute="width" id="3aa-3N-Gb5"/>
                             <constraint firstItem="MN4-d6-AjU" firstAttribute="top" secondItem="Jsj-CP-eLK" secondAttribute="bottom" constant="10" id="5Fj-ug-CRP"/>
+                            <constraint firstItem="2JN-tb-Iul" firstAttribute="top" relation="greaterThanOrEqual" secondItem="daw-Sp-2g5" secondAttribute="bottom" constant="23" id="Efx-js-BJu"/>
                             <constraint firstItem="18a-9I-lcP" firstAttribute="centerX" secondItem="Hkg-yS-D34" secondAttribute="centerX" id="H20-68-C6t"/>
                             <constraint firstItem="xnW-xd-WJE" firstAttribute="top" secondItem="2JN-tb-Iul" secondAttribute="bottom" constant="20" id="Nzp-aO-DEr"/>
                             <constraint firstItem="daw-Sp-2g5" firstAttribute="top" secondItem="18a-9I-lcP" secondAttribute="bottom" constant="20" id="VLY-8h-hfG"/>
@@ -1042,6 +1044,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="hYc-of-OnT"/>
-        <segue reference="n27-5Y-kkV"/>
+        <segue reference="LDB-qe-FZp"/>
     </inferredMetricsTieBreakers>
 </document>
