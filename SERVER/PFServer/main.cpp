@@ -227,6 +227,11 @@ int main(int argc, const char * argv[]) {
                 ++it;
             }
         }
+
+        if (rooms.empty() && connections.empty()) {
+
+            std::this_thread::yield();
+        }
     }
 
     //close clients connection
@@ -259,6 +264,7 @@ PFServerCommand resolveCommand(const shared_ptr<PFSocketClient> &client) {
         case PFSocketCommandTypeLeaveRoom:
         case PFSocketCommandTypeRemoveRoom:
         case PFSocketCommandTypeGameInfo:
+        case PFSocketCommandTypeGetGameInfo:
         case PFSocketCommandTypeSendTurn:
         case PFSocketCommandTypeEndGame:
         case PFSocketCommandTypeReady:

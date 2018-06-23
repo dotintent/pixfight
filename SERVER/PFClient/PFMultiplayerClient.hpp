@@ -16,7 +16,7 @@
 
 class PFMultiplayerClient final {
 
-    typedef std::function<void(const PFSocketCommandType &command, const std::vector<uint8_t> data)> PFCallback;
+    typedef std::function<void(const PFSocketCommandType command, const std::vector<uint8_t> data)> PFCallback;
 
 public:
 
@@ -44,6 +44,7 @@ public:
     void makeRoom(bool isPrivate);
     void setRoomInfo(PFRoomInfo &roomInfo);
     void sendRoomDetails();
+    void getRoomDetails();
     void removeRoom();
     void listRooms();
     void setReady();
@@ -78,6 +79,7 @@ private:
 
     std::thread _loopThread;
     std::atomic_bool _threadTerminate;
+    std::atomic_bool _allowConnection;
 
     bool _playing;
 };

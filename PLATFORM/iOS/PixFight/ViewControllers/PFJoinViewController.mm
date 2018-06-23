@@ -43,7 +43,7 @@ using namespace std;
 
     [self.codeTextField addTarget:self
                            action:@selector(textFieldDidChange:)
-                 forControlEvents:UIControlEventValueChanged];
+                 forControlEvents:UIControlEventEditingChanged];
 
     self.roomsTableView.delegate = self;
     self.roomsTableView.dataSource = self;
@@ -55,7 +55,7 @@ using namespace std;
 
     __weak __typeof__(self) weakSelf = self;
 
-    _client->callback = [=](const PFSocketCommandType &command, const vector<uint8_t> data) {
+    _client->callback = [=](const PFSocketCommandType command, const vector<uint8_t> data) {
 
         if (command != PFSocketCommandTypeRooms) {
             return;
@@ -132,8 +132,9 @@ using namespace std;
 
 - (IBAction)refreshAction:(UIButton *)sender {
 
-    _client->listRooms();
+    [self.rooms removeAllObjects];
     [self.refreshButton setEnabled:NO];
+    _client->listRooms();
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -151,6 +152,7 @@ using namespace std;
     NSDictionary *data = self.rooms[indexPath.row];
 
     self.codeTextField.text = [NSString stringWithFormat:@"%@", data[@"port"]];
+    [self textFieldDidChange:self.codeTextField];
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {

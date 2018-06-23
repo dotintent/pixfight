@@ -114,17 +114,17 @@ public:
     auto * getUnits() { return &_units; }
 
     //multiplayer commands
-    void remoteAttackUnit(const uint32_t &unitA,
-                          const uint32_t &unitB,
+    void remoteAttackUnit(const uint32_t unitA,
+                          const uint32_t unitB,
                           const uint32_t sizeA,
                           const uint32_t sizeB);
 
-    void remoteMoveUnit(const uint32_t &unitID,
-                        const float &x,
-                        const float &y);
+    void remoteMoveUnit(const uint32_t unitID,
+                        const float x,
+                        const float y);
 
-    void remoteBuildUnit(const uint32_t &baseID,
-                         const uint16_t &unitType);
+    void remoteBuildUnit(const uint32_t baseID,
+                         const uint16_t unitType);
     
 private:
 

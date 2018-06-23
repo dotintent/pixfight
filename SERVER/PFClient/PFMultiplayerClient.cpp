@@ -21,13 +21,15 @@ PFMultiplayerClient::PFMultiplayerClient(const std::string &serverAddress)
 , _roomDetails({})
 , _loopThread({})
 , _threadTerminate(false)
-, _playing(false) {
+, _playing(false)
+, _allowConnection(true) {
 
 }
 
 PFMultiplayerClient::~PFMultiplayerClient() noexcept {
 
     disconnect();
+    callback = nullptr;
 }
 
 bool PFMultiplayerClient::connect() {
@@ -35,6 +37,11 @@ bool PFMultiplayerClient::connect() {
     if (_serverAddress.empty()) {
 
         return false;
+    }
+
+    while (false == _allowConnection.load()) {
+
+        this_thread::yield();
     }
 
     auto socket = new CActiveSocket();
@@ -65,6 +72,8 @@ bool PFMultiplayerClient::connect() {
 
     _playing = _port != DEFAULT_SERVER_PORT;
 
+    _allowConnection = false;
+
     return true;
 }
 
@@ -80,10 +89,6 @@ void PFMultiplayerClient::disconnect() {
     }
 
     _playing = false;
-
-    if (_socket) {
-        _socket->close();
-    }
 }
 
 bool PFMultiplayerClient::joinRoom(uint32_t roomid) {
@@ -95,8 +100,6 @@ bool PFMultiplayerClient::joinRoom(uint32_t roomid) {
     _port = roomid;
 
     disconnect();
-
-    this_thread::sleep_for(chrono::milliseconds(200));
 
     return connect();
 }
@@ -118,8 +121,6 @@ bool PFMultiplayerClient::leaveRoom() {
     _port = DEFAULT_SERVER_PORT;
 
     disconnect();
-
-    this_thread::sleep_for(chrono::milliseconds(200));
 
     return connect();
 }
@@ -157,6 +158,13 @@ void PFMultiplayerClient::sendRoomDetails() {
     _socket->sendPacket(packet);
 }
 
+void PFMultiplayerClient::getRoomDetails() {
+
+    auto packet = make_unique<PFPacket>();
+    packet->type = PFSocketCommandTypeGetGameInfo;
+    _socket->sendPacket(packet);
+}
+
 void PFMultiplayerClient::removeRoom() {
 
     if (_playing) {
@@ -183,7 +191,7 @@ void PFMultiplayerClient::listRooms() {
 
 void PFMultiplayerClient::setReady() {
 
-    if (_playing) {
+    if (!_playing) {
         return;
     }
 
@@ -195,7 +203,7 @@ void PFMultiplayerClient::setReady() {
 
 void PFMultiplayerClient::setLoaded() {
 
-    if (_playing) {
+    if (!_playing) {
         return;
     }
 
@@ -324,7 +332,14 @@ void PFMultiplayerClient::loop() {
         }
     }
 
+    if (_socket) {
+
+        _socket->close();
+    }
+
     cout << "loop terminated" << endl;
+
+    _allowConnection = true;
 
     if (exitCommand == PFSocketCommandTypeUnknown) {
 
@@ -364,6 +379,7 @@ PFSocketCommandType PFMultiplayerClient::update() {
 
         case PFSocketCommandTypeHeartbeat:
         case PFSocketCommandTypeUnknown:
+        case PFSocketCommandTypeGetGameInfo:
             break;
 
         case PFSocketCommandTypeMakeRoom: {

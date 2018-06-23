@@ -30,13 +30,6 @@ using namespace std;
 
 @implementation PFMultiplayerViewController
 
-- (void)dealloc {
-
-    if (_client) {
-        _client->disconnect();
-    }
-}
-
 - (void)viewDidLoad {
 
     [super viewDidLoad];
@@ -47,7 +40,7 @@ using namespace std;
         [self.view layoutIfNeeded];
     }
 
-    _client = make_shared<PFMultiplayerClient>("192.168.1.104");
+    _client = make_shared<PFMultiplayerClient>("192.168.1.107");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -78,7 +71,7 @@ using namespace std;
 
     __weak __typeof__(self) weakSelf = self;
 
-    _client->callback = [=](const PFSocketCommandType &command, const vector<uint8_t> data){
+    _client->callback = [=](const PFSocketCommandType command, const vector<uint8_t> data){
 
         if (command != PFSocketCommandTypeMakeRoom) {
             return;

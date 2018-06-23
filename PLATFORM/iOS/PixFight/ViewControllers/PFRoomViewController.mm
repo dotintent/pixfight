@@ -83,7 +83,7 @@ using namespace std;
 
     __weak __typeof__(self) weakSelf = self;
 
-    self.client->callback = [=](const PFSocketCommandType &command, const vector<uint8_t> data) {
+    self.client->callback = [=](const PFSocketCommandType command, const vector<uint8_t> data) {
 
         dispatch_async(dispatch_get_main_queue(), ^{
 
@@ -116,7 +116,7 @@ using namespace std;
                 uint32_t playerId = 0;
                 memcpy(&playerId, data.data(), sizeof(uint32_t));
                 weakSelf.currentPlayerID = playerId+1;
-                [weakSelf performSegueWithIdentifier:@"PFStartSegueIdentifiers" sender:weakSelf];
+                [weakSelf performSegueWithIdentifier:@"PFStartSegueIdentifier" sender:weakSelf];
             }
 
             if (command == PFSocketCommandTypeDisconnect) {
@@ -126,11 +126,14 @@ using namespace std;
         });
     };
 
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if (self.isMaster) {
 
         [self updateGameInfoForMap:@(0)];
-    });
+    }
+    else {
+
+        self.client->getRoomDetails();
+    }
 }
 
 - (IBAction)backAction:(UIButton *)sender {
@@ -241,7 +244,7 @@ using namespace std;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    if ([segue.identifier isEqualToString:@"PFStartSegueIdentifiers"]) {
+    if ([segue.identifier isEqualToString:@"PFStartSegueIdentifier"]) {
 
         PFRenderViewController *gameController = segue.destinationViewController;
 

@@ -717,8 +717,15 @@ bool GameMap::canMoveFromTo(const xVec2 & start, const xVec2 & end) {
     _endPoint.x = _mapTiles[_nodeEnd.x][_nodeEnd.y].pos_x;
     _endPoint.y = _mapTiles[_nodeEnd.x][_nodeEnd.y].pos_y;
 
-    if(!_mapTiles[_nodeEnd.x][_nodeEnd.y].isRoad) return false;
-    if(_mapTiles[_nodeEnd.x][_nodeEnd.y].Lock) return false;
+    if(!_mapTiles[_nodeEnd.x][_nodeEnd.y].isRoad) {
+
+        return false;
+    }
+
+    if(_mapTiles[_nodeEnd.x][_nodeEnd.y].Lock) {
+
+        return false;
+    }
 
     bool result = false;
 

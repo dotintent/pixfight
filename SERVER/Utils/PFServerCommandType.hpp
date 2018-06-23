@@ -22,6 +22,7 @@ typedef PF_ENUM(uint32_t, PFSocketCommandType) {
     PFSocketCommandTypeLeaveRoom,
     PFSocketCommandTypeRemoveRoom,
     PFSocketCommandTypeGameInfo,
+    PFSocketCommandTypeGetGameInfo,
     PFSocketCommandTypeSendTurn,
     PFSocketCommandTypeEndGame,
     PFSocketCommandTypeReady,

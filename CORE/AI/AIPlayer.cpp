@@ -279,6 +279,7 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
         }
 
         unitToDestroy = DESTROY_SECOND;
+        TB->setSize(0);
         TB = nullptr;
     }
     else {
@@ -315,6 +316,7 @@ UNIT_DESTROY attackUnit(GameUnit *a, GameUnit *b, std::vector<GameUnit *> & unit
                 unitToDestroy = DESTROY_FIRST;
             }
 
+            TA->setSize(0);
             TA = nullptr;
         }
         else {

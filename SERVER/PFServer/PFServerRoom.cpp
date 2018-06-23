@@ -168,8 +168,7 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
         case PFSocketCommandTypeHeartbeat: {
 
             player->ping();
-            confirmPacket(player);
-
+            
             break;
         }
         case PFSocketCommandTypeLeaveRoom: {
@@ -211,6 +210,25 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
                 }
 
                 local->sendPacket(packet);
+            }
+
+            break;
+        }
+        case PFSocketCommandTypeGetGameInfo: {
+
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeGameInfo;
+            packet->size = (uint32_t)sizeof(_roomInfo)/sizeof(uint8_t);
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, &_roomInfo, sizeof(_roomInfo));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            for (auto &local : _connectedPlayers) {
+
+                if (local == player) {
+
+                    local->sendPacket(packet);
+                }
             }
 
             break;
@@ -279,6 +297,8 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
 
             auto size = _connectedPlayers.size();
 
+            cout << "Ready (" << playersReady << ") connected: " << size << " roomsize: " << _roomInfo.players << endl;
+
             if (playersReady == size && _roomInfo.players == size) {
 
                 _status = PFRoomStatusPlaying;
@@ -286,7 +306,7 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
                 for (auto &p : _connectedPlayers) {
 
                     auto it = find(_connectedPlayers.begin(), _connectedPlayers.end(), p);
-                    uint32_t playerID = distance(_connectedPlayers.begin(), it);
+                    uint32_t playerID = (uint32_t)distance(_connectedPlayers.begin(), it);
                   
                     auto packet = make_unique<PFPacket>();
                     packet->type = PFSocketCommandTypeLoad;
@@ -317,6 +337,8 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
             }
 
             auto size = _connectedPlayers.size();
+
+            cout << "Loaded (" << playersLoaded << ") connected: " << size << " roomsize: " << _roomInfo.players << endl;
 
             if (playersLoaded == size && _roomInfo.players == size) {
 

@@ -152,7 +152,7 @@ bool GameLogic::createNewGame(const std::string &gamename,
     }
 
     //create bots
-    if (_client.lock() != nullptr) {
+    if (_client.lock() == nullptr) {
 
         AIPlayer *botPlayer = nullptr;
 
@@ -617,6 +617,8 @@ void GameLogic::startTurn() {
 
     _playerCash += 100;
 
+    auto client = _client.lock();
+
     for (auto base : _bases) {
 
         bool shoulddecrase = false;
@@ -631,14 +633,22 @@ void GameLogic::startTurn() {
                     u->setUnitMode(UNIT_LOCKED);
                     break;
                 }
+                else if (client) {
+
+                    shoulddecrase = true;
+                    u->setUnitMode(UNIT_LOCKED);
+                    break;
+                }
             }
         }
 
         if ((base->getTeamID() == _playerTeamSelected) || (shoulddecrase == true)) {
 
             //bonus per base
-            _playerCash += 100;
-
+            if (base->getTeamID() == _playerTeamSelected) {
+                _playerCash += 100;
+            }
+            
             auto turns = base->getTurnsToUnlock();
 
             if (turns > 0) {
@@ -1735,7 +1745,8 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
                 if (auto client = _client.lock()) {
 
-                    client->moveUnitCommand(unit->getUniqueID(), touch.x, touch.y);
+                    auto p = _mainMap->selectionForPosition(_mainMap->endPosition());
+                    client->moveUnitCommand(unit->getUniqueID(), p.x, p.y);
                 }
 
                 //set our unit that its cannot move anymore in this turn
@@ -2552,8 +2563,8 @@ void GameLogic::proceedBotsLogic() {
     });
 }
 
-void GameLogic::remoteAttackUnit(const uint32_t &unitA,
-                                 const uint32_t &unitB,
+void GameLogic::remoteAttackUnit(const uint32_t unitA,
+                                 const uint32_t unitB,
                                  const uint32_t sizeA,
                                  const uint32_t sizeB) {
 
@@ -2619,9 +2630,9 @@ void GameLogic::remoteAttackUnit(const uint32_t &unitA,
     });
 }
 
-void GameLogic::remoteMoveUnit(const uint32_t &unitID,
-                               const float &x,
-                               const float &y) {
+void GameLogic::remoteMoveUnit(const uint32_t unitID,
+                               const float x,
+                               const float y) {
 
     syncToMainLoop([=](void *, GameLogic *sender){
 
@@ -2640,25 +2651,27 @@ void GameLogic::remoteMoveUnit(const uint32_t &unitID,
             return;
         }
 
-        xVec2 unitPos = unit->getUnitPosition();
-        xVec2 selection = sender->_mainMap->selectionForPosition(unitPos);
-
-        sender->_mainMap->selectTile(selection);
-
-        this->roadForUnit(unit);
-
         xVec2 touch(x,y);
-        sender->_mainMap->selectEndPoint(touch);
+
+        auto pos = sender->_mainMap->selectionForPosition(unit->getCurrentPosition());
+
+        sender->_mainMap->selectTile(unit->getCurrentPosition());
+        sender->roadForUnit(unit);
+
+        if (!sender->_mainMap->canMoveFromTo(pos, touch)) {
+            cout << "No road found!" << endl;
+        }
+
+        sender->_mainMap->cleanRoad();
 
         unit->makeMove();
 
-        sender->_mainMap->cleanRoad();
         sender->_mainMap->cleanAStar();
     });
 }
 
-void GameLogic::remoteBuildUnit(const uint32_t &baseID,
-                                const uint16_t &unitType) {
+void GameLogic::remoteBuildUnit(const uint32_t baseID,
+                                const uint16_t unitType) {
 
     syncToMainLoop([=](void *, GameLogic *sender){
 

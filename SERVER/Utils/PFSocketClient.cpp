@@ -91,16 +91,14 @@ void PFSocketClient::update() {
             uint32_t crc32 = 0;
             crc32 = crc32c(crc32, _data.data(), _localHeader.size);
 
-            //TODO: Add PFSocketCommandTypeVersionInvalid & PFSocketCommandTypeCRC32Error
             if (_localHeader.version == PROTOCOL_VERSION && _localHeader.crcsum == crc32) {
 
                 //assing command
                 _command = _localHeader.type;
-
-                cout << "Recived command: " << _command << endl;
             }
             else {
 
+                //TODO: Add PFSocketCommandTypeVersionInvalid & PFSocketCommandTypeCRC32Error
                 cout << "Version or sum mismatch error, CRC: " << _localHeader.crcsum << " calculated: " << crc32 << endl;
             }
 
