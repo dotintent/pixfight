@@ -13,7 +13,7 @@
 #include <vector>
 #include "EnumOptionMacro.hpp"
 
-#define MAX_PACKET 4096
+#define MAX_PACKET 1024
 
 typedef PF_ENUM(uint32_t, PFSocketCommandType) {
 
@@ -33,6 +33,8 @@ typedef PF_ENUM(uint32_t, PFSocketCommandType) {
     PFSocketCommandTypeFire,
     PFSocketCommandTypeMove,
     PFSocketCommandTypeBuild,
+    PFSocketCommandTypeCapture,
+    PFSocketCommandTypeRepair,
     PFSocketCommandTypeOk
 };
 

@@ -6,6 +6,8 @@
 //  Copyright © 2018 Marcin Małysz. All rights reserved.
 //
 
+#import <UserNotifications/UserNotifications.h>
+
 #import "Core-pch.hpp"
 #import "FurionGL.hpp"
 #import "AppDelegate+Audio.h"
@@ -14,7 +16,9 @@
 #import "PFRenderViewController.h"
 #import "PFSelectUnitViewController.h"
 
-@interface PFRenderViewController () <PFSelectUnitViewControllerDelegate, UIPopoverPresentationControllerDelegate> {
+@interface PFRenderViewController ()
+<PFSelectUnitViewControllerDelegate,
+UIPopoverPresentationControllerDelegate> {
 
     GameLogic *gameLogic;
     GameBase *selectedBase;
@@ -251,6 +255,41 @@
 
 - (void)multiplayerTurnAction {
 
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+
+    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+
+        if (settings.authorizationStatus != UNAuthorizationStatusAuthorized) {
+
+            [self fallbackToAlert];
+            return;
+        }
+
+        UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+        content.title = @"Pixfight";
+        content.body = @"It's your turn!";
+        content.sound = [UNNotificationSound defaultSound];
+
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1
+                                                                                                        repeats:NO];
+
+        NSString *identifier = @"PixfightLocalNotification";
+        UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:identifier
+                                                                              content:content
+                                                                              trigger:trigger];
+
+        [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+
+            if (error != nil) {
+
+                NSLog(@"Something went wrong: %@", error);
+            }
+        }];
+    }];
+}
+
+- (void)fallbackToAlert {
+
     UIAlertController *alert =  [UIAlertController alertControllerWithTitle:@"INFO"
                                                                     message:@"It's your turn!"
                                                              preferredStyle:UIAlertControllerStyleAlert];
@@ -268,6 +307,7 @@
     [self presentViewController:alert
                        animated:YES
                      completion:nil];
+
 }
 
 - (void)setupMultiplayer {
@@ -332,6 +372,9 @@
 
                     cout << "PFSocketCommandTypeEndGame" << endl;
 
+                    weakSelf.client->disconnect();
+                    gameLogic->startTurn();
+
                     [weakSelf mutliplayerWinAction:winnnerID];
 
                     break;
@@ -378,6 +421,31 @@
 
                     break;
                 }
+                case PFSocketCommandTypeCapture: {
+
+                    uint32_t baseID = 0;
+                    uint32_t unitID = 0;
+
+                    memcpy(&baseID, data.data(), sizeof(uint32_t));
+                    memcpy(&unitID, data.data() + sizeof(uint32_t), sizeof(uint32_t));
+
+                    gameLogic->remoteCaptureBase(baseID, unitID);
+
+                    break;
+                }
+                case PFSocketCommandTypeRepair: {
+
+                    uint32_t baseID = 0;
+                    uint32_t unitID = 0;
+
+                    memcpy(&baseID, data.data(), sizeof(uint32_t));
+                    memcpy(&unitID, data.data() + sizeof(uint32_t), sizeof(uint32_t));
+
+                    gameLogic->remoteRepairUnit(baseID, unitID);
+
+                    break;
+                }
+
             }
         });
     };

@@ -428,6 +428,50 @@ bool PFServerRoom::handlePlayer(shared_ptr<PFSocketClient> &player) {
 
             break;
         }
+        case PFSocketCommandTypeCapture: {
+
+            auto result = player->getPacketData();
+
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeCapture;
+            packet->size = (uint32_t)result.size();
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, result.data(), packet->size * sizeof(uint8_t));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            for (auto &p : _connectedPlayers) {
+
+                if (p == player) {
+                    continue;
+                }
+
+                p->sendPacket(packet);
+            }
+
+            break;
+        }
+        case PFSocketCommandTypeRepair: {
+
+            auto result = player->getPacketData();
+
+            auto packet = make_unique<PFPacket>();
+            packet->type = PFSocketCommandTypeRepair;
+            packet->size = (uint32_t)result.size();
+            packet->data = new uint8_t[packet->size];
+            memcpy(packet->data, result.data(), packet->size * sizeof(uint8_t));
+            packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+            for (auto &p : _connectedPlayers) {
+
+                if (p == player) {
+                    continue;
+                }
+
+                p->sendPacket(packet);
+            }
+
+            break;
+        }
     }
 
     player->dispose();

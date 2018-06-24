@@ -125,6 +125,12 @@ public:
 
     void remoteBuildUnit(const uint32_t baseID,
                          const uint16_t unitType);
+
+    void remoteCaptureBase(const uint32_t baseID,
+                           const uint32_t unitID);
+
+    void remoteRepairUnit(const uint32_t baseID,
+                          const uint32_t unitID);
     
 private:
 

@@ -40,7 +40,7 @@ using namespace std;
         [self.view layoutIfNeeded];
     }
 
-    _client = make_shared<PFMultiplayerClient>("192.168.1.107");
+    _client = make_shared<PFMultiplayerClient>("192.168.1.110");
 }
 
 - (void)viewDidAppear:(BOOL)animated {

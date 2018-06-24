@@ -114,6 +114,7 @@
 		1C3ACC421FFE6FA600EC437E /* Core-pch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACBE31FFE6FA600EC437E /* Core-pch.cpp */; };
 		1C451C3C200FAE5E00C3509F /* DarwinTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C451C3B200FAE5E00C3509F /* DarwinTimer.cpp */; };
 		1C451C41200FAEE900C3509F /* GameTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C451C40200FAEE900C3509F /* GameTimer.cpp */; };
+		1C4F598720DFD010007411B0 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C4F598620DFD010007411B0 /* UserNotifications.framework */; };
 		1C7671B1200D1666003EFF1C /* GameAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C7671AF200D1666003EFF1C /* GameAnimation.cpp */; };
 		1C7A207D1FFC38D70062ADFB /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7A207C1FFC38D70062ADFB /* OpenGLES.framework */; };
 		1C7B17E11FFEA5DA00150A07 /* FFFATLAN.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 1C7B17E01FFEA5DA00150A07 /* FFFATLAN.TTF */; };
@@ -326,6 +327,7 @@
 		1C451C3B200FAE5E00C3509F /* DarwinTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DarwinTimer.cpp; sourceTree = "<group>"; };
 		1C451C3E200FAE7800C3509F /* GameTimer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameTimer.hpp; sourceTree = "<group>"; };
 		1C451C40200FAEE900C3509F /* GameTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTimer.cpp; sourceTree = "<group>"; };
+		1C4F598620DFD010007411B0 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		1C7671AF200D1666003EFF1C /* GameAnimation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameAnimation.cpp; sourceTree = "<group>"; };
 		1C7671B0200D1666003EFF1C /* GameAnimation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameAnimation.hpp; sourceTree = "<group>"; };
 		1C7A207C1FFC38D70062ADFB /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -456,6 +458,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C4F598720DFD010007411B0 /* UserNotifications.framework in Frameworks */,
 				1C7A207D1FFC38D70062ADFB /* OpenGLES.framework in Frameworks */,
 				1C7B3D3C1FFD6352004A4A10 /* Foundation.framework in Frameworks */,
 				1C0D75142012A6A200898B5D /* AVFoundation.framework in Frameworks */,
@@ -731,6 +734,7 @@
 		1C7A207B1FFC38D70062ADFB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1C4F598620DFD010007411B0 /* UserNotifications.framework */,
 				1C0D75132012A6A200898B5D /* AVFoundation.framework */,
 				1C0D75112012A67800898B5D /* CoreAudio.framework */,
 				1C0D750F2012A67000898B5D /* AudioToolbox.framework */,

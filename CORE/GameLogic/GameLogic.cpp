@@ -113,7 +113,15 @@ bool GameLogic::createNewGame(const std::string &gamename,
 
     std::cout << "MAP LOADED: " << mappath << std::endl;
 
-    _playerCash = 200;
+    if (_client.lock()) {
+
+        _playerCash = 0;
+    }
+    else {
+
+        _playerCash = 200;
+    }
+
     _winnerID = 0;
     _playersPlaying = maxplayers;
 
@@ -633,13 +641,13 @@ void GameLogic::startTurn() {
                     u->setUnitMode(UNIT_LOCKED);
                     break;
                 }
-                else if (client) {
-
-                    shoulddecrase = true;
-                    u->setUnitMode(UNIT_LOCKED);
-                    break;
-                }
             }
+        }
+
+        if ((base->getTeamID() != _playerTeamSelected) && client) {
+
+            auto turns = base->getTurnsToUnlock();
+            base->setTurnsToUnlock(--turns);
         }
 
         if ((base->getTeamID() == _playerTeamSelected) || (shoulddecrase == true)) {
@@ -648,7 +656,7 @@ void GameLogic::startTurn() {
             if (base->getTeamID() == _playerTeamSelected) {
                 _playerCash += 100;
             }
-            
+
             auto turns = base->getTurnsToUnlock();
 
             if (turns > 0) {
@@ -677,6 +685,8 @@ void GameLogic::startTurn() {
 
                         case BASE_REPAIR : {
 
+                            GameUnit *unit = nullptr;
+
                             for (auto u : _units) {
 
                                 if (u->getUniqueID() == base->getRequestID()) {
@@ -685,15 +695,27 @@ void GameLogic::startTurn() {
                                     u->setRequestID(-1);
 
                                     u->setSize(10);
+
+                                    unit = u;
+
+                                    break;
                                 }
                             }
 
                             base->setRequestID(-1);
                             base->setUnitMode(UNIT_NONE);
+
+                            if (unit && client) {
+
+                                client->repairUnitcommand(base->getUniqueID(),
+                                                          unit->getUniqueID());
+                            }
                         }
                             break;
 
                         case BASE_CAPTURED : {
+
+                            GameUnit *unit = nullptr;
 
                             for (auto u : _units) {
 
@@ -705,11 +727,21 @@ void GameLogic::startTurn() {
                                     base->setTeam(u->getTeamID());
 
                                     unitsToRemove.push_back(u->getUniqueID());
+
+                                    unit = u;
+
+                                    break;
                                 }
                             }
 
                             base->setRequestID(-1);
                             base->setUnitMode(UNIT_NONE);
+
+                            if (unit && client) {
+
+                                client->captureBasecommand(base->getUniqueID(),
+                                                           unit->getUniqueID());
+                            }
                         }
                             break;
 
@@ -2636,10 +2668,10 @@ void GameLogic::remoteMoveUnit(const uint32_t unitID,
 
     syncToMainLoop([=](void *, GameLogic *sender){
 
-        auto units = sender->getUnits();
+        auto units = sender->_units;
         GameUnit *unit = nullptr;
 
-        for (auto u : *units) {
+        for (auto u : units) {
 
             if (u->getUniqueID() == unitID) {
                 unit = u;
@@ -2693,5 +2725,88 @@ void GameLogic::remoteBuildUnit(const uint32_t baseID,
 
         base->setUnitToBuild(unitType);
         buildUnit(base);
+    });
+}
+
+void GameLogic::remoteCaptureBase(const uint32_t baseID, const uint32_t unitID) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto bases = sender->_bases;
+        auto units = sender->_units;
+
+        GameBase *base = nullptr;
+
+        for (auto b : bases) {
+
+            if (b->getUniqueID() == baseID) {
+                base = b;
+                break;
+            }
+        }
+
+        GameUnit *unit = nullptr;
+
+        for (auto u : units) {
+
+            if (u->getUniqueID() == unitID) {
+                unit = u;
+                break;
+            }
+        }
+
+        if (unit == nullptr || base == nullptr) {
+            return;
+        }
+
+        base->setTeam(unit->getTeamID());
+        base->setRequestID(-1);
+        base->setUnitMode(UNIT_NONE);
+        base->setTurnsToUnlock(0);
+
+        auto it = find(sender->_units.begin(), sender->_units.end(), unit);
+        delete *it;
+        sender->_units.erase(it);
+    });
+}
+
+void GameLogic::remoteRepairUnit(const uint32_t baseID, const uint32_t unitID) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto bases = sender->_bases;
+        auto units = sender->_units;
+
+        GameBase *base = nullptr;
+
+        for (auto b : bases) {
+
+            if (b->getUniqueID() == baseID) {
+                base = b;
+                break;
+            }
+        }
+
+        GameUnit *unit = nullptr;
+
+        for (auto u : units) {
+
+            if (u->getUniqueID() == unitID) {
+                unit = u;
+                break;
+            }
+        }
+
+        if (unit == nullptr || base == nullptr) {
+            return;
+        }
+
+        unit->setUnitMode(UNIT_NONE);
+        unit->setRequestID(-1);
+        unit->setSize(10);
+
+        base->setRequestID(-1);
+        base->setUnitMode(UNIT_NONE);
+        base->setTurnsToUnlock(0);
     });
 }

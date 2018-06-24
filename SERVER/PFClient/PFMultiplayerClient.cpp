@@ -306,6 +306,48 @@ void PFMultiplayerClient::buildUnitCommand(uint32_t baseID, uint16_t unitType) {
     _socket->sendPacket(packet);
 }
 
+void PFMultiplayerClient::captureBasecommand(uint32_t baseID, uint32_t unitID) {
+
+    if (!_playing) {
+        return;
+    }
+
+    vector<uint8_t> result(sizeof(uint32_t) + sizeof(uint32_t));
+
+    memcpy(result.data(), reinterpret_cast<const uint8_t*>(&baseID), sizeof(uint32_t));
+    memcpy(result.data() + sizeof(uint32_t), reinterpret_cast<const uint8_t*>(&unitID), sizeof(uint32_t));
+
+    auto packet = make_unique<PFPacket>();
+    packet->type = PFSocketCommandTypeCapture;
+    packet->size = (uint32_t)result.size();
+    packet->data = new uint8_t[packet->size];
+    memcpy(packet->data, result.data(), result.size() * sizeof(uint8_t));
+    packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+    _socket->sendPacket(packet);
+}
+
+void PFMultiplayerClient::repairUnitcommand(uint32_t baseID, uint32_t unitID) {
+
+    if (!_playing) {
+        return;
+    }
+
+    vector<uint8_t> result(sizeof(uint32_t) + sizeof(uint32_t));
+
+    memcpy(result.data(), reinterpret_cast<const uint8_t*>(&baseID), sizeof(uint32_t));
+    memcpy(result.data() + sizeof(uint32_t), reinterpret_cast<const uint8_t*>(&unitID), sizeof(uint32_t));
+
+    auto packet = make_unique<PFPacket>();
+    packet->type = PFSocketCommandTypeRepair;
+    packet->size = (uint32_t)result.size();
+    packet->data = new uint8_t[packet->size];
+    memcpy(packet->data, result.data(), result.size() * sizeof(uint8_t));
+    packet->crcsum = crc32c(packet->crcsum, packet->data, packet->size);
+
+    _socket->sendPacket(packet);
+}
+
 void PFMultiplayerClient::loop() {
 
     time_t initial = time(0);
@@ -434,7 +476,9 @@ PFSocketCommandType PFMultiplayerClient::update() {
         case PFSocketCommandTypeRooms: 
         case PFSocketCommandTypeGameInfo:
         case PFSocketCommandTypeEndGame:
-        case PFSocketCommandTypeSendTurn: {
+        case PFSocketCommandTypeSendTurn:
+        case PFSocketCommandTypeCapture:
+        case PFSocketCommandTypeRepair: {
 
             //recive curre
             auto data = _socket->getPacketData();

@@ -59,6 +59,8 @@ public:
 
     void moveUnitCommand(uint32_t unitID, float x, float y);
     void buildUnitCommand(uint32_t baseID, uint16_t unitType);
+    void captureBasecommand(uint32_t baseID, uint32_t unitID);
+    void repairUnitcommand(uint32_t baseID, uint32_t unitID);
 
     const PFRoomInfo & getRoomInfo() const { return _roomDetails; }
     uint32_t getCurrentPort() const { return _port; }

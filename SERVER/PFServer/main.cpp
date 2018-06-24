@@ -273,6 +273,8 @@ PFServerCommand resolveCommand(const shared_ptr<PFSocketClient> &client) {
         case PFSocketCommandTypeFire:
         case PFSocketCommandTypeMove:
         case PFSocketCommandTypeBuild:
+        case PFSocketCommandTypeCapture:
+        case PFSocketCommandTypeRepair:
         case PFSocketCommandTypeOk:
             break;
     }

@@ -6,11 +6,13 @@
 //  Copyright © 2018 Marcin Małysz. All rights reserved.
 //
 
+#import <UserNotifications/UserNotifications.h>
+
 #import <AVFoundation/AVFoundation.h>
 #import "AppDelegate.h"
 #import "AppDelegate+Audio.h"
 
-@interface AppDelegate () {
+@interface AppDelegate ()<UNUserNotificationCenterDelegate> {
     
     Audio *audioUnit;
     Audio::SoundID selectSound;
@@ -20,9 +22,23 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
+
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+
+    center.delegate = self;
+
+    [center requestAuthorizationWithOptions:options
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+
+                              if (!granted) {
+
+                                  NSLog(@"Something went wrong");
+                              }
+                          }];
 
     application.applicationSupportsShakeToEdit = NO;
     
@@ -30,6 +46,13 @@
     [self initializeAudioUnit];
 
     return YES;
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+
+    completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
