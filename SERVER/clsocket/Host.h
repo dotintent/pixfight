@@ -45,6 +45,8 @@
 #define __HOST_H__
 
 #include <limits.h>
+#include <string.h>
+#include <algorithm>
 
 #ifdef __cplusplus
 extern "C"
@@ -68,7 +70,7 @@ extern "C"
 #elif defined(__linux__)
 
     #define _LINUX 1
-    
+
 #endif
 
 #if defined(_LINUX) || defined(_DARWIN)
@@ -160,7 +162,9 @@ extern "C"
 /* Socket Macros                                                             */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
+
 #ifdef _WIN32
+
 #define SHUT_RD                0
 #define SHUT_WR                1
 #define SHUT_RDWR              2
@@ -184,12 +188,17 @@ extern "C"
 #define GETSOCKOPT(a,b,c,d,e)  getsockopt(a,b,c,(char *)d, (int *)e)
 #define SETSOCKOPT(a,b,c,d,e)  setsockopt(a,b,c,(char *)d, (int)e)
 #define GETHOSTBYNAME(a)       gethostbyname(a)
+
 #endif
 
 #if defined(_LINUX) || defined(_DARWIN)
-#define SHUT_RD                0
-#define SHUT_WR                1
-#define SHUT_RDWR              2
+
+#ifndef _LINUX
+    #define SHUT_RD                0
+    #define SHUT_WR                1
+    #define SHUT_RDWR              2
+#endif
+
 #define ACCEPT(a,b,c)          accept(a,b,c)
 #define CONNECT(a,b,c)         connect(a,b,c)
 #define CLOSE(a)               close(a)
@@ -210,6 +219,7 @@ extern "C"
 #define GETSOCKOPT(a,b,c,d,e)  getsockopt((int)a,(int)b,(int)c,(void *)d,(socklen_t *)e)
 #define SETSOCKOPT(a,b,c,d,e)  setsockopt((int)a,(int)b,(int)c,(const void *)d,(int)e)
 #define GETHOSTBYNAME(a)       gethostbyname(a)
+
 #endif
 
 

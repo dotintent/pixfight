@@ -11,6 +11,7 @@
 #include <functional>
 #include <thread>
 #include <future>
+#include <algorithm>
 
 #include "PassiveSocket.h"
 #include "ActiveSocket.h"
@@ -36,7 +37,7 @@ int main(int argc, const char * argv[]) {
 
     vector<shared_ptr<PFSocketClient>> connections;
     vector<shared_ptr<PFServerRoom>> rooms;
-    
+
     CPassiveSocket socket;
     CActiveSocket *pClient = nullptr;
 
@@ -246,7 +247,7 @@ int main(int argc, const char * argv[]) {
     cout << "Server closed." << endl;
 
     socket.Close();
-    
+
     return 0;
 }
 
