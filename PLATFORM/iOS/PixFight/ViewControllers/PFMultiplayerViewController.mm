@@ -40,7 +40,7 @@ using namespace std;
         [self.view layoutIfNeeded];
     }
 
-    _client = make_shared<PFMultiplayerClient>("192.168.1.110");
+    _client = make_shared<PFMultiplayerClient>(DEFAULT_SERVER_ADDR);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -67,6 +67,7 @@ using namespace std;
         [alert addAction:noButton];
 
         [self presentViewController:alert animated:YES completion:nil];
+        return;
     }
 
     __weak __typeof__(self) weakSelf = self;

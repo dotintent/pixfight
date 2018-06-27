@@ -39,6 +39,7 @@ typedef PF_ENUM(uint32_t, PFSocketCommandType) {
 };
 
 #define PROTOCOL_VERSION 1
+#define DEFAULT_SERVER_ADDR "167.99.90.192"
 #define DEFAULT_SERVER_PORT 5001
 
 class PFPacket final {

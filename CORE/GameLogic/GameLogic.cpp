@@ -42,6 +42,8 @@ GameLogic::GameLogic(const float &screenWidth,
 , _timer(nullptr)
 , _client() {
 
+    GAME_IDCOUNTER = 0;
+
 #ifndef __EMSCRIPTEN__
     auto fontPath = _rootPath + "Lato-Black.ttf";
     _font = new FontRender(fontPath);

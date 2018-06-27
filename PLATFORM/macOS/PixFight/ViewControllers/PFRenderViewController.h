@@ -7,8 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "PFMultiplayerClient.hpp"
 
 @interface PFRenderViewController : NSViewController
+
+@property(nonatomic, assign) std::shared_ptr<PFMultiplayerClient> client;
 
 - (void)startGame:(NSString *)mapName
          playerID:(NSInteger)playerID

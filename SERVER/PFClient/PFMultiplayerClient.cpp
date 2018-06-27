@@ -58,6 +58,8 @@ bool PFMultiplayerClient::connect() {
 
         if (retry > 3) {
 
+            cout << "Error connecting: " << socket->DescribeError() << endl;
+
             return false;
         }
     }

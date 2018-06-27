@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C52F87920E1641700E71146 /* PFSocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C52F86720E1641600E71146 /* PFSocketClient.cpp */; };
+		1C52F87A20E1641700E71146 /* PFServerUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C52F86A20E1641600E71146 /* PFServerUtils.cpp */; };
+		1C52F87B20E1641700E71146 /* SimpleSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C52F87020E1641600E71146 /* SimpleSocket.cpp */; };
+		1C52F87C20E1641700E71146 /* PassiveSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C52F87220E1641600E71146 /* PassiveSocket.cpp */; };
+		1C52F87D20E1641700E71146 /* ActiveSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C52F87420E1641600E71146 /* ActiveSocket.cpp */; };
+		1C52F87E20E1641700E71146 /* PFMultiplayerClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C52F87820E1641700E71146 /* PFMultiplayerClient.cpp */; };
 		1C74E640201A4F7900334C21 /* NSView+DisableActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C74E63F201A4F7900334C21 /* NSView+DisableActions.m */; };
 		1C74E643201A5C7500334C21 /* PFRendererGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1C74E642201A5C7500334C21 /* PFRendererGLView.mm */; };
 		1C74E647201A7E2800334C21 /* waterway.map in Resources */ = {isa = PBXBuildFile; fileRef = 1CE784EA2017B9E400819AF2 /* waterway.map */; };
@@ -14,14 +20,18 @@
 		1C74E649201A7E2800334C21 /* pasage.map in Resources */ = {isa = PBXBuildFile; fileRef = 1CE784EC2017B9E400819AF2 /* pasage.map */; };
 		1C74E64A201A7E2800334C21 /* tutorial.map in Resources */ = {isa = PBXBuildFile; fileRef = 1CE784F02017B9E400819AF2 /* tutorial.map */; };
 		1C74E64B201A7E2800334C21 /* kingofhill.map in Resources */ = {isa = PBXBuildFile; fileRef = 1CE784F62017B9E400819AF2 /* kingofhill.map */; };
+		1C7A5BCA20E2A0C0009320C8 /* PFMultiplayerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A5BC920E2A0C0009320C8 /* PFMultiplayerViewController.mm */; };
+		1C7A5BCE20E2B62A009320C8 /* PFRoomViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A5BCC20E2B62A009320C8 /* PFRoomViewController.mm */; };
+		1C7A5BD320E2DBF8009320C8 /* PFSelectMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A5BD120E2DBF8009320C8 /* PFSelectMapController.m */; };
+		1C85A4E020E3F204000754A7 /* PFJoinViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1C85A4DE20E3F204000754A7 /* PFJoinViewController.mm */; };
 		1C86441D2058112000AD4361 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C86441C2058112000AD4361 /* libfreetype.a */; };
 		1C86441F2058112300AD4361 /* liblzma.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C86441E2058112300AD4361 /* liblzma.a */; };
 		1C8644212058112500AD4361 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C8644202058112500AD4361 /* libpng.a */; };
-		1C954A70201C74140081C255 /* PFLoadGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C954A6F201C74140081C255 /* PFLoadGameViewController.m */; };
+		1C954A70201C74140081C255 /* PFLoadGameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1C954A6F201C74140081C255 /* PFLoadGameViewController.mm */; };
 		1CB77FE8201A21FA008BC2B8 /* PFRenderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CB77FE7201A21FA008BC2B8 /* PFRenderViewController.mm */; };
 		1CB77FEC201A286D008BC2B8 /* PFSelectTeamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB77FEA201A286D008BC2B8 /* PFSelectTeamController.m */; };
 		1CCF4EC92018F160003F33BD /* PFSettingsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CCF4EC82018F160003F33BD /* PFSettingsViewController.mm */; };
-		1CCF4ECE2018F993003F33BD /* PFNewGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CCF4ECD2018F993003F33BD /* PFNewGameViewController.m */; };
+		1CCF4ECE2018F993003F33BD /* PFNewGameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CCF4ECD2018F993003F33BD /* PFNewGameViewController.mm */; };
 		1CCF4ED62018FACA003F33BD /* PFCustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CCF4ED22018FACA003F33BD /* PFCustomSegue.m */; };
 		1CCF4ED72018FACA003F33BD /* PFCustomAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CCF4ED52018FACA003F33BD /* PFCustomAnimator.m */; };
 		1CDEB2D3201BDA8100CC6125 /* PFSelectUnitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CDEB2D2201BDA8100CC6125 /* PFSelectUnitViewController.m */; };
@@ -187,16 +197,40 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1C52F86720E1641600E71146 /* PFSocketClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PFSocketClient.cpp; sourceTree = "<group>"; };
+		1C52F86820E1641600E71146 /* PFServerUtils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PFServerUtils.hpp; sourceTree = "<group>"; };
+		1C52F86920E1641600E71146 /* PFSocketClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PFSocketClient.hpp; sourceTree = "<group>"; };
+		1C52F86A20E1641600E71146 /* PFServerUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PFServerUtils.cpp; sourceTree = "<group>"; };
+		1C52F86B20E1641600E71146 /* EnumOptionMacro.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EnumOptionMacro.hpp; sourceTree = "<group>"; };
+		1C52F86C20E1641600E71146 /* PFServerCommandType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PFServerCommandType.hpp; sourceTree = "<group>"; };
+		1C52F86E20E1641600E71146 /* StatTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatTimer.h; sourceTree = "<group>"; };
+		1C52F86F20E1641600E71146 /* ActiveSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveSocket.h; sourceTree = "<group>"; };
+		1C52F87020E1641600E71146 /* SimpleSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleSocket.cpp; sourceTree = "<group>"; };
+		1C52F87120E1641600E71146 /* Host.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Host.h; sourceTree = "<group>"; };
+		1C52F87220E1641600E71146 /* PassiveSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PassiveSocket.cpp; sourceTree = "<group>"; };
+		1C52F87320E1641600E71146 /* PassiveSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassiveSocket.h; sourceTree = "<group>"; };
+		1C52F87420E1641600E71146 /* ActiveSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActiveSocket.cpp; sourceTree = "<group>"; };
+		1C52F87520E1641600E71146 /* SimpleSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSocket.h; sourceTree = "<group>"; };
+		1C52F87720E1641700E71146 /* PFMultiplayerClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PFMultiplayerClient.hpp; sourceTree = "<group>"; };
+		1C52F87820E1641700E71146 /* PFMultiplayerClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PFMultiplayerClient.cpp; sourceTree = "<group>"; };
 		1C74E63E201A4F4200334C21 /* NSView+DisableActions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSView+DisableActions.h"; sourceTree = "<group>"; };
 		1C74E63F201A4F7900334C21 /* NSView+DisableActions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSView+DisableActions.m"; sourceTree = "<group>"; };
 		1C74E641201A5C7500334C21 /* PFRendererGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFRendererGLView.h; sourceTree = "<group>"; };
 		1C74E642201A5C7500334C21 /* PFRendererGLView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFRendererGLView.mm; sourceTree = "<group>"; };
+		1C7A5BC820E2A0C0009320C8 /* PFMultiplayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFMultiplayerViewController.h; sourceTree = "<group>"; };
+		1C7A5BC920E2A0C0009320C8 /* PFMultiplayerViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFMultiplayerViewController.mm; sourceTree = "<group>"; };
+		1C7A5BCB20E2B62A009320C8 /* PFRoomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFRoomViewController.h; sourceTree = "<group>"; };
+		1C7A5BCC20E2B62A009320C8 /* PFRoomViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFRoomViewController.mm; sourceTree = "<group>"; };
+		1C7A5BD020E2DBF8009320C8 /* PFSelectMapController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFSelectMapController.h; sourceTree = "<group>"; };
+		1C7A5BD120E2DBF8009320C8 /* PFSelectMapController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PFSelectMapController.m; sourceTree = "<group>"; };
+		1C85A4DD20E3F204000754A7 /* PFJoinViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFJoinViewController.h; sourceTree = "<group>"; };
+		1C85A4DE20E3F204000754A7 /* PFJoinViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFJoinViewController.mm; sourceTree = "<group>"; };
 		1C86441C2058112000AD4361 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../../../../usr/local/lib/libfreetype.a; sourceTree = "<group>"; };
 		1C86441E2058112300AD4361 /* liblzma.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblzma.a; path = ../../../../../../../usr/local/lib/liblzma.a; sourceTree = "<group>"; };
 		1C8644202058112500AD4361 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = ../../../../../../../usr/local/lib/libpng.a; sourceTree = "<group>"; };
 		1C8ABC0D20986A2D00ADBFAC /* Semaphore.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Semaphore.hpp; sourceTree = "<group>"; };
 		1C954A6E201C74140081C255 /* PFLoadGameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFLoadGameViewController.h; sourceTree = "<group>"; };
-		1C954A6F201C74140081C255 /* PFLoadGameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PFLoadGameViewController.m; sourceTree = "<group>"; };
+		1C954A6F201C74140081C255 /* PFLoadGameViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFLoadGameViewController.mm; sourceTree = "<group>"; };
 		1CB77FE6201A21FA008BC2B8 /* PFRenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFRenderViewController.h; sourceTree = "<group>"; };
 		1CB77FE7201A21FA008BC2B8 /* PFRenderViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFRenderViewController.mm; sourceTree = "<group>"; };
 		1CB77FE9201A286D008BC2B8 /* PFSelectTeamController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFSelectTeamController.h; sourceTree = "<group>"; };
@@ -205,7 +239,7 @@
 		1CCF4EC82018F160003F33BD /* PFSettingsViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFSettingsViewController.mm; sourceTree = "<group>"; };
 		1CCF4ECB2018F1C5003F33BD /* AppDelegate+Audio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+Audio.h"; sourceTree = "<group>"; };
 		1CCF4ECC2018F993003F33BD /* PFNewGameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFNewGameViewController.h; sourceTree = "<group>"; };
-		1CCF4ECD2018F993003F33BD /* PFNewGameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PFNewGameViewController.m; sourceTree = "<group>"; };
+		1CCF4ECD2018F993003F33BD /* PFNewGameViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFNewGameViewController.mm; sourceTree = "<group>"; };
 		1CCF4ED22018FACA003F33BD /* PFCustomSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFCustomSegue.m; sourceTree = "<group>"; };
 		1CCF4ED32018FACA003F33BD /* PFCustomAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFCustomAnimator.h; sourceTree = "<group>"; };
 		1CCF4ED42018FACA003F33BD /* PFCustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFCustomSegue.h; sourceTree = "<group>"; };
@@ -437,6 +471,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C52F86620E1641600E71146 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1C52F86720E1641600E71146 /* PFSocketClient.cpp */,
+				1C52F86820E1641600E71146 /* PFServerUtils.hpp */,
+				1C52F86920E1641600E71146 /* PFSocketClient.hpp */,
+				1C52F86A20E1641600E71146 /* PFServerUtils.cpp */,
+				1C52F86B20E1641600E71146 /* EnumOptionMacro.hpp */,
+				1C52F86C20E1641600E71146 /* PFServerCommandType.hpp */,
+			);
+			name = Utils;
+			path = ../../SERVER/Utils;
+			sourceTree = "<group>";
+		};
+		1C52F86D20E1641600E71146 /* clsocket */ = {
+			isa = PBXGroup;
+			children = (
+				1C52F86E20E1641600E71146 /* StatTimer.h */,
+				1C52F86F20E1641600E71146 /* ActiveSocket.h */,
+				1C52F87020E1641600E71146 /* SimpleSocket.cpp */,
+				1C52F87120E1641600E71146 /* Host.h */,
+				1C52F87220E1641600E71146 /* PassiveSocket.cpp */,
+				1C52F87320E1641600E71146 /* PassiveSocket.h */,
+				1C52F87420E1641600E71146 /* ActiveSocket.cpp */,
+				1C52F87520E1641600E71146 /* SimpleSocket.h */,
+			);
+			name = clsocket;
+			path = ../../SERVER/clsocket;
+			sourceTree = "<group>";
+		};
+		1C52F87620E1641700E71146 /* PFClient */ = {
+			isa = PBXGroup;
+			children = (
+				1C52F87720E1641700E71146 /* PFMultiplayerClient.hpp */,
+				1C52F87820E1641700E71146 /* PFMultiplayerClient.cpp */,
+			);
+			name = PFClient;
+			path = ../../SERVER/PFClient;
+			sourceTree = "<group>";
+		};
 		1CCF4ED02018FA8D003F33BD /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,7 +528,7 @@
 			isa = PBXGroup;
 			children = (
 				1CCF4ECC2018F993003F33BD /* PFNewGameViewController.h */,
-				1CCF4ECD2018F993003F33BD /* PFNewGameViewController.m */,
+				1CCF4ECD2018F993003F33BD /* PFNewGameViewController.mm */,
 				1CCF4EC72018F160003F33BD /* PFSettingsViewController.h */,
 				1CCF4EC82018F160003F33BD /* PFSettingsViewController.mm */,
 				1CE784B42017B70B00819AF2 /* PFMenuViewController.h */,
@@ -470,7 +544,15 @@
 				1CDEB2D7201BF45600CC6125 /* PFGameMenuViewController.h */,
 				1CDEB2D8201BF45600CC6125 /* PFGameMenuViewController.m */,
 				1C954A6E201C74140081C255 /* PFLoadGameViewController.h */,
-				1C954A6F201C74140081C255 /* PFLoadGameViewController.m */,
+				1C954A6F201C74140081C255 /* PFLoadGameViewController.mm */,
+				1C7A5BC820E2A0C0009320C8 /* PFMultiplayerViewController.h */,
+				1C7A5BC920E2A0C0009320C8 /* PFMultiplayerViewController.mm */,
+				1C7A5BCB20E2B62A009320C8 /* PFRoomViewController.h */,
+				1C7A5BCC20E2B62A009320C8 /* PFRoomViewController.mm */,
+				1C7A5BD020E2DBF8009320C8 /* PFSelectMapController.h */,
+				1C7A5BD120E2DBF8009320C8 /* PFSelectMapController.m */,
+				1C85A4DD20E3F204000754A7 /* PFJoinViewController.h */,
+				1C85A4DE20E3F204000754A7 /* PFJoinViewController.mm */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -478,6 +560,9 @@
 		1CE784A52017B70B00819AF2 = {
 			isa = PBXGroup;
 			children = (
+				1C52F86D20E1641600E71146 /* clsocket */,
+				1C52F87620E1641700E71146 /* PFClient */,
+				1C52F86620E1641600E71146 /* Utils */,
 				1CE784D72017B9E400819AF2 /* CORE */,
 				1CE784C82017B9B600819AF2 /* FMOD */,
 				1CE784B02017B70B00819AF2 /* PixFight */,
@@ -940,6 +1025,11 @@
 					1CE784AD2017B70B00819AF2 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1105,30 +1195,40 @@
 				1CE7861F2017B9E400819AF2 /* DarwinTimer.cpp in Sources */,
 				1CE784BE2017B70B00819AF2 /* main.m in Sources */,
 				1CDEB2D3201BDA8100CC6125 /* PFSelectUnitViewController.m in Sources */,
+				1C7A5BCA20E2A0C0009320C8 /* PFMultiplayerViewController.mm in Sources */,
 				1CE784B32017B70B00819AF2 /* AppDelegate.mm in Sources */,
+				1C52F87B20E1641700E71146 /* SimpleSocket.cpp in Sources */,
 				1CE786252017B9E400819AF2 /* AIPlayer.cpp in Sources */,
+				1C52F87C20E1641700E71146 /* PassiveSocket.cpp in Sources */,
 				1CE785AF2017B9E400819AF2 /* SearchNode.cpp in Sources */,
 				1CE786232017B9E400819AF2 /* AITaskGenerator.cpp in Sources */,
 				1CCF4EC92018F160003F33BD /* PFSettingsViewController.mm in Sources */,
 				1CE7862E2017B9E400819AF2 /* GameSync.cpp in Sources */,
+				1C85A4E020E3F204000754A7 /* PFJoinViewController.mm in Sources */,
 				1CE7862A2017B9E400819AF2 /* GameUnit.cpp in Sources */,
+				1C7A5BD320E2DBF8009320C8 /* PFSelectMapController.m in Sources */,
 				1CE7862C2017B9E400819AF2 /* GameLogic.cpp in Sources */,
 				1CE7861D2017B9E400819AF2 /* glMatrix4x4.cpp in Sources */,
-				1CCF4ECE2018F993003F33BD /* PFNewGameViewController.m in Sources */,
+				1CCF4ECE2018F993003F33BD /* PFNewGameViewController.mm in Sources */,
 				1CE7862F2017B9E400819AF2 /* FontRender.cpp in Sources */,
 				1CCF4ED72018FACA003F33BD /* PFCustomAnimator.m in Sources */,
 				1CB77FEC201A286D008BC2B8 /* PFSelectTeamController.m in Sources */,
-				1C954A70201C74140081C255 /* PFLoadGameViewController.m in Sources */,
+				1C954A70201C74140081C255 /* PFLoadGameViewController.mm in Sources */,
+				1C52F87E20E1641700E71146 /* PFMultiplayerClient.cpp in Sources */,
 				1CDEB2DA201BF45600CC6125 /* PFGameMenuViewController.m in Sources */,
+				1C52F87920E1641700E71146 /* PFSocketClient.cpp in Sources */,
 				1CE785AB2017B9E400819AF2 /* DataTypes.cpp in Sources */,
+				1C52F87A20E1641700E71146 /* PFServerUtils.cpp in Sources */,
 				1CE785AC2017B9E400819AF2 /* FGLDrawingDescriptor.cpp in Sources */,
 				1C74E643201A5C7500334C21 /* PFRendererGLView.mm in Sources */,
 				1CE785AA2017B9E400819AF2 /* FGLVector.cpp in Sources */,
 				1CE786212017B9E400819AF2 /* glTextureLoader.cpp in Sources */,
 				1CE786272017B9E400819AF2 /* DrawingContext.cpp in Sources */,
 				1CE7862B2017B9E400819AF2 /* GameMap.cpp in Sources */,
+				1C7A5BCE20E2B62A009320C8 /* PFRoomViewController.mm in Sources */,
 				1CE785A82017B9E400819AF2 /* FurionGL.cpp in Sources */,
 				1CE785AD2017B9E400819AF2 /* FGLTexture.cpp in Sources */,
+				1C52F87D20E1641700E71146 /* ActiveSocket.cpp in Sources */,
 				1CE786262017B9E400819AF2 /* Mesh2d.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

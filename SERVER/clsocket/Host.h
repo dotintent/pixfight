@@ -105,13 +105,17 @@ extern "C"
     typedef unsigned long long int uint64;
     typedef long long int          int64;
 #elif (__WORDSIZE == 32)
+#ifndef _DARWIN
     __extension__
     typedef long long int          int64;
     __extension__
     typedef unsigned long long int uint64;
+#endif
 #elif (__WORDSIZE == 64)
+#ifndef _DARWIN
     typedef unsigned long int uint64;
     typedef long int          int64;
+#endif
 #endif
 
 #ifdef _WIN32

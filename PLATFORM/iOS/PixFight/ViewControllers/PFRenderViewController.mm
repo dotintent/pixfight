@@ -482,6 +482,7 @@ UIPopoverPresentationControllerDelegate> {
 
     if (self.client) {
 
+        self.client->callback = nullptr;
         self.client->disconnect();
         [self.navigationController popToRootViewControllerAnimated:YES];
 
