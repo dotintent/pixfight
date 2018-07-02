@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <thread>
+#include <atomic>
 
 #include "PFServerCommandType.hpp"
 #include "PFSocketClient.hpp"
@@ -25,7 +26,7 @@ public:
 public:
 
     PFMultiplayerClient(const std::string &serverAddress);
-    
+
     ~PFMultiplayerClient() noexcept;
 
     PFMultiplayerClient(const PFMultiplayerClient& other) = delete;

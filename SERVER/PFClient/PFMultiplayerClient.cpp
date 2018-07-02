@@ -30,6 +30,13 @@ PFMultiplayerClient::~PFMultiplayerClient() noexcept {
 
     disconnect();
     callback = nullptr;
+
+    while (false == _allowConnection.load()) {
+
+        this_thread::yield();
+    }
+
+    std::cout << "Client dealloc" << std::endl;
 }
 
 bool PFMultiplayerClient::connect() {
@@ -475,7 +482,7 @@ PFSocketCommandType PFMultiplayerClient::update() {
         case PFSocketCommandTypeBuild:
         case PFSocketCommandTypeLoad:
         case PFSocketCommandTypeReady:
-        case PFSocketCommandTypeRooms: 
+        case PFSocketCommandTypeRooms:
         case PFSocketCommandTypeGameInfo:
         case PFSocketCommandTypeEndGame:
         case PFSocketCommandTypeSendTurn:

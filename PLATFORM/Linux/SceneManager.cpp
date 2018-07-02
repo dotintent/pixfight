@@ -5,6 +5,9 @@
 #include "LoadGameScene.hpp"
 #include "SettingsScene.hpp"
 #include "RenderScene.hpp"
+#include "MultiplayerScene.hpp"
+#include "MakeRoomScene.hpp"
+#include "JoinRoomScene.hpp"
 
 SceneManager::SceneManager(struct nk_context *ctx, const std::string path)
 : _currentScene(nullptr) {
@@ -14,12 +17,18 @@ SceneManager::SceneManager(struct nk_context *ctx, const std::string path)
     auto loadGameScene = new LoadGameScene("loadgame", path, ctx);
     auto settingsScene = new SettingsScene("settings", path, ctx);
     auto renderScene = new RenderScene("render", path, ctx);
+    auto multiScene = new MultiplayerScene("multi", path, ctx);
+    auto makeRoomScene = new MakeRoomScene("makeroom", path, ctx);
+    auto joinRoomScene = new JoinRoomScene("joinroom", path, ctx);
 
     _sceneDB[menuScene->getName()] = menuScene;
     _sceneDB[newGameScene->getName()] = newGameScene;
     _sceneDB[loadGameScene->getName()] = loadGameScene;
     _sceneDB[settingsScene->getName()] = settingsScene;
     _sceneDB[renderScene->getName()] = renderScene;
+    _sceneDB[multiScene->getName()] = multiScene;
+    _sceneDB[makeRoomScene->getName()] = makeRoomScene;
+    _sceneDB[joinRoomScene->getName()] = joinRoomScene;
 
 	this->setCurrent("menu");
 }

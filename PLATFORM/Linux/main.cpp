@@ -11,6 +11,12 @@
 #include "LoadGameScene.hpp"
 #include "RenderScene.hpp"
 #include "SettingsScene.hpp"
+#include "MultiplayerScene.hpp"
+#include "MakeRoomScene.hpp"
+#include "JoinRoomScene.hpp"
+
+#include "PFMultiplayerClient.hpp"
+#include "ApplicationRunLoop.hpp"
 
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 768
@@ -47,6 +53,7 @@ struct nk_vec2 double_click_pos;
 #include "PFSettings.h"
 
 PFSettings *GameSettings = nullptr;
+shared_ptr<PFMultiplayerClient> client = nullptr;
 
 static SceneManager *sceneManager;
 static Audio *audioUnit;
@@ -145,6 +152,11 @@ void key_callback(GLFWwindow* window) {
     }
 }
 
+void text_callback(GLFWwindow *win, unsigned int codepoint) {
+
+    nk_input_unicode(ctx, codepoint);
+}
+
 void playMusic(std::string path) {
 
     audioUnit->pauseMusic();
@@ -220,6 +232,8 @@ int main() {
 
     glfwSetScrollCallback(win, scroll_callback);
     glfwSetMouseButtonCallback(win, mouse_callback);
+    glfwSetCharCallback(win, text_callback);
+
 #ifndef _RPI_
     glewExperimental = GL_TRUE;
 
@@ -254,12 +268,23 @@ int main() {
 
     while (!glfwWindowShouldClose(win)) {
 
+        runLoopMutex.lock();
+        while (!runLoopQueue.empty()) {
+
+            auto callback = runLoopQueue.front();
+            callback();
+            runLoopQueue.pop();
+        }
+        runLoopMutex.unlock();
+
+        nk_input_begin(ctx);
+
         glfwPollEvents();
 
         key_callback(win);
 
         double x, y;
-        nk_input_begin(ctx);
+
         glfwGetCursorPos(win, &x, &y);
         nk_input_motion(ctx, (int)x, (int)y);
         nk_input_button(ctx, NK_BUTTON_LEFT, (int)x, (int)y, glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
@@ -283,6 +308,7 @@ int main() {
             auto ptr = sceneManager->getCurrentScenePointer();
             ptr->Destroy();
 
+
             if (ptr->isRender()) {
                 playMusic(rootPath + "menu.mp3");
             }
@@ -292,6 +318,67 @@ int main() {
             auto nptr = sceneManager->getCurrentScenePointer();
             nptr->Init();
 
+        }
+            break;
+
+        case SceneTypeMultiplayer: {
+
+            audioUnit->playSound(selectSound);
+            auto ptr = sceneManager->getCurrentScenePointer();
+            ptr->Destroy();
+
+            sceneManager->setCurrent("multi");
+
+            auto nptr = sceneManager->getCurrentScenePointer();
+
+            client = make_shared<PFMultiplayerClient>(DEFAULT_SERVER_ADDR);
+
+            if (auto multi = dynamic_cast<MultiplayerScene *>(nptr)) {
+
+                multi->client = client;
+            }
+
+            nptr->Init();
+
+        }
+            break;
+
+        case SceneTypeMakeRoom: {
+
+            audioUnit->playSound(selectSound);
+            auto ptr = sceneManager->getCurrentScenePointer();
+            ptr->Destroy();
+
+            sceneManager->setCurrent("makeroom");
+
+            auto nptr = sceneManager->getCurrentScenePointer();
+
+            if (auto makeRoom = dynamic_cast<MakeRoomScene *>(nptr)) {
+
+                makeRoom->isMaster = dynamic_cast<MultiplayerScene *>(ptr) != nullptr;
+                makeRoom->client = client;
+            }
+
+            nptr->Init();
+        }
+            break;
+
+        case SceneTypeJoinRoom: {
+
+            audioUnit->playSound(selectSound);
+            auto ptr = sceneManager->getCurrentScenePointer();
+            ptr->Destroy();
+
+            sceneManager->setCurrent("joinroom");
+
+            auto nptr = sceneManager->getCurrentScenePointer();
+
+            if (auto joinRoom = dynamic_cast<JoinRoomScene *>(nptr)) {
+
+                joinRoom->client = client;
+            }
+
+            nptr->Init();
         }
             break;
 
@@ -352,6 +439,7 @@ int main() {
 
             auto newGame = dynamic_cast<NewGameScene*>(ptr);
             auto loadGame = dynamic_cast<LoadGameScene*>(ptr);
+            auto multiGame = dynamic_cast<MakeRoomScene *>(ptr);
 
             sceneManager->setCurrent("render");
 
@@ -388,6 +476,14 @@ int main() {
                 std::string path = rootPath + "save/" + loadGame->getSelectedSave();
 
                 renderGame->loadGame(path);
+            }
+            else if(multiGame) {
+
+                renderGame->client = client;
+
+                PFRoomInfo info = client->getRoomInfo();
+
+                renderGame->newGame(info.mapname, info.players, multiGame->getCurrentPlayerID()-1);
             }
 
         }

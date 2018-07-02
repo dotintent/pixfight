@@ -24,13 +24,21 @@ SceneType MenuScene::Render(struct nk_font *smallfont, struct nk_font *normal) {
         //buttons
         static const float ratio[] = {0.35f, 0.3f, 0.35f};
 
-        nk_layout_row_static(_ctx, 400, 100, 1);
+        nk_layout_row_static(_ctx, 320, 100, 1);
         nk_layout_row(_ctx, NK_DYNAMIC, 80, 3, ratio);
         nk_spacing(_ctx, 1);
         if (nk_button_label(_ctx, "SKIRMISH")) {
 
             std::cout << "SKIRMISH" << std::endl;
             _type = SceneTypeNewGame;
+        }
+        nk_spacing(_ctx, 1);
+
+        nk_spacing(_ctx, 1);
+        if (nk_button_label(_ctx, "MULTI")) {
+
+            std::cout << "MULTIPLAYER" << std::endl;
+            _type = SceneTypeMultiplayer;
         }
         nk_spacing(_ctx, 1);
 

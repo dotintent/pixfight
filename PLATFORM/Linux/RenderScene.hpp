@@ -32,9 +32,15 @@ public:
     void newGame(std::string mapname, int players, int playerID);
     void loadGame(std::string path);
 
+    std::shared_ptr<PFMultiplayerClient> client;
+
 private:
 
     void setup(int teamID);
+    void setupMultiplayer();
+    void updateMultiplayerState(uint32_t playerID);
+
+private:
 
     GameLogic *_gameLogic;
     Audio *_audio;
@@ -66,4 +72,9 @@ private:
 
     bool _saved;
     bool _error;
+    bool _allowinteraction;
+
+    bool _disconnect;
+    bool _turnaction;
+    bool _winaction;
 };
