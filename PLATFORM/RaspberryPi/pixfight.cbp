@@ -52,6 +52,9 @@
 			<Add directory="FMOD/inc" />
 			<Add directory="../RaspberryPi" />
 			<Add directory="../Linux" />
+			<Add directory="../../SERVER/clsocket" />
+			<Add directory="../../SERVER/Utils" />
+			<Add directory="../../SERVER/PFClient" />
 		</Compiler>
 		<Linker>
 			<Add option="-lpthread" />
@@ -158,11 +161,35 @@
 		<Unit filename="../../CORE/utilities/glTextureLoader.cpp" />
 		<Unit filename="../../CORE/utilities/glTextureLoader.hpp" />
 		<Unit filename="../../CORE/utilities/stb_image.h" />
+		<Unit filename="../../SERVER/PFClient/PFMultiplayerClient.cpp" />
+		<Unit filename="../../SERVER/PFClient/PFMultiplayerClient.hpp" />
+		<Unit filename="../../SERVER/Utils/EnumOptionMacro.hpp" />
+		<Unit filename="../../SERVER/Utils/PFServerCommandType.hpp" />
+		<Unit filename="../../SERVER/Utils/PFServerUtils.cpp" />
+		<Unit filename="../../SERVER/Utils/PFServerUtils.hpp" />
+		<Unit filename="../../SERVER/Utils/PFSocketClient.cpp" />
+		<Unit filename="../../SERVER/Utils/PFSocketClient.hpp" />
+		<Unit filename="../../SERVER/clsocket/ActiveSocket.cpp" />
+		<Unit filename="../../SERVER/clsocket/ActiveSocket.h" />
+		<Unit filename="../../SERVER/clsocket/Host.h" />
+		<Unit filename="../../SERVER/clsocket/PassiveSocket.cpp" />
+		<Unit filename="../../SERVER/clsocket/PassiveSocket.h" />
+		<Unit filename="../../SERVER/clsocket/SimpleSocket.cpp" />
+		<Unit filename="../../SERVER/clsocket/SimpleSocket.h" />
+		<Unit filename="../../SERVER/clsocket/StatTimer.h" />
+		<Unit filename="../Linux/ApplicationRunLoop.cpp" />
+		<Unit filename="../Linux/ApplicationRunLoop.hpp" />
 		<Unit filename="../Linux/BaseScene.hpp" />
+		<Unit filename="../Linux/JoinRoomScene.cpp" />
+		<Unit filename="../Linux/JoinRoomScene.hpp" />
 		<Unit filename="../Linux/LoadGameScene.cpp" />
 		<Unit filename="../Linux/LoadGameScene.hpp" />
+		<Unit filename="../Linux/MakeRoomScene.cpp" />
+		<Unit filename="../Linux/MakeRoomScene.hpp" />
 		<Unit filename="../Linux/MenuScene.cpp" />
 		<Unit filename="../Linux/MenuScene.hpp" />
+		<Unit filename="../Linux/MultiplayerScene.cpp" />
+		<Unit filename="../Linux/MultiplayerScene.hpp" />
 		<Unit filename="../Linux/NewGameScene.cpp" />
 		<Unit filename="../Linux/NewGameScene.hpp" />
 		<Unit filename="../Linux/PFSettings.cpp" />

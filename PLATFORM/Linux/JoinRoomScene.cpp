@@ -169,7 +169,6 @@ SceneType JoinRoomScene::Render(struct nk_font *smallfont, struct nk_font *norma
         }
 
         nk_spacing(_ctx, 1);
-
     }
     nk_end(_ctx);
 
