@@ -4,7 +4,10 @@
 #include <map>
 
 #include "BaseScene.hpp"
+
+#ifndef __EMSCRIPTEN__
 #include "PFMultiplayerClient.hpp"
+#endif
 
 class MakeRoomScene final : public BaseScene {
 
@@ -28,7 +31,10 @@ public:
     int getCurrentPlayerID() const { return _currentPlayerID; }
 
     bool isMaster;
+
+#ifndef __EMSCRIPTEN__
     std::weak_ptr<PFMultiplayerClient> client;
+#endif
 
 private:
 

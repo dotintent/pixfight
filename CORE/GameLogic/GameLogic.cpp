@@ -39,8 +39,7 @@ GameLogic::GameLogic(const float &screenWidth,
 , _drawingContext(nullptr)
 , _audioUnit(audioUnit)
 , _currentMapName("")
-, _timer(nullptr)
-, _client() {
+, _timer(nullptr) {
 
     GAME_IDCOUNTER = 0;
 
@@ -65,6 +64,11 @@ GameLogic::GameLogic(const float &screenWidth,
 
     _hardAI = false;
     _botsThinking = false;
+
+#ifndef __EMSCRIPTEN__
+    _client = nullptr;
+#endif
+
 }
 
 GameLogic::~GameLogic() noexcept {
@@ -83,12 +87,20 @@ GameLogic::~GameLogic() noexcept {
 
 }
 
+#ifndef __EMSCRIPTEN__
 bool GameLogic::createNewGame(const std::string &gamename,
                               const int & selectedTeam,
                               const int & maxplayers,
                               std::shared_ptr<PFMultiplayerClient> client) {
+#else 
+bool GameLogic::createNewGame(const std::string &gamename,
+                              const int & selectedTeam,
+                              const int & maxplayers) {
+#endif
 
+#ifndef __EMSCRIPTEN__
     _client = client;
+#endif
 
     _gameLoaded = false;
 
@@ -115,6 +127,7 @@ bool GameLogic::createNewGame(const std::string &gamename,
 
     std::cout << "MAP LOADED: " << mappath << std::endl;
 
+#ifndef __EMSCRIPTEN__
     if (_client.lock()) {
 
         _playerCash = 0;
@@ -123,6 +136,9 @@ bool GameLogic::createNewGame(const std::string &gamename,
 
         _playerCash = 200;
     }
+#else
+    _playerCash = 200;
+#endif
 
     _winnerID = 0;
     _playersPlaying = maxplayers;
@@ -161,8 +177,10 @@ bool GameLogic::createNewGame(const std::string &gamename,
         }
     }
 
+#ifndef __EMSCRIPTEN__
     //create bots
-    if (_client.lock() == nullptr) {
+    if (_client.lock() == nullptr) { 
+#endif
 
         AIPlayer *botPlayer = nullptr;
 
@@ -192,7 +210,9 @@ bool GameLogic::createNewGame(const std::string &gamename,
 
             _bots.push_back(botPlayer);
         }
+#ifndef __EMSCRIPTEN__
     }
+#endif
 
     _gameLoaded = true;
 
@@ -627,7 +647,9 @@ void GameLogic::startTurn() {
 
     _playerCash += 100;
 
+#ifndef __EMSCRIPTEN__
     auto client = _client.lock();
+#endif
 
     for (auto base : _bases) {
 
@@ -646,11 +668,13 @@ void GameLogic::startTurn() {
             }
         }
 
+#ifndef __EMSCRIPTEN__
         if ((base->getTeamID() != _playerTeamSelected) && client) {
 
             auto turns = base->getTurnsToUnlock();
             base->setTurnsToUnlock(--turns);
         }
+#endif
 
         if ((base->getTeamID() == _playerTeamSelected) || (shoulddecrase == true)) {
 
@@ -707,11 +731,14 @@ void GameLogic::startTurn() {
                             base->setRequestID(-1);
                             base->setUnitMode(UNIT_NONE);
 
+#ifndef __EMSCRIPTEN__
                             if (unit && client) {
 
                                 client->repairUnitcommand(base->getUniqueID(),
                                                           unit->getUniqueID());
                             }
+#endif
+
                         }
                             break;
 
@@ -739,11 +766,13 @@ void GameLogic::startTurn() {
                             base->setRequestID(-1);
                             base->setUnitMode(UNIT_NONE);
 
+#ifndef __EMSCRIPTEN__
                             if (unit && client) {
 
                                 client->captureBasecommand(base->getUniqueID(),
                                                            unit->getUniqueID());
                             }
+#endif
                         }
                             break;
 
@@ -849,11 +878,13 @@ void GameLogic::startTurn() {
         return;
     }
 
+#ifndef __EMSCRIPTEN__
     if (auto client = _client.lock()) {
 
         client->sendWinnerID(_winnerID);
         return;
     }
+#endif
 
     if (_winnerID == _playerTeamSelected) {
 
@@ -907,12 +938,14 @@ void GameLogic::endTurn() {
         }
     }
 
+#ifndef __EMSCRIPTEN__
     if (auto client = _client.lock()) {
 
         client->endTurn();
 
         return;
     }
+#endif
 
     if (_winnerID == 0) {
 
@@ -1673,6 +1706,7 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
                     auto destroy = attackUnit(unit, current, _units, _bases);
 
+#ifndef __EMSCRIPTEN__
                     if (auto client = _client.lock()) {
 
                         uint32_t unitIDA = unit->getUniqueID();
@@ -1682,6 +1716,7 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
                         client->sendFireCommand(unitIDA, unitIDB, sizeA, sizeB);
                     }
+#endif
 
                     if (unit->getUnitMode() == UNIT_NOTMOVE) {
                         unit->setUnitMode(UNIT_ENDTURN);
@@ -1777,11 +1812,13 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
                 saveUndo();
                 unit->makeMove();
 
+#ifndef __EMSCRIPTEN__
                 if (auto client = _client.lock()) {
 
                     auto p = _mainMap->selectionForPosition(_mainMap->endPosition());
                     client->moveUnitCommand(unit->getUniqueID(), p.x, p.y);
                 }
+#endif
 
                 //set our unit that its cannot move anymore in this turn
                 unit->setUnitMode(UNIT_NOTMOVE);
@@ -2293,10 +2330,12 @@ void GameLogic::buildNewUnitFromBase(GameBase *base, int unitId,  int remainingC
 
     saveUndo();
 
+#ifndef __EMSCRIPTEN__
     if (auto client = _client.lock()) {
 
         client->buildUnitCommand(base->getUniqueID(), unitId);
     }
+#endif
 
     base->setUnitToBuild(unitId);
     setPlayerCash(remainingCash);

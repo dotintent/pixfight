@@ -61,11 +61,17 @@ public:
     GameLogic & operator= (const GameLogic & other) = delete;
     GameLogic & operator= (GameLogic && other) noexcept = delete;
 
+#ifndef __EMSCRIPTEN__
     bool createNewGame(const std::string & gamename,
                        const int & selectedTeam,
                        const int & maxplayers,
                        std::shared_ptr<PFMultiplayerClient> client);
-    
+#else
+    bool createNewGame(const std::string & gamename,
+                       const int & selectedTeam,
+                       const int & maxplayers);
+#endif 
+
     bool loadGame(const std::string & loadpath);
     bool saveGame(const std::string & savepath);
 
@@ -245,6 +251,8 @@ private:
 
     std::vector<moveUndo> _undos;
 
+#ifndef __EMSCRIPTEN__
     std::weak_ptr<PFMultiplayerClient> _client;
+#endif
 };
 

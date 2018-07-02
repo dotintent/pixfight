@@ -4,7 +4,9 @@
 #include <vector>
 
 #include "BaseScene.hpp"
+#ifndef __EMSCRIPTEN__
 #include "PFMultiplayerClient.hpp"
+#endif
 
 class JoinRoomScene final : public BaseScene {
 
@@ -24,7 +26,9 @@ public:
     virtual void Init() override;
     virtual void Destroy() override;
 
+#ifndef __EMSCRIPTEN__
     std::weak_ptr<PFMultiplayerClient> client;
+#endif
 
 private:
 
@@ -38,7 +42,10 @@ private:
     struct nk_image _buttonactive;
     struct nk_image _buttonhome;
 
+#ifndef __EMSCRIPTEN__
     std::vector<PFRoomInfo> _data;
+#endif
+
     char _room[20];
     bool _error;
 };

@@ -7,7 +7,9 @@ using namespace std;
 
 RenderScene::RenderScene(const std::string & name, const std::string rootPath, struct nk_context *ctx)
 : BaseScene(name, rootPath, ctx)
+#ifndef __EMSCRIPTEN__
 , client(nullptr)
+#endif
 , _gameLogic(nullptr)
 , _time(4)
 , _gamewin(false)
@@ -283,6 +285,7 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
         //back button
         if (nk_button_label(_ctx, "") && !_saved) {
 
+#ifndef __EMSCRIPTEN__
             if (client) {
 
                 _type = SceneTypeMenu;
@@ -291,6 +294,12 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
                 _homemenu = true;
             }
+#else 
+
+            _homemenu = true;
+#endif
+
+
         }
 
         _ctx->style.button.normal = nk_style_item_image(_undobtn);
@@ -299,7 +308,11 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
         nk_spacing(_ctx, 1);
 
+#ifndef __EMSCRIPTEN__
         if (_gameLogic->canUndo() && (client == nullptr)) {
+#else 
+        if (_gameLogic->canUndo()) {
+#endif
 
             if (nk_button_label(_ctx, "") && _gameLogic->canEndTurn()) {
 
@@ -318,7 +331,9 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
         nk_spacing(_ctx, 1);
 
+#ifndef __EMSCRIPTEN__
         if (client == nullptr) {
+#endif
 
             std::stringstream ss;
 
@@ -331,11 +346,14 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
                 _time = _gameLogic->multiplyTime();
             }
             nk_style_set_font(_ctx, &normal->handle);
+
+#ifndef __EMSCRIPTEN__
         }
         else {
 
             nk_spacing(_ctx, 1);
         }
+#endif
 
         _ctx->style.button.normal = nk_style_item_image(_turnbtn);
         _ctx->style.button.hover  = nk_style_item_image(_turnbtn);
@@ -409,6 +427,7 @@ void RenderScene::Init() {
 
 void RenderScene::setupMultiplayer() {
 
+#ifndef __EMSCRIPTEN__
     if (client == nullptr) {
         return;
     }
@@ -546,6 +565,8 @@ void RenderScene::setupMultiplayer() {
 
         });
     };
+
+#endif
 }
 
 void RenderScene::updateMultiplayerState(uint32_t playerID) {
@@ -555,11 +576,13 @@ void RenderScene::updateMultiplayerState(uint32_t playerID) {
 
 void RenderScene::Destroy() {
 
+#ifndef __EMSCRIPTEN__
     if (client) {
         client->callback = nullptr;
         client->disconnect();
         client = nullptr;
     }
+#endif
 
     delete _gameLogic;
     _gameLogic = nullptr;
@@ -571,10 +594,15 @@ void RenderScene::newGame(std::string mapname, int players, int playerID) {
 
     int teamID = playerID+1;
 
+#ifndef __EMSCRIPTEN__
     _gameLogic->createNewGame(mapname, teamID, players, client);
+#else
+    _gameLogic->createNewGame(mapname, teamID, players);
+#endif
 
     setup(teamID);
 
+#ifndef __EMSCRIPTEN__
     if (client) {
 
         setupMultiplayer();
@@ -586,6 +614,11 @@ void RenderScene::newGame(std::string mapname, int players, int playerID) {
 
         _allowinteraction = true;
     }
+#else 
+
+    _allowinteraction = true;
+
+#endif
 }
 
 void RenderScene::loadGame(std::string path) {

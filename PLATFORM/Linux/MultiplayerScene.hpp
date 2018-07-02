@@ -2,7 +2,10 @@
 
 #include <memory>
 #include "BaseScene.hpp"
+
+#ifndef __EMSCRIPTEN__
 #include "PFMultiplayerClient.hpp"
+#endif
 
 class MultiplayerScene final : public BaseScene {
 public:
@@ -23,7 +26,9 @@ public:
 
 public:
 
+#ifndef __EMSCRIPTEN__
     std::weak_ptr<PFMultiplayerClient> client;
+#endif
 
 private:
 

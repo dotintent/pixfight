@@ -32,7 +32,9 @@ public:
     void newGame(std::string mapname, int players, int playerID);
     void loadGame(std::string path);
 
+#ifndef __EMSCRIPTEN__
     std::shared_ptr<PFMultiplayerClient> client;
+#endif
 
 private:
 
