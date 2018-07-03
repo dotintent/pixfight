@@ -66,7 +66,7 @@ GameLogic::GameLogic(const float &screenWidth,
     _botsThinking = false;
 
 #ifndef __EMSCRIPTEN__
-    _client = nullptr;
+    _client = std::shared_ptr<PFMultiplayerClient>(nullptr);
 #endif
 
 }

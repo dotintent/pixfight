@@ -45,7 +45,10 @@
 
 #include "Host.h"
 
+#if defined(_LINUX) || defined(_DARWIN)
 #include <sys/stat.h>
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -76,10 +79,14 @@
 #include <fcntl.h>
 #endif
 
-#ifdef __WIN32
+#ifdef _WIN32
+
+#define WIN32_LEAN_AND_MEAN
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+
 #include <io.h>
 #include <winsock2.h>
-#include <Ws2tcpip.h>
+#include <ws2tcpip.h>
 
 #define IPTOS_LOWDELAY  0x10
 

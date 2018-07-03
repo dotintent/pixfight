@@ -910,7 +910,11 @@ int32 CSimpleSocket::SendFile(int32 nOutFd, int32 nInFd, off_t *pOffset, int32 n
     static char szData[SOCKET_SENDFILE_BLOCKSIZE];
     int32       nInCount = 0;
 
-    if (lseek(nInFd, *pOffset, SEEK_SET) == -1)
+#ifdef _WIN32
+	if (_lseek(nInFd, *pOffset, SEEK_SET) == -1)
+#else
+	if (lseek(nInFd, *pOffset, SEEK_SET) == -1)
+#endif // _WIN32
     {
         return -1;
     }
@@ -919,7 +923,11 @@ int32 CSimpleSocket::SendFile(int32 nOutFd, int32 nInFd, off_t *pOffset, int32 n
     {
         nInCount = (nCount - nOutCount) < SOCKET_SENDFILE_BLOCKSIZE ? (nCount - nOutCount) : SOCKET_SENDFILE_BLOCKSIZE;
 
-        if ((read(nInFd, szData, nInCount)) != (int32)nInCount)
+#ifdef _WIN32
+		if ((_read(nInFd, szData, nInCount)) != (int32)nInCount)
+#else
+		if ((read(nInFd, szData, nInCount)) != (int32)nInCount)
+#endif 
         {
             return -1;
         }
