@@ -771,8 +771,11 @@ int32 CSimpleSocket::Receive(int32 nMaxBytes, uint8 * pBuffer )
     }
     case CSimpleSocket::SocketTypeUdp:
     {
+#ifdef __ANDROID__
+        socklen_t srcSize;
+#else
         uint32 srcSize;
-
+#endif
         srcSize = sizeof(struct sockaddr_in);
 
         if (GetMulticast() == true)

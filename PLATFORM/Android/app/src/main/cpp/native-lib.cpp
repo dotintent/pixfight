@@ -173,6 +173,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFAudioWrapper_play
 
 //gamelogic
 static GameLogic *gameLogic = nullptr;
+static std::shared_ptr<PFMultiplayerClient> client = nullptr;
 static GameBase *selectedBase = nullptr;
 static bool useHardAI = false;
 
@@ -300,7 +301,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeSta
     }
 
     std::string mapName = jstringTostring(jenv, map);
-    gameLogic->createNewGame(mapName, playerSelected, playersPlaying);
+    gameLogic->createNewGame(mapName, playerSelected, playersPlaying, client);
 }
 
 JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeLoadGame(JNIEnv* jenv, jobject obj, jstring path) {
