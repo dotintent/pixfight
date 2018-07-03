@@ -98,9 +98,6 @@ Latest stable versions:
 Q: Can you provide a *.ipa for me?  
 A: No, if you want to run this game on iPhone/iPad please download the Xcode and build it for yourself.
 
-Q: Can I make a spinoff / modify it?   
-A: Of course the whole idea of this project is to motivate people to make this even better.
-
 Q: Do you consider support for other platforms like Switch, PS4?  
 A: Yes, but I don't have access to the hardware required to build it or test it.   
 
@@ -155,7 +152,8 @@ Font loading - [freetype2](https://www.freetype.org)
 Image loading - [stb_image](https://github.com/nothings/stb)  
 UI components on Linux and Windows - [nuclear](https://github.com/vurtun/nuklear)  
 Window creation and input on Linux and Windows [GLFW](http://www.glfw.org)  
-OpenGL extensions [GLEW](http://glew.sourceforge.net)
+OpenGL extensions [GLEW](http://glew.sourceforge.net)  
+Sockets library [clsocket](https://github.com/DFHack/clsocket)
 
 Music - [dl-sounds](https://www.dl-sounds.com/)  
 Sound - [freesound](https://freesound.org/)
@@ -323,8 +321,22 @@ If you have problems running editor on macOS (mostly High Sierra) you will need 
 * After the compilation process, type in `sudo make install`  
 * The libraries will be copied to `/usr/local/lib/`, the header files to `/usr/local/include/`  
 
+### Server
+
+Server uses `Makefile`, you need to install `cmake` to compile and build.
+
+* Open bash console (on Windows you can use mingw)
+* Navigate to pixfight/SERVER/PFServer/
+* Type `make` and tap enter
+* Binaries with additional catalogues will be placed in `bin` directory
+
+If you want to run your own dedicated server on e.g: vps, build server on linux and replace `DEFAULT_SERVER_ADDR` with your server IP and rebuild game.
+
+**Current server location is in Europe - UK**
+
 # 5. Next steps  
   
+* Nintendo Switch Version
   
 * Map terrain types will affect unit stats. (Grass, Woods, Sand, Mud etc)    
 
