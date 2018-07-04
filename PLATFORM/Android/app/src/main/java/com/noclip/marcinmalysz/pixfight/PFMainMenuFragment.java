@@ -22,6 +22,7 @@ public class PFMainMenuFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getView().findViewById(R.id.imageButtonNewGame).setOnClickListener(v -> goToFragment(new PFNewGameFragment()));
+        getView().findViewById(R.id.imageButtonMultiplayer).setOnClickListener(v -> goToFragment(new PFMultiplayerFragment()));
         getView().findViewById(R.id.imageButtonLoadGame).setOnClickListener(v -> goToFragment(new PFLoadGameFragment()));
         getView().findViewById(R.id.imageButtonSettings).setOnClickListener(v -> goToFragment(new PFSettingsFragment()));
     }
