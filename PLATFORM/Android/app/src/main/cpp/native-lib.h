@@ -44,6 +44,23 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_pa
 JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_saveGame(JNIEnv* jenv, jobject obj, jstring savepath);
 JNIEXPORT jstring JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_getMapName(JNIEnv* jenv, jobject obj);
 
+//MULTIPLAYER
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMainMenuFragment_disposeClient(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragment_initializeClient(JNIEnv* jenv, jobject obj);
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragment_connectToServer(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragment_makeServerRoom(JNIEnv* jenv, jobject obj, jboolean privateroom);
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_removeRoom(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_leaveRoom(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_setReady(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_getRoomDetails(JNIEnv* jenv, jobject obj);
+JNIEXPORT jint JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_getRoomPort(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_updateRoomInfo(JNIEnv* jenv, jobject obj, jstring mapname, jint players);
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFJoinRoomFragment_listRooms(JNIEnv* jenv, jobject obj);
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFJoinRoomFragment_joinRoom(JNIEnv* jenv, jobject obj, jint roomID);
+
 };
 
 #endif //ANDROID_NATIVE_LIB_H

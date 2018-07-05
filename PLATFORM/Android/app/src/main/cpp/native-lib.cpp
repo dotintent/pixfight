@@ -9,6 +9,7 @@
 
 #include <android/native_activity.h>
 #include <EGL/egl.h>
+#include <PFServerCommandType.hpp>
 
 std::string rootDataDirectory = "";
 
@@ -177,11 +178,13 @@ static std::shared_ptr<PFMultiplayerClient> client = nullptr;
 static GameBase *selectedBase = nullptr;
 static bool useHardAI = false;
 
-void callNativeVoidMethod(std::string method) {
+void callNativeVoidMethod(std::string classname, std::string method) {
 
     attachThread();
 
-    jclass cls = env->FindClass("com/noclip/marcinmalysz/pixfight/PFRenderFragment");
+    std::string findclass = "com/noclip/marcinmalysz/pixfight/" + classname;
+
+    jclass cls = env->FindClass(findclass.c_str());
 
     if (!cls) {
         return;
@@ -233,6 +236,134 @@ void callNativeVoidMethodParams(std::string method, int param1, int param2) {
     env->DeleteGlobalRef(globalClass);
 }
 
+void callNativeVoidMethodParamString(std::string classname, std::string method, std::string str) {
+
+    attachThread();
+
+    std::string findclass = "com/noclip/marcinmalysz/pixfight/" + classname;
+
+    jclass cls = env->FindClass(findclass.c_str());
+
+    if (!cls) {
+        return;
+    }
+
+    jclass globalClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
+
+    if (!globalClass) {
+        return;
+    }
+
+    env->DeleteLocalRef(cls);
+
+    jmethodID mid = env->GetStaticMethodID(globalClass, method.c_str(), "(Ljava/lang/String;)V");
+
+    if (!mid) {
+        return;
+    }
+
+    jstring jStringParam = env->NewStringUTF(str.c_str());
+
+    env->CallStaticVoidMethod(globalClass, mid, jStringParam);
+    env->DeleteGlobalRef(globalClass);
+    env->DeleteLocalRef(jStringParam);
+}
+
+void callNativeVoidMethodParamStringIntInt(std::string classname, std::string method, std::string str, int param1, int param2) {
+
+    attachThread();
+
+    std::string findclass = "com/noclip/marcinmalysz/pixfight/" + classname;
+
+    jclass cls = env->FindClass(findclass.c_str());
+
+    if (!cls) {
+        return;
+    }
+
+    jclass globalClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
+
+    if (!globalClass) {
+        return;
+    }
+
+    env->DeleteLocalRef(cls);
+
+    jmethodID mid = env->GetStaticMethodID(globalClass, method.c_str(), "(IILjava/lang/String;)V");
+
+    if (!mid) {
+        return;
+    }
+
+    jstring jStringParam = env->NewStringUTF(str.c_str());
+
+    env->CallStaticVoidMethod(globalClass, mid, param1, param2, jStringParam);
+    env->DeleteGlobalRef(globalClass);
+    env->DeleteLocalRef(jStringParam);
+}
+
+void callNativeVoidMethodArray(std::vector<PFRoomInfo> rooms) {
+
+    attachThread();
+
+    jclass cls = env->FindClass("com/noclip/marcinmalysz/pixfight/PFJoinRoomFragment");
+
+    if (!cls) {
+        return;
+    }
+
+    jclass globalClass = reinterpret_cast<jclass>(env->NewGlobalRef(cls));
+
+    if (!globalClass) {
+        return;
+    }
+
+    env->DeleteLocalRef(cls);
+
+    jmethodID mid = env->GetStaticMethodID(globalClass, "onRoomRefresh", "([Ljava/lang/String;[I)V");
+
+    if (!mid) {
+        return;
+    }
+
+    int size = rooms.size();
+
+    jint tmp[size];
+    jstring str;
+
+    jobjectArray stringArray = env->NewObjectArray(size, env->FindClass("java/lang/String"),0);
+    jintArray portArray = env->NewIntArray(size);
+
+    for (int i = 0; i < size; ++i) {
+
+        PFRoomInfo room = rooms[i];
+
+        tmp[i] = room.roomPort;
+
+        struct tm * timeinfo;
+        char buffer[30];
+        timeinfo = localtime(&room.createdDate);
+        strftime(buffer, sizeof(buffer), "%m/%d/%Y %I:%M", timeinfo);
+
+        std::string roomstr(room.mapname);
+
+        roomstr += " - ";
+        roomstr += buffer;
+
+        str = env->NewStringUTF(roomstr.c_str());
+        env->SetObjectArrayElement(stringArray, i, str);
+        env->DeleteLocalRef(str);
+    }
+
+    env->SetIntArrayRegion(portArray, 0, size, tmp);
+
+    env->CallStaticVoidMethod(globalClass, mid, stringArray, portArray);
+    env->DeleteGlobalRef(globalClass);
+
+    env->DeleteLocalRef(stringArray);
+    env->DeleteLocalRef(portArray);
+}
+
 JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_initializeOpenGL(JNIEnv* jenv, jobject obj, jint width, jint height) {
 
     __android_log_print(ANDROID_LOG_DEBUG, "[PIXFIGHT]", "initializeOpenGL %d %d", width, height);
@@ -251,22 +382,22 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_in
 
     gameLogic->winGameCallback = [](void* context) {
 
-        callNativeVoidMethod("onWinEventBridge");
+        callNativeVoidMethod("PFRenderFragment", "onWinEventBridge");
     };
 
     gameLogic->loseGameCallback = [](void* context) {
 
-        callNativeVoidMethod("onLoseEventBridge");
+        callNativeVoidMethod("PFRenderFragment", "onLoseEventBridge");
     };
 
     gameLogic->botsStartThinkCallback = [](void* context) {
 
-        callNativeVoidMethod("botsStartThinkEventBridge");
+        callNativeVoidMethod("PFRenderFragment", "botsStartThinkEventBridge");
     };
 
     gameLogic->botsEndThinkCallback = [](void* context) {
 
-        callNativeVoidMethod("botsEndThinkEventBridge");
+        callNativeVoidMethod("PFRenderFragment", "botsEndThinkEventBridge");
     };
 
     gameLogic->baseSelectedCallback = [](void* context, GameBase *base) {
@@ -462,4 +593,214 @@ JNIEXPORT jstring JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment
     jstring result = jenv->NewStringUTF(gameLogic->getCurrentMapName().c_str());
 
     return result;
+}
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMainMenuFragment_disposeClient(JNIEnv* jenv, jobject obj) {
+
+    if (client) {
+        client->callback = nullptr;
+        client = nullptr;
+    }
+}
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragment_initializeClient(JNIEnv* jenv, jobject obj) {
+
+    client = std::make_shared<PFMultiplayerClient>(DEFAULT_SERVER_ADDR);
+
+    client->callback = [=](const PFSocketCommandType command, const vector<uint8_t> data){
+
+        switch (command) {
+
+            case PFSocketCommandTypeUnknown:
+            case PFSocketCommandTypeHeartbeat:
+            case PFSocketCommandTypeLeaveRoom:
+            case PFSocketCommandTypeRemoveRoom:
+            case PFSocketCommandTypeGetGameInfo:
+            case PFSocketCommandTypeReady:
+            case PFSocketCommandTypeOk:
+                break;
+
+            case PFSocketCommandTypeMakeRoom: {
+
+                callNativeVoidMethod("PFMultiplayerFragment", "onRoomEventBridge");
+            }
+                break;
+
+            case PFSocketCommandTypeDisconnect: {
+
+                callNativeVoidMethod("PFMainMenuFragment", "onDisconnectBridge");
+            }
+                break;
+
+            case PFSocketCommandTypeGameInfo: {
+
+                PFRoomInfo info;
+                memcpy(&info, data.data(), data.size() * sizeof(uint8_t));
+
+                client->setRoomInfo(info);
+
+                callNativeVoidMethodParamString("PFMakeRoomFragment", "onUpdateMap", info.mapname);
+            }
+                break;
+
+            case PFSocketCommandTypeSendTurn: {
+
+            }
+                break;
+
+            case PFSocketCommandTypeEndGame: {
+
+            }
+                break;
+
+            case PFSocketCommandTypeLoad: {
+
+                uint32_t playerId = 0;
+                memcpy(&playerId, data.data(), sizeof(uint32_t));
+
+                PFRoomInfo info = client->getRoomInfo();
+
+                callNativeVoidMethodParamStringIntInt("PFMakeRoomFragment", "onLoadMapBridge", info.mapname, playerId+1, info.players);
+            }
+                break;
+
+            case PFSocketCommandTypeRooms: {
+
+                size_t roomsSize = (data.size() * sizeof(uint8_t)) / sizeof(PFRoomInfo);
+
+                std::vector<PFRoomInfo> rooms(roomsSize);
+
+                memcpy(rooms.data(), data.data(), data.size() * sizeof(uint8_t));
+
+                callNativeVoidMethodArray(rooms);
+            }
+                break;
+
+            case PFSocketCommandTypeFire: {
+
+            }
+                break;
+
+            case PFSocketCommandTypeMove: {
+
+            }
+                break;
+
+            case PFSocketCommandTypeBuild: {
+
+            }
+                break;
+
+            case PFSocketCommandTypeCapture: {
+
+            }
+                break;
+
+            case PFSocketCommandTypeRepair: {
+
+            }
+                break;
+        }
+    };
+}
+
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragment_connectToServer(JNIEnv* jenv, jobject obj) {
+
+    if (client == nullptr) {
+
+        return static_cast<jboolean>(false);
+    }
+
+    return static_cast<jboolean>(client->connect());
+}
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragment_makeServerRoom(JNIEnv* jenv, jobject obj, jboolean privateroom) {
+
+
+    if (client == nullptr) {
+
+        return;
+    }
+
+    client->makeRoom(privateroom);
+}
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_removeRoom(JNIEnv* jenv, jobject obj) {
+
+    if (client == nullptr) {
+
+        return;
+    }
+
+    client->removeRoom();
+}
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_leaveRoom(JNIEnv* jenv, jobject obj) {
+
+    if (client == nullptr) {
+
+        return;
+    }
+
+    client->leaveRoom();
+}
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_setReady(JNIEnv* jenv, jobject obj) {
+
+    if (client == nullptr) {
+
+        return;
+    }
+
+    client->setReady();
+}
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_getRoomDetails(JNIEnv* jenv, jobject obj) {
+
+    if (client == nullptr) {
+
+        return;
+    }
+
+    client->getRoomDetails();
+}
+
+JNIEXPORT jint JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_getRoomPort(JNIEnv* jenv, jobject obj) {
+
+    if (client == nullptr) {
+
+        return static_cast<jint>(0);
+    }
+
+    return static_cast<jint>(client->getCurrentPort());
+}
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_updateRoomInfo(JNIEnv* jenv, jobject obj, jstring mapname, jint players) {
+
+    if (client == nullptr) {
+
+        return;
+    }
+
+    PFRoomInfo roomInfo;
+
+    std::string mapName = jstringTostring(jenv, mapname);
+
+    strcpy(roomInfo.mapname, mapName.c_str());
+    roomInfo.players = players;
+    roomInfo.createdDate = time(0);
+    roomInfo.roomPort = client->getCurrentPort();
+
+    client->setRoomInfo(roomInfo);
+    client->sendRoomDetails();
+}
+
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFJoinRoomFragment_listRooms(JNIEnv* jenv, jobject obj) {
+
+    client->listRooms();
+}
+
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFJoinRoomFragment_joinRoom(JNIEnv* jenv, jobject obj, jint roomID) {
+
+    return static_cast<jboolean>(client->joinRoom(roomID));
 }
