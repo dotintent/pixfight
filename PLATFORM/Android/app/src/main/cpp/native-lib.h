@@ -61,6 +61,10 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMakeRoomFragment_
 JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFJoinRoomFragment_listRooms(JNIEnv* jenv, jobject obj);
 JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFJoinRoomFragment_joinRoom(JNIEnv* jenv, jobject obj, jint roomID);
 
+JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_isMultiplayerMode(JNIEnv* jenv, jobject obj);
+JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_sendLoaded(JNIEnv* jenv, jobject obj);
+
+
 };
 
 #endif //ANDROID_NATIVE_LIB_H
