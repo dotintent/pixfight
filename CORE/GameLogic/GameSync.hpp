@@ -15,7 +15,7 @@
 
 class GameLogic;
 
-extern std::queue<std::function<void(void *constex, GameLogic *sender)>> syncQueue;
+extern std::queue<std::function<void(void *contex, GameLogic *sender)>> syncQueue;
 extern std::mutex syncMutex;
 extern std::atomic_bool action;
 extern void syncToMainLoop(std::function<void(void*, GameLogic*)> callback);

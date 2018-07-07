@@ -19,6 +19,9 @@ typedef PF_ENUM(unsigned int, SceneType) {
     SceneTypeLoadGame,
     SceneTypeSettings,
     SceneTypeRender,
+    SceneTypeMultiplayer,
+    SceneTypeMakeRoom,
+    SceneTypeJoinRoom,
     SceneTypeNone
 };
 
@@ -51,6 +54,7 @@ public:
 
     virtual void handleScroll(double s) {}
     virtual void handleMouse(int button, int action, double x, double y) {}
+    virtual void handleMove(const xVec2 &direction) {}
 
 protected:
 

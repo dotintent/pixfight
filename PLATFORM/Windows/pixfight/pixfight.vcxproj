@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(MSBuildProjectDirectory)\..\freetype2\include\freetype2;$(MSBuildProjectDirectory)\..\freetype2\include\freetype2\freetype\config;$(MSBuildProjectDirectory)\..\freetype2\include\freetype2\freetype;$(MSBuildProjectDirectory)\..\freetype2\include;$(MSBuildProjectDirectory)\..\..\Linux;$(MSBuildProjectDirectory)\..\..\..\CORE\utilities\Timer;$(MSBuildProjectDirectory)\..\..\..\CORE\utilities;$(MSBuildProjectDirectory)\..\..\..\CORE\Shader;$(MSBuildProjectDirectory)\..\..\..\CORE\Rendering;$(MSBuildProjectDirectory)\..\..\..\CORE\PathFinding;$(MSBuildProjectDirectory)\..\..\..\CORE\Math;$(MSBuildProjectDirectory)\..\..\..\CORE\iFurionGL;$(MSBuildProjectDirectory)\..\..\..\CORE\GameLogic;$(MSBuildProjectDirectory)\..\..\..\CORE\font;$(MSBuildProjectDirectory)\..\..\..\CORE\Audio;$(MSBuildProjectDirectory)\..\..\..\CORE\AI;$(MSBuildProjectDirectory)\..\..\..\CORE;$(MSBuildProjectDirectory)\..\glfw\include;$(MSBuildProjectDirectory)\..\glew\include;$(MSBuildProjectDirectory)\..\FMOD\inc;$(IncludePath)</IncludePath>
+    <IncludePath>$(MSBuildProjectDirectory)\..\freetype2\include\freetype2;$(MSBuildProjectDirectory)\..\freetype2\include\freetype2\freetype\config;$(MSBuildProjectDirectory)\..\freetype2\include\freetype2\freetype;$(MSBuildProjectDirectory)\..\freetype2\include;$(MSBuildProjectDirectory)\..\..\Linux;$(MSBuildProjectDirectory)\..\..\..\CORE\utilities\Timer;$(MSBuildProjectDirectory)\..\..\..\CORE\utilities;$(MSBuildProjectDirectory)\..\..\..\CORE\Shader;$(MSBuildProjectDirectory)\..\..\..\CORE\Rendering;$(MSBuildProjectDirectory)\..\..\..\CORE\PathFinding;$(MSBuildProjectDirectory)\..\..\..\CORE\Math;$(MSBuildProjectDirectory)\..\..\..\CORE\iFurionGL;$(MSBuildProjectDirectory)\..\..\..\CORE\GameLogic;$(MSBuildProjectDirectory)\..\..\..\CORE\font;$(MSBuildProjectDirectory)\..\..\..\CORE\Audio;$(MSBuildProjectDirectory)\..\..\..\CORE\AI;$(MSBuildProjectDirectory)\..\..\..\CORE;$(MSBuildProjectDirectory)\..\glfw\include;$(MSBuildProjectDirectory)\..\glew\include;$(MSBuildProjectDirectory)\..\FMOD\inc;$(MSBuildProjectDirectory)\..\..\..\SERVER\Utils;$(MSBuildProjectDirectory)\..\..\..\SERVER\clsocket;$(MSBuildProjectDirectory)\..\..\..\SERVER\PFClient;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\..\glfw\lib;$(MSBuildProjectDirectory)\..\glew\lib\Win32;$(MSBuildProjectDirectory)\..\freetype2\lib;$(MSBuildProjectDirectory)\..\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(MSBuildProjectDirectory)\..\freetype2\include\freetype2;$(MSBuildProjectDirectory)\..\freetype2\include\freetype2\freetype\config;$(MSBuildProjectDirectory)\..\freetype2\include\freetype2\freetype;$(MSBuildProjectDirectory)\..\freetype2\include;$(MSBuildProjectDirectory)\..\..\Linux;$(MSBuildProjectDirectory)\..\..\..\CORE\utilities\Timer;$(MSBuildProjectDirectory)\..\..\..\CORE\utilities;$(MSBuildProjectDirectory)\..\..\..\CORE\Shader;$(MSBuildProjectDirectory)\..\..\..\CORE\Rendering;$(MSBuildProjectDirectory)\..\..\..\CORE\PathFinding;$(MSBuildProjectDirectory)\..\..\..\CORE\Math;$(MSBuildProjectDirectory)\..\..\..\CORE\iFurionGL;$(MSBuildProjectDirectory)\..\..\..\CORE\GameLogic;$(MSBuildProjectDirectory)\..\..\..\CORE\font;$(MSBuildProjectDirectory)\..\..\..\CORE\Audio;$(MSBuildProjectDirectory)\..\..\..\CORE\AI;$(MSBuildProjectDirectory)\..\..\..\CORE;$(MSBuildProjectDirectory)\..\glfw\include;$(MSBuildProjectDirectory)\..\glew\include;$(MSBuildProjectDirectory)\..\FMOD\inc;$(IncludePath)</IncludePath>
+    <IncludePath>$(MSBuildProjectDirectory)\..\freetype2\include\freetype2;$(MSBuildProjectDirectory)\..\freetype2\include\freetype2\freetype\config;$(MSBuildProjectDirectory)\..\freetype2\include\freetype2\freetype;$(MSBuildProjectDirectory)\..\freetype2\include;$(MSBuildProjectDirectory)\..\..\Linux;$(MSBuildProjectDirectory)\..\..\..\CORE\utilities\Timer;$(MSBuildProjectDirectory)\..\..\..\CORE\utilities;$(MSBuildProjectDirectory)\..\..\..\CORE\Shader;$(MSBuildProjectDirectory)\..\..\..\CORE\Rendering;$(MSBuildProjectDirectory)\..\..\..\CORE\PathFinding;$(MSBuildProjectDirectory)\..\..\..\CORE\Math;$(MSBuildProjectDirectory)\..\..\..\CORE\iFurionGL;$(MSBuildProjectDirectory)\..\..\..\CORE\GameLogic;$(MSBuildProjectDirectory)\..\..\..\CORE\font;$(MSBuildProjectDirectory)\..\..\..\CORE\Audio;$(MSBuildProjectDirectory)\..\..\..\CORE\AI;$(MSBuildProjectDirectory)\..\..\..\CORE;$(MSBuildProjectDirectory)\..\glfw\include;$(MSBuildProjectDirectory)\..\glew\include;$(MSBuildProjectDirectory)\..\FMOD\inc;$(MSBuildProjectDirectory)\..\..\..\SERVER\Utils;$(MSBuildProjectDirectory)\..\..\..\SERVER\clsocket;$(MSBuildProjectDirectory)\..\..\..\SERVER\PFClient;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\..\glfw\lib;$(MSBuildProjectDirectory)\..\glew\lib\Win32;$(MSBuildProjectDirectory)\..\freetype2\lib;$(MSBuildProjectDirectory)\..\FMOD\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -243,9 +243,22 @@ Copy /Y $(ProjectDir)..\..\..\CORE\Resources\textures\icons\* $(ProjectDir)\data
     <ClInclude Include="..\..\..\CORE\utilities\stb_image.h" />
     <ClInclude Include="..\..\..\CORE\utilities\Timer\GameTimer.hpp" />
     <ClInclude Include="..\..\..\CORE\utilities\Timer\WindowsTimer.hpp" />
+    <ClInclude Include="..\..\..\SERVER\clsocket\ActiveSocket.h" />
+    <ClInclude Include="..\..\..\SERVER\clsocket\Host.h" />
+    <ClInclude Include="..\..\..\SERVER\clsocket\PassiveSocket.h" />
+    <ClInclude Include="..\..\..\SERVER\clsocket\SimpleSocket.h" />
+    <ClInclude Include="..\..\..\SERVER\clsocket\StatTimer.h" />
+    <ClInclude Include="..\..\..\SERVER\PFClient\PFMultiplayerClient.hpp" />
+    <ClInclude Include="..\..\..\SERVER\Utils\PFServerCommandType.hpp" />
+    <ClInclude Include="..\..\..\SERVER\Utils\PFServerUtils.hpp" />
+    <ClInclude Include="..\..\..\SERVER\Utils\PFSocketClient.hpp" />
+    <ClInclude Include="..\..\Linux\ApplicationRunLoop.hpp" />
     <ClInclude Include="..\..\Linux\BaseScene.hpp" />
+    <ClInclude Include="..\..\Linux\JoinRoomScene.hpp" />
     <ClInclude Include="..\..\Linux\LoadGameScene.hpp" />
+    <ClInclude Include="..\..\Linux\MakeRoomScene.hpp" />
     <ClInclude Include="..\..\Linux\MenuScene.hpp" />
+    <ClInclude Include="..\..\Linux\MultiplayerScene.hpp" />
     <ClInclude Include="..\..\Linux\NewGameScene.hpp" />
     <ClInclude Include="..\..\Linux\nuklear.h" />
     <ClInclude Include="..\..\Linux\nuklear_glfw_gl3.h" />
@@ -287,8 +300,18 @@ Copy /Y $(ProjectDir)..\..\..\CORE\Resources\textures\icons\* $(ProjectDir)\data
     <ClCompile Include="..\..\..\CORE\utilities\glTextureLoader.cpp" />
     <ClCompile Include="..\..\..\CORE\utilities\Timer\GameTimer.cpp" />
     <ClCompile Include="..\..\..\CORE\utilities\Timer\WindowsTimer.cpp" />
+    <ClCompile Include="..\..\..\SERVER\clsocket\ActiveSocket.cpp" />
+    <ClCompile Include="..\..\..\SERVER\clsocket\PassiveSocket.cpp" />
+    <ClCompile Include="..\..\..\SERVER\clsocket\SimpleSocket.cpp" />
+    <ClCompile Include="..\..\..\SERVER\PFClient\PFMultiplayerClient.cpp" />
+    <ClCompile Include="..\..\..\SERVER\Utils\PFServerUtils.cpp" />
+    <ClCompile Include="..\..\..\SERVER\Utils\PFSocketClient.cpp" />
+    <ClCompile Include="..\..\Linux\ApplicationRunLoop.cpp" />
+    <ClCompile Include="..\..\Linux\JoinRoomScene.cpp" />
     <ClCompile Include="..\..\Linux\LoadGameScene.cpp" />
+    <ClCompile Include="..\..\Linux\MakeRoomScene.cpp" />
     <ClCompile Include="..\..\Linux\MenuScene.cpp" />
+    <ClCompile Include="..\..\Linux\MultiplayerScene.cpp" />
     <ClCompile Include="..\..\Linux\NewGameScene.cpp" />
     <ClCompile Include="..\..\Linux\PFSettings.cpp" />
     <ClCompile Include="..\..\Linux\RenderScene.cpp" />

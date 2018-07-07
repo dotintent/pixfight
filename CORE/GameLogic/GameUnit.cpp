@@ -700,16 +700,6 @@ xVec2 GameUnit::getCurrentPosition() {
     return _currentPos;
 }
 
-void GameUnit::addExp(const float & exp) {
-
-    _actualStat.Expirence += exp;
-
-    if (_actualStat.Expirence > 100.0) {
-
-        _actualStat.Expirence = 100.0;
-    }
-}
-
 void GameUnit::setStats(const unitspec & sp) {
 
     _actualStat = sp;

@@ -31,6 +31,7 @@ link_directories( ${lib_mod_src_DIR}/lib/${ANDROID_ABI}/libfmodL.so )
 #CORE
 
 set( lib_core_src_DIR ${PROJECT_SOURCE_DIR}/../../../CORE )
+set( lib_server_src_DIR ${PROJECT_SOURCE_DIR}/../../../SERVER )
 
 #GLOBS
 
@@ -46,6 +47,13 @@ file(GLOB GAMELOGIC_H "${lib_core_src_DIR}/GameLogic/*.hpp")
 file(GLOB GAMELOGIC_CPP "${lib_core_src_DIR}/GameLogic/*.cpp")
 file(GLOB PATHFIND_H "${lib_core_src_DIR}/PathFinding/*.hpp")
 file(GLOB PATHFIND_CPP "${lib_core_src_DIR}/PathFinding/*.cpp")
+
+file(GLOB SERVER_UTIL_H "${lib_server_src_DIR}/Utils/*.hpp")
+file(GLOB SERVER_UTIL_CPP "${lib_server_src_DIR}/Utils/*.cpp")
+file(GLOB SERVER_CLIENT_H "${lib_server_src_DIR}/PFClient/*.hpp")
+file(GLOB SERVER_CLIENT_CPP "${lib_server_src_DIR}/PFClient/*.cpp")
+file(GLOB SERVER_SOCKET_H "${lib_server_src_DIR}/clsocket/*.h")
+file(GLOB SERVER_SOCKET_CPP "${lib_server_src_DIR}/clsocket/*.cpp")
 
 add_library( native-lib
 
@@ -70,6 +78,13 @@ add_library( native-lib
              ${GAMELOGIC_CPP}
              ${PATHFIND_H}
              ${PATHFIND_CPP}
+
+             ${SERVER_UTIL_H}
+             ${SERVER_UTIL_CPP}
+             ${SERVER_CLIENT_H}
+             ${SERVER_CLIENT_CPP}
+             ${SERVER_SOCKET_H}
+             ${SERVER_SOCKET_CPP}
 
              ${lib_core_src_DIR}/utilities/BasePathExtraction.cpp
              ${lib_core_src_DIR}/utilities/BasePathExtraction.hpp
@@ -107,13 +122,16 @@ include_directories( ${lib_core_src_DIR}/GameLogic )
 include_directories( ${lib_core_src_DIR}/PathFinding )
 include_directories( ${lib_core_src_DIR}/Audio )
 
+include_directories( ${lib_server_src_DIR}/Utils )
+include_directories( ${lib_server_src_DIR}/PFClient )
+include_directories( ${lib_server_src_DIR}/clsocket )
+
 #Resources
 
 set( ASSETS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/main/assets )
 set( FONTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/main/res/font )
 
 configure_file( ${lib_core_src_DIR}/Resources/Lato-Black.ttf ${ASSETS_DIR}/Lato-Black.ttf COPYONLY )
-configure_file( ${lib_core_src_DIR}/Resources/FFFATLAN.TTF ${ASSETS_DIR}/FFFATLAN.TTF COPYONLY )
 
 configure_file( ${lib_core_src_DIR}/Resources/FFFATLAN.TTF ${FONTS_DIR}/fffatlan.ttf COPYONLY )
 

@@ -1,9 +1,15 @@
 #include "RenderScene.hpp"
 #include "glTextureLoader.hpp"
 #include "PFSettings.h"
+#include "ApplicationRunLoop.hpp"
+
+using namespace std;
 
 RenderScene::RenderScene(const std::string & name, const std::string rootPath, struct nk_context *ctx)
 : BaseScene(name, rootPath, ctx)
+#ifndef __EMSCRIPTEN__
+, client(nullptr)
+#endif
 , _gameLogic(nullptr)
 , _time(4)
 , _gamewin(false)
@@ -13,7 +19,11 @@ RenderScene::RenderScene(const std::string & name, const std::string rootPath, s
 , _selectedBase(nullptr)
 , _homemenu(false)
 , _saved(false)
-, _error(false) {
+, _error(false)
+, _allowinteraction(false)
+, _disconnect(false)
+, _turnaction(false)
+, _winaction(false) {
 
 }
 
@@ -206,6 +216,52 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
         nk_style_set_font(_ctx, &normal->handle);
     }
 
+    if (_disconnect || _turnaction || _winaction) {
+
+         if (nk_begin(_ctx, _disconnect ? "ERROR" : "INFO", nk_rect((1024 - 600) * 0.5, 80, 600, 170), NK_WINDOW_TITLE|NK_WINDOW_BORDER)) {
+
+            nk_style_set_font(_ctx, &smallfont->handle);
+
+            _ctx->style.button.normal = nk_style_item_color(nk_rgb(50, 50, 50));
+            _ctx->style.button.hover  = nk_style_item_color(nk_rgb(200, 200, 200));
+            _ctx->style.button.active = nk_style_item_color(nk_rgb(245, 184, 48));
+
+            nk_layout_row_static(_ctx, 40, 570, 1);
+
+            if (_disconnect){
+
+                nk_label(_ctx, "You have been disconnected from the game...", NK_TEXT_ALIGN_CENTERED);
+            }
+            else if (_turnaction){
+
+                nk_label(_ctx, "It's your turn!", NK_TEXT_ALIGN_CENTERED);
+            }
+            else if (_winaction){
+
+                nk_label(_ctx, "Game finished!", NK_TEXT_ALIGN_CENTERED);
+            }
+
+            static float spacing[] = {0.383, 0.23, 0.383};
+            nk_layout_row(_ctx, NK_DYNAMIC, 40, 3, spacing);
+
+            nk_spacing(_ctx, 1);
+
+            if (nk_button_label(_ctx, "OK")) {
+
+                if (_disconnect) {
+
+                    _type = SceneTypeMenu;
+                }
+
+                _disconnect = false;
+                _turnaction = false;
+                _winaction = false;
+            }
+            nk_style_set_font(_ctx, &normal->handle);
+        }
+        nk_end(_ctx);
+    }
+
     _ctx->style.button.text_normal = nk_rgb(0, 0, 0);
 
     _ctx->style.window.fixed_background = nk_style_item_color(nk_rgba(0, 0, 0, 0));
@@ -229,7 +285,21 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
         //back button
         if (nk_button_label(_ctx, "") && !_saved) {
 
+#ifndef __EMSCRIPTEN__
+            if (client) {
+
+                _type = SceneTypeMenu;
+
+            } else {
+
+                _homemenu = true;
+            }
+#else 
+
             _homemenu = true;
+#endif
+
+
         }
 
         _ctx->style.button.normal = nk_style_item_image(_undobtn);
@@ -238,12 +308,15 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
         nk_spacing(_ctx, 1);
 
-        if ( _gameLogic->canUndo()) {
+#ifndef __EMSCRIPTEN__
+        if (_gameLogic->canUndo() && (client == nullptr)) {
+#else 
+        if (_gameLogic->canUndo()) {
+#endif
 
             if (nk_button_label(_ctx, "") && _gameLogic->canEndTurn()) {
 
                 _gameLogic->undo();
-
             }
 
         }
@@ -258,29 +331,49 @@ SceneType RenderScene::Render(struct nk_font *smallfont, struct nk_font *normal)
 
         nk_spacing(_ctx, 1);
 
-        std::stringstream ss;
+#ifndef __EMSCRIPTEN__
+        if (client == nullptr) {
+#endif
 
-        ss << "X";
-        ss << _time;
+            std::stringstream ss;
 
-        nk_style_set_font(_ctx, &smallfont->handle);
-        if (nk_button_label(_ctx, ss.str().c_str())) {
+            ss << "X";
+            ss << _time;
 
-            _time = _gameLogic->multiplyTime();
+            nk_style_set_font(_ctx, &smallfont->handle);
+            if (nk_button_label(_ctx, ss.str().c_str())) {
+
+                _time = _gameLogic->multiplyTime();
+            }
+            nk_style_set_font(_ctx, &normal->handle);
+
+#ifndef __EMSCRIPTEN__
         }
-        nk_style_set_font(_ctx, &normal->handle);
+        else {
+
+            nk_spacing(_ctx, 1);
+        }
+#endif
 
         _ctx->style.button.normal = nk_style_item_image(_turnbtn);
         _ctx->style.button.hover  = nk_style_item_image(_turnbtn);
         _ctx->style.button.active = nk_style_item_image(_turnbtnp);
 
         nk_spacing(_ctx, 1);
-        if (nk_button_label(_ctx, "") && !_homemenu && !_baseselected) {
 
-            if (_gameLogic->canEndTurn()) {
+        if (_allowinteraction) {
 
-                _gameLogic->endTurn();
+            if (nk_button_label(_ctx, "") && !_homemenu && !_baseselected) {
+
+                if (_gameLogic->canEndTurn()) {
+
+                    _gameLogic->endTurn();
+                }
             }
+        }
+        else {
+
+            nk_spacing(_ctx, 1);
         }
 
     }
@@ -294,6 +387,9 @@ void RenderScene::Init() {
 	_gamewin = false;
 	_gamelost = false;
 	_botsthinking = false;
+	_disconnect = false;
+	_turnaction = false;
+	_winaction = false;
 
     _gameLogic = new GameLogic(1024, 768, _rootPath, _audio);
 
@@ -326,9 +422,167 @@ void RenderScene::Init() {
 
     bool hardAI = GameSettings->getHardai();
     _gameLogic->setHardAI(hardAI);
+
+}
+
+void RenderScene::setupMultiplayer() {
+
+#ifndef __EMSCRIPTEN__
+    if (client == nullptr) {
+        return;
+    }
+
+    client->callback = [=](const PFSocketCommandType command, const std::vector<uint8_t> data){
+
+        syncToRunLoop([&, command, data](){
+
+             switch (command) {
+
+                case PFSocketCommandTypeMakeRoom:
+                case PFSocketCommandTypeLeaveRoom:
+                case PFSocketCommandTypeRemoveRoom:
+                case PFSocketCommandTypeGameInfo:
+                case PFSocketCommandTypeGetGameInfo:
+                case PFSocketCommandTypeUnknown:
+                case PFSocketCommandTypeHeartbeat:
+                case PFSocketCommandTypeReady:
+                case PFSocketCommandTypeLoad:
+                case PFSocketCommandTypeRooms:
+                case PFSocketCommandTypeOk: {
+                    break;
+                }
+                case PFSocketCommandTypeDisconnect: {
+
+                    cout << "PFSocketCommandTypeDisconnect" << endl;
+
+                    client->disconnect();
+                    _disconnect = true;
+
+                    break;
+                }
+                case PFSocketCommandTypeSendTurn: {
+
+                    uint32_t currentPlayerTurn = 0;
+
+                    memcpy(&currentPlayerTurn, data.data(), data.size() * sizeof(uint8_t));
+
+                    cout << "Current player turn: " << currentPlayerTurn << endl;
+
+                    uint32_t playerID = currentPlayerTurn + 1;
+
+                    updateMultiplayerState(playerID);
+
+                    if (_allowinteraction) {
+
+                        _gameLogic->startTurn();
+                        _turnaction = true;
+                    }
+
+                    break;
+                }
+                case PFSocketCommandTypeEndGame: {
+
+                    //uint32_t winnnerID = 0;
+                    //memcpy(&winnnerID, data.data(), data.size() * sizeof(uint8_t));
+
+                    cout << "PFSocketCommandTypeEndGame" << endl;
+
+                    client->disconnect();
+                    _gameLogic->startTurn();
+
+                    _winaction = true;
+
+                    break;
+                }
+                case PFSocketCommandTypeFire: {
+
+                    uint32_t idA = 0;
+                    uint32_t idB = 0;
+                    uint32_t sizeA = 0;
+                    uint32_t sizeB = 0;
+
+                    memcpy(&idA, data.data(), sizeof(uint32_t));
+                    memcpy(&idB, data.data() + sizeof(uint32_t), sizeof(uint32_t));
+                    memcpy(&sizeA, data.data() + sizeof(uint32_t) * 2, sizeof(uint32_t));
+                    memcpy(&sizeB, data.data() + sizeof(uint32_t) * 3, sizeof(uint32_t));
+
+                    _gameLogic->remoteAttackUnit(idA, idB, sizeA, sizeB);
+
+                    break;
+                }
+                case PFSocketCommandTypeMove: {
+
+                    uint32_t unitID = 0;
+                    float posX = 0;
+                    float posY = 0;
+
+                    memcpy(&unitID, data.data(), sizeof(uint32_t));
+                    memcpy(&posX, data.data() + sizeof(uint32_t), sizeof(float));
+                    memcpy(&posY, data.data() + sizeof(uint32_t) + sizeof(float), sizeof(float));
+
+                    _gameLogic->remoteMoveUnit(unitID, posX, posY);
+
+                    break;
+                }
+                case PFSocketCommandTypeBuild: {
+
+                    uint32_t baseID = 0;
+                    uint16_t unit = 0;
+
+                    memcpy(&baseID, data.data(), sizeof(uint32_t));
+                    memcpy(&unit, data.data() + sizeof(uint32_t), sizeof(uint16_t));
+
+                    _gameLogic->remoteBuildUnit(baseID, unit);
+
+                    break;
+                }
+                case PFSocketCommandTypeCapture: {
+
+                    uint32_t baseID = 0;
+                    uint32_t unitID = 0;
+
+                    memcpy(&baseID, data.data(), sizeof(uint32_t));
+                    memcpy(&unitID, data.data() + sizeof(uint32_t), sizeof(uint32_t));
+
+                    _gameLogic->remoteCaptureBase(baseID, unitID);
+
+                    break;
+                }
+                case PFSocketCommandTypeRepair: {
+
+                    uint32_t baseID = 0;
+                    uint32_t unitID = 0;
+
+                    memcpy(&baseID, data.data(), sizeof(uint32_t));
+                    memcpy(&unitID, data.data() + sizeof(uint32_t), sizeof(uint32_t));
+
+                    _gameLogic->remoteRepairUnit(baseID, unitID);
+
+                    break;
+                }
+
+            }
+
+        });
+    };
+
+#endif
+}
+
+void RenderScene::updateMultiplayerState(uint32_t playerID) {
+
+    _allowinteraction = (PLAYERTEAMSELECTED == playerID);
 }
 
 void RenderScene::Destroy() {
+
+#ifndef __EMSCRIPTEN__
+    if (client) {
+        client->callback = nullptr;
+        client->disconnect();
+        client = nullptr;
+    }
+#endif
 
     delete _gameLogic;
     _gameLogic = nullptr;
@@ -340,9 +594,31 @@ void RenderScene::newGame(std::string mapname, int players, int playerID) {
 
     int teamID = playerID+1;
 
+#ifndef __EMSCRIPTEN__
+    _gameLogic->createNewGame(mapname, teamID, players, client);
+#else
     _gameLogic->createNewGame(mapname, teamID, players);
+#endif
 
     setup(teamID);
+
+#ifndef __EMSCRIPTEN__
+    if (client) {
+
+        setupMultiplayer();
+        updateMultiplayerState(0);
+
+        client->setLoaded();
+    }
+    else {
+
+        _allowinteraction = true;
+    }
+#else 
+
+    _allowinteraction = true;
+
+#endif
 }
 
 void RenderScene::loadGame(std::string path) {
@@ -350,6 +626,8 @@ void RenderScene::loadGame(std::string path) {
     _gameLogic->loadGame(path);
 
     setup(PLAYERTEAMSELECTED);
+
+    _allowinteraction = true;
 }
 
 void RenderScene::setup(int teamID) {
@@ -460,7 +738,7 @@ void RenderScene::handleMouse(int button, int action, double x, double y) {
 
     if (button == 0 && action == 1) {
 
-        if (!_baseselected) {
+        if (!_baseselected && _allowinteraction) {
 
             _gameLogic->touchDownAtPoint(xVec2(x, y));
         }
@@ -490,4 +768,9 @@ void RenderScene::handleMouse(int button, int action, double x, double y) {
 
         _gameLogic->setDirectionVec(dir);
     }
+}
+
+void RenderScene::handleMove(const xVec2 &direction) {
+
+    _gameLogic->setDirectionVec(direction);
 }

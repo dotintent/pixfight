@@ -25,15 +25,24 @@ public:
 
     virtual void handleScroll(double s) override;
     virtual void handleMouse(int button, int action, double x, double y) override;
+    virtual void handleMove(const xVec2 &direction) override;
 
     void setAudio(Audio *audio) { _audio = audio; }
 
     void newGame(std::string mapname, int players, int playerID);
     void loadGame(std::string path);
 
+#ifndef __EMSCRIPTEN__
+    std::shared_ptr<PFMultiplayerClient> client;
+#endif
+
 private:
 
     void setup(int teamID);
+    void setupMultiplayer();
+    void updateMultiplayerState(uint32_t playerID);
+
+private:
 
     GameLogic *_gameLogic;
     Audio *_audio;
@@ -65,4 +74,9 @@ private:
 
     bool _saved;
     bool _error;
+    bool _allowinteraction;
+
+    bool _disconnect;
+    bool _turnaction;
+    bool _winaction;
 };

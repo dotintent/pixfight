@@ -16,7 +16,10 @@
 #import "GameLogic.hpp"
 #import "NSView+DisableActions.h"
 
-@interface PFRenderViewController () <PFSelectUnitViewControllerDelegate, PFGameMenuViewControllerDelegate> {
+@interface PFRenderViewController ()
+<PFSelectUnitViewControllerDelegate,
+PFGameMenuViewControllerDelegate,
+NSUserNotificationCenterDelegate> {
 
     GameLogic *gameLogic;
     NSEvent *_scrollKeyMonitor;
@@ -26,6 +29,7 @@
 @property (weak) IBOutlet NSButton *endTurnButton;
 @property (weak) IBOutlet NSButton *menuButton;
 @property (weak) IBOutlet NSButton *undoButton;
+@property (weak) IBOutlet NSButton *multiplyButton;
 @property (weak) IBOutlet NSVisualEffectView *overlayView;
 @property (weak) IBOutlet NSProgressIndicator *spinner;
 
@@ -33,12 +37,18 @@
 @property (assign) NSInteger playersCount;
 @property (copy) NSString *mapName;
 @property (copy) NSString *savePath;
+@property (assign) BOOL allowInteraction;
 
 @property (strong) PFRendererGLView *renderView;
 
 @end
 
 @implementation PFRenderViewController
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification {
+
+    return YES;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -171,13 +181,226 @@
         
         gameLogic->createNewGame(self.mapName.UTF8String,
                                  playerID,
-                                 playerCount);
+                                 playerCount,
+                                 self.client);
+    }
+
+    if (self.client) {
+
+        [self setupMultiplayer];
+        [self updateMultiplayerState:0];
+
+        self.client->setLoaded();
+    }
+    else {
+
+        self.allowInteraction = YES;
     }
 
     self.renderView.endRoundButton = self.endTurnButton;
     self.renderView.undoTurnButton = self.undoButton;
 
     [self.renderView setGameLogic:gameLogic];
+}
+
+- (void)disconnectAction {
+
+    NSAlert *alert = [[NSAlert alloc] init];
+
+    [alert addButtonWithTitle:@"OK"];
+    [alert setMessageText:@"ERROR"];
+    [alert setInformativeText:@"You have been disconnected from the game..."];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+
+    NSModalResponse response = [alert runModal];
+
+    if (response == 1000) {
+
+        [self dismissController:nil];
+    }
+}
+
+- (void)mutliplayerWinAction:(NSInteger)playerID {
+
+    NSAlert *alert = [[NSAlert alloc] init];
+
+    [alert addButtonWithTitle:@"OK"];
+    [alert setMessageText:@"GAME FINISED"];
+    [alert setInformativeText:[NSString stringWithFormat:@"Player %ld win!", (long)playerID]];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+
+    NSModalResponse response = [alert runModal];
+
+    if (response == 1000) {
+
+        [self dismissController:nil];
+    }
+}
+
+- (void)multiplayerTurnAction {
+
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    notification.identifier = @"pixfight_id";
+    notification.title = @"Pixfight";
+    notification.subtitle = @"It's your turn!";
+    notification.soundName = NSUserNotificationDefaultSoundName;
+    notification.contentImage = [NSApp applicationIconImage];
+
+    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+
+    center.delegate = self;
+    [center deliverNotification:notification];
+    [center removeAllDeliveredNotifications];
+}
+
+- (void)setupMultiplayer {
+
+    __weak __typeof__(self) weakSelf = self;
+    
+    self.client->callback = [=](const PFSocketCommandType cmd, const std::vector<uint8_t> pckt){
+
+        PFSocketCommandType command = cmd;
+        std::vector<uint8_t> data = pckt;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            switch (command) {
+
+                case PFSocketCommandTypeMakeRoom:
+                case PFSocketCommandTypeLeaveRoom:
+                case PFSocketCommandTypeRemoveRoom:
+                case PFSocketCommandTypeGameInfo:
+                case PFSocketCommandTypeGetGameInfo:
+                case PFSocketCommandTypeUnknown:
+                case PFSocketCommandTypeHeartbeat:
+                case PFSocketCommandTypeReady:
+                case PFSocketCommandTypeLoad:
+                case PFSocketCommandTypeRooms:
+                case PFSocketCommandTypeOk: {
+                    break;
+                }
+                case PFSocketCommandTypeDisconnect: {
+
+                    cout << "PFSocketCommandTypeDisconnect" << endl;
+
+                    weakSelf.client->disconnect();
+                    [weakSelf disconnectAction];
+
+                    break;
+                }
+                case PFSocketCommandTypeSendTurn: {
+
+                    uint32_t currentPlayerTurn = 0;
+
+                    memcpy(&currentPlayerTurn, data.data(), data.size() * sizeof(uint8_t));
+
+                    cout << "Current player turn: " << currentPlayerTurn << endl;
+
+                    NSInteger playerID = currentPlayerTurn + 1;
+
+                    [weakSelf updateMultiplayerState:playerID];
+
+                    if (weakSelf.allowInteraction) {
+
+                        gameLogic->startTurn();
+                        [weakSelf multiplayerTurnAction];
+                    }
+
+                    break;
+                }
+                case PFSocketCommandTypeEndGame: {
+
+                    uint32_t winnnerID = 0;
+                    memcpy(&winnnerID, data.data(), data.size() * sizeof(uint8_t));
+
+                    cout << "PFSocketCommandTypeEndGame" << endl;
+
+                    weakSelf.client->disconnect();
+                    gameLogic->startTurn();
+
+                    [weakSelf mutliplayerWinAction:winnnerID];
+
+                    break;
+                }
+                case PFSocketCommandTypeFire: {
+
+                    uint32_t idA = 0;
+                    uint32_t idB = 0;
+                    uint32_t sizeA = 0;
+                    uint32_t sizeB = 0;
+
+                    memcpy(&idA, data.data(), sizeof(uint32_t));
+                    memcpy(&idB, data.data() + sizeof(uint32_t), sizeof(uint32_t));
+                    memcpy(&sizeA, data.data() + sizeof(uint32_t) * 2, sizeof(uint32_t));
+                    memcpy(&sizeB, data.data() + sizeof(uint32_t) * 3, sizeof(uint32_t));
+
+                    gameLogic->remoteAttackUnit(idA, idB, sizeA, sizeB);
+
+                    break;
+                }
+                case PFSocketCommandTypeMove: {
+
+                    uint32_t unitID = 0;
+                    float posX = 0;
+                    float posY = 0;
+
+                    memcpy(&unitID, data.data(), sizeof(uint32_t));
+                    memcpy(&posX, data.data() + sizeof(uint32_t), sizeof(float));
+                    memcpy(&posY, data.data() + sizeof(uint32_t) + sizeof(float), sizeof(float));
+
+                    gameLogic->remoteMoveUnit(unitID, posX, posY);
+
+                    break;
+                }
+                case PFSocketCommandTypeBuild: {
+
+                    uint32_t baseID = 0;
+                    uint16_t unit = 0;
+
+                    memcpy(&baseID, data.data(), sizeof(uint32_t));
+                    memcpy(&unit, data.data() + sizeof(uint32_t), sizeof(uint16_t));
+
+                    gameLogic->remoteBuildUnit(baseID, unit);
+
+                    break;
+                }
+                case PFSocketCommandTypeCapture: {
+
+                    uint32_t baseID = 0;
+                    uint32_t unitID = 0;
+
+                    memcpy(&baseID, data.data(), sizeof(uint32_t));
+                    memcpy(&unitID, data.data() + sizeof(uint32_t), sizeof(uint32_t));
+
+                    gameLogic->remoteCaptureBase(baseID, unitID);
+
+                    break;
+                }
+                case PFSocketCommandTypeRepair: {
+
+                    uint32_t baseID = 0;
+                    uint32_t unitID = 0;
+
+                    memcpy(&baseID, data.data(), sizeof(uint32_t));
+                    memcpy(&unitID, data.data() + sizeof(uint32_t), sizeof(uint32_t));
+
+                    gameLogic->remoteRepairUnit(baseID, unitID);
+
+                    break;
+                }
+
+            }
+        });
+    };
+}
+
+- (void)updateMultiplayerState:(NSInteger)playerID {
+
+    self.allowInteraction = (PLAYERTEAMSELECTED == playerID);
+
+    self.endTurnButton.hidden = !self.allowInteraction;
+    self.multiplyButton.hidden = YES;
+    self.undoButton.hidden = YES;
 }
 
 - (IBAction)endTurnAction:(NSButton *)sender {
@@ -192,8 +415,17 @@
 }
 
 - (IBAction)homeAction:(NSButton *)sender {
-    
+
     [sender setState:NSControlStateValueOff];
+
+    if (self.client) {
+
+        self.client->callback = nullptr;
+        self.client->disconnect();
+        [self dismissController:nil];
+
+        return;
+    }
 
     [self performSegueWithIdentifier:@"PFMenuSegueIdentifier" sender:self];
 }
@@ -344,6 +576,10 @@
 - (void)tapGestureAction:(NSClickGestureRecognizer *)recognizer {
     
     if (!gameLogic) {
+        return;
+    }
+
+    if (!self.allowInteraction) {
         return;
     }
 

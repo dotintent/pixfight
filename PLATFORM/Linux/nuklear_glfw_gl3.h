@@ -19,7 +19,7 @@
 
 #include "Core-pch.hpp"
 
-#else 
+#else
 
 #include <GLFW/glfw3.h>
 
@@ -84,7 +84,7 @@ NK_API void
 nk_glfw3_device_create(void)
 {
 
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) || defined(_RPI_)
     GLint status;
     static const GLchar *vertex_shader =
         "#version 100\n"
@@ -260,7 +260,7 @@ nk_glfw3_render(enum nk_anti_aliasing AA, int max_vertex_buffer, int max_element
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, max_element_buffer, NULL, GL_STREAM_DRAW);
 
 //WebGL does not support glMapBuffer use old way
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) || defined(_RPI_)
 
         /* load vertices/elements directly into vertex/element buffer */
         vertices = malloc((size_t)max_vertex_buffer);
@@ -295,7 +295,7 @@ nk_glfw3_render(enum nk_anti_aliasing AA, int max_vertex_buffer, int max_element
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, (size_t)max_element_buffer, elements);
         free(vertices);
         free(elements);
-#else 
+#else
 
         /* load draw vertices & elements directly into vertex + element buffer */
         vertices = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);

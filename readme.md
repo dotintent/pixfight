@@ -1,6 +1,6 @@
 # Pixfight
 
-This is an opensource crossplatform clone of [WeeWar](https://web.archive.org/web/20150315005124/http://weewar.com/) pixelart turn based strategy with AI. Done in C++14 with OpenGL 2.0 ES / 3.2 Core. With native applications for each platform (iOS, macOS, Linux, Windows, Android) 
+This is an opensource crossplatform clone of [WeeWar](https://web.archive.org/web/20150315005124/http://weewar.com/) pixelart turn based strategy with AI. Done in C++14 with OpenGL 2.0 ES / 3.2 Core. With native applications for each platform (iOS, macOS, Linux, Windows, Android, HTML5, Raspberry-Pi) 
 
 ## System Requirements:
 
@@ -41,16 +41,44 @@ If unit stays on base it gets extra defence bonus. Each turn you earn (N+1 * 100
 
 ### Units:
 
-![Infantry](../master/CORE/Resources/textures/icons/icon_infantry1.png) - Infantry unit, cost 75. Can capture bases. Strong against other infantry units, weak against Jeep.  
+![Infantry](../master/CORE/Resources/textures/icons/icon_infantry1.png) - Infantry unit, cost 75. 
+ * Can capture bases. 
+ * Strong against other infantry units.
+ * Weak against Jeep.  
+ * Attack: 4
+ * Defence: 6
+ * Move: 5
 
-![Bazooka](../master/CORE/Resources/textures/icons/icon_bazooka1.png) - Bazooka unit, cost 150. Can capture bases. Strong against mobile units, weak against Jeep.  
+![Bazooka](../master/CORE/Resources/textures/icons/icon_bazooka1.png) - Bazooka unit, cost 150. 
+ * Can capture bases.
+ * Strong against mobile units.
+ * Weak against Jeep.  
+ * Attack: 6
+ * Defence: 6
+ * Move: 4
  
-![Jeep](../master/CORE/Resources/textures/icons/icon_jeep1.png) - Jeep unit, cost 200. Strong against infantry units, weak against Tank or Artillery.  
+![Jeep](../master/CORE/Resources/textures/icons/icon_jeep1.png) - Jeep unit, cost 200. 
+ * Strong against infantry units.
+ * Weak against Tank or Artillery.  
+ * Attack: 8
+ * Defence: 8
+ * Move: 6
 
-![Tank](../master/CORE/Resources/textures/icons/icon_tank1.png) - Tank unit, cost 300. Strong against mobile and infantry units, weak against Bazooka unit. 
-
-![Artillery](../master/CORE/Resources/textures/icons/icon_artillery1.png) - Artillery unit, cost 200. Strong against any unit. May shoot at distance. If you move it first it cannot shoot. Weak agains Tank and Bazooka unit.
-
+![Tank](../master/CORE/Resources/textures/icons/icon_tank1.png) - Tank unit, cost 300. 
+ * Strong against mobile and infantry units.
+ * Weak against Bazooka unit. 
+ * Attack: 10
+ * Defence: 10
+ * Move: 4
+ 
+![Artillery](../master/CORE/Resources/textures/icons/icon_artillery1.png) - Artillery unit, cost 200. 
+ * Strong against any unit. 
+ * May shoot at distance. 
+ * If you move it first it cannot shoot. 
+ * Weak agains Tank and Bazooka unit.
+ * Attack: 10
+ * Defence: 3
+ * Move: 3
 
 ## Download
 
@@ -59,17 +87,16 @@ Latest stable versions:
 [Android](https://github.com/inFullMobile/pixfight/releases)  
 [Windows](https://github.com/inFullMobile/pixfight/releases)  
 [Linux](https://github.com/inFullMobile/pixfight/releases) - Please follow building instructions to run it  
+[Raspberry Pi](https://github.com/inFullMobile/pixfight/releases) - Please follow building instructions to run it  
 [macOS](https://github.com/inFullMobile/pixfight/releases)  
 [iOS](https://developer.apple.com/xcode/) - Please download the source code and build it using Xcode  
-[HTML5](https://github.com/inFullMobile/pixfight/releases)
+[HTML5](https://github.com/inFullMobile/pixfight/releases)  
+[Map Editor](https://github.com/inFullMobile/pixfight/releases)
 
 ## FAQ:
 
 Q: Can you provide a *.ipa for me?  
 A: No, if you want to run this game on iPhone/iPad please download the Xcode and build it for yourself.
-
-Q: Can I make a spinoff / modify it?   
-A: Of course the whole idea of this project is to motivate people to make this even better.
 
 Q: Do you consider support for other platforms like Switch, PS4?  
 A: Yes, but I don't have access to the hardware required to build it or test it.   
@@ -111,6 +138,9 @@ Inspire for the game comes from [WeeWar](https://web.archive.org/web/20150315005
 
 Big thanks to [infullmobile](https://www.infullmobile.com) for providing textures for this project.  
 
+[Parseus](https://github.com/Parseus) - for kicking of RaspberryPi version  
+[Parseus](https://github.com/Parseus) - for Refactoring Android version
+
 # 3. 3rd party libraries
 
 This project use the following 3rd party libraries:
@@ -122,7 +152,8 @@ Font loading - [freetype2](https://www.freetype.org)
 Image loading - [stb_image](https://github.com/nothings/stb)  
 UI components on Linux and Windows - [nuclear](https://github.com/vurtun/nuklear)  
 Window creation and input on Linux and Windows [GLFW](http://www.glfw.org)  
-OpenGL extensions [GLEW](http://glew.sourceforge.net)
+OpenGL extensions [GLEW](http://glew.sourceforge.net)  
+Sockets library [clsocket](https://github.com/DFHack/clsocket)
 
 Music - [dl-sounds](https://www.dl-sounds.com/)  
 Sound - [freesound](https://freesound.org/)
@@ -189,6 +220,50 @@ cp  "$(PROJECT_DIR)/FMOD/lib/x86_64/libfmodL.so.10.3" "/usr/lib/x86_64-linux-gnu
 * Open pixfight.cbp project file
 * Press F9 or play button to build and run.
 
+### RaspberryPi
+
+You need to install [codeblocks](http://www.codeblocks.org) to compile this project.
+
+Before compiling and running you need to download additional libraries:
+```
+sudo apt-get install libfreetype6-dev
+sudo apt-get install libglfw3-dev 
+sudo apt-get install freeglut3-dev
+sudo apt-get install libgles2-mesa-dev
+```
+
+Also run codeblocks from terminal with sudo command to let it copy FMOD libs to `usr/lib/arm-linux-gnueabihf`
+
+Before compiling and running make sure your RaspberryPi is working with hardware driver for opengl:
+
+**Keep in mind this is experimental Driver and its not finished**
+
+Open terminal and type:
+
+```
+sudo apt-get update
+sudo apt-get upgrade
+sudo raspi-config
+```
+
+You will now see RPi configuration menu.
+
+* Go to 7 Advanced Options 
+* A3 Memory Split 
+* Set Amount to at least 256
+* Get back to Advanced Options
+* Choose A7 GL Driver
+* Set it to G1 GL (Full KMS)
+* Confirm and reboot
+
+More info can be found [here](http://www.raspberryconnect.com/gamessoftware/item/314-trying_out_opengl_on_raspberry_pi_3)
+
+After reboot you are ready to go.
+
+* Navigate to pixfight/PLATFORM/RaspberryPi
+* Open pixfight.cbp project file
+* Press F9 or play button to build and run.
+
 ### Windows
 
 This project require at least `Visual Studio 2017 community version`  	 
@@ -246,10 +321,24 @@ If you have problems running editor on macOS (mostly High Sierra) you will need 
 * After the compilation process, type in `sudo make install`  
 * The libraries will be copied to `/usr/local/lib/`, the header files to `/usr/local/include/`  
 
+### Server
+
+Server uses `Makefile`, you need to install `cmake` to compile and build.
+
+* Open bash console (on Windows you can use mingw)
+* Navigate to pixfight/SERVER/PFServer/
+* Type `make` and tap enter
+* Binaries with additional catalogues will be placed in `bin` directory
+
+If you want to run your own dedicated server on e.g: vps, build server on linux and replace `DEFAULT_SERVER_ADDR` with your server IP and rebuild game.
+
+**Current server location is in Europe - UK**
+
 # 5. Next steps  
   
+* Nintendo Switch Version
   
-* Multiplayer    
+* Map terrain types will affect unit stats. (Grass, Woods, Sand, Mud etc)    
 
 
 # 6. License

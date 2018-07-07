@@ -114,6 +114,7 @@
 		1C3ACC421FFE6FA600EC437E /* Core-pch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C3ACBE31FFE6FA600EC437E /* Core-pch.cpp */; };
 		1C451C3C200FAE5E00C3509F /* DarwinTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C451C3B200FAE5E00C3509F /* DarwinTimer.cpp */; };
 		1C451C41200FAEE900C3509F /* GameTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C451C40200FAEE900C3509F /* GameTimer.cpp */; };
+		1C4F598720DFD010007411B0 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C4F598620DFD010007411B0 /* UserNotifications.framework */; };
 		1C7671B1200D1666003EFF1C /* GameAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C7671AF200D1666003EFF1C /* GameAnimation.cpp */; };
 		1C7A207D1FFC38D70062ADFB /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7A207C1FFC38D70062ADFB /* OpenGLES.framework */; };
 		1C7B17E11FFEA5DA00150A07 /* FFFATLAN.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 1C7B17E01FFEA5DA00150A07 /* FFFATLAN.TTF */; };
@@ -153,8 +154,8 @@
 		1CA8F1BB2000E32600AB2D36 /* libfmodL_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CA8F1B32000E32600AB2D36 /* libfmodL_iphoneos.a */; };
 		1CA8F1BD2000E32600AB2D36 /* libfmod_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CA8F1B52000E32600AB2D36 /* libfmod_iphoneos.a */; };
 		1CA8F1C22000E90E00AB2D36 /* PFOptionsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1C12000E90E00AB2D36 /* PFOptionsViewController.mm */; };
-		1CA8F1C62000E93700AB2D36 /* PFNewGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1C52000E93700AB2D36 /* PFNewGameViewController.m */; };
-		1CA8F1C92000E94F00AB2D36 /* PFLoadGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1C82000E94F00AB2D36 /* PFLoadGameViewController.m */; };
+		1CA8F1C62000E93700AB2D36 /* PFNewGameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1C52000E93700AB2D36 /* PFNewGameViewController.mm */; };
+		1CA8F1C92000E94F00AB2D36 /* PFLoadGameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1C82000E94F00AB2D36 /* PFLoadGameViewController.mm */; };
 		1CA8F1CC2000E9B400AB2D36 /* PFRenderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1CB2000E9B400AB2D36 /* PFRenderViewController.mm */; };
 		1CA8F1CE2000EDFB00AB2D36 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CA8F1CD2000EDFB00AB2D36 /* GLKit.framework */; };
 		1CA8F1D62001180F00AB2D36 /* AIObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1D42001180F00AB2D36 /* AIObject.cpp */; };
@@ -162,6 +163,15 @@
 		1CA8F1DE20012E6C00AB2D36 /* GameMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1DC20012E6C00AB2D36 /* GameMap.cpp */; };
 		1CA8F1E320026DA200AB2D36 /* GameBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1E120026DA200AB2D36 /* GameBase.cpp */; };
 		1CA8F1E62002720800AB2D36 /* GameUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8F1E42002720800AB2D36 /* GameUnit.cpp */; };
+		1CAEE1F420D7FA0A009B290E /* PFMultiplayerClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CAEE1CB20D7FA09009B290E /* PFMultiplayerClient.cpp */; };
+		1CAEE1F520D7FA0A009B290E /* SimpleSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CAEE1CF20D7FA09009B290E /* SimpleSocket.cpp */; };
+		1CAEE1F620D7FA0A009B290E /* PassiveSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CAEE1D120D7FA09009B290E /* PassiveSocket.cpp */; };
+		1CAEE1F720D7FA0A009B290E /* ActiveSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CAEE1D320D7FA09009B290E /* ActiveSocket.cpp */; };
+		1CAEE1F820D7FA0A009B290E /* PFSocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CAEE1D620D7FA09009B290E /* PFSocketClient.cpp */; };
+		1CAEE1F920D7FA0A009B290E /* PFServerUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CAEE1D920D7FA09009B290E /* PFServerUtils.cpp */; };
+		1CB762F220D6C87000E20CDD /* PFMultiplayerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CB762F120D6C87000E20CDD /* PFMultiplayerViewController.mm */; };
+		1CB762F520D6C89200E20CDD /* PFJoinViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CB762F420D6C89200E20CDD /* PFJoinViewController.mm */; };
+		1CB762F820D6C8AB00E20CDD /* PFRoomViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1CB762F720D6C8AB00E20CDD /* PFRoomViewController.mm */; };
 		1CCC02652005599400BE8E63 /* AIPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CCC02632005599400BE8E63 /* AIPlayer.cpp */; };
 		1CD9FCBE2014EDFD00E24998 /* GameSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CD9FCBC2014EDFD00E24998 /* GameSync.cpp */; };
 		1CD9FCC0201538BC00E24998 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CD9FCBF201538BC00E24998 /* Lato-Black.ttf */; };
@@ -317,6 +327,7 @@
 		1C451C3B200FAE5E00C3509F /* DarwinTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DarwinTimer.cpp; sourceTree = "<group>"; };
 		1C451C3E200FAE7800C3509F /* GameTimer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameTimer.hpp; sourceTree = "<group>"; };
 		1C451C40200FAEE900C3509F /* GameTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTimer.cpp; sourceTree = "<group>"; };
+		1C4F598620DFD010007411B0 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		1C7671AF200D1666003EFF1C /* GameAnimation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameAnimation.cpp; sourceTree = "<group>"; };
 		1C7671B0200D1666003EFF1C /* GameAnimation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameAnimation.hpp; sourceTree = "<group>"; };
 		1C7A207C1FFC38D70062ADFB /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -389,9 +400,9 @@
 		1CA8F1C02000E90E00AB2D36 /* PFOptionsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFOptionsViewController.h; sourceTree = "<group>"; };
 		1CA8F1C12000E90E00AB2D36 /* PFOptionsViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFOptionsViewController.mm; sourceTree = "<group>"; };
 		1CA8F1C42000E93700AB2D36 /* PFNewGameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFNewGameViewController.h; sourceTree = "<group>"; };
-		1CA8F1C52000E93700AB2D36 /* PFNewGameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PFNewGameViewController.m; sourceTree = "<group>"; };
+		1CA8F1C52000E93700AB2D36 /* PFNewGameViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFNewGameViewController.mm; sourceTree = "<group>"; };
 		1CA8F1C72000E94F00AB2D36 /* PFLoadGameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFLoadGameViewController.h; sourceTree = "<group>"; };
-		1CA8F1C82000E94F00AB2D36 /* PFLoadGameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PFLoadGameViewController.m; sourceTree = "<group>"; };
+		1CA8F1C82000E94F00AB2D36 /* PFLoadGameViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFLoadGameViewController.mm; sourceTree = "<group>"; };
 		1CA8F1CA2000E9B400AB2D36 /* PFRenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFRenderViewController.h; sourceTree = "<group>"; };
 		1CA8F1CB2000E9B400AB2D36 /* PFRenderViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFRenderViewController.mm; sourceTree = "<group>"; };
 		1CA8F1CD2000EDFB00AB2D36 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -410,6 +421,28 @@
 		1CA8F1E42002720800AB2D36 /* GameUnit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnit.cpp; sourceTree = "<group>"; };
 		1CA8F1E52002720800AB2D36 /* GameUnit.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameUnit.hpp; sourceTree = "<group>"; };
 		1CA8F1E72002871800AB2D36 /* AIAware.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AIAware.hpp; sourceTree = "<group>"; };
+		1CAEE1C820D7FA09009B290E /* PFMultiplayerClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PFMultiplayerClient.hpp; sourceTree = "<group>"; };
+		1CAEE1CB20D7FA09009B290E /* PFMultiplayerClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PFMultiplayerClient.cpp; sourceTree = "<group>"; };
+		1CAEE1CD20D7FA09009B290E /* StatTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatTimer.h; sourceTree = "<group>"; };
+		1CAEE1CE20D7FA09009B290E /* ActiveSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveSocket.h; sourceTree = "<group>"; };
+		1CAEE1CF20D7FA09009B290E /* SimpleSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleSocket.cpp; sourceTree = "<group>"; };
+		1CAEE1D020D7FA09009B290E /* Host.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Host.h; sourceTree = "<group>"; };
+		1CAEE1D120D7FA09009B290E /* PassiveSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PassiveSocket.cpp; sourceTree = "<group>"; };
+		1CAEE1D220D7FA09009B290E /* PassiveSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassiveSocket.h; sourceTree = "<group>"; };
+		1CAEE1D320D7FA09009B290E /* ActiveSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActiveSocket.cpp; sourceTree = "<group>"; };
+		1CAEE1D420D7FA09009B290E /* SimpleSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSocket.h; sourceTree = "<group>"; };
+		1CAEE1D620D7FA09009B290E /* PFSocketClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PFSocketClient.cpp; sourceTree = "<group>"; };
+		1CAEE1D720D7FA09009B290E /* PFServerUtils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PFServerUtils.hpp; sourceTree = "<group>"; };
+		1CAEE1D820D7FA09009B290E /* PFSocketClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PFSocketClient.hpp; sourceTree = "<group>"; };
+		1CAEE1D920D7FA09009B290E /* PFServerUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PFServerUtils.cpp; sourceTree = "<group>"; };
+		1CAEE1DA20D7FA09009B290E /* EnumOptionMacro.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EnumOptionMacro.hpp; sourceTree = "<group>"; };
+		1CAEE1DB20D7FA09009B290E /* PFServerCommandType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PFServerCommandType.hpp; sourceTree = "<group>"; };
+		1CB762F020D6C87000E20CDD /* PFMultiplayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFMultiplayerViewController.h; sourceTree = "<group>"; };
+		1CB762F120D6C87000E20CDD /* PFMultiplayerViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFMultiplayerViewController.mm; sourceTree = "<group>"; };
+		1CB762F320D6C89200E20CDD /* PFJoinViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFJoinViewController.h; sourceTree = "<group>"; };
+		1CB762F420D6C89200E20CDD /* PFJoinViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFJoinViewController.mm; sourceTree = "<group>"; };
+		1CB762F620D6C8AB00E20CDD /* PFRoomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFRoomViewController.h; sourceTree = "<group>"; };
+		1CB762F720D6C8AB00E20CDD /* PFRoomViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PFRoomViewController.mm; sourceTree = "<group>"; };
 		1CCC02632005599400BE8E63 /* AIPlayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AIPlayer.cpp; sourceTree = "<group>"; };
 		1CCC02642005599400BE8E63 /* AIPlayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AIPlayer.hpp; sourceTree = "<group>"; };
 		1CD7732C1FFD23A4003EA49F /* PixFight-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PixFight-prefix.pch"; sourceTree = "<group>"; };
@@ -425,6 +458,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C4F598720DFD010007411B0 /* UserNotifications.framework in Frameworks */,
 				1C7A207D1FFC38D70062ADFB /* OpenGLES.framework in Frameworks */,
 				1C7B3D3C1FFD6352004A4A10 /* Foundation.framework in Frameworks */,
 				1C0D75142012A6A200898B5D /* AVFoundation.framework in Frameworks */,
@@ -445,6 +479,7 @@
 		1C041DE51FFA98E300211FFE = {
 			isa = PBXGroup;
 			children = (
+				1CAEE1BD20D7FA09009B290E /* SERVER */,
 				1CA8F1A42000E32600AB2D36 /* FMOD */,
 				1C7B17FF1FFEC5D300150A07 /* freetype2.xcodeproj */,
 				1C3ACB601FFE6FA600EC437E /* CORE */,
@@ -699,6 +734,7 @@
 		1C7A207B1FFC38D70062ADFB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1C4F598620DFD010007411B0 /* UserNotifications.framework */,
 				1C0D75132012A6A200898B5D /* AVFoundation.framework */,
 				1C0D75112012A67800898B5D /* CoreAudio.framework */,
 				1C0D750F2012A67000898B5D /* AudioToolbox.framework */,
@@ -901,15 +937,69 @@
 				1C041DF41FFA98E300211FFE /* PFMenuViewController.h */,
 				1C041DF51FFA98E300211FFE /* PFMenuViewController.mm */,
 				1CA8F1C42000E93700AB2D36 /* PFNewGameViewController.h */,
-				1CA8F1C52000E93700AB2D36 /* PFNewGameViewController.m */,
+				1CA8F1C52000E93700AB2D36 /* PFNewGameViewController.mm */,
 				1CA8F1C72000E94F00AB2D36 /* PFLoadGameViewController.h */,
-				1CA8F1C82000E94F00AB2D36 /* PFLoadGameViewController.m */,
+				1CA8F1C82000E94F00AB2D36 /* PFLoadGameViewController.mm */,
 				1CA8F1CA2000E9B400AB2D36 /* PFRenderViewController.h */,
 				1CA8F1CB2000E9B400AB2D36 /* PFRenderViewController.mm */,
 				1C8F075B20164172006FA437 /* PFSelectUnitViewController.h */,
 				1C8F075C20164172006FA437 /* PFSelectUnitViewController.m */,
+				1CB762F020D6C87000E20CDD /* PFMultiplayerViewController.h */,
+				1CB762F120D6C87000E20CDD /* PFMultiplayerViewController.mm */,
+				1CB762F320D6C89200E20CDD /* PFJoinViewController.h */,
+				1CB762F420D6C89200E20CDD /* PFJoinViewController.mm */,
+				1CB762F620D6C8AB00E20CDD /* PFRoomViewController.h */,
+				1CB762F720D6C8AB00E20CDD /* PFRoomViewController.mm */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		1CAEE1BD20D7FA09009B290E /* SERVER */ = {
+			isa = PBXGroup;
+			children = (
+				1CAEE1BE20D7FA09009B290E /* PFClient */,
+				1CAEE1CC20D7FA09009B290E /* clsocket */,
+				1CAEE1D520D7FA09009B290E /* Utils */,
+			);
+			name = SERVER;
+			path = ../../SERVER;
+			sourceTree = "<group>";
+		};
+		1CAEE1BE20D7FA09009B290E /* PFClient */ = {
+			isa = PBXGroup;
+			children = (
+				1CAEE1CB20D7FA09009B290E /* PFMultiplayerClient.cpp */,
+				1CAEE1C820D7FA09009B290E /* PFMultiplayerClient.hpp */,
+			);
+			path = PFClient;
+			sourceTree = "<group>";
+		};
+		1CAEE1CC20D7FA09009B290E /* clsocket */ = {
+			isa = PBXGroup;
+			children = (
+				1CAEE1D320D7FA09009B290E /* ActiveSocket.cpp */,
+				1CAEE1CE20D7FA09009B290E /* ActiveSocket.h */,
+				1CAEE1D020D7FA09009B290E /* Host.h */,
+				1CAEE1D120D7FA09009B290E /* PassiveSocket.cpp */,
+				1CAEE1D220D7FA09009B290E /* PassiveSocket.h */,
+				1CAEE1CF20D7FA09009B290E /* SimpleSocket.cpp */,
+				1CAEE1D420D7FA09009B290E /* SimpleSocket.h */,
+				1CAEE1CD20D7FA09009B290E /* StatTimer.h */,
+			);
+			path = clsocket;
+			sourceTree = "<group>";
+		};
+		1CAEE1D520D7FA09009B290E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1CAEE1D620D7FA09009B290E /* PFSocketClient.cpp */,
+				1CAEE1D720D7FA09009B290E /* PFServerUtils.hpp */,
+				1CAEE1D820D7FA09009B290E /* PFSocketClient.hpp */,
+				1CAEE1D920D7FA09009B290E /* PFServerUtils.cpp */,
+				1CAEE1DA20D7FA09009B290E /* EnumOptionMacro.hpp */,
+				1CAEE1DB20D7FA09009B290E /* PFServerCommandType.hpp */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1109,26 +1199,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C041DF61FFA98E300211FFE /* PFMenuViewController.mm in Sources */,
+				1CAEE1F820D7FA0A009B290E /* PFSocketClient.cpp in Sources */,
 				1C3ACBE51FFE6FA600EC437E /* FGLMath.cpp in Sources */,
 				1C3ACC3B1FFE6FA600EC437E /* BasePathExtraction.cpp in Sources */,
 				1C3ACBEA1FFE6FA600EC437E /* FGLCollisions.cpp in Sources */,
+				1CAEE1F620D7FA0A009B290E /* PassiveSocket.cpp in Sources */,
 				1C8F075D20164172006FA437 /* PFSelectUnitViewController.m in Sources */,
 				1CA8F1DE20012E6C00AB2D36 /* GameMap.cpp in Sources */,
-				1CA8F1C62000E93700AB2D36 /* PFNewGameViewController.m in Sources */,
+				1CA8F1C62000E93700AB2D36 /* PFNewGameViewController.mm in Sources */,
+				1CB762F220D6C87000E20CDD /* PFMultiplayerViewController.mm in Sources */,
 				1C7B18141FFECB9E00150A07 /* DrawingContext.cpp in Sources */,
 				1CA8F1E320026DA200AB2D36 /* GameBase.cpp in Sources */,
 				1C3ACC391FFE6FA600EC437E /* xVec3.cpp in Sources */,
 				1C3ACC421FFE6FA600EC437E /* Core-pch.cpp in Sources */,
+				1CB762F820D6C8AB00E20CDD /* PFRoomViewController.mm in Sources */,
 				1CA8F1A2200039E700AB2D36 /* Audio.cpp in Sources */,
 				1C041E011FFA98E400211FFE /* main.m in Sources */,
 				1C3ACC411FFE6FA600EC437E /* FontRender.cpp in Sources */,
+				1CAEE1F420D7FA0A009B290E /* PFMultiplayerClient.cpp in Sources */,
 				1C3ACC381FFE6FA600EC437E /* xMath.cpp in Sources */,
 				1C041DF31FFA98E300211FFE /* AppDelegate.mm in Sources */,
 				1CA8F1D92001229800AB2D36 /* AITaskGenerator.cpp in Sources */,
 				1C3ACBE71FFE6FA600EC437E /* DataTypes.cpp in Sources */,
 				1C451C41200FAEE900C3509F /* GameTimer.cpp in Sources */,
 				1C3ACBE81FFE6FA600EC437E /* FGLDrawingDescriptor.cpp in Sources */,
-				1CA8F1C92000E94F00AB2D36 /* PFLoadGameViewController.m in Sources */,
+				1CA8F1C92000E94F00AB2D36 /* PFLoadGameViewController.mm in Sources */,
+				1CAEE1F720D7FA0A009B290E /* ActiveSocket.cpp in Sources */,
+				1CB762F520D6C89200E20CDD /* PFJoinViewController.mm in Sources */,
 				1CA8F16520001BDE00AB2D36 /* Mesh2d.cpp in Sources */,
 				1C3ACBE61FFE6FA600EC437E /* FGLVector.cpp in Sources */,
 				1C2909C720041AB000F05CFC /* GameLogic.cpp in Sources */,
@@ -1142,7 +1239,9 @@
 				1C3ACC3A1FFE6FA600EC437E /* glMatrix4x4.cpp in Sources */,
 				1C3ACBE91FFE6FA600EC437E /* FGLTexture.cpp in Sources */,
 				1CA8F1C22000E90E00AB2D36 /* PFOptionsViewController.mm in Sources */,
+				1CAEE1F920D7FA0A009B290E /* PFServerUtils.cpp in Sources */,
 				1CCC02652005599400BE8E63 /* AIPlayer.cpp in Sources */,
+				1CAEE1F520D7FA0A009B290E /* SimpleSocket.cpp in Sources */,
 				1C3ACC3E1FFE6FA600EC437E /* ShaderProgram.cpp in Sources */,
 				1CA8F1D62001180F00AB2D36 /* AIObject.cpp in Sources */,
 				1CA8F1602000160D00AB2D36 /* SearchNode.cpp in Sources */,

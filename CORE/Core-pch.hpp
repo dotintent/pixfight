@@ -12,7 +12,7 @@
     #define GLFW_INCLUDE_ES2
     #include <GLFW/glfw3.h>
     #include <emscripten/emscripten.h>
-  
+
     #define glBindVertexArray glBindVertexArrayOES
     #define glGenVertexArrays glGenVertexArraysOES
     #define glDeleteVertexArrays glDeleteVertexArraysOES
@@ -20,14 +20,13 @@
 #else
 
 #ifdef _WIN32
-	
+
 	#define NOMINMAX
-	#include <windows.h>
 	#include <GL/glew.h>
 	#include <GL/gl.h>
 	#include <GLFW/glfw3.h>
 	#define GL_RED_EXT GL_RED
-	
+
 #endif
 
 #ifdef __APPLE__
@@ -94,12 +93,39 @@
 
 #elif defined(__linux__)
 
-    #include <GL/glew.h>
-    #include <GL/gl.h>
-    #include <GLFW/glfw3.h>
-    #define GL_RED_EXT GL_RED
+    #ifdef _RPI_
 
-#endif
+        #include <GLES2/gl2.h>
+        #include <GLES2/gl2ext.h>
+
+        #include <EGL/egl.h>
+
+        extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOES;
+        extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOES;
+        extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOES;
+
+        extern void eglBuildVertexArray();
+
+        #define glBindVertexArray glBindVertexArrayOES
+        #define glGenVertexArrays glGenVertexArraysOES
+        #define glDeleteVertexArrays glDeleteVertexArraysOES
+
+        #define GLFW_INCLUDE_ES2
+
+    #else
+
+        #include <GL/glew.h>
+        #include <GL/gl.h>
+
+    #endif
+
+        #include <GLFW/glfw3.h>
+
+        #ifndef _RPI_
+            #define GL_RED_EXT GL_RED
+        #endif
+
+    #endif
 
 #endif
 

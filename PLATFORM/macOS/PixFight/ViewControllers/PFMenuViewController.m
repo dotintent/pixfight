@@ -33,6 +33,12 @@
     [self performSegueWithIdentifier:@"PFNewGameSegueIdentifier" sender:self];
 }
 
+- (IBAction)multiplayerAction:(NSButton *)sender {
+
+    [sender setState:NSControlStateValueOff];
+    [self performSegueWithIdentifier:@"PFMultiplayerSegueIdentifier" sender:self];
+}
+
 - (IBAction)loadGameAction:(NSButton *)sender {
 
     [sender setState:NSControlStateValueOff];

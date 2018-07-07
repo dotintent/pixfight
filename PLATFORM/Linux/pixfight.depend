@@ -19,7 +19,7 @@
 1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameEnums.hpp
 	"EnumOptionMacro.hpp"
 
-1525878181 source:/home/marcin/Desktop/pixfight/CORE/AI/AIPlayer.cpp
+1529838567 source:/home/marcin/Desktop/pixfight/CORE/AI/AIPlayer.cpp
 	"AIPlayer.hpp"
 	"GameSync.hpp"
 	"GameLogic.hpp"
@@ -36,7 +36,7 @@
 	"AITask.hpp"
 	"AIObject.hpp"
 
-1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.hpp
+1529838567 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.hpp
 	<fstream>
 	"Core-pch.hpp"
 	"Drawable.hpp"
@@ -45,13 +45,12 @@
 	"SearchNode.hpp"
 	"MathTypes.h"
 
-1525706292 /home/marcin/Desktop/pixfight/CORE/Core-pch.hpp
+1530956444 /home/marcin/Desktop/pixfight/CORE/Core-pch.hpp
 	<GLES/gl.h>
 	<GLES2/gl2.h>
 	<GLES2/gl2ext.h>
 	<GLFW/glfw3.h>
 	<emscripten/emscripten.h>
-	<windows.h>
 	<GL/glew.h>
 	<GL/gl.h>
 	<GLFW/glfw3.h>
@@ -62,6 +61,9 @@
 	<GLES2/gl2ext.h>
 	<EGL/egl.h>
 	<string.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<EGL/egl.h>
 	<GL/glew.h>
 	<GL/gl.h>
 	<GLFW/glfw3.h>
@@ -225,7 +227,7 @@
 1525350901 /home/marcin/Desktop/pixfight/CORE/Math/xf.h
 	"x.h"
 
-1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/Drawable.hpp
+1529838567 /home/marcin/Desktop/pixfight/CORE/GameLogic/Drawable.hpp
 	"DrawingContext.hpp"
 
 1525350901 /home/marcin/Desktop/pixfight/CORE/Rendering/DrawingContext.hpp
@@ -377,10 +379,10 @@
 	"xMath.h"
 	"xVec3.h"
 
-1525878181 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.hpp
+1529838567 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.hpp
 	"GameUnit.hpp"
 
-1525878181 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.hpp
+1529838567 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.hpp
 	<functional>
 	"GameMap.hpp"
 	"GameEnums.hpp"
@@ -388,18 +390,19 @@
 
 1525350901 /home/marcin/Desktop/pixfight/CORE/AI/AIAware.hpp
 
-1525350901 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameSync.hpp
+1530445028 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameSync.hpp
 	<functional>
 	<queue>
 	<mutex>
 	<future>
 
-1525878181 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.hpp
+1530956444 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.hpp
 	"Core-pch.hpp"
 	"GameUnit.hpp"
 	"GameBase.hpp"
 	"GameMap.hpp"
 	"FontRender.hpp"
+	"PFMultiplayerClient.hpp"
 	"DrawingContext.hpp"
 	"GameAnimation.hpp"
 	"Audio.hpp"
@@ -487,7 +490,7 @@
 	"GameUnit.hpp"
 	"GameBase.hpp"
 
-1525706292 source:/home/marcin/Desktop/pixfight/CORE/Audio/Audio.cpp
+1529838567 source:/home/marcin/Desktop/pixfight/CORE/Audio/Audio.cpp
 	<math.h>
 	<algorithm>
 	"Audio.hpp"
@@ -496,32 +499,32 @@
 1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/FMOD/inc/fmod_errors.h
 	"fmod.h"
 
-1525350901 source:/home/marcin/Desktop/pixfight/CORE/Core-pch.cpp
+1529838567 source:/home/marcin/Desktop/pixfight/CORE/Core-pch.cpp
 	"Core-pch.hpp"
 
-1525350901 source:/home/marcin/Desktop/pixfight/CORE/font/FontRender.cpp
+1529838567 source:/home/marcin/Desktop/pixfight/CORE/font/FontRender.cpp
 	"FontRender.hpp"
 
-1525878181 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.cpp
+1525966693 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameBase.cpp
 	"GameBase.hpp"
 	"glTextureLoader.hpp"
 
 1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/glTextureLoader.hpp
 	"Core-pch.hpp"
 
-1525878181 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
+1530956444 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
 	"GameLogic.hpp"
 	"glTextureLoader.hpp"
 	"AIPlayer.hpp"
 
-1525350901 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.cpp
+1529838567 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameMap.cpp
 	"GameMap.hpp"
 	"glTextureLoader.hpp"
 
 1525350901 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameSync.cpp
 	"GameSync.hpp"
 
-1525878181 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.cpp
+1529838567 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameUnit.cpp
 	"GameUnit.hpp"
 	"glTextureLoader.hpp"
 
@@ -556,7 +559,7 @@
 	"SearchNode.hpp"
 	<math.h>
 
-1525350901 source:/home/marcin/Desktop/pixfight/CORE/Rendering/DrawingContext.cpp
+1529838567 source:/home/marcin/Desktop/pixfight/CORE/Rendering/DrawingContext.cpp
 	"DrawingContext.hpp"
 
 1525350901 source:/home/marcin/Desktop/pixfight/CORE/Rendering/GameAnimation.cpp
@@ -607,7 +610,7 @@
 	<bits/posix2_lim.h>
 	<bits/xopen_lim.h>
 
-1525706292 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.cpp
+1529838567 source:/home/marcin/Desktop/pixfight/CORE/utilities/Timer/AndroidTimer.cpp
 	"AndroidTimer.hpp"
 	<time.h>
 
@@ -625,7 +628,7 @@
 1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/DarwinTimer.hpp
 	"GameTimer.hpp"
 
-1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/main.cpp
+1530555465 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/main.cpp
 	<iostream>
 	<fstream>
 	<limits.h>
@@ -637,6 +640,11 @@
 	"LoadGameScene.hpp"
 	"RenderScene.hpp"
 	"SettingsScene.hpp"
+	"MultiplayerScene.hpp"
+	"MakeRoomScene.hpp"
+	"JoinRoomScene.hpp"
+	"PFMultiplayerClient.hpp"
+	"ApplicationRunLoop.hpp"
 	"nuklear.h"
 	"nuklear_glfw_gl3.h"
 	"PFSettings.h"
@@ -649,14 +657,14 @@
 	<stdarg.h>
 	<assert.h>
 
-1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.cpp
+1530394576 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.cpp
 	"MenuScene.hpp"
 	"glTextureLoader.hpp"
 
 1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MenuScene.hpp
 	"BaseScene.hpp"
 
-1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/BaseScene.hpp
+1530355897 /home/marcin/Desktop/pixfight/PLATFORM/Linux/BaseScene.hpp
 	"Core-pch.hpp"
 	"EnumOptionMacro.hpp"
 	"nuklear.h"
@@ -678,12 +686,13 @@
 1525350901 /home/marcin/Desktop/pixfight/PLATFORM/Linux/NewGameScene.hpp
 	"BaseScene.hpp"
 
-1525885409 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.cpp
+1530559970 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.cpp
 	"RenderScene.hpp"
 	"glTextureLoader.hpp"
 	"PFSettings.h"
+	"ApplicationRunLoop.hpp"
 
-1525878341 /home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
+1530956444 /home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
 	"BaseScene.hpp"
 	"GameLogic.hpp"
 
@@ -701,15 +710,18 @@
 	<map>
 	"BaseScene.hpp"
 
-1525350901 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.cpp
+1530461296 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/SceneManager.cpp
 	"SceneManager.hpp"
 	"MenuScene.hpp"
 	"NewGameScene.hpp"
 	"LoadGameScene.hpp"
 	"SettingsScene.hpp"
 	"RenderScene.hpp"
+	"MultiplayerScene.hpp"
+	"MakeRoomScene.hpp"
+	"JoinRoomScene.hpp"
 
-1525706293 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear_glfw_gl3.h
+1529838567 /home/marcin/Desktop/pixfight/PLATFORM/Linux/nuklear_glfw_gl3.h
 	<string.h>
 	"Core-pch.hpp"
 	<GLFW/glfw3.h>
@@ -723,4 +735,139 @@
 1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/Timer/WindowsTimer.hpp
 	"GameTimer.hpp"
 	<windows.h>
+
+1530201560 /home/marcin/Desktop/pixfight/SERVER/PFClient/PFMultiplayerClient.hpp
+	<iostream>
+	<thread>
+	<atomic>
+	"PFServerCommandType.hpp"
+	"PFSocketClient.hpp"
+
+1530956444 /home/marcin/Desktop/pixfight/SERVER/Utils/PFServerCommandType.hpp
+	<string.h>
+	<vector>
+	"EnumOptionMacro.hpp"
+
+1529838567 /home/marcin/Desktop/pixfight/SERVER/Utils/EnumOptionMacro.hpp
+	<iostream>
+
+1529838567 /home/marcin/Desktop/pixfight/SERVER/Utils/PFSocketClient.hpp
+	<memory>
+	<vector>
+	"ActiveSocket.h"
+	"PFServerCommandType.hpp"
+	"PFServerUtils.hpp"
+
+1529838567 /home/marcin/Desktop/pixfight/SERVER/clsocket/ActiveSocket.h
+	"SimpleSocket.h"
+
+1530956444 /home/marcin/Desktop/pixfight/SERVER/clsocket/SimpleSocket.h
+	"Host.h"
+	<sys/stat.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdarg.h>
+	<errno.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<netinet/tcp.h>
+	<netinet/ip.h>
+	<netdb.h>
+	<linux/if_packet.h>
+	<linux/if_ether.h>
+	<linux/if.h>
+	<sys/sendfile.h>
+	<net/if.h>
+	<sys/types.h>
+	<sys/time.h>
+	<sys/uio.h>
+	<unistd.h>
+	<fcntl.h>
+	<io.h>
+	<winsock2.h>
+	<ws2tcpip.h>
+	"StatTimer.h"
+
+1530201262 /home/marcin/Desktop/pixfight/SERVER/clsocket/Host.h
+	<limits.h>
+	<string.h>
+	<algorithm>
+
+1530956444 /home/marcin/Desktop/pixfight/SERVER/clsocket/StatTimer.h
+	<string.h>
+	"Host.h"
+	<Winsock2.h>
+	<time.h>
+	<stdio.h>
+	<sys/time.h>
+
+1529838567 /home/marcin/Desktop/pixfight/SERVER/Utils/PFServerUtils.hpp
+	<stddef.h>
+	<stdint.h>
+	"PFServerCommandType.hpp"
+
+1529838567 source:/home/marcin/Desktop/pixfight/SERVER/clsocket/ActiveSocket.cpp
+	"ActiveSocket.h"
+
+1529838567 source:/home/marcin/Desktop/pixfight/SERVER/clsocket/PassiveSocket.cpp
+	"PassiveSocket.h"
+
+1529838567 /home/marcin/Desktop/pixfight/SERVER/clsocket/PassiveSocket.h
+	"ActiveSocket.h"
+
+1530956444 source:/home/marcin/Desktop/pixfight/SERVER/clsocket/SimpleSocket.cpp
+	"SimpleSocket.h"
+
+1530447568 source:/home/marcin/Desktop/pixfight/SERVER/PFClient/PFMultiplayerClient.cpp
+	<chrono>
+	<thread>
+	"PFMultiplayerClient.hpp"
+
+1529838567 source:/home/marcin/Desktop/pixfight/SERVER/Utils/PFServerUtils.cpp
+	"PFServerUtils.hpp"
+
+1529838567 source:/home/marcin/Desktop/pixfight/SERVER/Utils/PFSocketClient.cpp
+	"PFSocketClient.hpp"
+
+1530446779 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/MultiplayerScene.cpp
+	"MultiplayerScene.hpp"
+	"glTextureLoader.hpp"
+	"ApplicationRunLoop.hpp"
+
+1530956444 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MultiplayerScene.hpp
+	<memory>
+	"BaseScene.hpp"
+	"PFMultiplayerClient.hpp"
+
+1530445300 /home/marcin/Desktop/pixfight/PLATFORM/Linux/ApplicationRunLoop.hpp
+	<functional>
+	<queue>
+	<mutex>
+	<future>
+
+1530445372 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/ApplicationRunLoop.cpp
+	"ApplicationRunLoop.hpp"
+
+1530551944 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/JoinRoomScene.cpp
+	"JoinRoomScene.hpp"
+	"glTextureLoader.hpp"
+	"ApplicationRunLoop.hpp"
+
+1530956444 /home/marcin/Desktop/pixfight/PLATFORM/Linux/JoinRoomScene.hpp
+	<memory>
+	<vector>
+	"BaseScene.hpp"
+	"PFMultiplayerClient.hpp"
+
+1530551936 source:/home/marcin/Desktop/pixfight/PLATFORM/Linux/MakeRoomScene.cpp
+	"MakeRoomScene.hpp"
+	"ApplicationRunLoop.hpp"
+	"glTextureLoader.hpp"
+
+1530956444 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MakeRoomScene.hpp
+	<memory>
+	<map>
+	"BaseScene.hpp"
+	"PFMultiplayerClient.hpp"
 

@@ -12,7 +12,7 @@
 
 class AIPlayer;
 
-class GameBase final : public Drawable , public AIAware  {
+class GameBase final : public DrawableObject , public AIAware  {
 
     friend class AIPlayer;
 
@@ -29,23 +29,23 @@ public:
 
     void setMap(GameMap * map);
     void setPosition(const xVec2 & p);
-    
+
     xVec2 getAIPosition() const;
     xVec2 & getPosition() { return _position; }
     const UNITMODE & getUnitMode() const { return _mode; }
     const BASEACTION & getBaseAction() const { return _baseAction; }
     const int & getTurnsToUnlock() const { return _turnsToUnlock; }
     const int & getUnitToBuild() const { return _unitToBuild; }
-    
+
     bool isOccupated(GameUnit * unit);
     bool isSelected();
     bool mayUnlock();
-    
+
     void setTeam(const int & teamID);
     void setUnitToBuild(const int & unit) { _unitToBuild = unit; }
     void setTurnsToUnlock(const int & turns) { _turnsToUnlock = turns; }
     void setBaseAction(const BASEACTION & action) { _baseAction = action; }
-    
+
     //Drawable
     virtual void draw(const DrawingContext & context) override;
 
@@ -60,7 +60,7 @@ public:
     virtual void setUniqueID(const int & uniqueid) override { _uniqueBaseID = uniqueid; };
 
 private:
-    
+
     Mesh2d *_mesh;
     Mesh2d *_number;
 

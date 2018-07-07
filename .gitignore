@@ -3,6 +3,14 @@
 #core
 CORE/build.gradle
 
+#SERVER
+SERVER/DerivedData/
+SERVER/PFServer/DerivedData/
+SERVER/PFServer/bin/
+SERVER/PFServer/obj/
+SERVER/PFClient/bin/
+SERVER/PFClient/obj/
+
 #iOS
 PLATFORM/iOS/DerivedData/
 PLATFORM/iOS/PixFight.xcodeproj/xcuserdata/
@@ -16,6 +24,9 @@ PLATFORM/macOS/PixFight.xcodeproj/project.xcworkspace/xcuserdata/
 #android
 PLATFORM/Android/build
 PLATFORM/Android/app/build
+PLATFORM/Android/app/release/
+PLATFORM/Android/.idea/caches/
+PLATFORM/Android/.idea/assetWizardSettings.xml
 
 #linux
 PLATFORM/Linux/obj/
@@ -36,3 +47,8 @@ MAPEDITOR/nul
 
 #html5
 PLATFORM/HTML5/bin/
+
+#raspberrypi
+
+PLATFORM/RaspberryPi/bin/
+PLATFORM/RaspberryPi/obj/

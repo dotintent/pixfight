@@ -1,6 +1,6 @@
 #include "Core-pch.hpp"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(_RPI_)
 
 PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOES = nullptr;
 PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOES = nullptr;
@@ -19,11 +19,11 @@ int PLAYERTEAMSELECTED = 1;
 int GAME_IDCOUNTER = 0;
 
 int UNITS_RATINGS[5][3] = {
-    {6,6,5},   //M_INFANTRY
-    {6,6,5},   //M_BAZOOKA
-    {10,8,5},  //M_JEEP
-    {10,10,5}, //M_LTANK
-    {10,3,4}   //M_ARTILLERY
+    { 4, 6, 4}, //M_INFANTRY
+    { 6, 6, 4}, //M_BAZOOKA
+    { 8, 8, 5}, //M_JEEP
+    {10,10, 4}, //M_LTANK
+    {10, 3, 3}  //M_ARTILLERY
 };
 
 bool AlmostEqual(const xVec2 & a, const xVec2 & b) {

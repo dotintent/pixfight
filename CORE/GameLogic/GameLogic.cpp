@@ -41,6 +41,8 @@ GameLogic::GameLogic(const float &screenWidth,
 , _currentMapName("")
 , _timer(nullptr) {
 
+    GAME_IDCOUNTER = 0;
+
 #ifndef __EMSCRIPTEN__
     auto fontPath = _rootPath + "Lato-Black.ttf";
     _font = new FontRender(fontPath);
@@ -62,6 +64,11 @@ GameLogic::GameLogic(const float &screenWidth,
 
     _hardAI = false;
     _botsThinking = false;
+
+#ifndef __EMSCRIPTEN__
+    _client = std::shared_ptr<PFMultiplayerClient>(nullptr);
+#endif
+
 }
 
 GameLogic::~GameLogic() noexcept {
@@ -80,9 +87,20 @@ GameLogic::~GameLogic() noexcept {
 
 }
 
+#ifndef __EMSCRIPTEN__
+bool GameLogic::createNewGame(const std::string &gamename,
+                              const int & selectedTeam,
+                              const int & maxplayers,
+                              std::shared_ptr<PFMultiplayerClient> client) {
+#else 
 bool GameLogic::createNewGame(const std::string &gamename,
                               const int & selectedTeam,
                               const int & maxplayers) {
+#endif
+
+#ifndef __EMSCRIPTEN__
+    _client = client;
+#endif
 
     _gameLoaded = false;
 
@@ -109,7 +127,19 @@ bool GameLogic::createNewGame(const std::string &gamename,
 
     std::cout << "MAP LOADED: " << mappath << std::endl;
 
+#ifndef __EMSCRIPTEN__
+    if (_client.lock()) {
+
+        _playerCash = 0;
+    }
+    else {
+
+        _playerCash = 200;
+    }
+#else
     _playerCash = 200;
+#endif
+
     _winnerID = 0;
     _playersPlaying = maxplayers;
 
@@ -147,35 +177,42 @@ bool GameLogic::createNewGame(const std::string &gamename,
         }
     }
 
+#ifndef __EMSCRIPTEN__
     //create bots
-    AIPlayer *botPlayer = nullptr;
+    if (_client.lock() == nullptr) { 
+#endif
 
-    for (int i = 1; i < _playersPlaying+1; ++i) {
+        AIPlayer *botPlayer = nullptr;
 
-        if (_playerTeamSelected == i) continue;
+        for (int i = 1; i < _playersPlaying+1; ++i) {
 
-        botPlayer = new AIPlayer(i, _mainMap, _rootPath);
-        botPlayer->setMoney(200);
-        botPlayer->setHardAI(_hardAI);
+            if (_playerTeamSelected == i) continue;
 
-        for (auto unit : _units) {
+            botPlayer = new AIPlayer(i, _mainMap, _rootPath);
+            botPlayer->setMoney(200);
+            botPlayer->setHardAI(_hardAI);
 
-            if (unit->getTeamID() == botPlayer->getPlayerID()) {
+            for (auto unit : _units) {
 
-                botPlayer->addAIObject(unit);
+                if (unit->getTeamID() == botPlayer->getPlayerID()) {
+
+                    botPlayer->addAIObject(unit);
+                }
             }
-        }
 
-        for (auto base : _bases) {
+            for (auto base : _bases) {
 
-            if (base->getTeamID() == botPlayer->getPlayerID()) {
+                if (base->getTeamID() == botPlayer->getPlayerID()) {
 
-                botPlayer->addAIObject(base);
+                    botPlayer->addAIObject(base);
+                }
             }
-        }
 
-        _bots.push_back(botPlayer);
+            _bots.push_back(botPlayer);
+        }
+#ifndef __EMSCRIPTEN__
     }
+#endif
 
     _gameLoaded = true;
 
@@ -190,7 +227,7 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
     auto okSoundPath = _rootPath + "ok.wav";
     okSound = _audioUnit->loadSound(okSoundPath);
-    
+
     std::fstream m_file;
 
     m_file.open(loadpath.c_str(), std::fstream::in|std::fstream::binary);
@@ -274,7 +311,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_INFANTRY][0];
                 temp.Guard  = UNITS_RATINGS[M_INFANTRY][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("Infantry", temp);
 
@@ -309,7 +345,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_BAZOOKA][0];
                 temp.Guard  = UNITS_RATINGS[M_BAZOOKA][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("BazookaMan", temp);
                 newUnit->setUniqueID(tempUnitData.UNIT_UNIQUEID);
@@ -342,7 +377,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_JEEP][0];
                 temp.Guard  = UNITS_RATINGS[M_JEEP][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("HumVee", temp);
 
@@ -376,7 +410,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_LTANK][0];
                 temp.Guard  = UNITS_RATINGS[M_LTANK][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("LightTank", temp);
 
@@ -412,7 +445,6 @@ bool GameLogic::loadGame(const std::string & loadpath) {
 
                 temp.Attack = UNITS_RATINGS[M_ARTILLERY][0];
                 temp.Guard  = UNITS_RATINGS[M_ARTILLERY][1];
-                temp.Expirence = tempUnitData.experience;
 
                 newUnit->setStatistic("Artillery", temp);
                 newUnit->setUniqueID(tempUnitData.UNIT_UNIQUEID);
@@ -561,7 +593,7 @@ bool GameLogic::saveGame(const std::string & savepath) {
         tempUnitData.FIND_BASEID = currentUnit->getRequestID();
         tempUnitData.mayAttack = currentUnit->canAttack();
         GameUnit::unitspec tmpspec = currentUnit->getStats();
-        tempUnitData.experience = tmpspec.Expirence;
+        tempUnitData.experience = 0;
 
         m_file.write((const char*)&tempUnitData, sizeof(tempUnitData));
     }
@@ -615,6 +647,10 @@ void GameLogic::startTurn() {
 
     _playerCash += 100;
 
+#ifndef __EMSCRIPTEN__
+    auto client = _client.lock();
+#endif
+
     for (auto base : _bases) {
 
         bool shoulddecrase = false;
@@ -632,10 +668,20 @@ void GameLogic::startTurn() {
             }
         }
 
+#ifndef __EMSCRIPTEN__
+        if ((base->getTeamID() != _playerTeamSelected) && client) {
+
+            auto turns = base->getTurnsToUnlock();
+            base->setTurnsToUnlock(--turns);
+        }
+#endif
+
         if ((base->getTeamID() == _playerTeamSelected) || (shoulddecrase == true)) {
 
             //bonus per base
-            _playerCash += 100;
+            if (base->getTeamID() == _playerTeamSelected) {
+                _playerCash += 100;
+            }
 
             auto turns = base->getTurnsToUnlock();
 
@@ -665,6 +711,8 @@ void GameLogic::startTurn() {
 
                         case BASE_REPAIR : {
 
+                            GameUnit *unit = nullptr;
+
                             for (auto u : _units) {
 
                                 if (u->getUniqueID() == base->getRequestID()) {
@@ -673,15 +721,30 @@ void GameLogic::startTurn() {
                                     u->setRequestID(-1);
 
                                     u->setSize(10);
+
+                                    unit = u;
+
+                                    break;
                                 }
                             }
 
                             base->setRequestID(-1);
                             base->setUnitMode(UNIT_NONE);
+
+#ifndef __EMSCRIPTEN__
+                            if (unit && client) {
+
+                                client->repairUnitcommand(base->getUniqueID(),
+                                                          unit->getUniqueID());
+                            }
+#endif
+
                         }
                             break;
 
                         case BASE_CAPTURED : {
+
+                            GameUnit *unit = nullptr;
 
                             for (auto u : _units) {
 
@@ -693,11 +756,23 @@ void GameLogic::startTurn() {
                                     base->setTeam(u->getTeamID());
 
                                     unitsToRemove.push_back(u->getUniqueID());
+
+                                    unit = u;
+
+                                    break;
                                 }
                             }
 
                             base->setRequestID(-1);
                             base->setUnitMode(UNIT_NONE);
+
+#ifndef __EMSCRIPTEN__
+                            if (unit && client) {
+
+                                client->captureBasecommand(base->getUniqueID(),
+                                                           unit->getUniqueID());
+                            }
+#endif
                         }
                             break;
 
@@ -803,6 +878,14 @@ void GameLogic::startTurn() {
         return;
     }
 
+#ifndef __EMSCRIPTEN__
+    if (auto client = _client.lock()) {
+
+        client->sendWinnerID(_winnerID);
+        return;
+    }
+#endif
+
     if (_winnerID == _playerTeamSelected) {
 
         if (winGameCallback) {
@@ -855,6 +938,15 @@ void GameLogic::endTurn() {
         }
     }
 
+#ifndef __EMSCRIPTEN__
+    if (auto client = _client.lock()) {
+
+        client->endTurn();
+
+        return;
+    }
+#endif
+
     if (_winnerID == 0) {
 
         if (botsStartThinkCallback) {
@@ -866,7 +958,7 @@ void GameLogic::endTurn() {
 #ifdef __EMSCRIPTEN__
 
     #ifdef __EMSCRIPTEN_PTHREADS__
-        
+
     std::thread thread([&]() {
 
         this->proceedBotsLogic();
@@ -874,13 +966,13 @@ void GameLogic::endTurn() {
 
     thread.detach();
 
-    #else 
+    #else
 
         this->proceedBotsLogic();
 
     #endif
 
-#else 
+#else
 
     std::thread thread([&]() {
 
@@ -1272,7 +1364,6 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_INFANTRY][0];
                 temp.Guard  = UNITS_RATINGS[M_INFANTRY][1];
-                temp.Expirence = 0.0;
 
                 newUnit->setStatistic("Infantry", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -1303,7 +1394,6 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_BAZOOKA][0];
                 temp.Guard  = UNITS_RATINGS[M_BAZOOKA][1];
-                temp.Expirence = 0.0;
 
                 newUnit->setStatistic("BazookaMan", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -1332,7 +1422,6 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_JEEP][0];
                 temp.Guard  = UNITS_RATINGS[M_JEEP][1];
-                temp.Expirence = 0.0;
 
                 newUnit->setStatistic("HumVee", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -1361,7 +1450,6 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_LTANK][0];
                 temp.Guard  = UNITS_RATINGS[M_LTANK][1];
-                temp.Expirence = 0.0;
 
                 newUnit->setStatistic("LightTank", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -1392,8 +1480,7 @@ bool GameLogic::loadLogic(const std::string & logicPath) {
 
                 temp.Attack = UNITS_RATINGS[M_ARTILLERY][0];
                 temp.Guard  = UNITS_RATINGS[M_ARTILLERY][1];
-                temp.Expirence = 0.0;
-
+               
                 newUnit->setStatistic("Artillery", temp);
                 newUnit->setUniqueID(GAME_IDCOUNTER++);
 
@@ -1619,6 +1706,18 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
 
                     auto destroy = attackUnit(unit, current, _units, _bases);
 
+#ifndef __EMSCRIPTEN__
+                    if (auto client = _client.lock()) {
+
+                        uint32_t unitIDA = unit->getUniqueID();
+                        uint32_t unitIDB = current->getUniqueID();
+                        uint32_t sizeA = std::max(unit->getSize(), 0.0f);
+                        uint32_t sizeB = std::max(current->getSize(), 0.0f);
+
+                        client->sendFireCommand(unitIDA, unitIDB, sizeA, sizeB);
+                    }
+#endif
+
                     if (unit->getUnitMode() == UNIT_NOTMOVE) {
                         unit->setUnitMode(UNIT_ENDTURN);
                     }
@@ -1713,11 +1812,19 @@ void GameLogic::touchDownAtPoint(const xVec2 & position) {
                 saveUndo();
                 unit->makeMove();
 
+#ifndef __EMSCRIPTEN__
+                if (auto client = _client.lock()) {
+
+                    auto p = _mainMap->selectionForPosition(_mainMap->endPosition());
+                    client->moveUnitCommand(unit->getUniqueID(), p.x, p.y);
+                }
+#endif
+
                 //set our unit that its cannot move anymore in this turn
                 unit->setUnitMode(UNIT_NOTMOVE);
 
                 if (!unit->canAttack()) {
-                    
+
                     unit->setUnitMode(UNIT_ENDTURN);
                 }
 
@@ -2223,6 +2330,13 @@ void GameLogic::buildNewUnitFromBase(GameBase *base, int unitId,  int remainingC
 
     saveUndo();
 
+#ifndef __EMSCRIPTEN__
+    if (auto client = _client.lock()) {
+
+        client->buildUnitCommand(base->getUniqueID(), unitId);
+    }
+#endif
+
     base->setUnitToBuild(unitId);
     setPlayerCash(remainingCash);
     buildUnit(base);
@@ -2260,7 +2374,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_INFANTRY][0];
             temp.Guard  = UNITS_RATINGS[M_INFANTRY][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("Infantry", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -2291,7 +2404,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_BAZOOKA][0];
             temp.Guard  = UNITS_RATINGS[M_BAZOOKA][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("BazookaMan", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -2320,7 +2432,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_JEEP][0];
             temp.Guard  = UNITS_RATINGS[M_JEEP][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("HumVee", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -2349,7 +2460,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_LTANK][0];
             temp.Guard  = UNITS_RATINGS[M_LTANK][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("LightTank", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -2380,7 +2490,6 @@ GameUnit* GameLogic::buildUnit(GameBase *base) {
 
             temp.Attack = UNITS_RATINGS[M_ARTILLERY][0];
             temp.Guard  = UNITS_RATINGS[M_ARTILLERY][1];
-            temp.Expirence = 0.0;
 
             newUnit->setStatistic("Artillery", temp);
             newUnit->setUniqueID(GAME_IDCOUNTER++);
@@ -2514,7 +2623,7 @@ void GameLogic::proceedBotsLogic() {
 
     //finish
     if (botsEndThinkCallback) {
-        syncToMainLoop([&](void *, GameLogic*){    
+        syncToMainLoop([&](void *, GameLogic*){
 
             botsEndThinkCallback(this->context);
         });
@@ -2527,3 +2636,218 @@ void GameLogic::proceedBotsLogic() {
     });
 }
 
+void GameLogic::remoteAttackUnit(const uint32_t unitA,
+                                 const uint32_t unitB,
+                                 const uint32_t sizeA,
+                                 const uint32_t sizeB) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto units = sender->getUnits();
+
+        GameUnit *uA = nullptr;
+        GameUnit *uB = nullptr;
+
+        for (auto u : *units) {
+
+            if (u->getUniqueID() == unitA) {
+                uA = u;
+                break;
+            }
+        }
+
+        for (auto u : *units) {
+
+            if (u->getUniqueID() == unitB) {
+                uB = u;
+                break;
+            }
+        }
+
+        if (uA && uB) {
+
+            uA->fire();
+            uB->fire();
+
+            uA->setSize(sizeA);
+            uB->setSize(sizeB);
+
+            auto path = sender->_rootPath + "explode.png";
+
+            if (sizeA == 0) {
+
+                auto unitPos = uA->getUnitPosition();
+
+                auto it = find(units->begin(), units->end(), uA);
+                delete *it;
+                units->erase(it);
+
+                auto explosion = new GameAnimation(path, unitPos, xVec2(512,64), xVec2(64,64), 8, 0.1);
+                sender->_explosions.push_back(explosion);
+                explosion->begin();
+            }
+
+            if (sizeB == 0) {
+
+                auto unitPos = uB->getUnitPosition();
+
+                auto it = find(units->begin(), units->end(), uB);
+                delete *it;
+                units->erase(it);
+
+                auto explosion = new GameAnimation(path, unitPos, xVec2(512,64), xVec2(64,64), 8, 0.1);
+                sender->_explosions.push_back(explosion);
+                explosion->begin();
+            }
+        }
+    });
+}
+
+void GameLogic::remoteMoveUnit(const uint32_t unitID,
+                               const float x,
+                               const float y) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto units = sender->_units;
+        GameUnit *unit = nullptr;
+
+        for (auto u : units) {
+
+            if (u->getUniqueID() == unitID) {
+                unit = u;
+                break;
+            }
+        }
+
+        if (unit == nullptr) {
+            return;
+        }
+
+        xVec2 touch(x,y);
+
+        auto pos = sender->_mainMap->selectionForPosition(unit->getCurrentPosition());
+
+        sender->_mainMap->selectTile(unit->getCurrentPosition());
+        sender->roadForUnit(unit);
+
+        if (!sender->_mainMap->canMoveFromTo(pos, touch)) {
+            cout << "No road found!" << endl;
+        }
+
+        sender->_mainMap->cleanRoad();
+
+        unit->makeMove();
+
+        sender->_mainMap->cleanAStar();
+    });
+}
+
+void GameLogic::remoteBuildUnit(const uint32_t baseID,
+                                const uint16_t unitType) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto bases = sender->_bases;
+
+        GameBase *base = nullptr;
+
+        for (auto b : bases) {
+
+            if (b->getUniqueID() == baseID) {
+                base = b;
+                break;
+            }
+        }
+
+        if (base == nullptr) {
+            return;
+        }
+
+        base->setUnitToBuild(unitType);
+        buildUnit(base);
+    });
+}
+
+void GameLogic::remoteCaptureBase(const uint32_t baseID, const uint32_t unitID) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto bases = sender->_bases;
+        auto units = sender->_units;
+
+        GameBase *base = nullptr;
+
+        for (auto b : bases) {
+
+            if (b->getUniqueID() == baseID) {
+                base = b;
+                break;
+            }
+        }
+
+        GameUnit *unit = nullptr;
+
+        for (auto u : units) {
+
+            if (u->getUniqueID() == unitID) {
+                unit = u;
+                break;
+            }
+        }
+
+        if (unit == nullptr || base == nullptr) {
+            return;
+        }
+
+        base->setTeam(unit->getTeamID());
+        base->setRequestID(-1);
+        base->setUnitMode(UNIT_NONE);
+        base->setTurnsToUnlock(0);
+
+        auto it = find(sender->_units.begin(), sender->_units.end(), unit);
+        delete *it;
+        sender->_units.erase(it);
+    });
+}
+
+void GameLogic::remoteRepairUnit(const uint32_t baseID, const uint32_t unitID) {
+
+    syncToMainLoop([=](void *, GameLogic *sender){
+
+        auto bases = sender->_bases;
+        auto units = sender->_units;
+
+        GameBase *base = nullptr;
+
+        for (auto b : bases) {
+
+            if (b->getUniqueID() == baseID) {
+                base = b;
+                break;
+            }
+        }
+
+        GameUnit *unit = nullptr;
+
+        for (auto u : units) {
+
+            if (u->getUniqueID() == unitID) {
+                unit = u;
+                break;
+            }
+        }
+
+        if (unit == nullptr || base == nullptr) {
+            return;
+        }
+
+        unit->setUnitMode(UNIT_NONE);
+        unit->setRequestID(-1);
+        unit->setSize(10);
+
+        base->setRequestID(-1);
+        base->setUnitMode(UNIT_NONE);
+        base->setTurnsToUnlock(0);
+    });
+}
