@@ -49,9 +49,9 @@
     <EditText
         android:id="@+id/editText"
         android:layout_width="132dp"
-        android:layout_height="32dp"
+        android:layout_height="42dp"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="14dp"
         android:ems="10"
         android:inputType="numberSigned"
         app:layout_constraintStart_toEndOf="@+id/entercode"
