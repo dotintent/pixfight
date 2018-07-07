@@ -82,9 +82,9 @@ public:
 
 typedef struct {
 
-    char mapname[128];
+    char mapname[32];
     uint16_t players;
-    time_t createdDate;
+    uint32_t createdDate;
     uint16_t roomPort;
 
 } PFRoomInfo;

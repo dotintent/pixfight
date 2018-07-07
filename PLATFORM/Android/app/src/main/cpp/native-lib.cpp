@@ -289,6 +289,7 @@ void callNativeVoidMethodArray(std::vector<PFRoomInfo> rooms) {
 
         struct tm * timeinfo;
         char buffer[30];
+
         timeinfo = localtime(&room.createdDate);
         strftime(buffer, sizeof(buffer), "%m/%d/%Y %I:%M", timeinfo);
 
@@ -652,6 +653,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragme
 
                 memcpy(rooms.data(), data.data(), data.size() * sizeof(uint8_t));
 
+                //TODO: kompletna herezja 120 + 8 + 14 + 10 (przekrecone o 2bajty x138a jest na poczatku)?
                 callNativeVoidMethodArray(rooms);
             }
                 break;
