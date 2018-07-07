@@ -284,13 +284,13 @@ void callNativeVoidMethodArray(std::vector<PFRoomInfo> rooms) {
 
         PFRoomInfo room = rooms[i];
 
-        //TODO: room info is wrong
         tmp[i] = room.roomPort;
 
         struct tm * timeinfo;
         char buffer[30];
 
-        timeinfo = localtime(&room.createdDate);
+        time_t localTime = room.createdDate;
+        timeinfo = localtime(&localTime);
         strftime(buffer, sizeof(buffer), "%m/%d/%Y %I:%M", timeinfo);
 
         std::string roomstr(room.mapname);
@@ -594,7 +594,6 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragme
 
             case PFSocketCommandTypeGameInfo: {
 
-                //TODO: stack corruption
                 PFRoomInfo info;
                 memcpy(&info, data.data(), data.size() * sizeof(uint8_t));
 
@@ -653,7 +652,6 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragme
 
                 memcpy(rooms.data(), data.data(), data.size() * sizeof(uint8_t));
 
-                //TODO: kompletna herezja 120 + 8 + 14 + 10 (przekrecone o 2bajty x138a jest na poczatku)?
                 callNativeVoidMethodArray(rooms);
             }
                 break;
