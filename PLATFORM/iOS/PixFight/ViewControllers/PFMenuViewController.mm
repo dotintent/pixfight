@@ -54,4 +54,10 @@
     [self performSegueWithIdentifier:@"PFOptionSegueIdentifier" sender:self];
 }
 
+- (IBAction)multiplayerAction:(id)sender {
+
+    [self.delegate playSelectSound];
+    [self performSegueWithIdentifier:@"PFMultiplayerSegueIdetifier" sender:self];
+}
+
 @end

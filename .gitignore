@@ -3,6 +3,14 @@
 #core
 CORE/build.gradle
 
+#SERVER
+SERVER/DerivedData/
+SERVER/PFServer/DerivedData/
+SERVER/PFServer/bin/
+SERVER/PFServer/obj/
+SERVER/PFClient/bin/
+SERVER/PFClient/obj/
+
 #iOS
 PLATFORM/iOS/DerivedData/
 PLATFORM/iOS/PixFight.xcodeproj/xcuserdata/

@@ -53,6 +53,13 @@ public class PFRenderFragment extends Fragment {
 
     private Bundle arguments = null;
 
+    private boolean isMultiplayer = false;
+    private boolean allowInteraction = true;
+
+    private Button endTurnButton = null;
+    private Button multiplyButton = null;
+    private Button undoButton = null;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +89,8 @@ public class PFRenderFragment extends Fragment {
         glView = new PFGL2View(getActivity());
         glView.setPreserveEGLContextOnPause(true);
 
+        isMultiplayer = isMultiplayerMode();
+
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getRealSize(size);
@@ -95,9 +104,9 @@ public class PFRenderFragment extends Fragment {
         panDetector = new GestureDetector(getContext(), new PFPanGestureListener());
 
         Button backButton = getView().findViewById(R.id.rendergame_back);
-        Button endTurnButton = getView().findViewById(R.id.rendergame_endtrun);
-        Button multiplyButton = getView().findViewById(R.id.rendergame_timemultiply);
-        Button undoButton = getView().findViewById(R.id.rendergame_undo);
+        endTurnButton = getView().findViewById(R.id.rendergame_endtrun);
+        multiplyButton = getView().findViewById(R.id.rendergame_timemultiply);
+        undoButton = getView().findViewById(R.id.rendergame_undo);
 
         ConstraintLayout layout = getView().findViewById(R.id.contraintLayout);
 
@@ -132,6 +141,7 @@ public class PFRenderFragment extends Fragment {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setGravity(Gravity.TOP);
+
     }
 
     @Override
@@ -143,12 +153,84 @@ public class PFRenderFragment extends Fragment {
         PFGL2View.callback = PFRenderFragment::initializeOpenGL;
 
         if (!isAlreadyInGame) {
+
             glView.setBundle(arguments);
+
+            if (isMultiplayer) {
+
+                updateMultiplayerState(false);
+                sendLoaded();
+            }
+            else {
+
+                allowInteraction = true;
+            }
+
             isAlreadyInGame = true;
         }
     }
 
+    public void updateMultiplayerState(boolean unlock) {
+
+        getActivity().runOnUiThread(() -> {
+
+            allowInteraction = unlock;
+
+            endTurnButton.setVisibility( unlock ? View.VISIBLE : View.INVISIBLE);
+            multiplyButton.setVisibility(View.INVISIBLE);
+            undoButton.setVisibility(View.INVISIBLE);
+        });
+    }
+
+    public void updatePlayerTurn() {
+
+        getActivity().runOnUiThread(() -> {
+
+            CharSequence text = "Your turn!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getContext(), text, duration);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        });
+    }
+
+    public void multiplayeEndGame(int winnerID) {
+
+        getActivity().runOnUiThread(() -> {
+
+            final String[] items = {
+                    "OK"
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Game finished, player " + Integer.toString(winnerID) + " win!");
+            builder.setCancelable(true);
+
+            builder.setItems(items, (dialogInterface, i) -> {
+
+                quitGame();
+            });
+
+            builder.create();
+            builder.show();
+        });
+    }
+
+    public void quitGame() {
+
+        isAlreadyInGame = false;
+        PFAudioWrapper.playMenuMusic();
+        getFragmentManager().popBackStack();
+    }
+
     public void buildMainMenu() {
+
+        if (isMultiplayer) {
+
+            quitGame();
+
+            return;
+        }
 
         final String[] items = {
                 "QUIT",
@@ -164,9 +246,8 @@ public class PFRenderFragment extends Fragment {
             switch (i) {
 
                 case 0: {
-                    isAlreadyInGame = false;
-                    PFAudioWrapper.playMenuMusic();
-                    getFragmentManager().popBackStack();
+
+                    quitGame();
                 }
                     break;
 
@@ -409,7 +490,10 @@ public class PFRenderFragment extends Fragment {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
 
-            tapAction(e.getX() / 2.0f, e.getY() / 2.0f);
+            if (allowInteraction) {
+
+                tapAction(e.getX() / 2.0f, e.getY() / 2.0f);
+            }
 
             return true;
         }
@@ -496,6 +580,36 @@ public class PFRenderFragment extends Fragment {
         renderInstance.onBaseSelected(team, cash);
     }
 
+    @Keep
+    public static void onUpdatePlayerBridge(boolean unlock) {
+
+        if (renderInstance == null) {
+            return;
+        }
+
+        renderInstance.updateMultiplayerState(unlock);
+    }
+
+    @Keep
+    public static void onPlayerTurnBridge() {
+
+        if (renderInstance == null) {
+            return;
+        }
+
+        renderInstance.updatePlayerTurn();
+    }
+
+    @Keep
+    public static void onMutliplayerEndGameBridge(int playerID) {
+
+        if (renderInstance == null) {
+            return;
+        }
+
+        renderInstance.multiplayeEndGame(playerID);
+    }
+
     //NDK
     public static native void initializeOpenGL(int width, int height);
     public static native void undo();
@@ -509,4 +623,6 @@ public class PFRenderFragment extends Fragment {
     public static native void panAction(float dx, float dy);
     public static native boolean saveGame(@NonNull String savepath);
     @NonNull public static native String getMapName();
+    public static native boolean isMultiplayerMode();
+    public static native void sendLoaded();
 }

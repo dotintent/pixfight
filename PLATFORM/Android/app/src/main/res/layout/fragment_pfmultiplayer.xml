@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PFMultiplayerFragment">
+
+    <ImageView
+        android:id="@+id/image_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="false"
+        android:contentDescription="background"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/menubg2x" />
+
+    <Button
+        android:id="@+id/multibutton_back"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/back2x"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back2x" />
+
+    <Button
+        android:id="@+id/imageButtonJoinRoom"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/statesbutton"
+        android:fontFamily="@font/fffatlan"
+        android:text="JOIN ROOM"
+        app:layout_constraintEnd_toEndOf="@+id/privateSwitch"
+        app:layout_constraintStart_toStartOf="@+id/privateSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/privateSwitch" />
+
+    <Button
+        android:id="@+id/imageButtonMakeRoom"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:background="@drawable/statesbutton"
+        android:fontFamily="@font/fffatlan"
+        android:text="MAKE ROOM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/image_background"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42000002" />
+
+    <Switch
+        android:id="@+id/privateSwitch"
+        android:layout_width="157dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="10dp"
+        android:checked="true"
+        android:text="Private"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonMakeRoom"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonMakeRoom"
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonMakeRoom" />
+
+</android.support.constraint.ConstraintLayout>

@@ -60,6 +60,19 @@
         android:background="@drawable/statesbutton"
         android:fontFamily="@font/fffatlan"
         android:text="SKIRMISH"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonMultiplayer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/imageButtonMultiplayer"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/statesbutton"
+        android:fontFamily="@font/fffatlan"
+        android:text="MULTIPLAYER"
         app:layout_constraintBottom_toTopOf="@+id/imageButtonLoadGame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -50,6 +50,9 @@
 			<Add directory="/usr/include/freetype2" />
 			<Add directory="FMOD/inc" />
 			<Add directory="../Linux" />
+			<Add directory="../../SERVER/clsocket" />
+			<Add directory="../../SERVER/Utils" />
+			<Add directory="../../SERVER/PFClient" />
 		</Compiler>
 		<Linker>
 			<Add option="-lpthread" />
@@ -156,11 +159,35 @@
 		<Unit filename="../../CORE/utilities/glTextureLoader.cpp" />
 		<Unit filename="../../CORE/utilities/glTextureLoader.hpp" />
 		<Unit filename="../../CORE/utilities/stb_image.h" />
+		<Unit filename="../../SERVER/PFClient/PFMultiplayerClient.cpp" />
+		<Unit filename="../../SERVER/PFClient/PFMultiplayerClient.hpp" />
+		<Unit filename="../../SERVER/Utils/EnumOptionMacro.hpp" />
+		<Unit filename="../../SERVER/Utils/PFServerCommandType.hpp" />
+		<Unit filename="../../SERVER/Utils/PFServerUtils.cpp" />
+		<Unit filename="../../SERVER/Utils/PFServerUtils.hpp" />
+		<Unit filename="../../SERVER/Utils/PFSocketClient.cpp" />
+		<Unit filename="../../SERVER/Utils/PFSocketClient.hpp" />
+		<Unit filename="../../SERVER/clsocket/ActiveSocket.cpp" />
+		<Unit filename="../../SERVER/clsocket/ActiveSocket.h" />
+		<Unit filename="../../SERVER/clsocket/Host.h" />
+		<Unit filename="../../SERVER/clsocket/PassiveSocket.cpp" />
+		<Unit filename="../../SERVER/clsocket/PassiveSocket.h" />
+		<Unit filename="../../SERVER/clsocket/SimpleSocket.cpp" />
+		<Unit filename="../../SERVER/clsocket/SimpleSocket.h" />
+		<Unit filename="../../SERVER/clsocket/StatTimer.h" />
+		<Unit filename="ApplicationRunLoop.cpp" />
+		<Unit filename="ApplicationRunLoop.hpp" />
 		<Unit filename="BaseScene.hpp" />
+		<Unit filename="JoinRoomScene.cpp" />
+		<Unit filename="JoinRoomScene.hpp" />
 		<Unit filename="LoadGameScene.cpp" />
 		<Unit filename="LoadGameScene.hpp" />
+		<Unit filename="MakeRoomScene.cpp" />
+		<Unit filename="MakeRoomScene.hpp" />
 		<Unit filename="MenuScene.cpp" />
 		<Unit filename="MenuScene.hpp" />
+		<Unit filename="MultiplayerScene.cpp" />
+		<Unit filename="MultiplayerScene.hpp" />
 		<Unit filename="NewGameScene.cpp" />
 		<Unit filename="NewGameScene.hpp" />
 		<Unit filename="PFSettings.cpp" />

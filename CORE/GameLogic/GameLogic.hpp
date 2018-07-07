@@ -15,6 +15,7 @@
 
 #ifndef __EMSCRIPTEN__
 #include "FontRender.hpp"
+#include "PFMultiplayerClient.hpp"
 #endif
 
 #include "DrawingContext.hpp"
@@ -60,10 +61,17 @@ public:
     GameLogic & operator= (const GameLogic & other) = delete;
     GameLogic & operator= (GameLogic && other) noexcept = delete;
 
+#ifndef __EMSCRIPTEN__
+    bool createNewGame(const std::string & gamename,
+                       const int & selectedTeam,
+                       const int & maxplayers,
+                       std::shared_ptr<PFMultiplayerClient> client);
+#else
     bool createNewGame(const std::string & gamename,
                        const int & selectedTeam,
                        const int & maxplayers);
-    
+#endif 
+
     bool loadGame(const std::string & loadpath);
     bool saveGame(const std::string & savepath);
 
@@ -110,6 +118,25 @@ public:
     std::string & getCurrentMapName() { return _currentMapName; }
 
     auto * getUnits() { return &_units; }
+
+    //multiplayer commands
+    void remoteAttackUnit(const uint32_t unitA,
+                          const uint32_t unitB,
+                          const uint32_t sizeA,
+                          const uint32_t sizeB);
+
+    void remoteMoveUnit(const uint32_t unitID,
+                        const float x,
+                        const float y);
+
+    void remoteBuildUnit(const uint32_t baseID,
+                         const uint16_t unitType);
+
+    void remoteCaptureBase(const uint32_t baseID,
+                           const uint32_t unitID);
+
+    void remoteRepairUnit(const uint32_t baseID,
+                          const uint32_t unitID);
     
 private:
 
@@ -223,5 +250,9 @@ private:
     };
 
     std::vector<moveUndo> _undos;
+
+#ifndef __EMSCRIPTEN__
+    std::weak_ptr<PFMultiplayerClient> _client;
+#endif
 };
 

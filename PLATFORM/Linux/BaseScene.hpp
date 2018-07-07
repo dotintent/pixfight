@@ -19,6 +19,9 @@ typedef PF_ENUM(unsigned int, SceneType) {
     SceneTypeLoadGame,
     SceneTypeSettings,
     SceneTypeRender,
+    SceneTypeMultiplayer,
+    SceneTypeMakeRoom,
+    SceneTypeJoinRoom,
     SceneTypeNone
 };
 
