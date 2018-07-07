@@ -96,7 +96,8 @@ SceneType JoinRoomScene::Render(struct nk_font *smallfont, struct nk_font *norma
 
                 struct tm * timeinfo;
                 char buffer[30];
-                timeinfo = localtime(&info.createdDate);
+                time_t localTime = info.createdDate;
+                timeinfo = localtime(&localTime);
 				strftime(buffer, sizeof(buffer), "%m/%d/%Y %I:%M", timeinfo);
 
                 std::string str(info.mapname);

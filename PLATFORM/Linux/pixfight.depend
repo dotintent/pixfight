@@ -45,13 +45,12 @@
 	"SearchNode.hpp"
 	"MathTypes.h"
 
-1529838567 /home/marcin/Desktop/pixfight/CORE/Core-pch.hpp
+1530956444 /home/marcin/Desktop/pixfight/CORE/Core-pch.hpp
 	<GLES/gl.h>
 	<GLES2/gl2.h>
 	<GLES2/gl2ext.h>
 	<GLFW/glfw3.h>
 	<emscripten/emscripten.h>
-	<windows.h>
 	<GL/glew.h>
 	<GL/gl.h>
 	<GLFW/glfw3.h>
@@ -397,7 +396,7 @@
 	<mutex>
 	<future>
 
-1529916535 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.hpp
+1530956444 /home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.hpp
 	"Core-pch.hpp"
 	"GameUnit.hpp"
 	"GameBase.hpp"
@@ -513,7 +512,7 @@
 1525350901 /home/marcin/Desktop/pixfight/CORE/utilities/glTextureLoader.hpp
 	"Core-pch.hpp"
 
-1530201262 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
+1530956444 source:/home/marcin/Desktop/pixfight/CORE/GameLogic/GameLogic.cpp
 	"GameLogic.hpp"
 	"glTextureLoader.hpp"
 	"AIPlayer.hpp"
@@ -693,7 +692,7 @@
 	"PFSettings.h"
 	"ApplicationRunLoop.hpp"
 
-1530554154 /home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
+1530956444 /home/marcin/Desktop/pixfight/PLATFORM/Linux/RenderScene.hpp
 	"BaseScene.hpp"
 	"GameLogic.hpp"
 
@@ -744,7 +743,7 @@
 	"PFServerCommandType.hpp"
 	"PFSocketClient.hpp"
 
-1530201262 /home/marcin/Desktop/pixfight/SERVER/Utils/PFServerCommandType.hpp
+1530956444 /home/marcin/Desktop/pixfight/SERVER/Utils/PFServerCommandType.hpp
 	<string.h>
 	<vector>
 	"EnumOptionMacro.hpp"
@@ -762,7 +761,7 @@
 1529838567 /home/marcin/Desktop/pixfight/SERVER/clsocket/ActiveSocket.h
 	"SimpleSocket.h"
 
-1529838567 /home/marcin/Desktop/pixfight/SERVER/clsocket/SimpleSocket.h
+1530956444 /home/marcin/Desktop/pixfight/SERVER/clsocket/SimpleSocket.h
 	"Host.h"
 	<sys/stat.h>
 	<stdlib.h>
@@ -787,7 +786,7 @@
 	<fcntl.h>
 	<io.h>
 	<winsock2.h>
-	<Ws2tcpip.h>
+	<ws2tcpip.h>
 	"StatTimer.h"
 
 1530201262 /home/marcin/Desktop/pixfight/SERVER/clsocket/Host.h
@@ -795,7 +794,7 @@
 	<string.h>
 	<algorithm>
 
-1529838567 /home/marcin/Desktop/pixfight/SERVER/clsocket/StatTimer.h
+1530956444 /home/marcin/Desktop/pixfight/SERVER/clsocket/StatTimer.h
 	<string.h>
 	"Host.h"
 	<Winsock2.h>
@@ -817,7 +816,7 @@
 1529838567 /home/marcin/Desktop/pixfight/SERVER/clsocket/PassiveSocket.h
 	"ActiveSocket.h"
 
-1529838567 source:/home/marcin/Desktop/pixfight/SERVER/clsocket/SimpleSocket.cpp
+1530956444 source:/home/marcin/Desktop/pixfight/SERVER/clsocket/SimpleSocket.cpp
 	"SimpleSocket.h"
 
 1530447568 source:/home/marcin/Desktop/pixfight/SERVER/PFClient/PFMultiplayerClient.cpp
@@ -836,7 +835,7 @@
 	"glTextureLoader.hpp"
 	"ApplicationRunLoop.hpp"
 
-1530446795 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MultiplayerScene.hpp
+1530956444 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MultiplayerScene.hpp
 	<memory>
 	"BaseScene.hpp"
 	"PFMultiplayerClient.hpp"
@@ -855,7 +854,7 @@
 	"glTextureLoader.hpp"
 	"ApplicationRunLoop.hpp"
 
-1530546485 /home/marcin/Desktop/pixfight/PLATFORM/Linux/JoinRoomScene.hpp
+1530956444 /home/marcin/Desktop/pixfight/PLATFORM/Linux/JoinRoomScene.hpp
 	<memory>
 	<vector>
 	"BaseScene.hpp"
@@ -866,7 +865,7 @@
 	"ApplicationRunLoop.hpp"
 	"glTextureLoader.hpp"
 
-1530470763 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MakeRoomScene.hpp
+1530956444 /home/marcin/Desktop/pixfight/PLATFORM/Linux/MakeRoomScene.hpp
 	<memory>
 	<map>
 	"BaseScene.hpp"
