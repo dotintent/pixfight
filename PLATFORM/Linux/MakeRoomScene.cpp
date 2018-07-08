@@ -171,7 +171,7 @@ void MakeRoomScene::Init() {
     }
 
     _info.insert(make_pair(0, make_pair(2, "tutorial")));
-    _info.insert(make_pair(1, make_pair(3, "hunt")));
+    _info.insert(make_pair(1, make_pair(3, "Hunt")));
     _info.insert(make_pair(2, make_pair(2, "pasage")));
     _info.insert(make_pair(3, make_pair(2, "waterway")));
     _info.insert(make_pair(4, make_pair(4, "kingofhill")));
