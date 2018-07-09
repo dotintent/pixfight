@@ -159,7 +159,7 @@ public class PFRenderFragment extends Fragment {
             if (isMultiplayer) {
 
                 updateMultiplayerState(false);
-                sendLoaded();
+
             }
             else {
 
@@ -206,10 +206,7 @@ public class PFRenderFragment extends Fragment {
             builder.setTitle("Game finished, player " + Integer.toString(winnerID) + " win!");
             builder.setCancelable(true);
 
-            builder.setItems(items, (dialogInterface, i) -> {
-
-                quitGame();
-            });
+            builder.setItems(items, (dialogInterface, i) -> {});
 
             builder.create();
             builder.show();
@@ -624,5 +621,4 @@ public class PFRenderFragment extends Fragment {
     public static native boolean saveGame(@NonNull String savepath);
     @NonNull public static native String getMapName();
     public static native boolean isMultiplayerMode();
-    public static native void sendLoaded();
 }
