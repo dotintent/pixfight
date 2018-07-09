@@ -72,10 +72,9 @@ If unit stays on base it gets extra defence bonus. Each turn you earn (N+1 * 100
  * Move: 4
  
 ![Artillery](../master/CORE/Resources/textures/icons/icon_artillery1.png) - Artillery unit, cost 200. 
- * Strong against any unit. 
+ * Powerful but vulnerable. 
  * May shoot at distance. 
  * If you move it first it cannot shoot. 
- * Weak agains Tank and Bazooka unit.
  * Attack: 10
  * Defence: 3
  * Move: 3
