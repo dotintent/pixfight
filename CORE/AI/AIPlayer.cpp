@@ -371,6 +371,11 @@ AIObject *AIPlayer::addAIObject(AIAware *object) {
 
 void AIPlayer::moveCurrentObjectToPoint(GameUnit *currentObject, xVec2 &destination) {
 
+    //no need to move at all 
+    if (currentObject->_size == 0) {
+        return;
+    }
+
     //"lock" thread
     action = false;
 

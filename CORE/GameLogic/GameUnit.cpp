@@ -638,11 +638,6 @@ bool GameUnit::isActive() {
 }
 
 void GameUnit::makeMove() {
-
-    if (_size == 0) {
-        std::cout << "[Warning] No need to move unit does not exist" << std::endl;
-        return;
-    }
     
     if ((_mode != UNIT_NOTMOVE) && !_move) {
 
