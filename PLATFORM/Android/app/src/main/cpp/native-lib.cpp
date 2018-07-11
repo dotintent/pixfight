@@ -392,6 +392,12 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeSta
 
     std::string mapName = jstringTostring(jenv, map);
     gameLogic->createNewGame(mapName, playerSelected, playersPlaying, client);
+
+    if (client == nullptr) {
+        return;
+    }
+
+    client->setLoaded();
 }
 
 JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFGameLib_nativeLoadGame(JNIEnv* jenv, jobject obj, jstring path) {
@@ -588,7 +594,7 @@ JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFMultiplayerFragme
             case PFSocketCommandTypeDisconnect: {
 
                 client->disconnect();
-                callNativeVoidMethod(multiplayerClass, onDisconnectBridge);
+                callNativeVoidMethod(menuClass, onDisconnectBridge);
             }
                 break;
 
@@ -840,14 +846,4 @@ JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFJoinRoomFragm
 JNIEXPORT jboolean JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_isMultiplayerMode(JNIEnv* jenv, jobject obj) {
 
     return static_cast<jboolean >(client != nullptr);
-}
-
-JNIEXPORT void JNICALL Java_com_noclip_marcinmalysz_pixfight_PFRenderFragment_sendLoaded(JNIEnv* jenv, jobject obj) {
-
-    if (client == nullptr) {
-
-        return;
-    }
-
-    client->setLoaded();
 }
