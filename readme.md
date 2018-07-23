@@ -31,13 +31,13 @@ Mobile:
   
 ## How to play:
 
-Your main task is to capture all bases on map, to do that you need infantry units. Capturing the base take 2 turns. You can repair damaged unit (not infantry unit) if you move back into your own base. Repair cost 1 turn.
-If unit stays on base it gets extra defence bonus. Each turn you earn (N+1 * 100) of cash where N is amount of bases captured by you.
+Your main task is to capture all bases on the map, to do that you need infantry units. Capturing the base take 2 turns. You can repair a damaged unit (not infantry unit) if you move it back into your own base. Repair cost 1 turn.
+If a unit stays on base it gets extra defence bonus. Each turn you earn (N+1 * 100) of cash where N is amount of bases captured by you.
 
 * Click / tap on base to open build menu
 
-* After selecting unit it will show its area of movement, tap within grey area to select path and confirm it by tapping again by tapping / clicking on destination point.
-* To attack tap/klick on your unit and select unit to attack (if you are close enough / artillery use range of movement)
+* After selecting a unit it will show its area of movement, tap within grey area to select path and confirm it by tapping again by tapping / clicking on destination point.
+* To attack tap/klick on your unit and select a unit to attack (if you are close enough / artillery uses range of movement)
 
 ### Units:
 
@@ -95,16 +95,16 @@ Latest stable versions:
 ## FAQ:
 
 Q: Can you provide a *.ipa for me?  
-A: No, if you want to run this game on iPhone/iPad please download the Xcode and build it for yourself.
+A: No, if you want to run this game on iPhone/iPad please download Xcode and build it for yourself.
 
 Q: Do you consider support for other platforms like Switch, PS4?  
 A: Yes, but I don't have access to the hardware required to build it or test it.   
 
 Q: Can I contribute ?  
-A: Yes! If you think you are able to help adding another platform drop me a line or fork this repo and make pull request.
+A: Yes! If you think you are able to help adding another platform drop me a line or fork this repo and make a pull request.
 
 Q: Why did you not make it a true cross-platform (Raw OpenGL + C++) ?  
-A: I wanted to learn new languages and libraries and understand how to connect C++ code to native application.
+A: I wanted to learn new languages and libraries and understand how to connect C++ code to native applications.
 
 
 ## Gallery
@@ -127,11 +127,11 @@ A: I wanted to learn new languages and libraries and understand how to connect C
 
 # 1. Idea
 
-The root idea behind this project is to show how to integrate C++ code with some 3rd party libraries into your native application, done in other platforms as a "business logic" Core game logic is written in C++14 and use FMOD, OpenGL and freetype2 as dependencies. Each platform uses this Core to render game in their native environment. (e.g: Android in Java, iOS in objC etc.)
+The root idea behind this project is to show how to integrate C++ code with some 3rd party libraries into your native application, done in other platforms as a "business logic" Core game logic is written in C++14 and uses FMOD, OpenGL and freetype2 as dependencies. Each platform uses this Core to render game in their native environment. (e.g: Android in Java, iOS in objC etc.)
 
 AI in this game is based on the following article from [gamasutra](https://www.gamasutra.com/view/feature/129959/designing_ai_algorithms_for_.php)
 
-Inspire for the game comes from [WeeWar](https://web.archive.org/web/20150315005124/http://weewar.com/) (no more exist)
+Inspiration for the game comes from [WeeWar](https://web.archive.org/web/20150315005124/http://weewar.com/) (no longer exists)
 
 # 2. Credits
 
